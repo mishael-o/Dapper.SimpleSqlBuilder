@@ -1,0 +1,78 @@
+name: Continuous integration and delivery
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      publish_nuget:
+        description: "Publish nuget package?"
+        default: false
+        required: false
+        type: boolean
+
+env:
+  configuration: release
+  packagePath: ${{ github.workspace }}/packed-nuget
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+    outputs:
+      package_version: ${{ env.GitBuildVersionSimple }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build solution
+        run: dotnet build --no-restore -c $configuration
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal -c $configuration
+      - name: Create nuget packages
+        if: ${{ inputs.publish_nuget == true }}
+        run: dotnet pack --no-build -o $packagePath -c $configuration
+      - name: Create Cache
+        if: ${{ inputs.publish_nuget == true }}
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.packagePath }}
+          key: packed-nuget-${{ env.GitBuildVersionSimple }}-${{ hashFiles('**/*.nupkg', '**/*.snupkg') }}
+
+  publish:
+    if: ${{ contains(fromJson('["main"]'), github.ref_name) }} && ${{ inputs.publish_nuget == true }}
+    name: Publish
+    needs: [build]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Restore Cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.packagePath }}
+          key: packed-nuget-${{ needs.build.outputs.package_version }}-${{ hashFiles('**/*.nupkg', '**/*.snupkg') }}
+      - name: Push packages
+        run: dotnet nuget push  ${{ env.packagePath }}/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://apiint.nugettest.org/v3/index.json
+      - name: Zip Packages
+        run: zip -j ${{ github.workspace }}/Packages.zip ${{ env.packagePath }}/* -i '*.nupkg' '*.snupkg'
+      - name: Create Release Documentation
+        run: gh release create 'v${{ needs.build.outputs.package_version }}' --title 'Release ${{ needs.build.outputs.package_version }}' --generate-notes ${{ github.workspace }}/Packages.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

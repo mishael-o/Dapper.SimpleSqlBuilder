@@ -1,0 +1,33 @@
+<Project>
+
+    <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+    <PropertyGroup Label="PackagePropertyGroup">
+        <Version>1.0.0</Version>
+        <Authors>Mishael Ogochukwu</Authors>
+        <Copyright>Copyright (c) 2022 Mishael Ogochukwu</Copyright>
+        <Company>Mishael Ogochukwu</Company>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageId>$(AssemblyName)</PackageId>
+        <PackageReleaseNotes>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</PackageReleaseNotes>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</PackageProjectUrl>
+        <PackageTags>dapper;dapper-simple-sql-builder;simple-sql-builder;dapper simple sql builder;simple sql builder</PackageTags>
+        <RepositoryUrl>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</RepositoryUrl>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <IsPackable>true</IsPackable>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
+    <ItemGroup Label="PackageItemGroup">
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+        <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.109" PrivateAssets="All" />
+    </ItemGroup>
+</Project>

@@ -1,0 +1,40 @@
+<Project>
+
+    <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+    <PropertyGroup>
+        <IsTestProject Condition="'$(IsTestProject)' == ''">true</IsTestProject>
+        <IsUnitTestProject Condition="'$(IsUnitTestProject)' == ''">false</IsUnitTestProject>
+        <IsIntegrationTestProject Condition="'$(IsIntegrationTestProject)' == ''">false</IsIntegrationTestProject>
+    </PropertyGroup>
+
+    <ItemGroup Label="GlobalTestsItemGroup" Condition="'$(IsTestProject)' == 'true'">
+        <PackageReference Include="AutoFixture" Version="4.17.0" />
+        <PackageReference Include="AutoFixture.Xunit2" Version="4.17.0" />
+        <PackageReference Include="FluentAssertions" Version="6.7.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+        <PackageReference Include="xunit" Version="2.4.2" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <Using Include="AutoFixture" />
+        <Using Include="AutoFixture.Xunit2" />
+        <Using Include="FluentAssertions" />
+        <Using Include="Xunit" />
+    </ItemGroup>
+
+    <ItemGroup Label="UnitTestsItemGroup" Condition="'$(IsUnitTestProject)' == 'true'">
+        <PackageReference Include="AutoFixture.AutoMoq" Version="4.17.0" />
+        <PackageReference Include="Moq" Version="4.18.2" />
+        <Using Include="AutoFixture.AutoMoq" />
+        <Using Include="Moq" />
+    </ItemGroup>
+
+    <ItemGroup Label="IntegrationTestProjectGroup" Condition="'$(IsIntegrationTestProject)' == 'true'">
+        <PackageReference Include="Testcontainers" Version="2.1.0" />
+        <Using Include="DotNet.Testcontainers.Builders" />
+        <Using Include="DotNet.Testcontainers.Containers" />
+    </ItemGroup>
+
+</Project>

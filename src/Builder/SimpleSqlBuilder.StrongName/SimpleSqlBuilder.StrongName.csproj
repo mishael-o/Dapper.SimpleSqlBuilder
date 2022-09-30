@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net461;netstandard2.0;net6.0</TargetFrameworks>
+        <Description>A simple sql builder for Dapper using string interpolation for building dynamic sql.</Description>
+        <RootNamespace>Dapper.SimpleSqlBuilder.StrongName</RootNamespace>
+        <AssemblyName>Dapper.SimpleSqlBuilder.StrongName</AssemblyName>
+        <Title>Dapper SimpleSqlBuilder StrongName</Title>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+        <Using Remove="System.Net.Http"></Using>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'netstandard2.0'">
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper.StrongName" Version="2.0.123" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="..\SimpleSqlBuilder\**\*.cs" Exclude="..\SimpleSqlBuilder\obj\**\*.cs" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <IsUnitTestProject>true</IsUnitTestProject>
+        <RootNamespace>Dapper.SimpleSqlBuilder.UnitTestHelpers</RootNamespace>
+        <AssemblyName>Dapper.SimpleSqlBuilder.UnitTestHelpers</AssemblyName>
+    </PropertyGroup>
+
+</Project>

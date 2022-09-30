@@ -1,0 +1,22 @@
+<Project>
+    <PropertyGroup Label="GlobalPropertyGroup">
+        <LangVersion>latest</LangVersion>
+        <Configurations>Debug;Release</Configurations>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup Label="GlobalItemGroup">
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <AssemblyAttribute Include="System.CLSCompliantAttribute">
+            <_Parameter1>false</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+    
+</Project>

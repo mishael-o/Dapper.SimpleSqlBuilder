@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <IsIntegrationTestProject>true</IsIntegrationTestProject>
+        <RootNamespace>Dapper.SimpleSqlBuilder.IntegrationTests</RootNamespace>
+        <AssemblyName>Dapper.SimpleSqlBuilder.IntegrationTests</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.0" />
+        <PackageReference Include="MySql.Data" Version="8.0.30" />
+        <PackageReference Include="Npgsql" Version="6.0.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Builder\SimpleSqlBuilder\SimpleSqlBuilder.csproj" />
+    </ItemGroup>
+
+</Project>

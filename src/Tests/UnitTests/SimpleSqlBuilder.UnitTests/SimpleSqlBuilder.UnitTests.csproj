@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <IsUnitTestProject>true</IsUnitTestProject>
+        <RootNamespace>Dapper.SimpleSqlBuilder.UnitTests</RootNamespace>
+        <AssemblyName>Dapper.SimpleSqlBuilder.UnitTests</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Builder\SimpleSqlBuilder\SimpleSqlBuilder.csproj" />
+    </ItemGroup>
+
+</Project>
