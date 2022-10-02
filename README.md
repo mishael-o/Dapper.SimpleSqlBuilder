@@ -10,11 +10,17 @@ This library provides a simple and easy way to build dynamic SQL and commands, t
 
 ## Packages
 
-| Package | Description | Downloads |
-|---------|-------------|-----------|
-| [![Nuget](https://img.shields.io/nuget/v/Dapper.SimpleSqlBuilder?label=Dapper.SimpleSqlBuilder)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder) | A simple sql builder for Dapper using string interpolation. | [![Nuget](https://img.shields.io/nuget/dt/Dapper.SimpleSqlBuilder)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder) |
-| [![Nuget](https://img.shields.io/nuget/v/Dapper.SimpleSqlBuilder.StrongName?label=Dapper.SimpleSqlBuilder.StrongName)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.StrongName) | A package that uses Dapper.StrongName instead of Dapper. | [![Nuget](https://img.shields.io/nuget/dt/Dapper.SimpleSqlBuilder.StrongName)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.StrongName) |
-| [![Nuget](https://img.shields.io/nuget/v/Dapper.SimpleSqlBuilder.DependencyInjection?label=Dapper.SimpleSqlBuilder.DependencyInjection)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.DependencyInjection) | A dependency injection extension for .Net Core. | [![Nuget](https://img.shields.io/nuget/dt/Dapper.SimpleSqlBuilder.DependencyInjection)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.DependencyInjection) |
+- [Dapper.SimpleSqlBuilder](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder): A simple sql builder for Dapper using string interpolation.
+  
+  [![Nuget](https://img.shields.io/nuget/v/Dapper.SimpleSqlBuilder?label=Dapper.SimpleSqlBuilder)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder) [![Nuget](https://img.shields.io/nuget/dt/Dapper.SimpleSqlBuilder)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder)
+
+- [Dapper.SimpleSqlBuilder.StrongName](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.StrongName): A package that uses Dapper.StrongName instead of Dapper.
+  
+  [![Nuget](https://img.shields.io/nuget/v/Dapper.SimpleSqlBuilder.StrongName?label=Dapper.SimpleSqlBuilder.StrongName)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.StrongName) [![Nuget](https://img.shields.io/nuget/dt/Dapper.SimpleSqlBuilder.StrongName)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.StrongName)
+
+- [Dapper.SimpleSqlBuilder.DependencyInjection](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.DependencyInjection): A dependency injection extension for .Net Core.
+  
+  [![Nuget](https://img.shields.io/nuget/v/Dapper.SimpleSqlBuilder.DependencyInjection?label=Dapper.SimpleSqlBuilder.DependencyInjection)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.DependencyInjection) [![Nuget](https://img.shields.io/nuget/dt/Dapper.SimpleSqlBuilder.DependencyInjection)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.DependencyInjection)
 
 ## Simple Builder
 
