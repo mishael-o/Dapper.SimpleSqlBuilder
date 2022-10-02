@@ -56,6 +56,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "Integra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleSqlBuilder.UnitTestHelpers", "Tests\UnitTests\SimpleSqlBuilder.UnitTestHelpers\SimpleSqlBuilder.UnitTestHelpers.csproj", "{325F7659-9E5C-423E-984B-D522C17086E4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{97549155-3FA7-4FE5-9FEB-B6C1C324CDF4}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\pull_request_template.md = ..\.github\pull_request_template.md
+		..\.github\release.yml = ..\.github\release.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{89F49831-6016-4954-8288-5316605830C2}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\ci-cd.yml = ..\.github\workflows\ci-cd.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEMPLATE", "{976AF1F2-16CC-4B8B-B493-EFA5E7293389}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\ISSUE_TEMPLATE\bug-report.md = ..\.github\ISSUE_TEMPLATE\bug-report.md
+		..\.github\ISSUE_TEMPLATE\feature_request.md = ..\.github\ISSUE_TEMPLATE\feature_request.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{88F2182D-44A3-4443-B0D0-0E6F9D0480F6}"
+	ProjectSection(SolutionItems) = preProject
+		..\docs\CODE_OF_CONDUCT.md = ..\docs\CODE_OF_CONDUCT.md
+		..\docs\CONTRIBUTING.md = ..\docs\CONTRIBUTING.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +136,10 @@ Global
 		{52C8D1D9-1CA5-4000-BE47-2A3AABD9270C} = {1F1CC638-77DD-49B5-A579-4E3407757EAB}
 		{405E4627-E0A0-4276-87B7-D0734DC68FE7} = {1F1CC638-77DD-49B5-A579-4E3407757EAB}
 		{325F7659-9E5C-423E-984B-D522C17086E4} = {47353B84-CF60-4FCB-95EB-6D4EB54FE4BD}
+		{97549155-3FA7-4FE5-9FEB-B6C1C324CDF4} = {05198CB6-57D1-447B-9C62-84B3E2C645AB}
+		{89F49831-6016-4954-8288-5316605830C2} = {97549155-3FA7-4FE5-9FEB-B6C1C324CDF4}
+		{976AF1F2-16CC-4B8B-B493-EFA5E7293389} = {97549155-3FA7-4FE5-9FEB-B6C1C324CDF4}
+		{88F2182D-44A3-4443-B0D0-0E6F9D0480F6} = {05198CB6-57D1-447B-9C62-84B3E2C645AB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D09D761-CE39-4C87-866F-0079DF0D33EB}

@@ -4,8 +4,8 @@
         <TargetFrameworks>netstandard2.1;net6.0</TargetFrameworks>
         <RootNamespace>Dapper.SimpleSqlBuilder.DependencyInjection</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder.DependencyInjection</AssemblyName>
-        <Description>Dapper.SimpleSqlBuilder extension for .Net Core.</Description>
-        <Title>Dapper SimpleSqlBuilder DependencyInjection</Title>
+        <Description>Dapper.SimpleSqlBuilder dependency extension for .Net Core.</Description>
+        <Title>Dapper SimpleSqlBuilder Dependency Injection</Title>
     </PropertyGroup>
 
     <ItemGroup>

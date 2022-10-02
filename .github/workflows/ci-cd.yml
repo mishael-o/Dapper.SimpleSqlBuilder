@@ -52,7 +52,7 @@ jobs:
           key: packed-nuget-${{ env.GitBuildVersionSimple }}-${{ hashFiles('**/*.nupkg', '**/*.snupkg') }}
 
   publish:
-    if: ${{ contains(fromJson('["main"]'), github.ref_name) }} && ${{ inputs.publish_nuget == true }}
+    if: ${{ contains(fromJson('["main"]'), github.ref_name) && inputs.publish_nuget == true }}
     name: Publish
     needs: [build]
     runs-on: ubuntu-latest
