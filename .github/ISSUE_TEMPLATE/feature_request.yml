@@ -1,0 +1,54 @@
+name: Feature request
+description: Suggest an idea for this project
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request!
+  - type: dropdown
+    id: enhancement-type
+    attributes:
+      label: Feature request type
+      options:
+        - New feature
+        - Enhancement to existing feature
+        - Performance improvement
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: related-problem
+    attributes:
+      label: Is your feature request related to a problem?
+      description: Please provide a clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+      placeholder: Describe your problem!
+  - type: textarea
+    id: expected-behaviour
+    attributes:
+      label: Describe the solution you would like
+      description: Please provide a clear and concise description of what you want to happen.
+      placeholder: Describe your request!
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you have considered
+      description: Please provide a clear and concise description of any alternative solutions or features you've considered.
+      placeholder: Describe alternatives!
+  - type: checkboxes
+    id: pr
+    attributes:
+      label: Pull Request
+      description: Are you interested in implementing a fix via a Pull Request? That would be the fastest way to resolve your issue. We appreciate every contribution!
+      options:
+        - label: I would like to do a Pull Request
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/blob/main/docs/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

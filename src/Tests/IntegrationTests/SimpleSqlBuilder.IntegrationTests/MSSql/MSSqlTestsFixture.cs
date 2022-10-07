@@ -12,7 +12,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
     public MSSqlTestsFixture()
     {
         var fixture = new Fixture();
-        var dbPassword = fixture.Create<string>();
+        var dbPassword = $"P{fixture.Create<string>()}0!";
         ProductTypeInDB = fixture.Create<ProductType>();
 
         const int hostPortNumber = 2433;

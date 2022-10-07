@@ -2,9 +2,9 @@
 
 Thinking of contributing to the project? Super 😊, we are grateful and excited for the support. When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change. You can also pick an existing issue.
 
-Please note we have a [code of conduct](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/blob/main/docs/CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
+Please note we have a [Code of Conduct](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/blob/main/docs/CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
 
-## Project Perquisite
+## Project Prerequisites
 
 - Visual Studio 2022 is the recommended IDE.
 - Docker is required if you would like to run the integration tests locally.

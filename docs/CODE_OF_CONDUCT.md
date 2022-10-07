@@ -6,7 +6,7 @@ We as members, contributors, and leaders pledge to make participation in our
 community a harassment-free experience for everyone, regardless of age, body
 size, visible or invisible disability, ethnicity, sex characteristics, gender
 identity and expression, level of experience, education, socio-economic status,
-nationality, personal appearance, race, caste, color, religion, or sexual
+nationality, personal appearance, race, caste, colour, religion, or sexual
 identity and orientation.
 
 We pledge to act and interact in ways that contribute to an open, welcoming,
@@ -85,7 +85,7 @@ behaviour was inappropriate. A public apology may be requested.
 **Community Impact**: A violation through a single incident or series of
 actions.
 
-**Consequence**: A warning with consequences for continued behavior. No
+**Consequence**: A warning with consequences for continued behaviour. No
 interaction with the people involved, including unsolicited interaction with
 those enforcing the Code of Conduct, for a specified period of time. This
 includes avoiding interactions in community spaces as well as external channels

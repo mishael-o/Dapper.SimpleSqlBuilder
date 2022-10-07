@@ -5,11 +5,12 @@ VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleSqlBuilder", "Builder\SimpleSqlBuilder\SimpleSqlBuilder.csproj", "{669D053A-4E3F-4EFC-8226-4DFFD372E1C4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Solution-Items", "4. Solution-Items", "{05198CB6-57D1-447B-9C62-84B3E2C645AB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Project-Items", "0. Project-Items", "{05198CB6-57D1-447B-9C62-84B3E2C645AB}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		Directory.Build.props = Directory.Build.props
-		version.json = version.json
+		..\.gitattributes = ..\.gitattributes
+		..\.gitignore = ..\.gitignore
+		..\LICENSE.md = ..\LICENSE.md
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleSqlBuilder.BenchMark", "Benchmark\SimpleSqlBuilder.BenchMark\SimpleSqlBuilder.BenchMark.csproj", "{A0CFB31D-9B9D-43F4-92B0-4829251D6B4E}"
@@ -58,6 +59,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleSqlBuilder.UnitTestHe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{97549155-3FA7-4FE5-9FEB-B6C1C324CDF4}"
 	ProjectSection(SolutionItems) = preProject
+		..\.github\codecov.yml = ..\.github\codecov.yml
 		..\.github\pull_request_template.md = ..\.github\pull_request_template.md
 		..\.github\release.yml = ..\.github\release.yml
 	EndProjectSection
@@ -69,14 +71,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEMPLATE", "{976AF1F2-16CC-4B8B-B493-EFA5E7293389}"
 	ProjectSection(SolutionItems) = preProject
-		..\.github\ISSUE_TEMPLATE\bug-report.md = ..\.github\ISSUE_TEMPLATE\bug-report.md
-		..\.github\ISSUE_TEMPLATE\feature_request.md = ..\.github\ISSUE_TEMPLATE\feature_request.md
+		..\.github\ISSUE_TEMPLATE\bug_report.yml = ..\.github\ISSUE_TEMPLATE\bug_report.yml
+		..\.github\ISSUE_TEMPLATE\config.yml = ..\.github\ISSUE_TEMPLATE\config.yml
+		..\.github\ISSUE_TEMPLATE\feature_request.yml = ..\.github\ISSUE_TEMPLATE\feature_request.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{88F2182D-44A3-4443-B0D0-0E6F9D0480F6}"
 	ProjectSection(SolutionItems) = preProject
 		..\docs\CODE_OF_CONDUCT.md = ..\docs\CODE_OF_CONDUCT.md
 		..\docs\CONTRIBUTING.md = ..\docs\CONTRIBUTING.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3882C05C-BF92-46F0-BC11-D35AAD4FA0D8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+		version.json = version.json
 	EndProjectSection
 EndProject
 Global
@@ -129,10 +139,10 @@ Global
 		{33119A91-DCAD-4765-9071-AEA77EE8C870} = {47353B84-CF60-4FCB-95EB-6D4EB54FE4BD}
 		{180C4F6C-0E0D-4FD9-9E75-3FEFCEBB51DF} = {B1874F17-1952-4C4A-904A-356334E07A9C}
 		{FAE4CDFC-1092-49FA-BFC6-7D321C4F0353} = {47353B84-CF60-4FCB-95EB-6D4EB54FE4BD}
-		{22DF72E2-6D6E-4921-826A-02CAE048D902} = {05198CB6-57D1-447B-9C62-84B3E2C645AB}
+		{22DF72E2-6D6E-4921-826A-02CAE048D902} = {3882C05C-BF92-46F0-BC11-D35AAD4FA0D8}
 		{47353B84-CF60-4FCB-95EB-6D4EB54FE4BD} = {7C74EED7-EBA1-47CD-981D-5E34E4AE62C3}
 		{F7FA99DA-E384-4EF5-A33F-EA156F8C22A2} = {7C74EED7-EBA1-47CD-981D-5E34E4AE62C3}
-		{1F1CC638-77DD-49B5-A579-4E3407757EAB} = {05198CB6-57D1-447B-9C62-84B3E2C645AB}
+		{1F1CC638-77DD-49B5-A579-4E3407757EAB} = {3882C05C-BF92-46F0-BC11-D35AAD4FA0D8}
 		{52C8D1D9-1CA5-4000-BE47-2A3AABD9270C} = {1F1CC638-77DD-49B5-A579-4E3407757EAB}
 		{405E4627-E0A0-4276-87B7-D0734DC68FE7} = {1F1CC638-77DD-49B5-A579-4E3407757EAB}
 		{325F7659-9E5C-423E-984B-D522C17086E4} = {47353B84-CF60-4FCB-95EB-6D4EB54FE4BD}
@@ -140,6 +150,7 @@ Global
 		{89F49831-6016-4954-8288-5316605830C2} = {97549155-3FA7-4FE5-9FEB-B6C1C324CDF4}
 		{976AF1F2-16CC-4B8B-B493-EFA5E7293389} = {97549155-3FA7-4FE5-9FEB-B6C1C324CDF4}
 		{88F2182D-44A3-4443-B0D0-0E6F9D0480F6} = {05198CB6-57D1-447B-9C62-84B3E2C645AB}
+		{3882C05C-BF92-46F0-BC11-D35AAD4FA0D8} = {05198CB6-57D1-447B-9C62-84B3E2C645AB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D09D761-CE39-4C87-866F-0079DF0D33EB}
