@@ -42,7 +42,7 @@ jobs:
       - name: Build solution
         run: dotnet build --no-restore -c $configuration
       - name: Run tests
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=${{ env.coverageReportPath }} --no-build --verbosity normal -c $configuration
+        run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=${{ env.coverageReportPath }} --no-build --verbosity normal -c $configuration
       - name: Codecov
         uses: codecov/codecov-action@v3
         with:
