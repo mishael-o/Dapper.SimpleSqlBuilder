@@ -1,5 +1,6 @@
 ﻿namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
 
+[Collection($"~ Run Last - {nameof(SimpleBuilderSettingsTests)}")]
 public class SimpleBuilderSettingsTests
 {
     [Theory]

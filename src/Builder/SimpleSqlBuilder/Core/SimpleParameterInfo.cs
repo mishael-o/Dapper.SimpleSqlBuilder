@@ -24,7 +24,7 @@ public sealed class SimpleParameterInfo : ISimpleParameterInfo
     {
     }
 
-    internal SimpleParameterInfo(string? name, object? value, DbType? dbType = null, ParameterDirection direction = ParameterDirection.Input, int? size = null, byte? precision = null, byte? scale = null, Type? type = null)
+    internal SimpleParameterInfo(string? name, object? value, DbType? dbType = null, ParameterDirection direction = ParameterDirection.Input, int? size = null, byte? precision = null, byte? scale = null)
     {
         Value = value;
         Name = name;
@@ -33,7 +33,7 @@ public sealed class SimpleParameterInfo : ISimpleParameterInfo
         Size = size;
         Precision = precision;
         Scale = scale;
-        Type = type ?? value?.GetType();
+        Type = value?.GetType();
     }
 
     /// <summary>
@@ -42,6 +42,7 @@ public sealed class SimpleParameterInfo : ISimpleParameterInfo
     public object? Value { get; }
 
     internal string? Name { get; private set; }
+
     internal ParameterDirection Direction { get; }
 
     /// <summary>

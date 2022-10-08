@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\Builder\SimpleSqlBuilder\SimpleSqlBuilder.csproj" />
+        <ProjectReference Include="..\SimpleSqlBuilder.UnitTestHelpers\SimpleSqlBuilder.UnitTestHelpers.csproj" />
     </ItemGroup>
 
 </Project>

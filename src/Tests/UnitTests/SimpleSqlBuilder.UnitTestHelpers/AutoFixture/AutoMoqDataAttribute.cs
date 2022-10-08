@@ -1,4 +1,4 @@
-﻿namespace SimpleSqlBuilder.UnitTestHelpers;
+﻿namespace Dapper.SimpleSqlBuilder.UnitTestHelpers.AutoFixture;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
 public sealed class AutoMoqDataAttribute : AutoDataAttribute

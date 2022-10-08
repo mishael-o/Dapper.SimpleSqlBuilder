@@ -3,30 +3,31 @@ using Microsoft.Extensions.Options;
 
 namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Extensions;
 
+[Collection($"~ Run Last - {nameof(ServiceCollectionExtensionsTests)}")]
 public class ServiceCollectionExtensionsTests
 {
     [Fact]
     public void AddSimpleSqlBuilder_ServiceCollectionIsNull_ThrowsArgumentException()
     {
         //Arrange
-        IServiceCollection service = null!;
+        IServiceCollection sut = null!;
 
         //Act
-        var act = () => service.AddSimpleSqlBuilder();
+        var act = () => sut.AddSimpleSqlBuilder();
 
         //Assert
         act.Should().Throw<ArgumentNullException>()
-            .WithParameterName(nameof(service));
+            .WithParameterName("service");
     }
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_DefaultConfiguration_ReturnsIServiceCollection(ServiceCollection service)
+    public void AddSimpleSqlBuilder_DefaultConfiguration_ReturnsIServiceCollection(ServiceCollection sut)
     {
         //Act
-        service.AddSimpleSqlBuilder();
-        var provider = service.BuildServiceProvider();
-        var serviceDescriptor = service.First(x => x.ServiceType == typeof(ISimpleBuilder));
+        sut.AddSimpleSqlBuilder();
+        var provider = sut.BuildServiceProvider();
+        var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
         var configuredOptions = provider.GetService<IOptions<SimpleBuilderOptions>>();
 
         //Assert
@@ -39,19 +40,22 @@ public class ServiceCollectionExtensionsTests
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_CustomConfiguration_ReturnsIServiceCollection(ServiceLifetime serviceLifetime, [NoAutoProperties] SimpleBuilderOptions options, ServiceCollection service)
+    public void AddSimpleSqlBuilder_CustomConfiguration_ReturnsIServiceCollection(ServiceLifetime serviceLifetime, ServiceCollection sut)
     {
+        //Arrange
+        var options = new SimpleBuilderOptions { DatabaseParameterNameTemplate = "myParam", DatabaseParameterPrefix = ":", ReuseParameters = true };
+
         //Act
-        service.AddSimpleSqlBuilder(serviceLifetime, configure =>
+        sut.AddSimpleSqlBuilder(serviceLifetime, configure =>
         {
             configure.DatabaseParameterNameTemplate = options.DatabaseParameterNameTemplate;
             configure.DatabaseParameterPrefix = options.DatabaseParameterPrefix;
             configure.ReuseParameters = options.ReuseParameters;
         });
 
-        var provider = service.BuildServiceProvider();
+        var provider = sut.BuildServiceProvider();
+        var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
         var configuredOptions = provider.GetRequiredService<IOptions<SimpleBuilderOptions>>();
-        var serviceDescriptor = service.First(x => x.ServiceType == typeof(ISimpleBuilder));
 
         //Assert
         serviceDescriptor.ImplementationType.Should().Be(typeof(InternalSimpleBuilder));

@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using SimpleSqlBuilder.UnitTestHelpers;
+﻿using Dapper.SimpleSqlBuilder.UnitTestHelpers.AutoFixture;
+using Microsoft.Extensions.Options;
 
 namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Core;
 
@@ -10,11 +10,11 @@ public class InternalSimpleBuilderTests
     internal void Create_NoArgumentsPassed_ReturnsSimpleBuilderBase(InternalSimpleBuilder sut)
     {
         //Act
-        var builder = sut.Create();
+        var result = sut.Create();
 
         //Assert
-        builder.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
-        builder.ParameterNames.Should().HaveCount(0);
+        result.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
+        result.ParameterNames.Should().HaveCount(0);
     }
 
     [Theory]
@@ -27,16 +27,16 @@ public class InternalSimpleBuilderTests
     {
         //Arrange
         optionsMock.SetupGet(x => x.Value).Returns(options);
-        var baseParamName = SimpleBuilderSettings.DatabaseParameterPrefix + SimpleBuilderSettings.DatabaseParameterNameTemplate;
+        var baseParamName = options.DatabaseParameterPrefix + options.DatabaseParameterNameTemplate;
         string expectedSql = $"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {baseParamName}0) FROM TABLE WHERE Id = {baseParamName}1";
 
         //Act
-        var builder = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id}");
+        var result = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id}");
 
         //Assert
-        builder.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
+        result.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
+        result.Sql.Should().Be(expectedSql);
+        result.ParameterNames.Should().HaveCount(2);
     }
 
     [Theory]
@@ -50,15 +50,15 @@ public class InternalSimpleBuilderTests
         //Arrange
         const string parameterPrefix = ":";
         optionsMock.SetupGet(x => x.Value).Returns(options);
-        var parameterName = $"{parameterPrefix}{SimpleBuilderSettings.DatabaseParameterNameTemplate}0";
+        var parameterName = $"{parameterPrefix}{options.DatabaseParameterNameTemplate}0";
         string expectedSql = $"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {parameterName}) FROM TABLE WHERE Id = {parameterName}";
 
         //Act
-        var builder = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id}", parameterPrefix, true);
+        var result = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id}", parameterPrefix, true);
 
         //Assert
-        builder.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(1);
+        result.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
+        result.Sql.Should().Be(expectedSql);
+        result.ParameterNames.Should().HaveCount(1);
     }
 }

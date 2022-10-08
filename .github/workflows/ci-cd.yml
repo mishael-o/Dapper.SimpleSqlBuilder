@@ -24,6 +24,8 @@ jobs:
     defaults:
       run:
         working-directory: src
+    env:
+      coverageReportPath: ${{ github.workspace }}/coverage-reports/
     outputs:
       package_version: ${{ env.GitBuildVersionSimple }}
 
@@ -40,17 +42,22 @@ jobs:
       - name: Build solution
         run: dotnet build --no-restore -c $configuration
       - name: Run tests
-        run: dotnet test --no-build --verbosity normal -c $configuration
+        run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=${{ env.coverageReportPath }} --no-build --verbosity normal -c $configuration
       - name: Create nuget packages
         if: ${{ inputs.publish_nuget == true }}
-        run: dotnet pack --no-build -o $packagePath -c $configuration
-      - name: Create Cache
-        if: ${{ inputs.publish_nuget == true }}
-        uses: actions/cache@v3
+      - name: Codecov
+        uses: codecov/codecov-action@v3
         with:
+          directory: ${{ env.coverageReportPath }}
+        run: dotnet pack --no-build -o $packagePath -c $configuration
+      - name: Upload artifacts
+        if: ${{ inputs.publish_nuget == true }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
           path: ${{ env.packagePath }}
-          key: packed-nuget-${{ env.GitBuildVersionSimple }}-${{ hashFiles('**/*.nupkg', '**/*.snupkg') }}
-
+          retention-days: 7
+      
   publish:
     if: ${{ contains(fromJson('["main"]'), github.ref_name) && inputs.publish_nuget == true }}
     name: Publish
@@ -63,16 +70,14 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-      - name: Restore Cache
-        uses: actions/cache@v3
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
         with:
+          name: artifacts
           path: ${{ env.packagePath }}
-          key: packed-nuget-${{ needs.build.outputs.package_version }}-${{ hashFiles('**/*.nupkg', '**/*.snupkg') }}
       - name: Push packages
-        run: dotnet nuget push  ${{ env.packagePath }}/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://apiint.nugettest.org/v3/index.json
-      - name: Zip Packages
-        run: zip -j ${{ github.workspace }}/Packages.zip ${{ env.packagePath }}/* -i '*.nupkg' '*.snupkg'
+        run: dotnet nuget push  ${{ env.packagePath }}/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
       - name: Create Release Documentation
-        run: gh release create 'v${{ needs.build.outputs.package_version }}' --title 'Release ${{ needs.build.outputs.package_version }}' --generate-notes ${{ github.workspace }}/Packages.zip
+        run: gh release create 'v${{ needs.build.outputs.package_version }}' --title 'Release ${{ needs.build.outputs.package_version }}' --generate-notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
