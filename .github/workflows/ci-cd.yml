@@ -3,6 +3,8 @@ name: Continuous integration and delivery
 on:
   push:
     branches: ["main"]
+    paths:
+        - 'src/**'
   pull_request:
     branches: ["main"]
   workflow_dispatch:
