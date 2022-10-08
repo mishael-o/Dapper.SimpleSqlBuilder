@@ -41,8 +41,10 @@ jobs:
         run: dotnet restore
       - name: Build solution
         run: dotnet build --no-restore -c $configuration
-      - name: Run tests
-        run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=${{ env.coverageReportPath }} --no-build --verbosity normal -c $configuration
+      - name: Run unit tests
+        run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~UnitTests" -c $configuration -p:CollectCoverage=true -p:CoverletOutputFormat="json,opencover" -p:CoverletOutput=${{ env.coverageReportPath }} -p:MergeWith=${{ env.coverageReportPath }}coverage.json -p:Exclude="[*]Dapper.SimpleSqlBuilder.UnitTestHelpers*"
+      - name: Run integration tests
+        run: dotnet test --no-build --filter "FullyQualifiedName~IntegrationTests" --verbosity normal -c $configuration
       - name: Codecov
         uses: codecov/codecov-action@v3
         with:
