@@ -2,11 +2,11 @@
 
 [![Continuous integration and delivery](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml) [![Codecov](https://img.shields.io/codecov/c/gh/mishael-o/Dapper.SimpleSqlBuilder?logo=codecov)](https://codecov.io/gh/mishael-o/Dapper.SimpleSqlBuilder)
 
-A simple sql builder (that tries not to do too much 😊) for [Dapper](https://github.com/DapperLib/Dapper) using string interpolation.
+A simple SQL builder (that tries not to do too much 😊) for [Dapper](https://github.com/DapperLib/Dapper) using string interpolation for building dynamic sql.
 
 This library provides a simple and easy way to build dynamic SQL and commands, that can be executed using the Dapper library. This is achieved by leveraging [FormattableString](https://docs.microsoft.com/en-us/dotnet/api/system.formattablestring) to capture parameters and produce parameterized SQL.
 
-**The library doesn't do anything special but parameterize the sql, therefore all of Dapper's features and quirks still apply.**
+**The library doesn't do anything special but parameterize the SQL, therefore all of Dapper's features and quirks still apply.**
 
 ## Packages
 
@@ -45,7 +45,7 @@ SELECT * FROM User
 WHERE UserTypeId = @p0 AND AGE >= @p1
 ```
 
-And all values passed in the interpolated string is taken out and replaced with parameter placeholders. The parameter values are put into Dapper's [DynamicParameters](https://github.com/DapperLib/Dapper/blob/main/Dapper/DynamicParameters.cs) collection.
+And all values passed in the interpolated string are taken out and replaced with parameter placeholders. The parameter values are put into Dapper's [DynamicParameters](https://github.com/DapperLib/Dapper/blob/main/Dapper/DynamicParameters.cs) collection.
 
 To execute the query with Dapper is as simple as this.
 
@@ -180,7 +180,7 @@ WHERE UserTypeId = @p1;
 
 ### Parameter properties
 
-The library enables you to configure parameter properties via the `AddParameter(...)` method. For example, you may want to define a `DbTye` for a parameter, and the code below is how you might do this.
+The library enables you to configure parameter properties via the `AddParameter(...)` method. For example, you may want to define a `DbType` for a parameter, and the code below is how you might do this.
 
 ```c#
 var builder = SimpleBuilder.Create($"SELECT * FROM User Where Id = @id")
