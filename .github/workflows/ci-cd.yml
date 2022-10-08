@@ -43,13 +43,12 @@ jobs:
         run: dotnet build --no-restore -c $configuration
       - name: Run tests
         run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=${{ env.coverageReportPath }} --no-build --verbosity normal -c $configuration
-      - name: Create nuget packages
-        if: ${{ inputs.publish_nuget == true }}
       - name: Codecov
         uses: codecov/codecov-action@v3
         with:
           directory: ${{ env.coverageReportPath }}
-        run: dotnet pack --no-build -o $packagePath -c $configuration
+      - name: Create nuget packages
+        if: ${{ inputs.publish_nuget == true }}          
       - name: Upload artifacts
         if: ${{ inputs.publish_nuget == true }}
         uses: actions/upload-artifact@v3
