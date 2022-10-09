@@ -33,6 +33,7 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
             END;");
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
 
         //Act
         var result = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
@@ -59,6 +60,7 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
         }
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
 
         //Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -72,7 +74,10 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
     {
         //Arrange
         const string tag = "select";
+
         using var connection = mySqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
         var products = await GenerateSeedDataAsync(connection);
 
         FormattableString subQuery = $@"
@@ -122,6 +127,8 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
         var createdDate = DateTime.Now.AddDays(100).Date;
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
         await GenerateSeedDataAsync(connection);
 
         var updateBuilder = SimpleBuilder
@@ -162,6 +169,8 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
         const string tag = "delete";
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
         await GenerateSeedDataAsync(connection);
 
         var builder = SimpleBuilder
@@ -210,6 +219,7 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
 
         //Act
         await connection.ExecuteAsync(builder.Sql, builder.Parameters, commandType: CommandType.StoredProcedure);

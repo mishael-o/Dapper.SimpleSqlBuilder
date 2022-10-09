@@ -34,6 +34,7 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
             END;");
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
 
         //Act
         var result = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
@@ -60,6 +61,7 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
         }
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
 
         //Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -73,7 +75,10 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
     {
         //Arrange
         const string tag = "select";
+
         using var connection = mssqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
         var products = await GenerateSeedDataAsync(connection);
 
         FormattableString subQuery = $@"
@@ -123,6 +128,8 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
         var createdDate = DateTime.Now.AddDays(100).Date;
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
         await GenerateSeedDataAsync(connection);
 
         var updateBuilder = SimpleBuilder
@@ -163,6 +170,8 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
         const string tag = "delete";
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
         await GenerateSeedDataAsync(connection);
 
         var builder = SimpleBuilder
@@ -211,6 +220,7 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
 
         //Act
         await connection.ExecuteAsync(builder.Sql, builder.Parameters, commandType: CommandType.StoredProcedure);

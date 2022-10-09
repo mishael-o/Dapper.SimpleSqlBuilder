@@ -30,6 +30,7 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
             SELECT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = {tableName})");
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
 
         //Act
         var result = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
@@ -56,6 +57,7 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
         }
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
 
         //Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -69,7 +71,10 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
     {
         //Arrange
         const string tag = "select";
+
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
         var products = await GenerateSeedDataAsync(connection);
 
         FormattableString subQuery = $@"
@@ -119,6 +124,8 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
         var createdDate = DateTime.Now.AddDays(100).Date;
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
         await GenerateSeedDataAsync(connection);
 
         var updateBuilder = SimpleBuilder
@@ -159,6 +166,8 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
         const string tag = "delete";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
         await GenerateSeedDataAsync(connection);
 
         var builder = SimpleBuilder
@@ -203,6 +212,7 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
 
         //Act
         await connection.ExecuteAsync(builder.Sql, builder.Parameters);

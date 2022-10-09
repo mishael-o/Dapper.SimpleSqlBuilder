@@ -6,18 +6,18 @@ namespace Dapper.SimpleSqlBuilder.IntegrationTests.MSSql;
 
 public class MSSqlTestsFixture : IAsyncLifetime
 {
+    private const int Port = 1433;
+
     private readonly string connectionString;
     private readonly TestcontainersContainer container;
 
     public MSSqlTestsFixture()
     {
-        var fixture = new Fixture();
-        var dbPassword = $"P{fixture.Create<string>()}0!";
-        ProductTypeInDB = fixture.Create<ProductType>();
+        const string dbPassword = "Mssql!Pa55w0rD";
+        ProductTypeInDB = new Fixture().Create<ProductType>();
 
-        const int hostPortNumber = 2433;
-        connectionString = $"Data Source=localhost,{hostPortNumber};Initial Catalog=master;User ID=sa;Password={dbPassword};TrustServerCertificate=True";
-        container = CreateSqlServerContainer(dbPassword, hostPortNumber);
+        connectionString = $"Data Source=localhost,{Port};Initial Catalog=tempdb;User ID=sa;Password={dbPassword};TrustServerCertificate=True";
+        container = CreateSqlServerContainer(dbPassword);
     }
 
     public string StoredProcName { get; } = "CreateProduct";
@@ -27,7 +27,6 @@ public class MSSqlTestsFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
         await container.StartAsync();
-        using var conn = CreateDbConnection();
         await CreateSchemaAsync();
     }
 
@@ -39,23 +38,23 @@ public class MSSqlTestsFixture : IAsyncLifetime
     public DbConnection CreateDbConnection()
         => new SqlConnection(connectionString);
 
-    private static TestcontainersContainer CreateSqlServerContainer(string dbPassword, int hostPortNumber)
+    private static TestcontainersContainer CreateSqlServerContainer(string dbPassword)
     {
-        const int containerPort = 1433;
-
         return new TestcontainersBuilder<TestcontainersContainer>()
                 .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
                 .WithName("mssql")
-                .WithPortBinding(hostPortNumber, containerPort)
-                .WithEnvironment("MSSQL-PID", "Express")
+                .WithPortBinding(Port)
                 .WithEnvironment("ACCEPT_EULA", "Y")
-                .WithEnvironment("SA_PASSWORD", dbPassword)
-                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(containerPort))
+                .WithEnvironment("MSSQL_SA_PASSWORD", dbPassword)
+                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(Port))
                 .Build();
     }
 
     private async Task CreateSchemaAsync()
     {
+        using var connection = CreateDbConnection();
+        await connection.OpenAsync();
+
         var tableBuilder = SimpleBuilder.Create($@"
            CREATE TABLE {nameof(ProductType):raw}
            (
@@ -74,7 +73,6 @@ public class MSSqlTestsFixture : IAsyncLifetime
                 {nameof(Product.CreatedDate):raw} DATE
            );");
 
-        using var connection = CreateDbConnection();
         await connection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
 
         var storedProcBuilder = SimpleBuilder.Create($@"

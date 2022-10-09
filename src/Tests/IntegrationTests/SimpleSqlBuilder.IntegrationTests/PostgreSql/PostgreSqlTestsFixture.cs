@@ -8,6 +8,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 {
     private const string DbName = "test-db";
     private const string DbUser = "dbUser";
+    private const int Port = 5432;
 
     private readonly string connectionString;
     private readonly TestcontainersContainer container;
@@ -18,9 +19,8 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
         var dbPassword = fixture.Create<string>();
         ProductTypeInDB = fixture.Create<ProductType>();
 
-        const int hostPortNumber = 6432;
-        connectionString = $"Host=localhost;Port={hostPortNumber};Username={DbUser};Password={dbPassword};Database={DbName}";
-        container = CreatePostgreSQLContainer(dbPassword, hostPortNumber);
+        connectionString = $"Host=localhost;Port={Port};Username={DbUser};Password={dbPassword};Database={DbName}";
+        container = CreatePostgreSQLContainer(dbPassword);
     }
 
     public string StoredProcName { get; } = "createProduct";
@@ -30,7 +30,6 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
         await container.StartAsync();
-        using var conn = CreateDbConnection();
         await CreateSchemaAsync();
     }
 
@@ -42,23 +41,24 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     public DbConnection CreateDbConnection()
         => new NpgsqlConnection(connectionString);
 
-    private static TestcontainersContainer CreatePostgreSQLContainer(string dbPassword, int hostPortNumber)
+    private static TestcontainersContainer CreatePostgreSQLContainer(string dbPassword)
     {
-        const int containerPort = 5432;
-
         return new TestcontainersBuilder<TestcontainersContainer>()
                 .WithImage("postgres:14")
                 .WithName("postgresql")
-                .WithPortBinding(hostPortNumber, containerPort)
+                .WithPortBinding(Port)
                 .WithEnvironment("POSTGRES_DB", DbName)
                 .WithEnvironment("POSTGRES_USER", DbUser)
                 .WithEnvironment("POSTGRES_PASSWORD", dbPassword)
-                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(containerPort))
+                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(Port))
                 .Build();
     }
 
     private async Task CreateSchemaAsync()
     {
+        using var connection = CreateDbConnection();
+        await connection.OpenAsync();
+
         var tableBuilder = SimpleBuilder.Create($@"
            CREATE TABLE {nameof(ProductType):raw}
            (
@@ -77,7 +77,6 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
                 {nameof(Product.CreatedDate):raw} DATE
            );");
 
-        using var connection = CreateDbConnection();
         await connection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
 
         var storedProcBuilder = SimpleBuilder.Create($@"
