@@ -29,7 +29,7 @@ jobs:
     env:
       coverageReportPath: ${{ github.workspace }}/coverage-reports/
     outputs:
-      package_version: ${{ env.GitBuildVersionSimple }}
+      package_version: ${{ env.NBGV_NuGetPackageVersion }}
 
     steps:
       - uses: actions/checkout@v3

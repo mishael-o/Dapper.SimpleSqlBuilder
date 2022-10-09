@@ -9,7 +9,7 @@
         <Company>Mishael Ogochukwu</Company>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageId>$(AssemblyName)</PackageId>
-        <PackageReleaseNotes>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</PackageReleaseNotes>
+        <PackageReleaseNotes>https://github.com/mishael-o/Dapper.SimpleSqlBuilder/releases</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</PackageProjectUrl>
         <PackageTags>dapper;dapper-simple-sql-builder;simple-sql-builder;dapper simple sql builder;simple sql builder</PackageTags>

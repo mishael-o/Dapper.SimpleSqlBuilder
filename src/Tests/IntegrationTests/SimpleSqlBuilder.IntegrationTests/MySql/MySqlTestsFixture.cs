@@ -7,6 +7,7 @@ public class MySqlTestsFixture : IAsyncLifetime
 {
     private const string DbName = "test-db";
     private const string DbUser = "dbUser";
+    private const int Port = 3306;
 
     private readonly string connectionString;
     private readonly TestcontainersContainer container;
@@ -17,9 +18,8 @@ public class MySqlTestsFixture : IAsyncLifetime
         var dbPassword = fixture.Create<string>();
         ProductTypeInDB = fixture.Create<CustomProductType>();
 
-        const int hostPortNumber = 4306;
-        connectionString = $"Server=localhost;Port={hostPortNumber};Uid={DbUser};Pwd={dbPassword};Database={DbName}";
-        container = CreateMySQLContainer(dbPassword, hostPortNumber);
+        connectionString = $"Server=localhost;Port={Port};Uid={DbUser};Pwd={dbPassword};Database={DbName}";
+        container = CreateMySQLContainer(dbPassword);
     }
 
     public string StoredProcName { get; } = "CreateProduct";
@@ -31,7 +31,6 @@ public class MySqlTestsFixture : IAsyncLifetime
         SqlMapper.AddTypeHandler(new MySqlCustomIdTypeHandler());
 
         await container.StartAsync();
-        using var conn = CreateDbConnection();
         await CreateSchemaAsync();
     }
 
@@ -43,24 +42,25 @@ public class MySqlTestsFixture : IAsyncLifetime
     public DbConnection CreateDbConnection()
         => new MySqlConnection(connectionString);
 
-    private static TestcontainersContainer CreateMySQLContainer(string dbPassword, int hostPortNumber)
+    private static TestcontainersContainer CreateMySQLContainer(string dbPassword)
     {
-        const int containerPort = 3306;
-
         return new TestcontainersBuilder<TestcontainersContainer>()
                 .WithImage("mysql:8")
                 .WithName("mysql")
-                .WithPortBinding(hostPortNumber, containerPort)
+                .WithPortBinding(Port)
                 .WithEnvironment("MYSQL_ROOT_PASSWORD", Guid.NewGuid().ToString())
                 .WithEnvironment("MYSQL_DATABASE", DbName)
                 .WithEnvironment("MYSQL_USER", DbUser)
                 .WithEnvironment("MYSQL_PASSWORD", dbPassword)
-                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(containerPort))
+                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(Port))
                 .Build();
     }
 
     private async Task CreateSchemaAsync()
     {
+        using var connection = CreateDbConnection();
+        await connection.OpenAsync();
+
         var tableBuilder = SimpleBuilder.Create($@"
            CREATE TABLE {nameof(CustomProductType):raw}
            (
@@ -79,7 +79,6 @@ public class MySqlTestsFixture : IAsyncLifetime
                 {nameof(CustomProduct.CreatedDate):raw} DATE
            );");
 
-        using var connection = CreateDbConnection();
         await connection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
 
         var storedProcBuilder = SimpleBuilder.Create($@"
