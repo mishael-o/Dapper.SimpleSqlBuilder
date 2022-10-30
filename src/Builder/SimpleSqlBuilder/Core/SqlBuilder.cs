@@ -54,8 +54,8 @@ internal sealed class SqlBuilder : SimpleBuilderBase
         return this;
     }
 
-    public override T GetValue<T>(string name)
-        => parameters.Get<T>(name);
+    public override T GetValue<T>(string parameterName)
+        => parameters.Get<T>(parameterName);
 
     private SimpleBuilderBase AppendSql(FormattableString? formattable, bool startNewLine = false, bool addSpacePrefix = false)
     {

@@ -23,12 +23,28 @@ public static class SimpleBuilder
 
         return new SqlBuilder(
             SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate,
-#if NET461 || NETSTANDARD2_0
             parameterPrefix!,
-#else
-            parameterPrefix,
-#endif
             reuseParameters.Value,
             formattable);
+    }
+
+    /// <summary>
+    /// A static method to create a fluent builder instance.
+    /// </summary>
+    /// <param name="parameterPrefix">The parameter prefix to override the <see cref="SimpleBuilderSettings.DatabaseParameterPrefix">default value</see>.</param>
+    /// <param name="reuseParameters">The boolean value to override the <see cref="SimpleBuilderSettings.ReuseParameters"> default value</see>.</param>
+    /// <param name="useLowerCaseClauses">The boolean value to override the <see cref="SimpleBuilderSettings.UseLowerCaseClauses">default value</see>.</param>
+    /// <returns>Returns a <see cref="ISimpleFluentBuilder"/>.</returns>
+    public static ISimpleFluentBuilder CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
+    {
+        if (string.IsNullOrWhiteSpace(parameterPrefix))
+        {
+            parameterPrefix = SimpleBuilderSettings.DatabaseParameterPrefix;
+        }
+
+        reuseParameters ??= SimpleBuilderSettings.ReuseParameters;
+        useLowerCaseClauses ??= SimpleBuilderSettings.UseLowerCaseClauses;
+
+        return new SimpleFluentBuilder(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate, parameterPrefix!, reuseParameters.Value, useLowerCaseClauses.Value);
     }
 }

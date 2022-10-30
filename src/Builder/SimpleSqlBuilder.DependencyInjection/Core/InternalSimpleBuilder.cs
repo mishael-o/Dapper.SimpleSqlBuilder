@@ -22,4 +22,17 @@ internal sealed class InternalSimpleBuilder : ISimpleBuilder
 
         return new SqlBuilder(options.Value.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, formattable);
     }
+
+    public ISimpleFluentBuilder CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
+    {
+        if (string.IsNullOrWhiteSpace(parameterPrefix))
+        {
+            parameterPrefix = options.Value.DatabaseParameterPrefix;
+        }
+
+        reuseParameters ??= options.Value.ReuseParameters;
+        useLowerCaseClauses ??= options.Value.UseLowerCaseClauses;
+
+        return new SimpleFluentBuilder(options.Value.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, useLowerCaseClauses.Value);
+    }
 }

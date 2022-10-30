@@ -12,7 +12,7 @@
         <PackageReleaseNotes>https://github.com/mishael-o/Dapper.SimpleSqlBuilder/releases</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</PackageProjectUrl>
-        <PackageTags>dapper;dapper-simple-sql-builder;simple-sql-builder;dapper simple sql builder;simple sql builder</PackageTags>
+        <PackageTags>sql;dapper;sql-builder;simple-sql-builder;dapper-simple-sql-builder;interpolated-strings</PackageTags>
         <RepositoryUrl>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</RepositoryUrl>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -28,6 +28,6 @@
 
     <ItemGroup Label="PackageItemGroup">
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-        <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.113" PrivateAssets="All" />
+        <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.119" PrivateAssets="All" />
     </ItemGroup>
 </Project>
