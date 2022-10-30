@@ -79,7 +79,7 @@ public class SqlFormatterTests
         var sut = CreateSqlFormatter();
 
         //Act
-        var result = sut.Format(SqlFormatter.RawFormat, argument, sut);
+        var result = sut.Format(Constants.RawFormat, argument, sut);
 
         //Assert
         result.Should().Be(expectedResult);

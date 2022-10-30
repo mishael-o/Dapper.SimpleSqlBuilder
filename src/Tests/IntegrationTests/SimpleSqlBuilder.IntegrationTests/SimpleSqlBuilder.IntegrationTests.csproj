@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" />
-        <PackageReference Include="MySql.Data" Version="8.0.30" />
+        <PackageReference Include="MySql.Data" Version="8.0.31" />
         <PackageReference Include="Npgsql" Version="6.0.7" />
     </ItemGroup>
 

@@ -8,6 +8,7 @@ public sealed class SimpleBuilderSettings
     internal const string DefaultDatabaseParameterNameTemplate = "p";
     internal const string DefaultDatabaseParameterPrefix = "@";
     internal const bool DefaultReuseParameters = false;
+    internal const bool DefaultUseLowerCaseClauses = false;
 
     private static readonly object LockObject = new();
 
@@ -44,6 +45,11 @@ public sealed class SimpleBuilderSettings
     public bool ReuseParameters { get; private set; } = DefaultReuseParameters;
 
     /// <summary>
+    /// Get the value indicating whether sql clauses should be in upper case (default) or lower case.
+    /// </summary>
+    public bool UseLowerCaseClauses { get; private set; } = DefaultUseLowerCaseClauses;
+
+    /// <summary>
     /// Configures the Simple builder settings. Null or empty arguments will be ignored.
     /// </summary>
     /// <param name="parameterNameTemplate">
@@ -58,7 +64,11 @@ public sealed class SimpleBuilderSettings
     /// The value indicating whether to reuse parameters or not. The default value is <see langword="false"/>.
     /// <para>Example: If set to <see langword="true"/> parameters are reused and if set <see langword="false"/> to they are not.</para>
     /// </param>
-    public static void Configure(string? parameterNameTemplate = null, string? parameterPrefix = null, bool? reuseParameters = null)
+    /// <param name="useLowerCaseClauses">
+    /// The value indicating whether to use lower case clauses for the fluent builder. The default value is <see langword="false"/> meaning sql clauses will be in upper cases. i.e. SELECT, UPDATE, etc.
+    /// <para>Example: If set to <see langword="true"/> sql clauses will be in lower cases i.e. select, update, etc.</para>
+    /// </param>
+    public static void Configure(string? parameterNameTemplate = null, string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
     {
         lock (LockObject)
         {
@@ -75,6 +85,11 @@ public sealed class SimpleBuilderSettings
             if (reuseParameters.HasValue)
             {
                 Instance.ReuseParameters = reuseParameters.Value;
+            }
+
+            if (useLowerCaseClauses.HasValue)
+            {
+                Instance.UseLowerCaseClauses = useLowerCaseClauses.Value;
             }
         }
     }

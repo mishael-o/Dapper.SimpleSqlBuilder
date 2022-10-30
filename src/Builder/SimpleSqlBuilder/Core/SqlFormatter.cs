@@ -4,8 +4,6 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 {
     private static readonly SimpleParameterInfoComparer Comparer = new();
 
-    internal const string RawFormat = "raw";
-
     private readonly DynamicParameters parameters;
     private readonly string parameterNameTemplate;
     private readonly string parameterPrefix;
@@ -47,7 +45,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
                 : string.Format(this, formattableString.Format, formattableString.GetArguments());
         }
 
-        if (RawFormat.Equals(format, StringComparison.OrdinalIgnoreCase))
+        if (Constants.RawFormat.Equals(format, StringComparison.OrdinalIgnoreCase))
         {
             return arg?.ToString() ?? string.Empty;
         }

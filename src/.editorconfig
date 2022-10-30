@@ -226,6 +226,10 @@ dotnet_diagnostic.CA1069.severity=error
 dotnet_diagnostic.CA1307.severity=error
 dotnet_diagnostic.CA1305.severity=error
 dotnet_diagnostic.CA1304.severity=error
+
+# CA1308: Normalize strings to uppercase
+dotnet_diagnostic.CA1308.severity = none
+
 dotnet_diagnostic.CA1310.severity=error
 dotnet_diagnostic.CA1502.severity=error
 dotnet_diagnostic.CA1505.severity=error
@@ -376,7 +380,7 @@ dotnet_diagnostic.CA1036.severity=error
 dotnet_diagnostic.CA1041.severity=error
 dotnet_diagnostic.CA1043.severity=error
 dotnet_diagnostic.CA1044.severity=error
-dotnet_diagnostic.CA1045.severity=error
+dotnet_diagnostic.CA1045.severity=none
 dotnet_diagnostic.CA1050.severity=error
 dotnet_diagnostic.CA1052.severity=error
 dotnet_diagnostic.CA1054.severity=error

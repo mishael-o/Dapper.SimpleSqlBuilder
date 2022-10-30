@@ -47,6 +47,7 @@ public static class ServiceCollectionExtensions
         SimpleBuilderSettings.Configure(
             options.DatabaseParameterNameTemplate,
             options.DatabaseParameterPrefix,
-            options.ReuseParameters);
+            options.ReuseParameters,
+            options.UseLowerCaseClauses);
     }
 }
