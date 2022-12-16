@@ -9,7 +9,7 @@ public class SimpleParameterInfoComparerTests
     public void Equals_ParametersAreNotEqual_ReturnsFalse(SimpleParameterInfo? param1, SimpleParameterInfo? param2)
     {
         //Arrange
-        var sut = new SimpleParameterInfoComparer();
+        var sut = SimpleParameterInfoComparer.StaticInstance;
 
         //Act
         var result = sut.Equals(param1, param2);
@@ -23,7 +23,7 @@ public class SimpleParameterInfoComparerTests
     public void Equals_ParametersAreEqual_ReturnsFalse(SimpleParameterInfo? param1, SimpleParameterInfo? param2)
     {
         //Arrange
-        var sut = new SimpleParameterInfoComparer();
+        var sut = SimpleParameterInfoComparer.StaticInstance;
 
         //Act
         var result = sut.Equals(param1, param2);
@@ -37,7 +37,7 @@ public class SimpleParameterInfoComparerTests
     public void GetHashCode_GenerateHashCode_ReturnsInt(SimpleParameterInfo parameterInfo)
     {
         //Arrange
-        var sut = new SimpleParameterInfoComparer();
+        var sut = SimpleParameterInfoComparer.StaticInstance;
         var expectedHashCode = HashCode.Combine(parameterInfo.Value, parameterInfo.Type, parameterInfo.DbType, parameterInfo.Direction, parameterInfo.Size, parameterInfo.Precision, parameterInfo.Scale);
 
         //Act

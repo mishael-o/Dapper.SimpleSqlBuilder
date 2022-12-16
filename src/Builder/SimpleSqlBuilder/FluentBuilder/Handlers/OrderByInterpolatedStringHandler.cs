@@ -7,31 +7,36 @@ public ref struct OrderByInterpolatedStringHandler
 {
     private readonly IFluentSqlFormatter? formatter;
 
-    internal OrderByInterpolatedStringHandler(int literalLength, int formattedCount, IFluentSqlFormatter formatter)
+    internal OrderByInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder, out bool isHandlerEnabled)
+        : this(literalLength, formattedCount, true, builder, out isHandlerEnabled)
     {
-        this.formatter = formatter;
     }
 
-    internal OrderByInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentSqlFormatter formatter, out bool isHandlerEnabled)
+    internal OrderByInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentBuilder builder, out bool isHandlerEnabled)
     {
-        if (!condition)
+        formatter = (IFluentSqlFormatter)builder;
+
+        if (!condition || !formatter.IsClauseActionEnabled(ClauseAction.OrderBy))
         {
-            this.formatter = default;
+            formatter = default;
             isHandlerEnabled = false;
             return;
         }
 
-        this.formatter = formatter;
         isHandlerEnabled = true;
+        formatter.StartClauseAction(ClauseAction.OrderBy);
     }
 
     internal void AppendLiteral(string value)
-        => formatter?.FormatLiteral(value, Clause.OrderBy);
+        => formatter?.FormatLiteral(value);
 
     internal void AppendFormatted<T>(T value)
         => AppendFormatted(value, null);
 
     internal void AppendFormatted<T>(T value, string? format)
-        => formatter?.FormatValue(value, Clause.OrderBy, format);
+        => formatter?.FormatParameter(value, format);
+
+    internal void Close()
+        => formatter?.EndClauseAction(ClauseAction.OrderBy);
 }
 #endif

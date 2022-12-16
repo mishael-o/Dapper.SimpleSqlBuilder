@@ -7,31 +7,36 @@ public ref struct GroupByInterpolatedStringHandler
 {
     private readonly IFluentSqlFormatter? formatter;
 
-    internal GroupByInterpolatedStringHandler(int literalLength, int formattedCount, IFluentSqlFormatter formatter)
+    internal GroupByInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder, out bool isHandlerEnabled)
+        : this(literalLength, formattedCount, true, builder, out isHandlerEnabled)
     {
-        this.formatter = formatter;
     }
 
-    internal GroupByInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentSqlFormatter formatter, out bool isHandlerEnabled)
+    internal GroupByInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentBuilder builder, out bool isHandlerEnabled)
     {
-        if (!condition)
+        formatter = (IFluentSqlFormatter)builder;
+
+        if (!condition || !formatter.IsClauseActionEnabled(ClauseAction.GroupBy))
         {
-            this.formatter = default;
+            formatter = default;
             isHandlerEnabled = false;
             return;
         }
 
-        this.formatter = formatter;
         isHandlerEnabled = true;
+        formatter.StartClauseAction(ClauseAction.GroupBy);
     }
 
     internal void AppendLiteral(string value)
-        => formatter?.FormatLiteral(value, Clause.GroupBy);
+        => formatter?.FormatLiteral(value);
 
     internal void AppendFormatted<T>(T value)
         => AppendFormatted(value, null);
 
     internal void AppendFormatted<T>(T value, string? format)
-        => formatter?.FormatValue(value, Clause.GroupBy, format);
+        => formatter?.FormatParameter(value, format);
+
+    internal void Close()
+        => formatter?.EndClauseAction(ClauseAction.GroupBy);
 }
 #endif

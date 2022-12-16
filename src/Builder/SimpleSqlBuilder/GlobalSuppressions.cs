@@ -27,4 +27,8 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.UpdateSetInterpolatedStringHandler")]
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.WhereInterpolatedStringHandler")]
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.WhereOrInterpolatedStringHandler")]
+[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.WhereFilterInterpolatedStringHandler")]
+[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.WhereOrFilterInterpolatedStringHandler")]
+[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.WhereWithFilterInterpolatedStringHandler")]
+[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.WhereWithOrFilterInterpolatedStringHandler")]
 #endif

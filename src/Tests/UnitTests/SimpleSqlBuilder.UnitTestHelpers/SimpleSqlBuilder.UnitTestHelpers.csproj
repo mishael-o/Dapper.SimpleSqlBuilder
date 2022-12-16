@@ -1,10 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFrameworks>net461;net6.0</TargetFrameworks>
         <IsUnitTestProject>true</IsUnitTestProject>
         <RootNamespace>Dapper.SimpleSqlBuilder.UnitTestHelpers</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder.UnitTestHelpers</AssemblyName>
     </PropertyGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+        <PackageReference Update="xunit.runner.visualstudio" Version="2.4.3" PrivateAssets="All" />
+    </ItemGroup>
 
 </Project>

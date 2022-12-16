@@ -2,7 +2,13 @@
 
 internal interface IFluentSqlFormatter
 {
-    void FormatLiteral(string value, Clause clause);
+    void StartClauseAction(ClauseAction action);
 
-    void FormatValue<T>(T value, Clause clause, string? format = null);
+    void EndClauseAction(ClauseAction action);
+
+    void FormatLiteral(string value);
+
+    void FormatParameter<T>(T value, string? format = null);
+
+    bool IsClauseActionEnabled(ClauseAction action);
 }

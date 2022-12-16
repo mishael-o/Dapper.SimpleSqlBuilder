@@ -7,32 +7,36 @@ public ref struct LeftJoinInterpolatedStringHandler
 {
     private readonly IFluentSqlFormatter? formatter;
 
-    internal LeftJoinInterpolatedStringHandler(int literalLength, int formattedCount, IFluentSqlFormatter formatter)
+    internal LeftJoinInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder, out bool isHandlerEnabled)
+        : this(literalLength, formattedCount, true, builder, out isHandlerEnabled)
     {
-        this.formatter = formatter;
     }
 
-    internal LeftJoinInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentSqlFormatter formatter, out bool isHandlerEnabled)
+    internal LeftJoinInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentBuilder builder, out bool isHandlerEnabled)
     {
         if (!condition)
         {
-            this.formatter = default;
+            formatter = default;
             isHandlerEnabled = false;
             return;
         }
 
-        this.formatter = formatter;
+        formatter = (IFluentSqlFormatter)builder;
         isHandlerEnabled = true;
+        formatter.StartClauseAction(ClauseAction.LeftJoin);
     }
 
     internal void AppendLiteral(string value)
-        => formatter?.FormatLiteral(value, Clause.LeftJoin);
+        => formatter?.FormatLiteral(value);
 
     internal void AppendFormatted<T>(T value)
         => AppendFormatted(value, null);
 
     internal void AppendFormatted<T>(T value, string? format)
-        => formatter?.FormatValue(value, Clause.LeftJoin, format);
+        => formatter?.FormatParameter(value, format);
+
+    internal void Close()
+        => formatter?.EndClauseAction(ClauseAction.LeftJoin);
 }
 
 #endif

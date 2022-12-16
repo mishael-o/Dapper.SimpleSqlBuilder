@@ -1,21 +1,24 @@
-﻿using System.Data;
-using System.Text;
+﻿using System.Text;
 
 namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
 /// Core <see cref="SimpleFluentBuilder"/> partial class.
 /// </summary>
-internal partial class SimpleFluentBuilder : ISimpleFluentBuilder
+internal partial class SimpleFluentBuilder
 {
-    private readonly string parameterNameTemplate;
-    private readonly string parameterPrefix;
     private readonly bool reuseParameters;
+    private readonly string parameterPrefix;
     private readonly bool useLowerCaseClauses;
+    private readonly string parameterNameTemplate;
+    private readonly StringBuilder stringBuilder = new();
+    private readonly DynamicParameters parameters = new();
+    private readonly List<ClauseAction> clauseActions = new();
 
-    private readonly StringBuilder stringBuilder;
-    private readonly DynamicParameters parameters;
-    private readonly List<Clause> clauses;
+    private int paramCount;
+    private bool hasOpenParentheses;
+    private ClauseAction pendingWhereFilter;
+    private Dictionary<SimpleParameterInfo, string>? parameterDictionary;
 
     public SimpleFluentBuilder(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
     {
@@ -23,261 +26,475 @@ internal partial class SimpleFluentBuilder : ISimpleFluentBuilder
         this.parameterPrefix = parameterPrefix;
         this.reuseParameters = reuseParameters;
         this.useLowerCaseClauses = useLowerCaseClauses;
-
-        stringBuilder = new();
-        parameters = new();
-        clauses = new();
     }
 
-    public string Sql
-        => GetSql();
-
-    public object Parameters
-        => parameters;
-
-    public IEnumerable<string> ParameterNames
-        => parameters.ParameterNames;
-
-#if NET6_0_OR_GREATER
-    public IDeleteBuilder DeleteFrom([InterpolatedStringHandlerArgument("")] ref DeleteInterpolatedStringHandler handler)
-        => this;
-
-    public IInsertBuilder InsertInto([InterpolatedStringHandlerArgument("")] ref InsertInterpolatedStringHandler handler)
-        => this;
-
-    public IInsertBuilder Values(ref InsertValueInterpolatedStringHandler handler)
-        => this;
-
-    public ISelectBuilder Select([InterpolatedStringHandlerArgument("")] ref SelectInterpolatedStringHandler handler)
-        => this;
-
-    public ISelectDistinctBuilder SelectDistinct([InterpolatedStringHandlerArgument("")] ref SelectDistinctInterpolatedStringHandler handler)
-        => this;
-
-    public ISelectFromBuilder From([InterpolatedStringHandlerArgument("")] ref SelectFromInterpolatedStringHandler handler)
-        => this;
-
-    public IWhereBuilder Or([InterpolatedStringHandlerArgument("")] ref WhereOrInterpolatedStringHandler handler)
-        => this;
-
-    public IWhereBuilder Or(bool condition, [InterpolatedStringHandlerArgument(new[] { "condition", "" })] ref WhereOrInterpolatedStringHandler handler)
-        => this;
-
-    public IWhereBuilder Where([InterpolatedStringHandlerArgument("")] ref WhereInterpolatedStringHandler handler)
-        => this;
-
-    public IWhereBuilder Where(bool condition, [InterpolatedStringHandlerArgument(new[] { "condition", "" })] ref WhereInterpolatedStringHandler handler)
-        => this;
-
-    public IJoinBuilder InnerJoin(ref InnerJoinInterpolatedStringHandler handler)
-        => this;
-
-    public IJoinBuilder InnerJoin(bool condition, [InterpolatedStringHandlerArgument(new[] { "condition", "" })] ref InnerJoinInterpolatedStringHandler handler)
-        => this;
-
-    public IJoinBuilder LeftJoin(ref LeftJoinInterpolatedStringHandler handler)
-        => this;
-
-    public IJoinBuilder LeftJoin(bool condition, [InterpolatedStringHandlerArgument(new[] { "condition", "" })] ref LeftJoinInterpolatedStringHandler handler)
-        => this;
-
-    public IJoinBuilder RightJoin(ref RightJoinInterpolatedStringHandler handler)
-        => this;
-
-    public IJoinBuilder RightJoin(bool condition, [InterpolatedStringHandlerArgument(new[] { "condition", "" })] ref RightJoinInterpolatedStringHandler handler)
-        => this;
-
-    public IOrderByBuilder GroupBy([InterpolatedStringHandlerArgument("")] ref GroupByInterpolatedStringHandler handler)
-        => this;
-
-    public IOrderByBuilder GroupBy(bool condition, [InterpolatedStringHandlerArgument(new[] { "condition", "" })] ref GroupByInterpolatedStringHandler handler)
-        => this;
-
-    public IHavingBuilder Having([InterpolatedStringHandlerArgument("")] ref HavingInterpolatedStringHandler handler)
-        => this;
-
-    public IHavingBuilder Having(bool condition, [InterpolatedStringHandlerArgument(new[] { "condition", "" })] ref HavingInterpolatedStringHandler handler)
-        => this;
-
-    public IOrderByBuilder OrderBy([InterpolatedStringHandlerArgument("")] ref OrderByInterpolatedStringHandler handler)
-        => this;
-
-    public IOrderByBuilder OrderBy(bool condition, [InterpolatedStringHandlerArgument(new[] { "condition", "" })] ref OrderByInterpolatedStringHandler handler)
-        => this;
-#else
-
-    public IDeleteBuilder DeleteFrom(FormattableString formattable)
+    private string Format<T>(T value, string? format = null)
     {
-        FormatValue(formattable, Clause.Delete);
-        return this;
-    }
-
-    public IInsertBuilder InsertInto(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.Insert);
-        return this;
-    }
-
-    public IInsertBuilder Values(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.InsertValue);
-        return this;
-    }
-
-    public ISelectBuilder Select(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.Select);
-        return this;
-    }
-
-    public ISelectDistinctBuilder SelectDistinct(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.SelectDistinct);
-        return this;
-    }
-
-    public ISelectFromBuilder From(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.SelectFrom);
-        return this;
-    }
-
-    public IWhereBuilder Or(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.WhereOr);
-        return this;
-    }
-
-    public IWhereBuilder Or(bool condition, FormattableString formattable)
-    {
-        if (condition)
+        if (value is FormattableString formattableString)
         {
-            FormatValue(formattable, Clause.WhereOr);
+            return formattableString.ArgumentCount == 0
+                ? formattableString.Format
+                : string.Format(this, formattableString.Format, formattableString.GetArguments());
         }
 
-        return this;
-    }
-
-    public IJoinBuilder InnerJoin(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.InnerJoin);
-        return this;
-    }
-
-    public IJoinBuilder InnerJoin(bool condition, FormattableString formattable)
-    {
-        if (condition)
+        if (Constants.RawFormat.Equals(format, StringComparison.OrdinalIgnoreCase))
         {
-            FormatValue(formattable, Clause.InnerJoin);
+            return value?.ToString() ?? string.Empty;
         }
 
-        return this;
-    }
-
-    public IJoinBuilder LeftJoin(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.LeftJoin);
-        return this;
-    }
-
-    public IJoinBuilder LeftJoin(bool condition, FormattableString formattable)
-    {
-        if (condition)
+        if ((value is null or not SimpleParameterInfo) && !reuseParameters)
         {
-            FormatValue(formattable, Clause.LeftJoin);
+            return AddValueToParameters(value);
         }
 
-        return this;
-    }
-
-    public IJoinBuilder RightJoin(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.RightJoin);
-        return this;
-    }
-
-    public IJoinBuilder RightJoin(bool condition, FormattableString formattable)
-    {
-        if (condition)
+        if (value is SimpleParameterInfo parameterInfo)
         {
-            FormatValue(formattable, Clause.RightJoin);
+            return AddParameterInfoToParameters(parameterInfo);
         }
 
-        return this;
+        parameterInfo = new SimpleParameterInfo(value);
+        return AddParameterInfoToParameters(parameterInfo);
     }
 
-    public IGroupByBuilder GroupBy(FormattableString formattable)
+    private string AddValueToParameters<T>(T value)
     {
-        FormatValue(formattable, Clause.GroupBy);
-        return this;
+        var parameterName = GetNextParameterName();
+        parameters.Add(parameterName, value, direction: System.Data.ParameterDirection.Input);
+        return AppendParameterPrefix(parameterName);
     }
 
-    public IGroupByBuilder GroupBy(bool condition, FormattableString formattable)
+    private string AddParameterInfoToParameters(SimpleParameterInfo parameterInfo)
     {
-        if (condition)
+        parameterDictionary ??= new(SimpleParameterInfoComparer.StaticInstance);
+
+        if (parameterDictionary.TryGetValue(parameterInfo, out var dbPrefixedParameterName))
         {
-            FormatValue(formattable, Clause.GroupBy);
+            return dbPrefixedParameterName;
         }
 
-        return this;
-    }
-
-    public IHavingBuilder Having(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.Having);
-        return this;
-    }
-
-    public IHavingBuilder Having(bool condition, FormattableString formattable)
-    {
-        if (condition)
+        if (!parameterInfo.HasName)
         {
-            FormatValue(formattable, Clause.Having);
+            parameterInfo.SetName(GetNextParameterName());
         }
 
-        return this;
-    }
+        parameters.Add(parameterInfo.Name, parameterInfo.Value, parameterInfo.DbType, parameterInfo.Direction, parameterInfo.Size, parameterInfo.Precision, parameterInfo.Scale);
 
-    public IOrderByBuilder OrderBy(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.OrderBy);
-        return this;
-    }
+        dbPrefixedParameterName = AppendParameterPrefix(parameterInfo.Name!);
 
-    public IOrderByBuilder OrderBy(bool condition, FormattableString formattable)
-    {
-        if (condition)
+        if (parameterInfo.HasValue)
         {
-            FormatValue(formattable, Clause.OrderBy);
+            parameterDictionary[parameterInfo] = dbPrefixedParameterName;
         }
 
-        return this;
+        return dbPrefixedParameterName;
     }
 
-    public IWhereBuilder Where(FormattableString formattable)
-    {
-        FormatValue(formattable, Clause.Where);
-        return this;
-    }
+    private string GetNextParameterName()
+        => $"{parameterNameTemplate}{paramCount++}";
 
-    public IWhereBuilder Where(bool condition, FormattableString formattable)
+    private string AppendParameterPrefix(string parameterName)
+        => parameterPrefix + parameterName;
+
+    private void AppendClause(ClauseAction clauseAction)
     {
-        if (condition)
+        if (clauseAction == ClauseAction.None)
         {
-            FormatValue(formattable, Clause.Where);
+            return;
         }
 
-        return this;
+        switch (clauseAction)
+        {
+            case ClauseAction.Delete:
+                AppendDelete();
+                break;
+
+            case ClauseAction.Insert:
+                AppendInsert();
+                break;
+
+            case ClauseAction.Insert_Value:
+                AppendInsertValue();
+                break;
+
+            case ClauseAction.Select:
+            case ClauseAction.Select_Distinct:
+                AppendSelect(clauseAction);
+                break;
+
+            case ClauseAction.Select_From:
+                AppendSelectFrom();
+                break;
+
+            case ClauseAction.Update:
+                AppendUpdate();
+                break;
+
+            case ClauseAction.Update_Set:
+                AppendUpdateSet();
+                break;
+
+            case ClauseAction.Where:
+                AppendWhere();
+                break;
+
+            case ClauseAction.Where_Filter:
+                AppendWhere(true);
+                break;
+
+            case ClauseAction.Where_Or:
+                AppendWhereOr();
+                break;
+
+            case ClauseAction.Where_With_Filter:
+            case ClauseAction.Where_With_Or_Filter:
+                AppendWhereWithFilter(clauseAction);
+                break;
+
+            case ClauseAction.Where_Or_Filter:
+                AppendWhereOr(true);
+                break;
+
+            case ClauseAction.InnerJoin:
+            case ClauseAction.LeftJoin:
+            case ClauseAction.RightJoin:
+                AppendJoin(clauseAction);
+                break;
+
+            case ClauseAction.GroupBy:
+                AppendGroupBy();
+                break;
+
+            case ClauseAction.Having:
+                AppendHaving();
+                break;
+
+            case ClauseAction.OrderBy:
+                AppendOrderBy();
+                break;
+        }
+
+        if (pendingWhereFilter is not ClauseAction.None)
+        {
+            pendingWhereFilter = ClauseAction.None;
+        }
     }
 
-#endif
-
-    public IFluentBuilder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null)
+    private void AppendDelete()
     {
-        parameters.Add(name, value, dbType, direction, size, precision, scale);
-        return this;
+        if (clauseActions.Contains(ClauseAction.Delete))
+        {
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.Delete);
+        stringBuilder
+            .Append(useLowerCaseClauses ? ClauseConstants.Delete.Lower : ClauseConstants.Delete.Upper)
+            .Append(ClauseConstants.Space);
     }
 
-    public T GetValue<T>(string parameterName)
-        => parameters.Get<T>(parameterName);
+    private void AppendInsert()
+    {
+        if (clauseActions.Contains(ClauseAction.Insert))
+        {
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.Insert);
+        stringBuilder
+            .Append(useLowerCaseClauses ? ClauseConstants.Insert.Lower : ClauseConstants.Insert.Upper)
+            .Append(ClauseConstants.Space);
+    }
+
+    private void AppendInsertValue()
+    {
+        hasOpenParentheses = true;
+
+        if (clauseActions.Contains(ClauseAction.Insert_Value))
+        {
+            stringBuilder.Length--;
+
+            stringBuilder
+                .Append(ClauseConstants.Insert.ValuesSeperator)
+                .Append(ClauseConstants.Space);
+
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.Insert_Value);
+        stringBuilder
+            .Append(useLowerCaseClauses ? ClauseConstants.Insert.ValuesLower : ClauseConstants.Insert.Values)
+            .Append(ClauseConstants.Space)
+            .Append(ClauseConstants.OpenParentheses);
+    }
+
+    private void AppendSelect(ClauseAction clauseAction)
+    {
+        if (clauseAction is not ClauseAction.Select and not ClauseAction.Select_Distinct)
+        {
+            throw new ArgumentException($"The clause argument ({clauseAction}) is invalid for this method.", nameof(clauseAction));
+        }
+
+        if (clauseActions.Contains(clauseAction))
+        {
+            stringBuilder
+                .Append(ClauseConstants.Select.Seperator)
+                .Append(ClauseConstants.Space);
+
+            return;
+        }
+
+        switch (clauseAction)
+        {
+            case ClauseAction.Select:
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Select.Lower : ClauseConstants.Select.Upper);
+                break;
+
+            case ClauseAction.Select_Distinct:
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Select.DistinctLower : ClauseConstants.Select.DistinctUpper);
+                break;
+        }
+
+        clauseActions.Add(clauseAction);
+        stringBuilder.Append(ClauseConstants.Space);
+    }
+
+    private void AppendSelectFrom()
+    {
+        if (clauseActions.Contains(ClauseAction.Select_From))
+        {
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.Select_From);
+        stringBuilder
+            .AppendLine()
+            .Append(useLowerCaseClauses ? ClauseConstants.Select.FromLower : ClauseConstants.Select.FromUpper)
+            .Append(ClauseConstants.Space);
+    }
+
+    private void AppendUpdate()
+    {
+        if (clauseActions.Contains(ClauseAction.Update))
+        {
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.Update);
+        stringBuilder
+            .Append(useLowerCaseClauses ? ClauseConstants.Update.Lower : ClauseConstants.Update.Upper)
+            .Append(ClauseConstants.Space);
+    }
+
+    private void AppendUpdateSet()
+    {
+        if (clauseActions.Contains(ClauseAction.Update_Set))
+        {
+            stringBuilder
+                .Append(ClauseConstants.Update.SetSeperator)
+                .Append(ClauseConstants.Space);
+
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.Update_Set);
+        stringBuilder
+            .AppendLine()
+            .Append(useLowerCaseClauses ? ClauseConstants.Update.SetLower : ClauseConstants.Update.SetUpper);
+    }
+
+    private void AppendWhere(bool isFilter = false)
+    {
+        if (clauseActions.Contains(ClauseAction.Where))
+        {
+            stringBuilder
+                .Append(ClauseConstants.Space)
+                .Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeperatorLower : ClauseConstants.Where.AndSeperator);
+        }
+        else
+        {
+            clauseActions.Add(ClauseAction.Where);
+            stringBuilder
+                .AppendLine()
+                .Append(useLowerCaseClauses ? ClauseConstants.Where.Lower : ClauseConstants.Where.Upper);
+        }
+
+        stringBuilder.Append(ClauseConstants.Space);
+
+        if (isFilter)
+        {
+            stringBuilder.Append(ClauseConstants.OpenParentheses);
+            hasOpenParentheses = true;
+        }
+    }
+
+    private void AppendWhereOr(bool isFilter = false)
+    {
+        if (!clauseActions.Contains(ClauseAction.Where))
+        {
+            AppendWhere(isFilter);
+            return;
+        }
+
+        if (!clauseActions.Contains(ClauseAction.Where_Or))
+        {
+            clauseActions.Add(ClauseAction.Where_Or);
+        }
+
+        stringBuilder
+            .Append(ClauseConstants.Space)
+            .Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeperatorLower : ClauseConstants.Where.OrSeperator)
+            .Append(ClauseConstants.Space);
+
+        if (isFilter)
+        {
+            stringBuilder.Append(ClauseConstants.OpenParentheses);
+            hasOpenParentheses = true;
+        }
+    }
+
+    private void AppendWhereWithFilter(ClauseAction clauseAction)
+    {
+        if (clauseAction is not ClauseAction.Where_With_Filter and not ClauseAction.Where_With_Or_Filter)
+        {
+            throw new ArgumentException($"The clause argument ({clauseAction}) is invalid for this method.", nameof(clauseAction));
+        }
+
+        if (clauseAction is ClauseAction.Where_With_Filter && pendingWhereFilter is not ClauseAction.None)
+        {
+            switch (pendingWhereFilter)
+            {
+                case ClauseAction.Where_Filter:
+                    AppendWhere(true);
+                    break;
+
+                case ClauseAction.Where_Or_Filter:
+                    AppendWhereOr(true);
+                    break;
+
+                default:
+                    throw new InvalidOperationException($"The pending where filter ({pendingWhereFilter}) is invalid.");
+            }
+
+            return;
+        }
+
+        if (!clauseActions.Contains(clauseAction))
+        {
+            clauseActions.Add(clauseAction);
+        }
+
+        stringBuilder.Length--;
+        stringBuilder.Append(ClauseConstants.Space);
+
+        switch (clauseAction)
+        {
+            case ClauseAction.Where_With_Filter:
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeperatorLower : ClauseConstants.Where.AndSeperator);
+                break;
+
+            case ClauseAction.Where_With_Or_Filter:
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeperatorLower : ClauseConstants.Where.OrSeperator);
+                break;
+        }
+
+        stringBuilder.Append(ClauseConstants.Space);
+        hasOpenParentheses = true;
+    }
+
+    private void AppendJoin(ClauseAction clauseAction)
+    {
+        if (clauseAction is not ClauseAction.InnerJoin and not ClauseAction.LeftJoin and not ClauseAction.RightJoin)
+        {
+            throw new ArgumentException($"The clause argument ({clauseAction}) is invalid for this method.", nameof(clauseAction));
+        }
+
+        if (!clauseActions.Contains(clauseAction))
+        {
+            clauseActions.Add(clauseAction);
+        }
+
+        stringBuilder.AppendLine();
+
+        switch (clauseAction)
+        {
+            case ClauseAction.InnerJoin:
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.LowerInnerJoin : ClauseConstants.Join.UpperInnerJoin);
+                break;
+
+            case ClauseAction.LeftJoin:
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.LowerLeftJoin : ClauseConstants.Join.LowerLeftJoin);
+                break;
+
+            case ClauseAction.RightJoin:
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.LowerRightJoin : ClauseConstants.Join.LowerRightJoin);
+                break;
+        }
+
+        stringBuilder.Append(ClauseConstants.Space);
+    }
+
+    private void AppendGroupBy()
+    {
+        if (clauseActions.Contains(ClauseAction.GroupBy))
+        {
+            stringBuilder
+                .Append(ClauseConstants.GroupBy.Seperator)
+                .Append(ClauseConstants.Space);
+
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.GroupBy);
+        stringBuilder
+            .AppendLine()
+            .Append(useLowerCaseClauses ? ClauseConstants.GroupBy.Lower : ClauseConstants.GroupBy.Upper)
+            .Append(ClauseConstants.Space);
+    }
+
+    private void AppendOrderBy()
+    {
+        if (clauseActions.Contains(ClauseAction.OrderBy))
+        {
+            stringBuilder
+                .Append(ClauseConstants.OrderBy.Seperator)
+                .Append(ClauseConstants.Space);
+
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.OrderBy);
+        stringBuilder
+            .AppendLine()
+            .Append(useLowerCaseClauses ? ClauseConstants.OrderBy.Lower : ClauseConstants.OrderBy.Upper)
+            .Append(ClauseConstants.Space);
+    }
+
+    private void AppendHaving()
+    {
+        if (clauseActions.Contains(ClauseAction.Having))
+        {
+            stringBuilder
+                .Append(ClauseConstants.Having.Seperator)
+                .Append(ClauseConstants.Space);
+
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.Having);
+        stringBuilder
+            .AppendLine()
+            .Append(useLowerCaseClauses ? ClauseConstants.Having.Lower : ClauseConstants.Having.Upper)
+            .Append(ClauseConstants.Space);
+    }
+
+    private void CloseOpenParentheses()
+    {
+        if (!hasOpenParentheses)
+        {
+            return;
+        }
+
+        stringBuilder.Append(ClauseConstants.CloseParentheses);
+        hasOpenParentheses = false;
+    }
 }

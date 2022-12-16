@@ -3,28 +3,27 @@
 namespace Dapper.SimpleSqlBuilder;
 
 [InterpolatedStringHandler]
-public ref struct HavingInterpolatedStringHandler
+public ref struct WhereWithOrFilterInterpolatedStringHandler
 {
     private readonly IFluentSqlFormatter? formatter;
 
-    internal HavingInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder, out bool isHandlerEnabled)
+    internal WhereWithOrFilterInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder, out bool isHandlerEnabled)
         : this(literalLength, formattedCount, true, builder, out isHandlerEnabled)
     {
     }
 
-    internal HavingInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentBuilder builder, out bool isHandlerEnabled)
+    internal WhereWithOrFilterInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentBuilder builder, out bool isHandlerEnabled)
     {
-        formatter = (IFluentSqlFormatter)builder;
-
-        if (!condition || !formatter.IsClauseActionEnabled(ClauseAction.Having))
+        if (!condition)
         {
             formatter = default;
             isHandlerEnabled = false;
             return;
         }
 
+        formatter = (IFluentSqlFormatter)builder;
         isHandlerEnabled = true;
-        formatter.StartClauseAction(ClauseAction.Having);
+        formatter.StartClauseAction(ClauseAction.Where_With_Or_Filter);
     }
 
     internal void AppendLiteral(string value)
@@ -37,6 +36,7 @@ public ref struct HavingInterpolatedStringHandler
         => formatter?.FormatParameter(value, format);
 
     internal void Close()
-        => formatter?.EndClauseAction(ClauseAction.Having);
+        => formatter?.EndClauseAction(ClauseAction.Where_With_Or_Filter);
 }
+
 #endif
