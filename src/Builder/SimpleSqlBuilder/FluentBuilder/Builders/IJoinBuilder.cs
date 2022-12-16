@@ -1,6 +1,6 @@
 ﻿namespace Dapper.SimpleSqlBuilder;
 
-public interface IJoinBuilder : IWhereBuilderEntry, IGroupByBuilder
+public interface IJoinBuilder : IWhereBuilderEntry
 {
 #if NET6_0_OR_GREATER
     IJoinBuilder InnerJoin(ref InnerJoinInterpolatedStringHandler handler);

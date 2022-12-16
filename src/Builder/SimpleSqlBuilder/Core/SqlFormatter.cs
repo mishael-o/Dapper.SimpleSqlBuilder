@@ -2,8 +2,6 @@
 
 internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 {
-    private static readonly SimpleParameterInfoComparer Comparer = new();
-
     private readonly DynamicParameters parameters;
     private readonly string parameterNameTemplate;
     private readonly string parameterPrefix;
@@ -73,7 +71,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 
     private string AddParameterInfoToParameters(SimpleParameterInfo parameterInfo)
     {
-        parameterDictionary ??= new(Comparer);
+        parameterDictionary ??= new(SimpleParameterInfoComparer.StaticInstance);
 
         if (parameterDictionary.TryGetValue(parameterInfo, out var dbPrefixedParameterName))
         {

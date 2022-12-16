@@ -3,14 +3,14 @@
 namespace Dapper.SimpleSqlBuilder;
 
 [InterpolatedStringHandler]
-public ref struct InsertValueInterpolatedStringHandler
+public ref struct WhereOrFilterInterpolatedStringHandler
 {
     private readonly IFluentSqlFormatter formatter;
 
-    internal InsertValueInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
+    internal WhereOrFilterInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
     {
         formatter = (IFluentSqlFormatter)builder;
-        formatter.StartClauseAction(ClauseAction.Insert_Value);
+        formatter.StartClauseAction(ClauseAction.Where_Or_Filter);
     }
 
     internal void AppendLiteral(string value)
@@ -23,6 +23,7 @@ public ref struct InsertValueInterpolatedStringHandler
         => formatter.FormatParameter(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.Insert_Value);
+        => formatter.EndClauseAction(ClauseAction.Where_Or_Filter);
 }
+
 #endif
