@@ -16,7 +16,7 @@ public ref struct OrderByInterpolatedStringHandler
     {
         formatter = (IFluentSqlFormatter)builder;
 
-        if (!condition || !formatter.IsClauseActionEnabled(ClauseAction.OrderBy))
+        if (!(condition && formatter.IsClauseActionEnabled(ClauseAction.OrderBy)))
         {
             formatter = default;
             isHandlerEnabled = false;

@@ -10,7 +10,7 @@ public ref struct SelectFromInterpolatedStringHandler
     internal SelectFromInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
     {
         formatter = (IFluentSqlFormatter)builder;
-        formatter.StartClauseAction(ClauseAction.Select_From);
+        formatter.StartClauseAction(ClauseAction.SelectFrom);
     }
 
     internal void AppendLiteral(string value)
@@ -23,6 +23,6 @@ public ref struct SelectFromInterpolatedStringHandler
         => formatter.FormatParameter(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.Select_From);
+        => formatter.EndClauseAction(ClauseAction.SelectFrom);
 }
 #endif

@@ -3,9 +3,9 @@
 namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// <see cref="ISimpleFluentBuilder"/> implementation for <see cref="SimpleFluentBuilder"/> partial class.
+/// <see cref="ISimpleFluentBuilder"/> implementation for <see cref="FluentSqlBuilder"/> partial class.
 /// </summary>
-internal partial class SimpleFluentBuilder : ISimpleFluentBuilder
+internal partial class FluentSqlBuilder : ISimpleFluentBuilder
 {
     public string Sql
         => stringBuilder.ToString();
@@ -202,16 +202,16 @@ internal partial class SimpleFluentBuilder : ISimpleFluentBuilder
         => FormatFormattable(ClauseAction.Insert, formattable);
 
     public IInsertBuilder Values(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Insert_Value, formattable);
+        => FormatFormattable(ClauseAction.InsertValue, formattable);
 
     public ISelectBuilder Select(FormattableString formattable)
         => FormatFormattable(ClauseAction.Select, formattable);
 
     public ISelectDistinctBuilder SelectDistinct(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Select_Distinct, formattable);
+        => FormatFormattable(ClauseAction.SelectDistinct, formattable);
 
     public ISelectFromBuilder From(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Select_From, formattable);
+        => FormatFormattable(ClauseAction.SelectFrom, formattable);
 
     public IJoinBuilder InnerJoin(FormattableString formattable)
         => FormatFormattable(ClauseAction.InnerJoin, formattable);
@@ -238,28 +238,28 @@ internal partial class SimpleFluentBuilder : ISimpleFluentBuilder
         => FormatFormattable(ClauseAction.Where, formattable, condition);
 
     public IWhereBuilder OrWhere(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Where_Or, formattable);
+        => FormatFormattable(ClauseAction.WhereOr, formattable);
 
     public IWhereBuilder OrWhere(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.Where_Or, formattable, condition);
+        => FormatFormattable(ClauseAction.WhereOr, formattable, condition);
 
     public IWhereFilter WhereFilter(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Where_Filter, formattable);
+        => FormatFormattable(ClauseAction.WhereFilter, formattable);
 
     public IWhereFilter OrWhereFilter(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Where_Or_Filter, formattable);
+        => FormatFormattable(ClauseAction.WhereOrFilter, formattable);
 
     public IWhereFilter WithFilter(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Where_With_Filter, formattable);
+        => FormatFormattable(ClauseAction.WhereWithFilter, formattable);
 
     public IWhereFilter WithFilter(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.Where_With_Filter, formattable, condition);
+        => FormatFormattable(ClauseAction.WhereWithFilter, formattable, condition);
 
     public IWhereFilter WithOrFilter(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Where_With_Or_Filter, formattable);
+        => FormatFormattable(ClauseAction.WhereWithOrFilter, formattable);
 
     public IWhereFilter WithOrFilter(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.Where_With_Or_Filter, formattable, condition);
+        => FormatFormattable(ClauseAction.WhereWithOrFilter, formattable, condition);
 
     public IGroupByBuilder GroupBy(FormattableString formattable)
         => FormatFormattable(ClauseAction.GroupBy, formattable);
@@ -297,13 +297,13 @@ internal partial class SimpleFluentBuilder : ISimpleFluentBuilder
 
     public IWhereFilterEntry WhereFilter()
     {
-        pendingWhereFilter = ClauseAction.Where_Filter;
+        pendingWhereFilter = ClauseAction.WhereFilter;
         return this;
     }
 
     public IWhereFilterEntry OrWhereFilter()
     {
-        pendingWhereFilter = ClauseAction.Where_Or_Filter;
+        pendingWhereFilter = ClauseAction.WhereOrFilter;
         return this;
     }
 }

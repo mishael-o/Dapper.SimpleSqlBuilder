@@ -33,6 +33,6 @@ internal sealed class InternalSimpleBuilder : ISimpleBuilder
         reuseParameters ??= options.Value.ReuseParameters;
         useLowerCaseClauses ??= options.Value.UseLowerCaseClauses;
 
-        return new SimpleFluentBuilder(options.Value.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, useLowerCaseClauses.Value);
+        return new FluentSqlBuilder(options.Value.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, useLowerCaseClauses.Value);
     }
 }

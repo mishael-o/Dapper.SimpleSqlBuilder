@@ -16,7 +16,7 @@ public ref struct HavingInterpolatedStringHandler
     {
         formatter = (IFluentSqlFormatter)builder;
 
-        if (!condition || !formatter.IsClauseActionEnabled(ClauseAction.Having))
+        if (!(condition && formatter.IsClauseActionEnabled(ClauseAction.Having)))
         {
             formatter = default;
             isHandlerEnabled = false;

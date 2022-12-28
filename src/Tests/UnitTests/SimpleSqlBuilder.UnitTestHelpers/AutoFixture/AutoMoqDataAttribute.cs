@@ -11,5 +11,6 @@ public sealed class AutoMoqDataAttribute : AutoDataAttribute
     }
 
     public bool ConfigureMembers { get; }
+
     public bool GenerateDelegates { get; }
 }

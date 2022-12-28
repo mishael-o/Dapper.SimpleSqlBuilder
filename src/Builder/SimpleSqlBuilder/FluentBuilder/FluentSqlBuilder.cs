@@ -3,9 +3,9 @@
 namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// Core <see cref="SimpleFluentBuilder"/> partial class.
+/// Core <see cref="FluentSqlBuilder"/> partial class.
 /// </summary>
-internal partial class SimpleFluentBuilder
+internal partial class FluentSqlBuilder
 {
     private readonly bool reuseParameters;
     private readonly string parameterPrefix;
@@ -20,7 +20,7 @@ internal partial class SimpleFluentBuilder
     private ClauseAction pendingWhereFilter;
     private Dictionary<SimpleParameterInfo, string>? parameterDictionary;
 
-    public SimpleFluentBuilder(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
+    public FluentSqlBuilder(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
     {
         this.parameterNameTemplate = parameterNameTemplate;
         this.parameterPrefix = parameterPrefix;
@@ -112,16 +112,16 @@ internal partial class SimpleFluentBuilder
                 AppendInsert();
                 break;
 
-            case ClauseAction.Insert_Value:
+            case ClauseAction.InsertValue:
                 AppendInsertValue();
                 break;
 
             case ClauseAction.Select:
-            case ClauseAction.Select_Distinct:
+            case ClauseAction.SelectDistinct:
                 AppendSelect(clauseAction);
                 break;
 
-            case ClauseAction.Select_From:
+            case ClauseAction.SelectFrom:
                 AppendSelectFrom();
                 break;
 
@@ -129,7 +129,7 @@ internal partial class SimpleFluentBuilder
                 AppendUpdate();
                 break;
 
-            case ClauseAction.Update_Set:
+            case ClauseAction.UpdateSet:
                 AppendUpdateSet();
                 break;
 
@@ -137,20 +137,20 @@ internal partial class SimpleFluentBuilder
                 AppendWhere();
                 break;
 
-            case ClauseAction.Where_Filter:
+            case ClauseAction.WhereFilter:
                 AppendWhere(true);
                 break;
 
-            case ClauseAction.Where_Or:
+            case ClauseAction.WhereOr:
                 AppendWhereOr();
                 break;
 
-            case ClauseAction.Where_With_Filter:
-            case ClauseAction.Where_With_Or_Filter:
+            case ClauseAction.WhereWithFilter:
+            case ClauseAction.WhereWithOrFilter:
                 AppendWhereWithFilter(clauseAction);
                 break;
 
-            case ClauseAction.Where_Or_Filter:
+            case ClauseAction.WhereOrFilter:
                 AppendWhereOr(true);
                 break;
 
@@ -209,7 +209,7 @@ internal partial class SimpleFluentBuilder
     {
         hasOpenParentheses = true;
 
-        if (clauseActions.Contains(ClauseAction.Insert_Value))
+        if (clauseActions.Contains(ClauseAction.InsertValue))
         {
             stringBuilder.Length--;
 
@@ -220,7 +220,7 @@ internal partial class SimpleFluentBuilder
             return;
         }
 
-        clauseActions.Add(ClauseAction.Insert_Value);
+        clauseActions.Add(ClauseAction.InsertValue);
         stringBuilder
             .Append(useLowerCaseClauses ? ClauseConstants.Insert.ValuesLower : ClauseConstants.Insert.Values)
             .Append(ClauseConstants.Space)
@@ -229,7 +229,7 @@ internal partial class SimpleFluentBuilder
 
     private void AppendSelect(ClauseAction clauseAction)
     {
-        if (clauseAction is not ClauseAction.Select and not ClauseAction.Select_Distinct)
+        if (clauseAction is not ClauseAction.Select and not ClauseAction.SelectDistinct)
         {
             throw new ArgumentException($"The clause argument ({clauseAction}) is invalid for this method.", nameof(clauseAction));
         }
@@ -249,7 +249,7 @@ internal partial class SimpleFluentBuilder
                 stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Select.Lower : ClauseConstants.Select.Upper);
                 break;
 
-            case ClauseAction.Select_Distinct:
+            case ClauseAction.SelectDistinct:
                 stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Select.DistinctLower : ClauseConstants.Select.DistinctUpper);
                 break;
         }
@@ -260,12 +260,12 @@ internal partial class SimpleFluentBuilder
 
     private void AppendSelectFrom()
     {
-        if (clauseActions.Contains(ClauseAction.Select_From))
+        if (clauseActions.Contains(ClauseAction.SelectFrom))
         {
             return;
         }
 
-        clauseActions.Add(ClauseAction.Select_From);
+        clauseActions.Add(ClauseAction.SelectFrom);
         stringBuilder
             .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.Select.FromLower : ClauseConstants.Select.FromUpper)
@@ -287,7 +287,7 @@ internal partial class SimpleFluentBuilder
 
     private void AppendUpdateSet()
     {
-        if (clauseActions.Contains(ClauseAction.Update_Set))
+        if (clauseActions.Contains(ClauseAction.UpdateSet))
         {
             stringBuilder
                 .Append(ClauseConstants.Update.SetSeperator)
@@ -296,7 +296,7 @@ internal partial class SimpleFluentBuilder
             return;
         }
 
-        clauseActions.Add(ClauseAction.Update_Set);
+        clauseActions.Add(ClauseAction.UpdateSet);
         stringBuilder
             .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.Update.SetLower : ClauseConstants.Update.SetUpper);
@@ -335,9 +335,9 @@ internal partial class SimpleFluentBuilder
             return;
         }
 
-        if (!clauseActions.Contains(ClauseAction.Where_Or))
+        if (!clauseActions.Contains(ClauseAction.WhereOr))
         {
-            clauseActions.Add(ClauseAction.Where_Or);
+            clauseActions.Add(ClauseAction.WhereOr);
         }
 
         stringBuilder
@@ -354,28 +354,26 @@ internal partial class SimpleFluentBuilder
 
     private void AppendWhereWithFilter(ClauseAction clauseAction)
     {
-        if (clauseAction is not ClauseAction.Where_With_Filter and not ClauseAction.Where_With_Or_Filter)
+        if (clauseAction is not ClauseAction.WhereWithFilter and not ClauseAction.WhereWithOrFilter)
         {
             throw new ArgumentException($"The clause argument ({clauseAction}) is invalid for this method.", nameof(clauseAction));
         }
 
-        if (clauseAction is ClauseAction.Where_With_Filter && pendingWhereFilter is not ClauseAction.None)
+        if (pendingWhereFilter is not ClauseAction.None)
         {
             switch (pendingWhereFilter)
             {
-                case ClauseAction.Where_Filter:
+                case ClauseAction.WhereFilter:
                     AppendWhere(true);
-                    break;
+                    return;
 
-                case ClauseAction.Where_Or_Filter:
+                case ClauseAction.WhereOrFilter:
                     AppendWhereOr(true);
-                    break;
+                    return;
 
                 default:
                     throw new InvalidOperationException($"The pending where filter ({pendingWhereFilter}) is invalid.");
             }
-
-            return;
         }
 
         if (!clauseActions.Contains(clauseAction))
@@ -388,11 +386,11 @@ internal partial class SimpleFluentBuilder
 
         switch (clauseAction)
         {
-            case ClauseAction.Where_With_Filter:
+            case ClauseAction.WhereWithFilter:
                 stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeperatorLower : ClauseConstants.Where.AndSeperator);
                 break;
 
-            case ClauseAction.Where_With_Or_Filter:
+            case ClauseAction.WhereWithOrFilter:
                 stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeperatorLower : ClauseConstants.Where.OrSeperator);
                 break;
         }

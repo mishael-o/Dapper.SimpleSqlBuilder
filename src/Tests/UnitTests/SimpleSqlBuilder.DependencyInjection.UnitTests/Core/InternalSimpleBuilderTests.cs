@@ -6,7 +6,7 @@ namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Core;
 public class InternalSimpleBuilderTests
 {
     [Theory]
-    [AutoMoqData(configureMembers: true)]
+    [AutoMoqData(true)]
     internal void Create_NoArgumentsPassed_ReturnsSimpleBuilderBase(InternalSimpleBuilder sut)
     {
         //Act
@@ -60,5 +60,16 @@ public class InternalSimpleBuilderTests
         result.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
         result.Sql.Should().Be(expectedSql);
         result.ParameterNames.Should().HaveCount(1);
+    }
+
+    [Theory]
+    [AutoMoqData(true)]
+    internal void CreateFluent_InitialiseFluentBuilder_ReturnsISimpleFluentBuilder(InternalSimpleBuilder sut)
+    {
+        //Act
+        var result = sut.CreateFluent();
+
+        //Assert
+        result.Should().BeOfType<FluentSqlBuilder>().And.BeAssignableTo<ISimpleFluentBuilder>();
     }
 }

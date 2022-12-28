@@ -16,8 +16,4 @@
         <ProjectReference Include="..\SimpleSqlBuilder.UnitTestHelpers\SimpleSqlBuilder.UnitTestHelpers.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="FluentBuilder\" />
-    </ItemGroup>
-
 </Project>

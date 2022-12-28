@@ -10,7 +10,7 @@ public ref struct WhereOrFilterInterpolatedStringHandler
     internal WhereOrFilterInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
     {
         formatter = (IFluentSqlFormatter)builder;
-        formatter.StartClauseAction(ClauseAction.Where_Or_Filter);
+        formatter.StartClauseAction(ClauseAction.WhereOrFilter);
     }
 
     internal void AppendLiteral(string value)
@@ -23,7 +23,7 @@ public ref struct WhereOrFilterInterpolatedStringHandler
         => formatter.FormatParameter(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.Where_Or_Filter);
+        => formatter.EndClauseAction(ClauseAction.WhereOrFilter);
 }
 
 #endif

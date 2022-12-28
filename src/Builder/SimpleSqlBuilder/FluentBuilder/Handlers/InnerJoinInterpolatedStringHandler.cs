@@ -23,7 +23,7 @@ public ref struct InnerJoinInterpolatedStringHandler
 
         formatter = (IFluentSqlFormatter)builder;
         isHandlerEnabled = true;
-        formatter.StartClauseAction(ClauseAction.Having);
+        formatter.StartClauseAction(ClauseAction.InnerJoin);
     }
 
     internal void AppendLiteral(string value)
@@ -36,7 +36,7 @@ public ref struct InnerJoinInterpolatedStringHandler
         => formatter?.FormatParameter(value, format);
 
     internal void Close()
-        => formatter?.EndClauseAction(ClauseAction.Having);
+        => formatter?.EndClauseAction(ClauseAction.InnerJoin);
 }
 
 #endif
