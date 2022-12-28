@@ -28,6 +28,7 @@
         <InternalsVisibleTo Include="Dapper.SimpleSqlBuilder.UnitTests" />
         <InternalsVisibleTo Include="Dapper.SimpleSqlBuilder.DependencyInjection" />
         <InternalsVisibleTo Include="Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests" />
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 
 </Project>

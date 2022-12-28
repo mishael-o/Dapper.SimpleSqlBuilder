@@ -45,6 +45,10 @@ public static class SimpleBuilder
         reuseParameters ??= SimpleBuilderSettings.ReuseParameters;
         useLowerCaseClauses ??= SimpleBuilderSettings.UseLowerCaseClauses;
 
-        return new SimpleFluentBuilder(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate, parameterPrefix!, reuseParameters.Value, useLowerCaseClauses.Value);
+        return new FluentSqlBuilder(
+            SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate,
+            parameterPrefix!,
+            reuseParameters.Value,
+            useLowerCaseClauses.Value);
     }
 }

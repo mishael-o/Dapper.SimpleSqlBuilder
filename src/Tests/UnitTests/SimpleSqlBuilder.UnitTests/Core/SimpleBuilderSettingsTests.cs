@@ -3,36 +3,8 @@
 [Collection($"~ Run Last - {nameof(SimpleBuilderSettingsTests)}")]
 public class SimpleBuilderSettingsTests
 {
-    [Theory]
-    [InlineData("")]
-    [InlineData(null)]
-    public void Configure_ParameterNameTemplateIsNullOrWhiteSpace_ThrowsArgumentException(string parameterNameTemplate)
-    {
-        //Act
-        Action act = () => SimpleBuilderSettings.Configure(parameterNameTemplate);
-
-        //Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(parameterNameTemplate)}' cannot be null or whitespace.*")
-            .WithParameterName(nameof(parameterNameTemplate));
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData(null)]
-    public void Configure_ParameterPrefixIsNullOrWhiteSpace_ThrowsArgumentException(string parameterPrefix)
-    {
-        //Act
-        Action act = () => SimpleBuilderSettings.Configure(parameterPrefix: parameterPrefix);
-
-        //Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(parameterPrefix)}' cannot be null or whitespace.*")
-            .WithParameterName(nameof(parameterPrefix));
-    }
-
     [Fact]
-    public void Configure_DefaultValues_ReturnsVoid()
+    public void Configure_NoArgumentsPassed_ReturnsVoid()
     {
         //Act
         SimpleBuilderSettings.Configure();
@@ -44,15 +16,16 @@ public class SimpleBuilderSettingsTests
     }
 
     [Theory]
-    [InlineData("param", ":", true)]
-    public void Configure_ConfigureSettings_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters)
+    [InlineData("param", ":", true, true)]
+    public void Configure_ConfigureSettings_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
     {
         //Act
-        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters);
+        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters, useLowerCaseClauses);
 
         //Assert
         SimpleBuilderSettings.DatabaseParameterNameTemplate.Should().Be(parameterNameTemplate);
         SimpleBuilderSettings.DatabaseParameterPrefix.Should().Be(parameterPrefix);
         SimpleBuilderSettings.ReuseParameters.Should().Be(reuseParameters);
+        SimpleBuilderSettings.UseLowerCaseClauses.Should().Be(useLowerCaseClauses);
     }
 }

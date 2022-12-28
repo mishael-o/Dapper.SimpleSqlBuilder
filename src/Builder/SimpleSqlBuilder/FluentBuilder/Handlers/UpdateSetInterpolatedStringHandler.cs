@@ -10,7 +10,7 @@ public ref struct UpdateSetInterpolatedStringHandler
     internal UpdateSetInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
     {
         formatter = (IFluentSqlFormatter)builder;
-        formatter.StartClauseAction(ClauseAction.Update_Set);
+        formatter.StartClauseAction(ClauseAction.UpdateSet);
     }
 
     internal void AppendLiteral(string value)
@@ -23,6 +23,6 @@ public ref struct UpdateSetInterpolatedStringHandler
         => formatter.FormatParameter(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.Update_Set);
+        => formatter.EndClauseAction(ClauseAction.UpdateSet);
 }
 #endif

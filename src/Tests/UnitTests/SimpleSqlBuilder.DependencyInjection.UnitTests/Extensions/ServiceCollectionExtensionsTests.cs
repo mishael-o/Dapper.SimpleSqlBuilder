@@ -36,6 +36,7 @@ public class ServiceCollectionExtensionsTests
         configuredOptions!.Value.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
         configuredOptions.Value.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
         configuredOptions.Value.ReuseParameters.Should().Be(SimpleBuilderSettings.DefaultReuseParameters);
+        configuredOptions.Value.UseLowerCaseClauses.Should().Be(SimpleBuilderSettings.DefaultUseLowerCaseClauses);
     }
 
     [Theory]
@@ -43,7 +44,7 @@ public class ServiceCollectionExtensionsTests
     public void AddSimpleSqlBuilder_CustomConfiguration_ReturnsIServiceCollection(ServiceLifetime serviceLifetime, ServiceCollection sut)
     {
         //Arrange
-        var options = new SimpleBuilderOptions { DatabaseParameterNameTemplate = "myParam", DatabaseParameterPrefix = ":", ReuseParameters = true };
+        var options = new SimpleBuilderOptions { DatabaseParameterNameTemplate = "myParam", DatabaseParameterPrefix = ":", ReuseParameters = true, UseLowerCaseClauses = true };
 
         //Act
         sut.AddSimpleSqlBuilder(serviceLifetime, configure =>
@@ -51,6 +52,7 @@ public class ServiceCollectionExtensionsTests
             configure.DatabaseParameterNameTemplate = options.DatabaseParameterNameTemplate;
             configure.DatabaseParameterPrefix = options.DatabaseParameterPrefix;
             configure.ReuseParameters = options.ReuseParameters;
+            configure.UseLowerCaseClauses = options.UseLowerCaseClauses;
         });
 
         var provider = sut.BuildServiceProvider();
@@ -63,8 +65,10 @@ public class ServiceCollectionExtensionsTests
         configuredOptions.Value.DatabaseParameterNameTemplate.Should().Be(options.DatabaseParameterNameTemplate);
         configuredOptions.Value.DatabaseParameterPrefix.Should().Be(options.DatabaseParameterPrefix);
         configuredOptions.Value.ReuseParameters.Should().Be(options.ReuseParameters);
+        configuredOptions.Value.UseLowerCaseClauses.Should().Be(options.UseLowerCaseClauses);
         SimpleBuilderSettings.DatabaseParameterNameTemplate.Should().Be(options.DatabaseParameterNameTemplate);
         SimpleBuilderSettings.DatabaseParameterPrefix.Should().Be(options.DatabaseParameterPrefix);
         SimpleBuilderSettings.ReuseParameters.Should().Be(options.ReuseParameters);
+        SimpleBuilderSettings.UseLowerCaseClauses.Should().Be(options.UseLowerCaseClauses);
     }
 }

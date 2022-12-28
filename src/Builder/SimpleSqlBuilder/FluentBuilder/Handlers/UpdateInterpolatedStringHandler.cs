@@ -14,7 +14,7 @@ public ref struct UpdateInterpolatedStringHandler
     }
 
     internal void AppendLiteral(string value)
-        => formatter?.FormatLiteral(value);
+        => formatter.FormatLiteral(value);
 
     internal void AppendFormatted<T>(T value)
         => AppendFormatted(value, null);

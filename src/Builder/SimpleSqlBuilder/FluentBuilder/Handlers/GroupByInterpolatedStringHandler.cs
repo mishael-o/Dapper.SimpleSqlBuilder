@@ -16,7 +16,7 @@ public ref struct GroupByInterpolatedStringHandler
     {
         formatter = (IFluentSqlFormatter)builder;
 
-        if (!condition || !formatter.IsClauseActionEnabled(ClauseAction.GroupBy))
+        if (!(condition && formatter.IsClauseActionEnabled(ClauseAction.GroupBy)))
         {
             formatter = default;
             isHandlerEnabled = false;

@@ -10,7 +10,7 @@ public ref struct InsertValueInterpolatedStringHandler
     internal InsertValueInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
     {
         formatter = (IFluentSqlFormatter)builder;
-        formatter.StartClauseAction(ClauseAction.Insert_Value);
+        formatter.StartClauseAction(ClauseAction.InsertValue);
     }
 
     internal void AppendLiteral(string value)
@@ -23,6 +23,6 @@ public ref struct InsertValueInterpolatedStringHandler
         => formatter.FormatParameter(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.Insert_Value);
+        => formatter.EndClauseAction(ClauseAction.InsertValue);
 }
 #endif

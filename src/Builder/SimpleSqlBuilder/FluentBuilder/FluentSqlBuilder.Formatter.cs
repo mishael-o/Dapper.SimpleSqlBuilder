@@ -1,9 +1,9 @@
 ﻿namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// <see cref="IFormatProvider"/>, <see cref="ICustomFormatter"/> and <see cref="IFluentSqlFormatter"/> for <see cref="SimpleFluentBuilder"/> partial class.
+/// Implementation of <see cref="IFluentSqlFormatter"/> for <see cref="FluentSqlBuilder"/> partial class.
 /// </summary>
-internal partial class SimpleFluentBuilder : IFormatProvider, ICustomFormatter, IFluentSqlFormatter
+internal partial class FluentSqlBuilder : IFluentSqlFormatter
 {
     public object? GetFormat(Type? formatType)
     {

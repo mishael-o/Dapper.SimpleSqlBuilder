@@ -20,7 +20,7 @@ public ref struct DeleteInterpolatedStringHandler
         => AppendFormatted(value, null);
 
     internal void AppendFormatted<T>(T value, string? format)
-        => formatter.FormatParameter(value,  format);
+        => formatter.FormatParameter(value, format);
 
     internal void Close()
         => formatter.EndClauseAction(ClauseAction.Delete);

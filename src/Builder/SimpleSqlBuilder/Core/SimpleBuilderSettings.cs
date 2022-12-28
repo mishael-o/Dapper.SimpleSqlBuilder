@@ -31,7 +31,7 @@ public static class SimpleBuilderSettings
     public static bool UseLowerCaseClauses { get; private set; } = DefaultUseLowerCaseClauses;
 
     /// <summary>
-    /// Configures the Simple builder settings.
+    /// Configures the Simple builder settings. Null or empty arguments will be ignored.
     /// </summary>
     /// <param name="parameterNameTemplate">
     /// The parameter name template used to create the parameter names for the generated sql. The default is "p" so the parameter names will be generated as p0, p1, etc.
@@ -49,26 +49,26 @@ public static class SimpleBuilderSettings
     /// The value indicating whether to use lower case clauses for the fluent builder. The default value is <see langword="false"/> meaning sql clauses will be in upper cases. i.e. SELECT, UPDATE, etc.
     /// <para>Example: If set to <see langword="true"/> sql clauses will be in lower cases i.e. select, update, etc.</para>
     /// </param>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when new <paramref name="parameterNameTemplate"/> or <paramref name="parameterPrefix"/> <see langword="null"/>, <see cref="string.Empty"/> contains only white space.</exception>
-    public static void Configure(
-        string parameterNameTemplate = DefaultDatabaseParameterNameTemplate,
-        string parameterPrefix = DefaultDatabaseParameterPrefix,
-        bool reuseParameters = DefaultReuseParameters,
-        bool useLowerCaseClauses = DefaultUseLowerCaseClauses)
+    public static void Configure(string? parameterNameTemplate = default, string? parameterPrefix = default, bool? reuseParameters = default, bool? useLowerCaseClauses = default)
     {
-        if (string.IsNullOrWhiteSpace(parameterNameTemplate))
+        if (!string.IsNullOrWhiteSpace(parameterNameTemplate))
         {
-            throw new ArgumentException($"'{nameof(parameterNameTemplate)}' cannot be null or whitespace.", nameof(parameterNameTemplate));
+            DatabaseParameterNameTemplate = parameterNameTemplate!;
         }
 
-        if (string.IsNullOrWhiteSpace(parameterPrefix))
+        if (!string.IsNullOrWhiteSpace(parameterPrefix))
         {
-            throw new ArgumentException($"'{nameof(parameterPrefix)}' cannot be null or whitespace.", nameof(parameterPrefix));
+            DatabaseParameterPrefix = parameterPrefix!;
         }
 
-        DatabaseParameterNameTemplate = parameterNameTemplate;
-        DatabaseParameterPrefix = parameterPrefix;
-        ReuseParameters = reuseParameters;
-        UseLowerCaseClauses = useLowerCaseClauses;
+        if (reuseParameters.HasValue)
+        {
+            ReuseParameters = reuseParameters.Value;
+        }
+
+        if (useLowerCaseClauses.HasValue)
+        {
+            UseLowerCaseClauses = useLowerCaseClauses.Value;
+        }
     }
 }
