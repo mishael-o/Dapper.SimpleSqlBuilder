@@ -1,4 +1,5 @@
 ﻿#if NET6_0_OR_GREATER
+using Dapper.SimpleSqlBuilder.FluentBuilder;
 
 namespace Dapper.SimpleSqlBuilder.UnitTests.FluentBuilder.Handlers;
 
@@ -65,7 +66,6 @@ public class HavingInterpolatedStringHandlerTests
     [InlineAutoData(true, false)]
     [InlineAutoData(false, true)]
     [InlineAutoData(false, false)]
-
     public void Constructor_InitialiseHandlerWithCondition_HandlerDisabled(bool condition, bool isClauseActionEnabled, Mock<IFluentBuilder> fluentBuilderMock)
     {
         //Arrange

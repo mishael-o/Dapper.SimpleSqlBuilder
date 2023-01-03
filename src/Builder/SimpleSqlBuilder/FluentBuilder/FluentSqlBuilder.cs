@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Dapper.SimpleSqlBuilder;
+namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 /// <summary>
 /// Core <see cref="FluentSqlBuilder"/> partial class.
@@ -112,6 +112,10 @@ internal partial class FluentSqlBuilder
                 AppendInsert();
                 break;
 
+            case ClauseAction.InsertColumn:
+                AppendInsertColumn();
+                break;
+
             case ClauseAction.InsertValue:
                 AppendInsertValue();
                 break;
@@ -205,6 +209,27 @@ internal partial class FluentSqlBuilder
             .Append(ClauseConstants.Space);
     }
 
+    private void AppendInsertColumn()
+    {
+        hasOpenParentheses = true;
+
+        if (clauseActions.Contains(ClauseAction.InsertColumn))
+        {
+            stringBuilder.Length--;
+
+            stringBuilder
+                .Append(ClauseConstants.Insert.Seperator)
+                .Append(ClauseConstants.Space);
+
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.InsertColumn);
+        stringBuilder
+            .Append(ClauseConstants.Space)
+            .Append(ClauseConstants.OpenParentheses);
+    }
+
     private void AppendInsertValue()
     {
         hasOpenParentheses = true;
@@ -214,7 +239,7 @@ internal partial class FluentSqlBuilder
             stringBuilder.Length--;
 
             stringBuilder
-                .Append(ClauseConstants.Insert.ValuesSeperator)
+                .Append(ClauseConstants.Insert.Seperator)
                 .Append(ClauseConstants.Space);
 
             return;
@@ -222,6 +247,7 @@ internal partial class FluentSqlBuilder
 
         clauseActions.Add(ClauseAction.InsertValue);
         stringBuilder
+            .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.Insert.ValuesLower : ClauseConstants.Insert.Values)
             .Append(ClauseConstants.Space)
             .Append(ClauseConstants.OpenParentheses);

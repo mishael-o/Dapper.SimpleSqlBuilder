@@ -1,4 +1,6 @@
 ﻿#if NET6_0_OR_GREATER
+using Dapper.SimpleSqlBuilder.FluentBuilder;
+
 namespace Dapper.SimpleSqlBuilder.UnitTests.FluentBuilder.Handlers;
 
 public class SelectDistinctInterpolatedStringHandlerTests

@@ -3,7 +3,7 @@ using Dapper.SimpleSqlBuilder.FluentBuilder;
 
 namespace Dapper.SimpleSqlBuilder.UnitTests.FluentBuilder.Handlers;
 
-public class SelectInterpolatedStringHandlerTests
+public class InsertColumnInterpolatedStringHandlerTests
 {
     [Theory]
     [AutoData]
@@ -13,10 +13,10 @@ public class SelectInterpolatedStringHandlerTests
         var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
 
         //Act
-        var sut = new SelectInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var sut = new InsertColumnInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
         //Assert
-        fluentSqlFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.Select));
+        fluentSqlFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.InsertColumn));
     }
 
     [Theory]
@@ -25,7 +25,7 @@ public class SelectInterpolatedStringHandlerTests
     {
         //Arrange
         var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
-        var sut = new SelectInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var sut = new InsertColumnInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
         //Act
         sut.AppendLiteral(value);
@@ -40,7 +40,7 @@ public class SelectInterpolatedStringHandlerTests
     {
         //Arrange
         var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
-        var sut = new SelectInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var sut = new InsertColumnInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
         //Act
         sut.AppendFormatted(value);
@@ -56,7 +56,7 @@ public class SelectInterpolatedStringHandlerTests
     {
         //Arrange
         var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
-        var sut = new SelectInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var sut = new InsertColumnInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
         //Act
         sut.AppendFormatted(value, format);
@@ -71,13 +71,13 @@ public class SelectInterpolatedStringHandlerTests
     {
         //Arrange
         var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
-        var sut = new SelectInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var sut = new InsertColumnInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
         //Act
         sut.Close();
 
         //Assert
-        fluentSqlFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.Select));
+        fluentSqlFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.InsertColumn));
     }
 }
 #endif

@@ -286,8 +286,8 @@ public class SimpleBuilderTests
 
             yield return new object[]
             {
-            formattableString, //FormattableString
-            expectedSql, //expectedSql
+                formattableString, //FormattableString
+                expectedSql, //expectedSql
             };
         }
 

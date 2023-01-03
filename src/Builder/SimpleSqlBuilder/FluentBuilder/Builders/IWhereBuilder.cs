@@ -1,4 +1,4 @@
-﻿namespace Dapper.SimpleSqlBuilder;
+﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 public interface IWhereBuilder : IWhereBuilderEntry, IGroupByBuilder
 {
@@ -22,7 +22,7 @@ public interface IWhereBuilder : IWhereBuilderEntry, IGroupByBuilder
     IWhereFilterEntry OrWhereFilter();
 }
 
-public interface IWhereBuilderEntry : IFluentBuilder
+public interface IWhereBuilderEntry : IFluentSqlBuilder
 {
 #if NET6_0_OR_GREATER
     IWhereBuilder Where([InterpolatedStringHandlerArgument("")] ref WhereInterpolatedStringHandler handler);
@@ -43,7 +43,7 @@ public interface IWhereBuilderEntry : IFluentBuilder
     IWhereFilterEntry WhereFilter();
 }
 
-public interface IWhereFilterEntry : IFluentBuilder
+public interface IWhereFilterEntry : IFluentSqlBuilder
 {
 #if NET6_0_OR_GREATER
     IWhereFilter WithFilter([InterpolatedStringHandlerArgument("")] ref WhereWithFilterInterpolatedStringHandler handler);

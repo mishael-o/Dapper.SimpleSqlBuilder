@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Dapper.SimpleSqlBuilder.FluentBuilder;
+using Microsoft.Extensions.Options;
 
 namespace Dapper.SimpleSqlBuilder.DependencyInjection;
 
@@ -23,7 +24,7 @@ internal sealed class InternalSimpleBuilder : ISimpleBuilder
         return new SqlBuilder(options.Value.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, formattable);
     }
 
-    public ISimpleFluentBuilder CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
+    public ISimpleFluentBuilderEntry CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
     {
         if (string.IsNullOrWhiteSpace(parameterPrefix))
         {

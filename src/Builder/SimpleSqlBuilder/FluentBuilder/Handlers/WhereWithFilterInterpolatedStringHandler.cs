@@ -1,6 +1,6 @@
 ﻿#if NET6_0_OR_GREATER
 
-namespace Dapper.SimpleSqlBuilder;
+namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 [InterpolatedStringHandler]
 public ref struct WhereWithFilterInterpolatedStringHandler

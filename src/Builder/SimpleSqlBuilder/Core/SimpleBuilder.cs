@@ -1,4 +1,6 @@
-﻿namespace Dapper.SimpleSqlBuilder;
+﻿using Dapper.SimpleSqlBuilder.FluentBuilder;
+
+namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
 /// A static class that enables you create a builder instance.
@@ -34,8 +36,8 @@ public static class SimpleBuilder
     /// <param name="parameterPrefix">The parameter prefix to override the <see cref="SimpleBuilderSettings.DatabaseParameterPrefix">default value</see>.</param>
     /// <param name="reuseParameters">The boolean value to override the <see cref="SimpleBuilderSettings.ReuseParameters"> default value</see>.</param>
     /// <param name="useLowerCaseClauses">The boolean value to override the <see cref="SimpleBuilderSettings.UseLowerCaseClauses">default value</see>.</param>
-    /// <returns>Returns a <see cref="ISimpleFluentBuilder"/>.</returns>
-    public static ISimpleFluentBuilder CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
+    /// <returns>Returns a <see cref="ISimpleFluentBuilderEntry"/>.</returns>
+    public static ISimpleFluentBuilderEntry CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
     {
         if (string.IsNullOrWhiteSpace(parameterPrefix))
         {

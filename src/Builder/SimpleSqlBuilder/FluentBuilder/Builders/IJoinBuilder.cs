@@ -1,17 +1,17 @@
-﻿namespace Dapper.SimpleSqlBuilder;
+﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 public interface IJoinBuilder : IWhereBuilderEntry
 {
 #if NET6_0_OR_GREATER
-    IJoinBuilder InnerJoin(ref InnerJoinInterpolatedStringHandler handler);
+    IJoinBuilder InnerJoin([InterpolatedStringHandlerArgument("")] ref InnerJoinInterpolatedStringHandler handler);
 
     IJoinBuilder InnerJoin(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref InnerJoinInterpolatedStringHandler handler);
 
-    IJoinBuilder LeftJoin(ref LeftJoinInterpolatedStringHandler handler);
+    IJoinBuilder LeftJoin([InterpolatedStringHandlerArgument("")] ref LeftJoinInterpolatedStringHandler handler);
 
     IJoinBuilder LeftJoin(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref LeftJoinInterpolatedStringHandler handler);
 
-    IJoinBuilder RightJoin(ref RightJoinInterpolatedStringHandler handler);
+    IJoinBuilder RightJoin([InterpolatedStringHandlerArgument("")] ref RightJoinInterpolatedStringHandler handler);
 
     IJoinBuilder RightJoin(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref RightJoinInterpolatedStringHandler handler);
 #else

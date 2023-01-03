@@ -1,12 +1,23 @@
-﻿namespace Dapper.SimpleSqlBuilder;
+﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
-public interface IInsertBuilder : IFluentBuilder
+public interface IInsertBuilder : IInsertValueBuilder
 {
 #if NET6_0_OR_GREATER
-    IInsertBuilder Values(ref InsertValueInterpolatedStringHandler handler);
+    IInsertBuilder Columns([InterpolatedStringHandlerArgument("")] ref InsertColumnInterpolatedStringHandler handler);
 #else
 
-    IInsertBuilder Values(FormattableString formattable);
+    IInsertBuilder Columns(FormattableString formattable);
+
+#endif
+}
+
+public interface IInsertValueBuilder : IFluentSqlBuilder
+{
+#if NET6_0_OR_GREATER
+    IInsertValueBuilder Values([InterpolatedStringHandlerArgument("")] ref InsertValueInterpolatedStringHandler handler);
+#else
+
+    IInsertValueBuilder Values(FormattableString formattable);
 
 #endif
 }

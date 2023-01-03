@@ -1,4 +1,5 @@
-﻿using Dapper.SimpleSqlBuilder.UnitTestHelpers.AutoFixture;
+﻿using Dapper.SimpleSqlBuilder.FluentBuilder;
+using Dapper.SimpleSqlBuilder.UnitTestHelpers.AutoFixture;
 using Microsoft.Extensions.Options;
 
 namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Core;
@@ -70,6 +71,6 @@ public class InternalSimpleBuilderTests
         var result = sut.CreateFluent();
 
         //Assert
-        result.Should().BeOfType<FluentSqlBuilder>().And.BeAssignableTo<ISimpleFluentBuilder>();
+        result.Should().BeOfType<FluentSqlBuilder>().And.BeAssignableTo<ISimpleFluentBuilderEntry>();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Dapper.SimpleSqlBuilder;
+﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 internal static class ClauseConstants
 {
@@ -33,7 +33,7 @@ internal static class ClauseConstants
     {
         internal const string Upper = "INSERT INTO";
         internal const string Values = "VALUES";
-        internal const char ValuesSeperator = Comma;
+        internal const char Seperator = Comma;
         internal static readonly string Lower = Upper.ToLowerInvariant();
         internal static readonly string ValuesLower = Values.ToLowerInvariant();
     }
