@@ -1,4 +1,4 @@
-﻿namespace Dapper.SimpleSqlBuilder;
+﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 /// <summary>
 /// Implementation of <see cref="IFluentSqlFormatter"/> for <see cref="FluentSqlBuilder"/> partial class.

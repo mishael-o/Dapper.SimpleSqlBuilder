@@ -1,4 +1,4 @@
-﻿namespace Dapper.SimpleSqlBuilder;
+﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 public interface IUpdateBuilder : IWhereBuilderEntry
 {

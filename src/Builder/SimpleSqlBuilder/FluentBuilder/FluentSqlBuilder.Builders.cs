@@ -1,11 +1,11 @@
 ﻿using System.Data;
 
-namespace Dapper.SimpleSqlBuilder;
+namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 /// <summary>
-/// <see cref="ISimpleFluentBuilder"/> implementation for <see cref="FluentSqlBuilder"/> partial class.
+/// <see cref="ISimpleFluentBuilder"/> and <see cref="ISimpleFluentBuilderEntry"/> implementation for <see cref="FluentSqlBuilder"/> partial class.
 /// </summary>
-internal partial class FluentSqlBuilder : ISimpleFluentBuilder
+internal partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFluentBuilderEntry
 {
     public string Sql
         => stringBuilder.ToString();
@@ -16,7 +16,7 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder
     public IEnumerable<string> ParameterNames
         => parameters.ParameterNames;
 
-    public IFluentBuilder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null)
+    public IFluentSqlBuilder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null)
     {
         parameters.Add(name, value, dbType, direction, size, precision, scale);
         return this;
@@ -38,7 +38,13 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder
         return this;
     }
 
-    public IInsertBuilder Values(ref InsertValueInterpolatedStringHandler handler)
+    public IInsertBuilder Columns([InterpolatedStringHandlerArgument("")] ref InsertColumnInterpolatedStringHandler handler)
+    {
+        handler.Close();
+        return this;
+    }
+
+    public IInsertValueBuilder Values([InterpolatedStringHandlerArgument("")] ref InsertValueInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
@@ -62,7 +68,25 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder
         return this;
     }
 
-    public IJoinBuilder InnerJoin(ref InnerJoinInterpolatedStringHandler handler)
+    public IUpdateBuilder Update([InterpolatedStringHandlerArgument("")] ref UpdateInterpolatedStringHandler handler)
+    {
+        handler.Close();
+        return this;
+    }
+
+    public IUpdateBuilder Set([InterpolatedStringHandlerArgument("")] ref UpdateSetInterpolatedStringHandler handler)
+    {
+        handler.Close();
+        return this;
+    }
+
+    public IUpdateBuilder Set(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref UpdateSetInterpolatedStringHandler handler)
+    {
+        handler.Close();
+        return this;
+    }
+
+    public IJoinBuilder InnerJoin([InterpolatedStringHandlerArgument("")] ref InnerJoinInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
@@ -74,7 +98,7 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder
         return this;
     }
 
-    public IJoinBuilder LeftJoin(ref LeftJoinInterpolatedStringHandler handler)
+    public IJoinBuilder LeftJoin([InterpolatedStringHandlerArgument("")] ref LeftJoinInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
@@ -86,7 +110,7 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder
         return this;
     }
 
-    public IJoinBuilder RightJoin(ref RightJoinInterpolatedStringHandler handler)
+    public IJoinBuilder RightJoin([InterpolatedStringHandlerArgument("")] ref RightJoinInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
@@ -158,13 +182,13 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder
         return this;
     }
 
-    public IOrderByBuilder GroupBy([InterpolatedStringHandlerArgument("")] ref GroupByInterpolatedStringHandler handler)
+    public IGroupByBuilder GroupBy([InterpolatedStringHandlerArgument("")] ref GroupByInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
     }
 
-    public IOrderByBuilder GroupBy(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref GroupByInterpolatedStringHandler handler)
+    public IGroupByBuilder GroupBy(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref GroupByInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
@@ -201,7 +225,10 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder
     public IInsertBuilder InsertInto(FormattableString formattable)
         => FormatFormattable(ClauseAction.Insert, formattable);
 
-    public IInsertBuilder Values(FormattableString formattable)
+    public IInsertBuilder Columns(FormattableString formattable)
+        => FormatFormattable(ClauseAction.InsertColumn, formattable);
+
+    public IInsertValueBuilder Values(FormattableString formattable)
         => FormatFormattable(ClauseAction.InsertValue, formattable);
 
     public ISelectBuilder Select(FormattableString formattable)
@@ -212,6 +239,15 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder
 
     public ISelectFromBuilder From(FormattableString formattable)
         => FormatFormattable(ClauseAction.SelectFrom, formattable);
+
+    public IUpdateBuilder Update(FormattableString formattable)
+        => FormatFormattable(ClauseAction.Update, formattable);
+
+    public IUpdateBuilder Set(FormattableString formattable) =>
+        FormatFormattable(ClauseAction.UpdateSet, formattable);
+
+    public IUpdateBuilder Set(bool condition, FormattableString formattable)
+        => FormatFormattable(ClauseAction.Update, formattable, condition);
 
     public IJoinBuilder InnerJoin(FormattableString formattable)
         => FormatFormattable(ClauseAction.InnerJoin, formattable);

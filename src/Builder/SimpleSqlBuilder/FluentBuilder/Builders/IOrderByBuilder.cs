@@ -1,6 +1,6 @@
-﻿namespace Dapper.SimpleSqlBuilder;
+﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
-public interface IOrderByBuilder : IFluentBuilder
+public interface IOrderByBuilder : IFluentSqlBuilder
 {
 #if NET6_0_OR_GREATER
     IOrderByBuilder OrderBy([InterpolatedStringHandlerArgument("")] ref OrderByInterpolatedStringHandler handler);

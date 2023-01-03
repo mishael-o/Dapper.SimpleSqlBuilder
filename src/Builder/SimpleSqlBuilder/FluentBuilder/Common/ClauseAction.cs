@@ -1,4 +1,4 @@
-﻿namespace Dapper.SimpleSqlBuilder;
+﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 internal enum ClauseAction
 {
@@ -8,6 +8,7 @@ internal enum ClauseAction
     Having,
     InnerJoin,
     Insert,
+    InsertColumn,
     InsertValue,
     LeftJoin,
     OrderBy,
