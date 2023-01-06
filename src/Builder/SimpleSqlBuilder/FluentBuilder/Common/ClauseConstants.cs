@@ -72,7 +72,7 @@ internal static class ClauseConstants
         internal const string SetUpper = "SET";
         internal const char SetSeperator = Comma;
         internal static readonly string Lower = Upper.ToLowerInvariant();
-        internal static readonly string SetLower = Upper.ToLowerInvariant();
+        internal static readonly string SetLower = SetUpper.ToLowerInvariant();
     }
 
     internal static class Where
