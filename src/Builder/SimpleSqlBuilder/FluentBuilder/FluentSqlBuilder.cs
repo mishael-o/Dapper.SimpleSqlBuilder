@@ -325,7 +325,8 @@ internal partial class FluentSqlBuilder
         clauseActions.Add(ClauseAction.UpdateSet);
         stringBuilder
             .AppendLine()
-            .Append(useLowerCaseClauses ? ClauseConstants.Update.SetLower : ClauseConstants.Update.SetUpper);
+            .Append(useLowerCaseClauses ? ClauseConstants.Update.SetLower : ClauseConstants.Update.SetUpper)
+            .Append(ClauseConstants.Space);
     }
 
     private void AppendWhere(bool isFilter = false)

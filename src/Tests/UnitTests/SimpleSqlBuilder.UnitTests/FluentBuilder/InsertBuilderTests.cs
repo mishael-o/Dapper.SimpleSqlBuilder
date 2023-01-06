@@ -14,7 +14,8 @@ public class InsertBuilderTests
         //Act
         var builder = SimpleBuilder.CreateFluent()
             .InsertInto($"Table")
-            .Values($"{id}").Values($"{age}, {type}");
+            .Values($"{id}")
+            .Values($"{age}, {type}");
 
         //Assert
         builder.Should().BeOfType<FluentSqlBuilder>();
@@ -35,8 +36,10 @@ public class InsertBuilderTests
         //Act
         var builder = SimpleBuilder.CreateFluent()
             .InsertInto($"Table")
-            .Columns($"Id, Age").Columns($"Type")
-            .Values($"{id}, {age}").Values($"{type}");
+            .Columns($"Id, Age")
+            .Columns($"Type")
+            .Values($"{id}, {age}")
+            .Values($"{type}");
 
         //Assert
         builder.Should().BeOfType<FluentSqlBuilder>();
@@ -57,7 +60,8 @@ public class InsertBuilderTests
         //Act
         var builder = SimpleBuilder.CreateFluent(parameterPrefix: ":")
             .InsertInto($"Table")
-            .Values($"{id}").Values($"{age}, {type}");
+            .Values($"{id}")
+            .Values($"{age}, {type}");
 
         //Assert
         builder.Should().BeOfType<FluentSqlBuilder>();
@@ -98,7 +102,9 @@ public class InsertBuilderTests
         //Act
         var builder = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
             .InsertInto($"Table")
-            .Values($"{id}").Values($"{age}, {type}");
+            .Values($"{id}")
+            .Values($"{age}")
+            .Values($"{type}");
 
         //Assert
         builder.Should().BeOfType<FluentSqlBuilder>();
