@@ -447,11 +447,11 @@ internal partial class FluentSqlBuilder
                 break;
 
             case ClauseAction.LeftJoin:
-                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.LowerLeftJoin : ClauseConstants.Join.LowerLeftJoin);
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.LowerLeftJoin : ClauseConstants.Join.UpperLeftJoin);
                 break;
 
             case ClauseAction.RightJoin:
-                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.LowerRightJoin : ClauseConstants.Join.LowerRightJoin);
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.LowerRightJoin : ClauseConstants.Join.UpperRightJoin);
                 break;
         }
 
@@ -499,6 +499,7 @@ internal partial class FluentSqlBuilder
         if (clauseActions.Contains(ClauseAction.Having))
         {
             stringBuilder
+                .Append(ClauseConstants.Space)
                 .Append(ClauseConstants.Having.Seperator)
                 .Append(ClauseConstants.Space);
 

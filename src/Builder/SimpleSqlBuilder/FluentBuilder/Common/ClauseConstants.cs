@@ -44,8 +44,8 @@ internal static class ClauseConstants
         internal const string UpperLeftJoin = "LEFT JOIN";
         internal const string UpperRightJoin = "RIGHT JOIN";
         internal static readonly string LowerInnerJoin = UpperInnerJoin.ToLowerInvariant();
-        internal static readonly string LowerLeftJoin = UpperLeftJoin.ToUpperInvariant();
-        internal static readonly string LowerRightJoin = UpperRightJoin.ToUpperInvariant();
+        internal static readonly string LowerLeftJoin = UpperLeftJoin.ToLowerInvariant();
+        internal static readonly string LowerRightJoin = UpperRightJoin.ToLowerInvariant();
     }
 
     internal static class OrderBy
