@@ -1,9 +1,5 @@
 ﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
-public interface IDeleteBuilder : IWhereBuilderEntry
-{
-}
-
 public interface IDeleteBuilderEntry
 {
 #if NET6_0_OR_GREATER
