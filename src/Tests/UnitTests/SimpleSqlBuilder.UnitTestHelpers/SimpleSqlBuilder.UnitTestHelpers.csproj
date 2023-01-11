@@ -7,8 +7,4 @@
         <AssemblyName>Dapper.SimpleSqlBuilder.UnitTestHelpers</AssemblyName>
     </PropertyGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-        <PackageReference Update="xunit.runner.visualstudio" Version="2.4.3" PrivateAssets="All" />
-    </ItemGroup>
-
 </Project>

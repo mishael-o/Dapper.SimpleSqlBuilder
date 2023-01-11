@@ -20,16 +20,16 @@ public sealed class SimpleParameterInfo : ISimpleParameterInfo
     /// <param name="precision">The parameter precision.</param>
     /// <param name="scale">The parameter scale.</param>
     public SimpleParameterInfo(object? value, DbType? dbType = null, int? size = null, byte? precision = null, byte? scale = null)
-    : this(null, value, dbType, size: size, precision: precision, scale: scale)
+    : this(null, value, dbType, null, size, precision, scale)
     {
     }
 
-    internal SimpleParameterInfo(string? name, object? value, DbType? dbType = null, ParameterDirection direction = ParameterDirection.Input, int? size = null, byte? precision = null, byte? scale = null)
+    internal SimpleParameterInfo(string? name, object? value, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null)
     {
         Value = value;
         Name = name;
         DbType = dbType;
-        Direction = direction;
+        Direction = direction ?? ParameterDirection.Input;
         Size = size;
         Precision = precision;
         Scale = scale;
