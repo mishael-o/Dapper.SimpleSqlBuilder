@@ -49,7 +49,7 @@ public static class SimpleBuilderSettings
     /// The value indicating whether to use lower case clauses for the fluent builder. The default value is <see langword="false"/> meaning sql clauses will be in upper cases. i.e. SELECT, UPDATE, etc.
     /// <para>Example: If set to <see langword="true"/> sql clauses will be in lower cases i.e. select, update, etc.</para>
     /// </param>
-    public static void Configure(string? parameterNameTemplate = default, string? parameterPrefix = default, bool? reuseParameters = default, bool? useLowerCaseClauses = default)
+    public static void Configure(string? parameterNameTemplate = null, string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
     {
         if (!string.IsNullOrWhiteSpace(parameterNameTemplate))
         {
