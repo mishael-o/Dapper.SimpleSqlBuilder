@@ -4,5 +4,5 @@ namespace Dapper.SimpleSqlBuilder.IntegrationTests.MySql;
 
 public record CustomProductType : ProductType
 {
-    public new CustomId Id { get; init; }
+    public new CustomId Id { get; set; }
 }
