@@ -2,6 +2,6 @@
 
 public record ProductType
 {
-    public Guid Id { get; init; }
-    public string Description { get; init; } = default!;
+    public Guid Id { get; set; }
+    public string Description { get; set; } = default!;
 }

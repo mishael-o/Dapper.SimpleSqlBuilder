@@ -2,9 +2,9 @@
 
 public record Product
 {
-    public Guid Id { get; init; }
-    public Guid TypeId { get; init; }
-    public string? Tag { get; init; }
-    public string Description { get; init; } = default!;
-    public DateTime CreatedDate { get; init; }
+    public Guid Id { get; set; }
+    public Guid TypeId { get; set; }
+    public string? Tag { get; set; }
+    public string Description { get; set; } = default!;
+    public DateTime CreatedDate { get; set; }
 }
