@@ -65,12 +65,13 @@ public class InternalSimpleBuilderTests
 
     [Theory]
     [AutoMoqData(true)]
-    internal void CreateFluent_InitialiseFluentBuilder_ReturnsISimpleFluentBuilder(InternalSimpleBuilder sut)
+    [InlineAutoMoqData(configureMembers: true, generateDelegates: false, null, null, null)]
+    internal void CreateFluent_InitialiseFluentBuilder_ReturnsISimpleFluentBuilder(string? parameterPrefix, bool? reuseParameters, bool? useLowerCaseClauses, InternalSimpleBuilder sut)
     {
         //Act
-        var result = sut.CreateFluent();
+        var result = sut.CreateFluent(parameterPrefix, reuseParameters, useLowerCaseClauses);
 
         //Assert
-        result.Should().BeOfType<FluentSqlBuilder>().And.BeAssignableTo<ISimpleFluentBuilderEntry>();
+        result.Should().BeOfType<FluentSqlBuilder>();
     }
 }
