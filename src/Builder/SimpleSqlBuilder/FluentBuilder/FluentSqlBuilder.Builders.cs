@@ -16,11 +16,8 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFluentBui
     public IEnumerable<string> ParameterNames
         => parameters.ParameterNames;
 
-    public IFluentSqlBuilder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null)
-    {
-        parameters.Add(name, value, dbType, direction, size, precision, scale);
-        return this;
-    }
+    public void AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null)
+        => parameters.Add(name, value, dbType, direction, size, precision, scale);
 
     public T GetValue<T>(string parameterName)
         => parameters.Get<T>(parameterName);
@@ -247,7 +244,7 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFluentBui
         FormatFormattable(ClauseAction.UpdateSet, formattable);
 
     public IUpdateBuilder Set(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.Update, formattable, condition);
+        => FormatFormattable(ClauseAction.UpdateSet, formattable, condition);
 
     public IJoinBuilder InnerJoin(FormattableString formattable)
         => FormatFormattable(ClauseAction.InnerJoin, formattable);

@@ -17,8 +17,7 @@ public interface IFluentSqlBuilder : ISqlBuilder, IFluentBuilder
     /// <param name="size">The size of the parameter.</param>
     /// <param name="precision">The precision of the parameter.</param>
     /// <param name="scale">The scale of the parameter.</param>
-    /// <returns>Returns <see cref="IFluentSqlBuilder"/>.</returns>
-    IFluentSqlBuilder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null);
+    void AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null);
 
     /// <summary>
     /// Get the value of a parameter.

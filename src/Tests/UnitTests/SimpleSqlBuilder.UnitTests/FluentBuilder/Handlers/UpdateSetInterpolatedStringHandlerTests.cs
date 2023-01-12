@@ -13,10 +13,42 @@ public class UpdateSetInterpolatedStringHandlerTests
         var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
 
         //Act
-        var sut = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var sut = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var isHandlerEnabled);
 
         //Assert
+        isHandlerEnabled.Should().BeTrue();
         fluentSqlFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.UpdateSet));
+    }
+
+    [Theory]
+    [AutoData]
+    public void Constructor_InitialiseHandlerWithCondition_HandlerInitialised(Mock<IFluentBuilder> fluentBuilderMock)
+    {
+        //Arrange
+        const bool condition = true;
+        var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
+
+        //Act
+        var sut = new UpdateSetInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
+
+        //Assert
+        isHandlerEnabled.Should().BeTrue();
+        fluentSqlFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.UpdateSet));
+    }
+
+    [Theory]
+    [AutoData]
+    public void Constructor_InitialiseHandlerWithCondition_HandlerDisabled(Mock<IFluentBuilder> fluentBuilderMock)
+    {
+        //Arrange
+        const bool condition = false;
+        fluentBuilderMock.As<IFluentSqlFormatter>();
+
+        //Act
+        var sut = new UpdateSetInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
+
+        //Assert
+        isHandlerEnabled.Should().BeFalse();
     }
 
     [Theory]
@@ -25,7 +57,7 @@ public class UpdateSetInterpolatedStringHandlerTests
     {
         //Arrange
         var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
-        var sut = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var sut = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
 
         //Act
         sut.AppendLiteral(value);
@@ -40,7 +72,7 @@ public class UpdateSetInterpolatedStringHandlerTests
     {
         //Arrange
         var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
-        var sut = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var sut = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
 
         //Act
         sut.AppendFormatted(value);
@@ -56,7 +88,7 @@ public class UpdateSetInterpolatedStringHandlerTests
     {
         //Arrange
         var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
-        var sut = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var sut = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
 
         //Act
         sut.AppendFormatted(value, format);
@@ -71,7 +103,7 @@ public class UpdateSetInterpolatedStringHandlerTests
     {
         //Arrange
         var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
-        var sut = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var sut = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
 
         //Act
         sut.Close();

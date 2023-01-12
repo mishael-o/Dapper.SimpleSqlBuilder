@@ -6,6 +6,19 @@ namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
 public class SqlFormatterTests
 {
     [Fact]
+    public void Constructor_DynamicParameterIsNull_ThrowsArgumentNullException()
+    {
+        //Arrange
+        DynamicParameters parameters = null!;
+
+        //Act
+        var act = () => new SqlFormatter(parameters, "p", "@", false);
+
+        //Assert
+        act.Should().Throw<ArgumentNullException>().WithParameterName("parameters");
+    }
+
+    [Fact]
     public void GetFormat_FormatterMatched_ReturnsObject()
     {
         //Arrange

@@ -257,7 +257,7 @@ internal partial class FluentSqlBuilder
     {
         if (clauseAction is not ClauseAction.Select and not ClauseAction.SelectDistinct)
         {
-            throw new ArgumentException($"The clause argument ({clauseAction}) is invalid for this method.", nameof(clauseAction));
+            throw new ArgumentException($"The clause action ({clauseAction}) is invalid for this method.", nameof(clauseAction));
         }
 
         if (clauseActions.Contains(clauseAction))
@@ -383,7 +383,7 @@ internal partial class FluentSqlBuilder
     {
         if (clauseAction is not ClauseAction.WhereWithFilter and not ClauseAction.WhereWithOrFilter)
         {
-            throw new ArgumentException($"The clause argument ({clauseAction}) is invalid for this method.", nameof(clauseAction));
+            throw new ArgumentException($"The clause action ({clauseAction}) is invalid for this method.", nameof(clauseAction));
         }
 
         if (pendingWhereFilter is not ClauseAction.None)
@@ -430,7 +430,7 @@ internal partial class FluentSqlBuilder
     {
         if (clauseAction is not ClauseAction.InnerJoin and not ClauseAction.LeftJoin and not ClauseAction.RightJoin)
         {
-            throw new ArgumentException($"The clause argument ({clauseAction}) is invalid for this method.", nameof(clauseAction));
+            throw new ArgumentException($"The clause action ({clauseAction}) is invalid for this method.", nameof(clauseAction));
         }
 
         if (!clauseActions.Contains(clauseAction))
