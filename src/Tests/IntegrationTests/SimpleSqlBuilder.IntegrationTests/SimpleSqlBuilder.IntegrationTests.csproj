@@ -8,14 +8,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" Condition="'$(TargetFramework)' != 'net461'"/>
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.1" Condition="'$(TargetFramework)' == 'net461'"/>
         <PackageReference Include="MySql.Data" Version="8.0.31" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.1"/>
+        <PackageReference Include="Npgsql" Version="6.0.8" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' != 'net461'">
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1"/>
         <PackageReference Include="Npgsql" Version="7.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\Builder\SimpleSqlBuilder\SimpleSqlBuilder.csproj" />
+        <ProjectReference Include="..\..\..\Builder\SimpleSqlBuilder\SimpleSqlBuilder.csproj" />
     </ItemGroup>
 
 </Project>
