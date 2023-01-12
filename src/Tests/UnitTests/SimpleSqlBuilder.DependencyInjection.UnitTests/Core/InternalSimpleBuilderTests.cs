@@ -14,7 +14,7 @@ public class InternalSimpleBuilderTests
         var result = sut.Create();
 
         //Assert
-        result.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
+        result.Should().BeOfType<SqlBuilder>();
         result.ParameterNames.Should().HaveCount(0);
     }
 
@@ -35,7 +35,7 @@ public class InternalSimpleBuilderTests
         var result = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id}");
 
         //Assert
-        result.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
+        result.Should().BeOfType<SqlBuilder>();
         result.Sql.Should().Be(expectedSql);
         result.ParameterNames.Should().HaveCount(2);
     }
@@ -58,7 +58,7 @@ public class InternalSimpleBuilderTests
         var result = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id}", parameterPrefix, true);
 
         //Assert
-        result.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
+        result.Should().BeOfType<SqlBuilder>();
         result.Sql.Should().Be(expectedSql);
         result.ParameterNames.Should().HaveCount(1);
     }
