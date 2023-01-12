@@ -5,24 +5,37 @@ namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 [InterpolatedStringHandler]
 public ref struct UpdateSetInterpolatedStringHandler
 {
-    private readonly IFluentSqlFormatter formatter;
+    private readonly IFluentSqlFormatter? formatter;
 
-    internal UpdateSetInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
+    internal UpdateSetInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder, out bool isHandlerEnabled)
+        : this(literalLength, formattedCount, true, builder, out isHandlerEnabled)
     {
+    }
+
+    internal UpdateSetInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentBuilder builder, out bool isHandlerEnabled)
+    {
+        if (!condition)
+        {
+            formatter = default;
+            isHandlerEnabled = false;
+            return;
+        }
+
         formatter = (IFluentSqlFormatter)builder;
+        isHandlerEnabled = true;
         formatter.StartClauseAction(ClauseAction.UpdateSet);
     }
 
     internal void AppendLiteral(string value)
-        => formatter.FormatLiteral(value);
+        => formatter?.FormatLiteral(value);
 
     internal void AppendFormatted<T>(T value)
         => AppendFormatted(value, null);
 
     internal void AppendFormatted<T>(T value, string? format)
-        => formatter.FormatParameter(value, format);
+        => formatter?.FormatParameter(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.UpdateSet);
+        => formatter?.EndClauseAction(ClauseAction.UpdateSet);
 }
 #endif

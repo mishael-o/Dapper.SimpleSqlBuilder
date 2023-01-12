@@ -238,6 +238,19 @@ public class SimpleBuilderTests
     }
 
     [Fact]
+    public void AddOpertator_SimpleBuilderIsNull_ThrowsArgumentNullException()
+    {
+        //Arrange
+        SimpleBuilderBase sut = null!;
+
+        //Act
+        var act = () => sut += $"SELECT * FROM TABLE WHERE";
+
+        //Assert
+        act.Should().Throw<ArgumentNullException>().WithParameterName("simpleBuilder");
+    }
+
+    [Fact]
     public void SimpleBuilder_ReusableParameters_ReturnsISimpleBuilder()
     {
         //Arrange
