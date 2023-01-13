@@ -1,12 +1,13 @@
 ﻿using System.Data.Common;
+using DotNet.Testcontainers.Configurations;
 using MySql.Data.MySqlClient;
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.MySql;
 
 public class MySqlTestsFixture : IAsyncLifetime
 {
-    private const string DbName = "test-db";
     private const string DbUser = "dbUser";
+    private const string DbName = "test-db";
     private const int Port = 3306;
 
     private readonly string connectionString;
@@ -44,15 +45,15 @@ public class MySqlTestsFixture : IAsyncLifetime
 
     private static TestcontainersContainer CreateMySQLContainer(string dbPassword)
     {
-        return new TestcontainersBuilder<TestcontainersContainer>()
-                .WithImage("mysql:8")
+        return new TestcontainersBuilder<MySqlTestcontainer>()
+                .WithDatabase(new MySqlTestcontainerConfiguration("mysql:8")
+                {
+                    Database = DbName,
+                    Username = DbUser,
+                    Password = dbPassword,
+                    Port = Port
+                })
                 .WithName("mysql")
-                .WithPortBinding(Port)
-                .WithEnvironment("MYSQL_ROOT_PASSWORD", Guid.NewGuid().ToString())
-                .WithEnvironment("MYSQL_DATABASE", DbName)
-                .WithEnvironment("MYSQL_USER", DbUser)
-                .WithEnvironment("MYSQL_PASSWORD", dbPassword)
-                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(Port))
                 .Build();
     }
 

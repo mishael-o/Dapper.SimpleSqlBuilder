@@ -1,11 +1,21 @@
 ﻿using System.Data.Common;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
+using DotNet.Testcontainers.Configurations;
+
+#if NET461
+
+using System.Data.SqlClient;
+
+#else
 using Microsoft.Data.SqlClient;
+#endif
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.MSSql;
 
 public class MSSqlTestsFixture : IAsyncLifetime
 {
+    private const string DbUser = "sa";
+    private const string DbName = "tempdb";
     private const int Port = 1433;
 
     private readonly string connectionString;
@@ -16,7 +26,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
         const string dbPassword = "Mssql!Pa55w0rD";
         ProductTypeInDB = new Fixture().Create<ProductType>();
 
-        connectionString = $"Data Source=localhost,{Port};Initial Catalog=tempdb;User ID=sa;Password={dbPassword};TrustServerCertificate=True";
+        connectionString = $"Data Source=localhost,{Port};Initial Catalog={DbName};User ID={DbUser};Password={dbPassword};TrustServerCertificate=True";
         container = CreateSqlServerContainer(dbPassword);
     }
 
@@ -40,13 +50,14 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     private static TestcontainersContainer CreateSqlServerContainer(string dbPassword)
     {
-        return new TestcontainersBuilder<TestcontainersContainer>()
-                .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
+        return new TestcontainersBuilder<MsSqlTestcontainer>()
+                .WithDatabase(new MsSqlTestcontainerConfiguration("mcr.microsoft.com/mssql/server:2019-latest")
+                {
+                    Password = dbPassword,
+                    Database = DbName,
+                    Port = Port
+                })
                 .WithName("mssql")
-                .WithPortBinding(Port)
-                .WithEnvironment("ACCEPT_EULA", "Y")
-                .WithEnvironment("MSSQL_SA_PASSWORD", dbPassword)
-                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(Port))
                 .Build();
     }
 
