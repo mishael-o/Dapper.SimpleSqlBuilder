@@ -1,13 +1,14 @@
 ﻿using System.Data.Common;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
+using DotNet.Testcontainers.Configurations;
 using Npgsql;
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.PostgreSql;
 
 public class PostgreSqlTestsFixture : IAsyncLifetime
 {
-    private const string DbName = "test-db";
     private const string DbUser = "dbUser";
+    private const string DbName = "test-db";
     private const int Port = 5432;
 
     private readonly string connectionString;
@@ -43,14 +44,15 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     private static TestcontainersContainer CreatePostgreSQLContainer(string dbPassword)
     {
-        return new TestcontainersBuilder<TestcontainersContainer>()
-                .WithImage("postgres:14")
+        return new TestcontainersBuilder<PostgreSqlTestcontainer>()
+                .WithDatabase(new PostgreSqlTestcontainerConfiguration("postgres:14")
+                {
+                    Database = DbName,
+                    Username = DbUser,
+                    Password = dbPassword,
+                    Port = Port
+                })
                 .WithName("postgresql")
-                .WithPortBinding(Port)
-                .WithEnvironment("POSTGRES_DB", DbName)
-                .WithEnvironment("POSTGRES_USER", DbUser)
-                .WithEnvironment("POSTGRES_PASSWORD", dbPassword)
-                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(Port))
                 .Build();
     }
 
