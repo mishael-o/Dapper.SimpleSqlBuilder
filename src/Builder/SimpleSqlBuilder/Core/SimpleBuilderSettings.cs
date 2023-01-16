@@ -25,7 +25,7 @@ public static class SimpleBuilderSettings
     public static bool ReuseParameters { get; private set; } = DefaultReuseParameters;
 
     /// <summary>
-    /// Configures the Simple builder settings.
+    /// Configures the Simple builder settings. Null or empty arguments will be ignored.
     /// </summary>
     /// <param name="parameterNameTemplate">
     /// The parameter name template used to create the parameter names for the generated sql. The default is "p" so the parameter names will be generated as p0, p1, etc.
@@ -39,21 +39,21 @@ public static class SimpleBuilderSettings
     /// The value indicating whether to reuse parameters or not. The default value is <see langword="false"/>.
     /// <para>Example: If set to <see langword="true"/> parameters are reused and if set <see langword="false"/> to they are not.</para>
     /// </param>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when new <paramref name="parameterNameTemplate"/> or <paramref name="parameterPrefix"/> <see langword="null"/>, <see cref="string.Empty"/> contains only white space.</exception>
-    public static void Configure(string parameterNameTemplate = DefaultDatabaseParameterNameTemplate, string parameterPrefix = DefaultDatabaseParameterPrefix, bool reuseParameters = DefaultReuseParameters)
+    public static void Configure(string? parameterNameTemplate = null, string? parameterPrefix = null, bool? reuseParameters = null)
     {
-        if (string.IsNullOrWhiteSpace(parameterNameTemplate))
+        if (!string.IsNullOrWhiteSpace(parameterNameTemplate))
         {
-            throw new ArgumentException($"'{nameof(parameterNameTemplate)}' cannot be null or whitespace.", nameof(parameterNameTemplate));
+            DatabaseParameterNameTemplate = parameterNameTemplate!;
         }
 
-        if (string.IsNullOrWhiteSpace(parameterPrefix))
+        if (!string.IsNullOrWhiteSpace(parameterPrefix))
         {
-            throw new ArgumentException($"'{nameof(parameterPrefix)}' cannot be null or whitespace.", nameof(parameterPrefix));
+            DatabaseParameterPrefix = parameterPrefix!;
         }
 
-        DatabaseParameterNameTemplate = parameterNameTemplate;
-        DatabaseParameterPrefix = parameterPrefix;
-        ReuseParameters = reuseParameters;
+        if (reuseParameters.HasValue)
+        {
+            ReuseParameters = reuseParameters.Value;
+        }
     }
 }
