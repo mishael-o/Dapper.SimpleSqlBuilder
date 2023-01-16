@@ -1,38 +1,14 @@
-﻿namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
+﻿using Dapper.SimpleSqlBuilder.UnitTestHelpers.XUnit;
+
+namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
 
 [Collection($"~ Run Last - {nameof(SimpleBuilderSettingsTests)}")]
+[TestCaseOrderer("Dapper.SimpleSqlBuilder.UnitTestHelpers.XUnit.PriorityOrderer", "Dapper.SimpleSqlBuilder.UnitTestHelpers")]
 public class SimpleBuilderSettingsTests
 {
-    [Theory]
-    [InlineData("")]
-    [InlineData(null)]
-    public void Configure_ParameterNameTemplateIsNullOrWhiteSpace_ThrowsArgumentException(string parameterNameTemplate)
-    {
-        //Act
-        Action act = () => SimpleBuilderSettings.Configure(parameterNameTemplate);
-
-        //Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(parameterNameTemplate)}' cannot be null or whitespace.*")
-            .WithParameterName(nameof(parameterNameTemplate));
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData(null)]
-    public void Configure_ParameterPrefixIsNullOrWhiteSpace_ThrowsArgumentException(string parameterPrefix)
-    {
-        //Act
-        Action act = () => SimpleBuilderSettings.Configure(parameterPrefix: parameterPrefix);
-
-        //Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(parameterPrefix)}' cannot be null or whitespace.*")
-            .WithParameterName(nameof(parameterPrefix));
-    }
-
     [Fact]
-    public void Configure_DefaultValues_ReturnsVoid()
+    [TestPriority(1)]
+    public void Configure_NoArgumentsPassed_ReturnsVoid()
     {
         //Act
         SimpleBuilderSettings.Configure();
@@ -44,8 +20,9 @@ public class SimpleBuilderSettingsTests
     }
 
     [Theory]
+    [TestPriority(2)]
     [InlineData("param", ":", true)]
-    public void Configure_ConfigureSettings_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters)
+    public void Configure_AllArgumentsPassed_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters)
     {
         //Act
         SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters);
@@ -54,5 +31,30 @@ public class SimpleBuilderSettingsTests
         SimpleBuilderSettings.DatabaseParameterNameTemplate.Should().Be(parameterNameTemplate);
         SimpleBuilderSettings.DatabaseParameterPrefix.Should().Be(parameterPrefix);
         SimpleBuilderSettings.ReuseParameters.Should().Be(reuseParameters);
+    }
+
+    [Theory]
+    [TestPriority(3)]
+    [InlineData("myParam", null, null, "myParam", "@", false)]
+    [InlineData("", ":", null, "prm", ":", false)]
+    [InlineData(null, null, true, "prm", "@", true)]
+    public void Configure_ConfigureSingleSetting_ReturnsVoid(
+        string? parameterNameTemplate,
+        string? parameterPrefix,
+        bool? reuseParameters,
+        string expectedParameterNameTemplate,
+        string expectedParameterPrefix,
+        bool expectedReuseParameters)
+    {
+        //Arrange
+        SimpleBuilderSettings.Configure("prm", "@", false);
+
+        //Act
+        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters);
+
+        //Assert
+        SimpleBuilderSettings.DatabaseParameterNameTemplate.Should().Be(expectedParameterNameTemplate);
+        SimpleBuilderSettings.DatabaseParameterPrefix.Should().Be(expectedParameterPrefix);
+        SimpleBuilderSettings.ReuseParameters.Should().Be(expectedReuseParameters);
     }
 }
