@@ -1,9 +1,13 @@
-﻿namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
+﻿using Dapper.SimpleSqlBuilder.UnitTestHelpers.XUnit;
+
+namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
 
 [Collection($"~ Run Last - {nameof(SimpleBuilderSettingsTests)}")]
+[TestCaseOrderer("Dapper.SimpleSqlBuilder.UnitTestHelpers.XUnit.PriorityOrderer", "Dapper.SimpleSqlBuilder.UnitTestHelpers")]
 public class SimpleBuilderSettingsTests
 {
     [Fact]
+    [TestPriority(1)]
     public void Configure_NoArgumentsPassed_ReturnsVoid()
     {
         //Act
@@ -16,6 +20,7 @@ public class SimpleBuilderSettingsTests
     }
 
     [Theory]
+    [TestPriority(2)]
     [InlineData("param", ":", true, true)]
     public void Configure_ConfigureSettings_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
     {
@@ -27,5 +32,30 @@ public class SimpleBuilderSettingsTests
         SimpleBuilderSettings.DatabaseParameterPrefix.Should().Be(parameterPrefix);
         SimpleBuilderSettings.ReuseParameters.Should().Be(reuseParameters);
         SimpleBuilderSettings.UseLowerCaseClauses.Should().Be(useLowerCaseClauses);
+    }
+
+    [Theory]
+    [TestPriority(3)]
+    [InlineData("myParam", null, null, "myParam", "@", false)]
+    [InlineData("", ":", null, "prm", ":", false)]
+    [InlineData(null, null, true, "prm", "@", true)]
+    public void Configure_ConfigureSingleSetting_ReturnsVoid(
+        string? parameterNameTemplate,
+        string? parameterPrefix,
+        bool? reuseParameters,
+        string expectedParameterNameTemplate,
+        string expectedParameterPrefix,
+        bool expectedReuseParameters)
+    {
+        //Arrange
+        SimpleBuilderSettings.Configure("prm", "@", false);
+
+        //Act
+        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters);
+
+        //Assert
+        SimpleBuilderSettings.DatabaseParameterNameTemplate.Should().Be(expectedParameterNameTemplate);
+        SimpleBuilderSettings.DatabaseParameterPrefix.Should().Be(expectedParameterPrefix);
+        SimpleBuilderSettings.ReuseParameters.Should().Be(expectedReuseParameters);
     }
 }
