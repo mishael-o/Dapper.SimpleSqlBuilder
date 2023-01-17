@@ -1,6 +1,4 @@
-﻿using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
-
-namespace Dapper.SimpleSqlBuilder.IntegrationTests.MySql;
+﻿namespace Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
 public record CustomProduct : Product
 {

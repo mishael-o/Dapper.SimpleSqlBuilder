@@ -1,8 +1,9 @@
 ﻿using System.Data;
+using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
-namespace Dapper.SimpleSqlBuilder.IntegrationTests.MySql;
+namespace Dapper.SimpleSqlBuilder.IntegrationTests.Common;
 
-public class MySqlCustomIdTypeHandler : SqlMapper.TypeHandler<CustomId>
+public class CustomIdTypeHandler : SqlMapper.TypeHandler<CustomId>
 {
     public override CustomId Parse(object value)
     {

@@ -1,7 +1,8 @@
 ﻿using System.Data.Common;
-using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
+using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 using DotNet.Testcontainers.Configurations;
 using Npgsql;
+using Respawn;
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.PostgreSql;
 
@@ -14,11 +15,19 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     private readonly string connectionString;
     private readonly TestcontainersContainer container;
 
+    private DbConnection dbConnection = null!;
+
+#if NET461
+    private Checkpoint respawner = null!;
+#else
+    private Respawner respawner = null!;
+#endif
+
     public PostgreSqlTestsFixture()
     {
         var fixture = new Fixture();
         var dbPassword = fixture.Create<string>();
-        ProductTypeInDB = fixture.Create<ProductType>();
+        DefaultProductType = fixture.Create<ProductType>();
 
         connectionString = $"Host=localhost;Port={Port};Username={DbUser};Password={dbPassword};Database={DbName}";
         container = CreatePostgreSQLContainer(dbPassword);
@@ -26,21 +35,33 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     public string StoredProcName { get; } = "createProduct";
 
-    public ProductType ProductTypeInDB { get; }
+    public ProductType DefaultProductType { get; }
 
     public async Task InitializeAsync()
     {
         await container.StartAsync();
+        await InitialiseDbConnectionAsync();
         await CreateSchemaAsync();
+        await InitialiseRespawnerAsync();
     }
 
     public async Task DisposeAsync()
     {
+        dbConnection.Dispose();
         await container.DisposeAsync();
     }
 
     public DbConnection CreateDbConnection()
         => new NpgsqlConnection(connectionString);
+
+    public async Task ResetDatabaseAsync()
+    {
+#if NET461
+        await respawner.Reset(dbConnection);
+#else
+        await respawner.ResetAsync(dbConnection);
+#endif
+    }
 
     private static TestcontainersContainer CreatePostgreSQLContainer(string dbPassword)
     {
@@ -58,9 +79,6 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     private async Task CreateSchemaAsync()
     {
-        using var connection = CreateDbConnection();
-        await connection.OpenAsync();
-
         var tableBuilder = SimpleBuilder.Create($@"
            CREATE TABLE {nameof(ProductType):raw}
            (
@@ -69,7 +87,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
            );
 
            INSERT INTO {nameof(ProductType):raw}
-           VALUES ({ProductTypeInDB.Id}, {ProductTypeInDB.Description});
+           VALUES ({DefaultProductType.Id}, {DefaultProductType.Description});
 
            CREATE TABLE {nameof(Product):raw}
            (
@@ -79,7 +97,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
                 {nameof(Product.CreatedDate):raw} DATE
            );");
 
-        await connection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
+        await dbConnection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
 
         var storedProcBuilder = SimpleBuilder.Create($@"
            CREATE EXTENSION IF NOT EXISTS ""uuid-ossp"";
@@ -89,11 +107,36 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
            BEGIN
                 UserId = gen_random_uuid();
                 INSERT INTO {nameof(Product):raw}
-                VALUES (UserId, TypeId, now());
+                VALUES (UserId, TypeId, 'procedure', now());
                 GET DIAGNOSTICS Result = ROW_COUNT;
            END; $$
            LANGUAGE plpgsql;");
 
-        await connection.ExecuteAsync(storedProcBuilder.Sql);
+        await dbConnection.ExecuteAsync(storedProcBuilder.Sql);
+    }
+
+    private async Task InitialiseDbConnectionAsync()
+    {
+        dbConnection = CreateDbConnection();
+        await dbConnection.OpenAsync();
+    }
+
+    private async Task InitialiseRespawnerAsync()
+    {
+#if NET461
+        respawner = new Checkpoint
+        {
+            SchemasToInclude = new[] { "public" },
+            DbAdapter = DbAdapter.Postgres,
+            TablesToIgnore = new[] { nameof(ProductType).ToLowerInvariant() }
+        };
+#else
+        respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
+        {
+            SchemasToInclude = new[] { "public" },
+            DbAdapter = DbAdapter.Postgres,
+            TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(ProductType).ToLowerInvariant()) }
+        });
+#endif
     }
 }

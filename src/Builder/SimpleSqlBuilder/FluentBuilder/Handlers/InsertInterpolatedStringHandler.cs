@@ -7,19 +7,19 @@ public ref struct InsertInterpolatedStringHandler
 {
     private readonly IFluentSqlFormatter formatter;
 
-    internal InsertInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
+    public InsertInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
     {
-        formatter = (IFluentSqlFormatter)builder;
+        formatter = builder as IFluentSqlFormatter ?? throw new ArgumentNullException(nameof(builder));
         formatter.StartClauseAction(ClauseAction.Insert);
     }
 
-    internal void AppendLiteral(string value)
+    public void AppendLiteral(string value)
         => formatter.FormatLiteral(value);
 
-    internal void AppendFormatted<T>(T value)
+    public void AppendFormatted<T>(T value)
         => AppendFormatted(value, null);
 
-    internal void AppendFormatted<T>(T value, string? format)
+    public void AppendFormatted<T>(T value, string? format)
         => formatter.FormatParameter(value, format);
 
     internal void Close()

@@ -1,11 +1,12 @@
 ﻿using System.Data;
-using System.Data.Common;
 using Dapper.SimpleSqlBuilder.Extensions;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
+using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.PostgreSql;
 
-public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
+[Collection(nameof(PostgreSqlTestsCollection))]
+public class PostgreSqlTests : IAsyncLifetime
 {
     private readonly PostgreSqlTestsFixture postgreSqlTestsFixture;
 
@@ -43,17 +44,18 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
     public async Task InsertDataInTable_ValidateInsert()
     {
         //Arrange
-        var products = GetBaseProductComposer()
+        const string tag = "insert";
+        var products = Helpers.GetBaseProductComposer(postgreSqlTestsFixture.DefaultProductType.Id, tag: tag)
             .CreateMany()
             .ToArray();
 
         var builder = SimpleBuilder.Create(reuseParameters: true);
 
-        foreach (var product in products)
+        for (var i = 0; i < products.Length; i++)
         {
             builder.AppendNewLine($@"
-                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.CreatedDate):raw})
-                VALUES ({product.Id}, {product.TypeId.DefineParam(DbType.Guid)}, {product.CreatedDate});");
+                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
+                VALUES ({products[i].Id}, {products[i].TypeId.DefineParam(DbType.Guid)}, {products[i].Tag}, {products[i].CreatedDate});");
         }
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
@@ -75,7 +77,11 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await GenerateSeedDataAsync(connection);
+        var products = await Helpers.GenerateSeedProductsDataAsync(
+            postgreSqlTestsFixture.DefaultProductType.Id,
+            connection,
+            tag: tag,
+            productDescription: postgreSqlTestsFixture.DefaultProductType.Description);
 
         FormattableString subQuery = $@"
             SELECT {nameof(ProductType.Description):raw}
@@ -88,47 +94,26 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
             WHERE {nameof(Product.Tag):raw} = {tag}");
 
         //Act
-        var productsInDb = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
+        var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         //Assert
-        productsInDb.Should().BeEquivalentTo(products);
-
-        async Task<Product[]> GenerateSeedDataAsync(DbConnection connection)
-        {
-            var products = GetBaseProductComposer()
-                .With(x => x.Description, postgreSqlTestsFixture.ProductTypeInDB.Description)
-                .With(x => x.Tag, tag)
-                .CreateMany()
-                .ToArray();
-
-            var builder = SimpleBuilder.Create(reuseParameters: true);
-
-            for (var i = 0; i < products.Length; i++)
-            {
-                builder.AppendNewLine(
-                   $@"INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
-                   VALUES ({products[i].Id}, {products[i].TypeId}, {products[i].Tag}, {products[i].CreatedDate.DefineParam(DbType.Date)});");
-            }
-
-            await connection.ExecuteAsync(builder.Sql, builder.Parameters);
-
-            return products;
-        }
+        result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
     public async Task UpdateDataInTable_ValidateUpdate()
     {
         //Arrange
+        const int count = 3;
         const string tag = "update";
         var createdDate = DateTime.Now.AddDays(100).Date;
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await GenerateSeedDataAsync(connection);
+        await Helpers.GenerateSeedProductsDataAsync(postgreSqlTestsFixture.DefaultProductType.Id, connection, count, tag);
 
-        var updateBuilder = SimpleBuilder
+        var builder = SimpleBuilder
             .Create($"UPDATE {nameof(Product):raw}")
             .AppendNewLine($"SET {nameof(Product.CreatedDate):raw} = {createdDate}")
             .AppendNewLine($"WHERE {nameof(Product.Tag):raw} = {tag}");
@@ -138,37 +123,25 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
             .AppendNewLine($"WHERE {nameof(Product.Tag):raw} = {tag}");
 
         //Act
-        var result = await connection.ExecuteAsync(updateBuilder.Sql, updateBuilder.Parameters);
-        var expectedCreatedDate = await connection.ExecuteScalarAsync<DateTime>(getUpdatedDateBuilder.Sql, getUpdatedDateBuilder.Parameters);
+        var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
+        var expectedCreatedDates = await connection.QueryAsync<DateTime>(getUpdatedDateBuilder.Sql, getUpdatedDateBuilder.Parameters);
 
         //Assert
-        result.Should().Be(1);
-        expectedCreatedDate.Should().Be(createdDate);
-
-        async Task GenerateSeedDataAsync(DbConnection connection)
-        {
-            var product = GetBaseProductComposer()
-                .With(x => x.Tag, tag)
-                .Create();
-
-            var builder = SimpleBuilder.Create($@"
-                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
-                VALUES ({product.Id}, {product.TypeId}, {product.Tag}, {product.CreatedDate});");
-
-            await connection.ExecuteAsync(builder.Sql, builder.Parameters);
-        }
+        result.Should().Be(count);
+        expectedCreatedDates.Should().AllBeEquivalentTo(createdDate);
     }
 
     [Fact]
     public async Task DeleteDataInTable_ValidateDelete()
     {
         //Arrange
+        const int count = 3;
         const string tag = "delete";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await GenerateSeedDataAsync(connection);
+        await Helpers.GenerateSeedProductsDataAsync(postgreSqlTestsFixture.DefaultProductType.Id, connection, count, tag);
 
         var builder = SimpleBuilder
             .Create($"DELETE FROM {nameof(Product):raw}")
@@ -182,21 +155,8 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
         var dataExists = await connection.ExecuteScalarAsync<bool>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);
 
         //Assert
-        result.Should().Be(1);
+        result.Should().Be(count);
         dataExists.Should().BeFalse();
-
-        async Task GenerateSeedDataAsync(DbConnection connection)
-        {
-            var product = GetBaseProductComposer()
-                .With(x => x.Tag, tag)
-                .Create();
-
-            var builder = SimpleBuilder.Create($@"
-                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
-                VALUES ({product.Id}, {product.TypeId}, {product.Tag}, {product.CreatedDate});");
-
-            await connection.ExecuteAsync(builder.Sql, builder.Parameters);
-        }
     }
 
     [Fact]
@@ -207,7 +167,7 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
         const string userIdParamName = "UserId";
 
         var builder = SimpleBuilder.Create($"CALL {postgreSqlTestsFixture.StoredProcName:raw}(@{nameof(Product.TypeId):raw}, NULL, NULL)")
-            .AddParameter(nameof(Product.TypeId), postgreSqlTestsFixture.ProductTypeInDB.Id, dbType: DbType.Guid)
+            .AddParameter(nameof(Product.TypeId), postgreSqlTestsFixture.DefaultProductType.Id, dbType: DbType.Guid)
             .AddParameter(userIdParamName, dbType: DbType.Guid, direction: ParameterDirection.Output)
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
@@ -222,11 +182,9 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
         builder.GetValue<int>(resultParamName).Should().Be(1);
     }
 
-    private AutoFixture.Dsl.IPostprocessComposer<Product> GetBaseProductComposer()
-    {
-        return new Fixture()
-            .Build<Product>()
-            .With(x => x.TypeId, postgreSqlTestsFixture.ProductTypeInDB.Id)
-            .With(x => x.CreatedDate, DateTime.Now.Date);
-    }
+    public Task InitializeAsync()
+        => Task.CompletedTask;
+
+    public Task DisposeAsync()
+        => postgreSqlTestsFixture.ResetDatabaseAsync();
 }

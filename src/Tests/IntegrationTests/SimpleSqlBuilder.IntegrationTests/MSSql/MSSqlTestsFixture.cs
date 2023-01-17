@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
-using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
+using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 using DotNet.Testcontainers.Configurations;
+using Respawn;
 
 #if NET461
 
@@ -15,16 +16,24 @@ namespace Dapper.SimpleSqlBuilder.IntegrationTests.MSSql;
 public class MSSqlTestsFixture : IAsyncLifetime
 {
     private const string DbUser = "sa";
-    private const string DbName = "tempdb";
+    private const string DbName = "test-db";
     private const int Port = 1433;
 
     private readonly string connectionString;
     private readonly TestcontainersContainer container;
 
+    private DbConnection dbConnection = null!;
+
+#if NET461
+    private Checkpoint respawner = null!;
+#else
+    private Respawner respawner = null!;
+#endif
+
     public MSSqlTestsFixture()
     {
         const string dbPassword = "Mssql!Pa55w0rD";
-        ProductTypeInDB = new Fixture().Create<ProductType>();
+        DefaultProductType = new Fixture().Create<ProductType>();
 
         connectionString = $"Data Source=localhost,{Port};Initial Catalog={DbName};User ID={DbUser};Password={dbPassword};TrustServerCertificate=True";
         container = CreateSqlServerContainer(dbPassword);
@@ -32,21 +41,33 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     public string StoredProcName { get; } = "CreateProduct";
 
-    public ProductType ProductTypeInDB { get; }
+    public ProductType DefaultProductType { get; }
 
     public async Task InitializeAsync()
     {
         await container.StartAsync();
+        await InitialiseDbConnectionAsync();
         await CreateSchemaAsync();
+        await InitialiseRespawnerAsync();
     }
 
     public async Task DisposeAsync()
     {
+        dbConnection.Dispose();
         await container.DisposeAsync();
     }
 
     public DbConnection CreateDbConnection()
         => new SqlConnection(connectionString);
+
+    public async Task ResetDatabaseAsync()
+    {
+#if NET461
+        await respawner.Reset(dbConnection);
+#else
+        await respawner.ResetAsync(dbConnection);
+#endif
+    }
 
     private static TestcontainersContainer CreateSqlServerContainer(string dbPassword)
     {
@@ -63,9 +84,6 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     private async Task CreateSchemaAsync()
     {
-        using var connection = CreateDbConnection();
-        await connection.OpenAsync();
-
         var tableBuilder = SimpleBuilder.Create($@"
            CREATE TABLE {nameof(ProductType):raw}
            (
@@ -74,7 +92,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
            );
 
            INSERT INTO {nameof(ProductType):raw}
-           VALUES ({ProductTypeInDB.Id}, {ProductTypeInDB.Description});
+           VALUES ({DefaultProductType.Id}, {DefaultProductType.Description});
 
            CREATE TABLE {nameof(Product):raw}
            (
@@ -84,7 +102,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
                 {nameof(Product.CreatedDate):raw} DATE
            );");
 
-        await connection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
+        await dbConnection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
 
         var storedProcBuilder = SimpleBuilder.Create($@"
            CREATE PROCEDURE {StoredProcName:raw} @TypeId UNIQUEIDENTIFIER, @UserId UNIQUEIDENTIFIER OUT
@@ -92,7 +110,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
            BEGIN
                 SET @UserId = NEWID();
                 INSERT INTO {nameof(Product):raw}
-                VALUES (@UserId, @TypeId, NULL, GETDATE());
+                VALUES (@UserId, @TypeId, 'procedure', GETDATE());
                 RETURN @@ROWCOUNT;
            END");
 
@@ -108,6 +126,31 @@ public class MSSqlTestsFixture : IAsyncLifetime
         //   .AppendNewLine($"RETURN @@ROWCOUNT;")
         //   .AppendNewLine($"END");
 
-        await connection.ExecuteAsync(storedProcBuilder.Sql);
+        await dbConnection.ExecuteAsync(storedProcBuilder.Sql);
+    }
+
+    private async Task InitialiseDbConnectionAsync()
+    {
+        dbConnection = CreateDbConnection();
+        await dbConnection.OpenAsync();
+    }
+
+    private async Task InitialiseRespawnerAsync()
+    {
+#if NET461
+        respawner = new Checkpoint
+        {
+            SchemasToInclude = new[] { "dbo" },
+            DbAdapter = DbAdapter.SqlServer,
+            TablesToIgnore = new[] { nameof(ProductType) }
+        };
+#else
+        respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
+        {
+            SchemasToInclude = new[] { "dbo" },
+            DbAdapter = DbAdapter.SqlServer,
+            TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(ProductType)) }
+        });
+#endif
     }
 }

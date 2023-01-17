@@ -7,12 +7,12 @@ public ref struct InnerJoinInterpolatedStringHandler
 {
     private readonly IFluentSqlFormatter? formatter;
 
-    internal InnerJoinInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder, out bool isHandlerEnabled)
+    public InnerJoinInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder, out bool isHandlerEnabled)
         : this(literalLength, formattedCount, true, builder, out isHandlerEnabled)
     {
     }
 
-    internal InnerJoinInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentBuilder builder, out bool isHandlerEnabled)
+    public InnerJoinInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentBuilder builder, out bool isHandlerEnabled)
     {
         if (!condition)
         {
@@ -21,18 +21,18 @@ public ref struct InnerJoinInterpolatedStringHandler
             return;
         }
 
-        formatter = (IFluentSqlFormatter)builder;
+        formatter = builder as IFluentSqlFormatter ?? throw new ArgumentNullException(nameof(builder));
         isHandlerEnabled = true;
         formatter.StartClauseAction(ClauseAction.InnerJoin);
     }
 
-    internal void AppendLiteral(string value)
+    public void AppendLiteral(string value)
         => formatter?.FormatLiteral(value);
 
-    internal void AppendFormatted<T>(T value)
+    public void AppendFormatted<T>(T value)
         => AppendFormatted(value, null);
 
-    internal void AppendFormatted<T>(T value, string? format)
+    public void AppendFormatted<T>(T value, string? format)
         => formatter?.FormatParameter(value, format);
 
     internal void Close()

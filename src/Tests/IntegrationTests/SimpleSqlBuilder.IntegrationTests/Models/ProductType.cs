@@ -1,4 +1,4 @@
-﻿namespace Dapper.SimpleSqlBuilder.IntegrationTests.Common;
+﻿namespace Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
 public record ProductType
 {
