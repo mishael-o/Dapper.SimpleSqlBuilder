@@ -1,10 +1,12 @@
 ﻿using System.Data;
-using System.Data.Common;
 using Dapper.SimpleSqlBuilder.Extensions;
+using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
+using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.MySql;
 
-public class MySqlTests : IClassFixture<MySqlTestsFixture>
+[Collection(nameof(MySqlTestsCollection))]
+public class MySqlTests : IAsyncLifetime
 {
     private readonly MySqlTestsFixture mySqlTestsFixture;
 
@@ -46,17 +48,18 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
     public async Task InsertDataInTable_ValidateInsert()
     {
         //Arrange
-        var products = GetBaseProductComposer()
+        const string tag = "insert";
+        var products = Helpers.GetBaseCustomProductComposer(mySqlTestsFixture.DefaultProductType.Id, tag)
             .CreateMany()
             .ToArray();
 
         var builder = SimpleBuilder.Create(reuseParameters: true);
 
-        foreach (var product in products)
+        for (var i = 0; i < products.Length; i++)
         {
             builder.AppendNewLine($@"
-                INSERT INTO {nameof(CustomProduct):raw} ({nameof(CustomProduct.Id):raw}, {nameof(CustomProduct.TypeId):raw}, {nameof(CustomProduct.CreatedDate):raw})
-                VALUES ({product.Id}, {product.TypeId.DefineParam(DbType.Binary, size: 16)}, {product.CreatedDate});");
+                INSERT INTO {nameof(CustomProduct):raw} ({nameof(CustomProduct.Id):raw}, {nameof(CustomProduct.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(CustomProduct.CreatedDate):raw})
+                VALUES ({products[i].Id}, {products[i].TypeId},  {products[i].Tag}, {products[i].CreatedDate.DefineParam(DbType.DateTime)});");
         }
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
@@ -78,7 +81,11 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await GenerateSeedDataAsync(connection);
+        var products = await Helpers.GenerateSeedCustomProductsAsync(
+            mySqlTestsFixture.DefaultProductType.Id,
+            connection,
+            tag: tag,
+            productDescription: mySqlTestsFixture.DefaultProductType.Description);
 
         FormattableString subQuery = $@"
             SELECT {nameof(CustomProductType.Description):raw}
@@ -91,47 +98,26 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
             WHERE {nameof(CustomProduct.Tag):raw} = {tag}");
 
         //Act
-        var productsInDb = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
+        var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
 
         //Assert
-        productsInDb.Should().BeEquivalentTo(products);
-
-        async Task<CustomProduct[]> GenerateSeedDataAsync(DbConnection connection)
-        {
-            var products = GetBaseProductComposer()
-                .With(x => x.Description, mySqlTestsFixture.ProductTypeInDB.Description)
-                .With(x => x.Tag, tag)
-                .CreateMany()
-                .ToArray();
-
-            var builder = SimpleBuilder.Create(reuseParameters: true);
-
-            for (var i = 0; i < products.Length; i++)
-            {
-                builder.AppendNewLine(
-                   $@"INSERT INTO {nameof(CustomProduct):raw} ({nameof(CustomProduct.Id):raw}, {nameof(CustomProduct.TypeId):raw}, {nameof(CustomProduct.Tag):raw}, {nameof(CustomProduct.CreatedDate):raw})
-                   VALUES ({products[i].Id}, {products[i].TypeId}, {products[i].Tag}, {products[i].CreatedDate.DefineParam(DbType.Date)});");
-            }
-
-            await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
-
-            return products;
-        }
+        result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
     public async Task UpdateDataInTable_ValidateUpdate()
     {
         //Arrange
+        const int count = 3;
         const string tag = "update";
         var createdDate = DateTime.Now.AddDays(100).Date;
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await GenerateSeedDataAsync(connection);
+        await Helpers.GenerateSeedCustomProductsAsync(mySqlTestsFixture.DefaultProductType.Id, connection, count, tag);
 
-        var updateBuilder = SimpleBuilder
+        var builder = SimpleBuilder
             .Create($"UPDATE {nameof(CustomProduct):raw}")
             .AppendNewLine($"SET {nameof(CustomProduct.CreatedDate):raw} = {createdDate}")
             .AppendNewLine($"WHERE {nameof(CustomProduct.Tag):raw} = {tag}");
@@ -141,37 +127,25 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
             .AppendNewLine($"WHERE {nameof(CustomProduct.Tag):raw} = {tag}");
 
         //Act
-        var result = await connection.ExecuteAsync(updateBuilder.Sql, updateBuilder.Parameters);
-        var expectedCreatedDate = await connection.ExecuteScalarAsync<DateTime>(getUpdatedDateBuilder.Sql, getUpdatedDateBuilder.Parameters);
+        var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
+        var expectedCreatedDates = await connection.QueryAsync<DateTime>(getUpdatedDateBuilder.Sql, getUpdatedDateBuilder.Parameters);
 
         //Assert
-        result.Should().Be(1);
-        expectedCreatedDate.Should().Be(createdDate);
-
-        async Task GenerateSeedDataAsync(DbConnection connection)
-        {
-            var product = GetBaseProductComposer()
-                .With(x => x.Tag, tag)
-                .Create();
-
-            var builder = SimpleBuilder.Create($@"
-                INSERT INTO {nameof(CustomProduct):raw} ({nameof(CustomProduct.Id):raw}, {nameof(CustomProduct.TypeId):raw}, {nameof(CustomProduct.Tag):raw}, {nameof(CustomProduct.CreatedDate):raw})
-                VALUES ({product.Id}, {product.TypeId}, {product.Tag}, {product.CreatedDate});");
-
-            await connection.ExecuteAsync(builder.Sql, builder.Parameters);
-        }
+        result.Should().Be(count);
+        expectedCreatedDates.Should().AllBeEquivalentTo(createdDate);
     }
 
     [Fact]
     public async Task DeleteDataInTable_ValidateDelete()
     {
         //Arrange
+        const int count = 3;
         const string tag = "delete";
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await GenerateSeedDataAsync(connection);
+        await Helpers.GenerateSeedCustomProductsAsync(mySqlTestsFixture.DefaultProductType.Id, connection, count, tag);
 
         var builder = SimpleBuilder
             .Create($"DELETE FROM {nameof(CustomProduct):raw}")
@@ -189,21 +163,8 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
         var dataExists = await connection.ExecuteScalarAsync<bool>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);
 
         //Assert
-        result.Should().Be(1);
+        result.Should().Be(count);
         dataExists.Should().BeFalse();
-
-        async Task GenerateSeedDataAsync(DbConnection connection)
-        {
-            var product = GetBaseProductComposer()
-                .With(x => x.Tag, tag)
-                .Create();
-
-            var builder = SimpleBuilder.Create($@"
-                INSERT INTO {nameof(CustomProduct):raw} ({nameof(CustomProduct.Id):raw}, {nameof(CustomProduct.TypeId):raw}, {nameof(CustomProduct.Tag):raw}, {nameof(CustomProduct.CreatedDate):raw})
-                VALUES ({product.Id}, {product.TypeId}, {product.Tag}, {product.CreatedDate});");
-
-            await connection.ExecuteAsync(builder.Sql, builder.Parameters);
-        }
     }
 
     [Fact]
@@ -214,8 +175,8 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
         const string userIdParamName = "UserId";
 
         var builder = SimpleBuilder.Create($"{mySqlTestsFixture.StoredProcName:raw}")
-            .AddParameter(nameof(CustomProduct.TypeId), mySqlTestsFixture.ProductTypeInDB.Id, dbType: DbType.Binary, size: 16)
-            .AddParameter(userIdParamName, dbType: DbType.Binary, size: 16, direction: ParameterDirection.Output)
+            .AddParameter(nameof(CustomProduct.TypeId), mySqlTestsFixture.DefaultProductType.Id)
+            .AddParameter(userIdParamName, direction: ParameterDirection.Output)
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
@@ -225,15 +186,13 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
         await connection.ExecuteAsync(builder.Sql, builder.Parameters, commandType: CommandType.StoredProcedure);
 
         //Assert
-        builder.GetValue<int>(resultParamName).Should().Be(1);
         builder.GetValue<byte[]>(userIdParamName).Should().NotBeNullOrEmpty();
+        builder.GetValue<int>(resultParamName).Should().Be(1);
     }
 
-    private AutoFixture.Dsl.IPostprocessComposer<CustomProduct> GetBaseProductComposer()
-    {
-        return new Fixture()
-            .Build<CustomProduct>()
-            .With(x => x.TypeId, mySqlTestsFixture.ProductTypeInDB.Id)
-            .With(x => x.CreatedDate, DateTime.Now.Date);
-    }
+    public Task InitializeAsync()
+    => Task.CompletedTask;
+
+    public Task DisposeAsync()
+        => mySqlTestsFixture.ResetDatabaseAsync();
 }

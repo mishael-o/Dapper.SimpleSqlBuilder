@@ -5,6 +5,20 @@ namespace Dapper.SimpleSqlBuilder.UnitTests.FluentBuilder.Handlers;
 
 public class InsertValueInterpolatedStringHandlerTests
 {
+    [Fact]
+    public void Constructor_FluentBuilderIsNull_ThrowsArgumentNullException()
+    {
+        //Arrange
+        IFluentBuilder fluentBuilder = null!;
+
+        //Act
+        Action act = () => _ = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilder);
+
+        //Assert
+        act.Should().Throw<ArgumentNullException>()
+            .WithParameterName("builder");
+    }
+
     [Theory]
     [AutoData]
     public void Constructor_InitialiseHandler_HandlerInitialised(Mock<IFluentBuilder> fluentBuilderMock)

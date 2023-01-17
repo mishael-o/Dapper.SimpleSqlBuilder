@@ -1,4 +1,4 @@
-﻿namespace Dapper.SimpleSqlBuilder.IntegrationTests.MySql;
+﻿namespace Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
 public struct CustomId : IEquatable<CustomId>
 {

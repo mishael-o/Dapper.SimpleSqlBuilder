@@ -7,19 +7,19 @@ public ref struct DeleteInterpolatedStringHandler
 {
     private readonly IFluentSqlFormatter formatter;
 
-    internal DeleteInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
+    public DeleteInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
     {
-        formatter = (IFluentSqlFormatter)builder;
+        formatter = builder as IFluentSqlFormatter ?? throw new ArgumentNullException(nameof(builder));
         formatter.StartClauseAction(ClauseAction.Delete);
     }
 
-    internal void AppendLiteral(string value)
+    public void AppendLiteral(string value)
         => formatter.FormatLiteral(value);
 
-    internal void AppendFormatted<T>(T value)
+    public void AppendFormatted<T>(T value)
         => AppendFormatted(value, null);
 
-    internal void AppendFormatted<T>(T value, string? format)
+    public void AppendFormatted<T>(T value, string? format)
         => formatter.FormatParameter(value, format);
 
     internal void Close()
