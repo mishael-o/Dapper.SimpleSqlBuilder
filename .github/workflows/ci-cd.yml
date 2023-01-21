@@ -2,11 +2,11 @@ name: Continuous integration and delivery
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "develop"]
     paths:
         - 'src/**'
   pull_request:
-    branches: ["main"]
+    branches: ["main", "develop"]
   workflow_dispatch:
     inputs:
       publish_nuget:
@@ -29,7 +29,7 @@ jobs:
     env:
       coverageReportPath: ${{ github.workspace }}/coverage-reports/
     outputs:
-      package_version: ${{ env.NBGV_NuGetPackageVersion }}
+      package_version: ${{ steps.getversion.outputs.package_version }}
 
     steps:
       - uses: actions/checkout@v3
@@ -51,6 +51,17 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           directory: ${{ env.coverageReportPath }}
+      - name: Get version
+        id: getversion
+        run: |
+          nugetVersion=${{ env.GitBuildVersionSimple }}
+          
+          if ${{ github.ref_name == 'develop' }};
+          then
+            nugetVersion+="-beta"
+          fi
+          
+          echo "package_version=$nugetVersion" >> $GITHUB_OUTPUT
       - name: Create nuget packages
         if: ${{ inputs.publish_nuget == true }}
         run: dotnet pack --no-build -o $packagePath -c $configuration     
@@ -63,7 +74,7 @@ jobs:
           retention-days: 7
       
   publish:
-    if: ${{ contains(fromJson('["main"]'), github.ref_name) && inputs.publish_nuget == true }}
+    if: ${{ contains(fromJson('["main", "develop"]'), github.ref_name) && inputs.publish_nuget == true }}
     name: Publish
     needs: [build]
     runs-on: ubuntu-latest
@@ -83,6 +94,12 @@ jobs:
         run: dotnet nuget push  ${{ env.packagePath }}/*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
       - name: Create Release Documentation
         if: ${{ success() }}
-        run: gh release create 'v${{ needs.build.outputs.package_version }}' --title 'Release ${{ needs.build.outputs.package_version }}' --generate-notes
+        run: |
+          if ${{ github.ref_name == 'main' }};
+          then
+            gh release create 'v${{ needs.build.outputs.package_version }}' --title 'Release ${{ needs.build.outputs.package_version }}' --generate-notes
+          else
+            gh release create 'v${{ needs.build.outputs.package_version }}' --target ${{ github.ref_name }} --title 'Release ${{ needs.build.outputs.package_version }}' --generate-notes --prerelease
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
