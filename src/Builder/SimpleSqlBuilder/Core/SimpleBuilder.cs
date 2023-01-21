@@ -16,18 +16,14 @@ public static class SimpleBuilder
     {
         if (string.IsNullOrWhiteSpace(parameterPrefix))
         {
-            parameterPrefix = SimpleBuilderSettings.DatabaseParameterPrefix;
+            parameterPrefix = SimpleBuilderSettings.Instance.DatabaseParameterPrefix;
         }
 
-        reuseParameters ??= SimpleBuilderSettings.ReuseParameters;
+        reuseParameters ??= SimpleBuilderSettings.Instance.ReuseParameters;
 
         return new SqlBuilder(
-            SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate,
-#if NET461 || NETSTANDARD2_0
+            SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate,
             parameterPrefix!,
-#else
-            parameterPrefix,
-#endif
             reuseParameters.Value,
             formattable);
     }

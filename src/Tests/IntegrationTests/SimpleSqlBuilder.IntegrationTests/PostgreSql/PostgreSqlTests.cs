@@ -110,7 +110,7 @@ public class PostgreSqlTests : IClassFixture<PostgreSqlTestsFixture>
                    VALUES ({products[i].Id}, {products[i].TypeId}, {products[i].Tag}, {products[i].CreatedDate.DefineParam(DbType.Date)});");
             }
 
-            await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
+            await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
             return products;
         }

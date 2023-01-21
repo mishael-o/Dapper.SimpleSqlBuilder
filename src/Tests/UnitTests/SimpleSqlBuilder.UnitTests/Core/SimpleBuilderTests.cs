@@ -82,8 +82,8 @@ public class SimpleBuilderTests
         //Assert
         result.Should().Be(sut);
         sut.Sql.Should().Be(expectedSql);
-        sut.GetValue<int>($"{SimpleBuilderSettings.DatabaseParameterNameTemplate}0").Should().Be(param1);
-        sut.GetValue<string>($"{SimpleBuilderSettings.DatabaseParameterNameTemplate}1").Should().Be(param2);
+        sut.GetValue<int>($"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0").Should().Be(param1);
+        sut.GetValue<string>($"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}1").Should().Be(param2);
     }
 
     [Theory]
@@ -103,8 +103,8 @@ public class SimpleBuilderTests
         //Assert
         result.Should().Be(sut);
         sut.Sql.Should().Be(expectedSql);
-        sut.GetValue<int>($"{SimpleBuilderSettings.DatabaseParameterNameTemplate}0").Should().Be(param1);
-        sut.GetValue<string>($"{SimpleBuilderSettings.DatabaseParameterNameTemplate}1").Should().Be(param2);
+        sut.GetValue<int>($"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0").Should().Be(param1);
+        sut.GetValue<string>($"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}1").Should().Be(param2);
     }
 
     [Theory]
@@ -120,9 +120,9 @@ public class SimpleBuilderTests
         //Assert
         result.Should().Be(sut);
         sut.Sql.Should().Be(expectedSql);
-        sut.GetValue<int>($"{SimpleBuilderSettings.DatabaseParameterNameTemplate}0").Should().Be(param1);
-        sut.GetValue<string>($"{SimpleBuilderSettings.DatabaseParameterNameTemplate}1").Should().Be(param2);
-        sut.GetValue<int>($"{SimpleBuilderSettings.DatabaseParameterNameTemplate}2").Should().Be(param3);
+        sut.GetValue<int>($"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0").Should().Be(param1);
+        sut.GetValue<string>($"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}1").Should().Be(param2);
+        sut.GetValue<int>($"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}2").Should().Be(param3);
     }
 
     [Fact]
@@ -130,9 +130,9 @@ public class SimpleBuilderTests
     {
         //Arrange
         const int id = 10;
-        var expectedParameterName = $"{SimpleBuilderSettings.DatabaseParameterNameTemplate}0";
+        var expectedParameterName = $"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0";
         FormattableString formattable = $"WHERE ID = {id}";
-        var expectedSql = $" WHERE ID = {SimpleBuilderSettings.DatabaseParameterPrefix}{expectedParameterName}";
+        var expectedSql = $" WHERE ID = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{expectedParameterName}";
 
         var sut = SimpleBuilder.Create();
 
@@ -164,9 +164,9 @@ public class SimpleBuilderTests
     {
         //Arrange
         const int id = 10;
-        var expectedParameterName = $"{SimpleBuilderSettings.DatabaseParameterNameTemplate}0";
+        var expectedParameterName = $"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0";
         FormattableString formattable = $"WHERE ID = {id}";
-        var expectedSql = $"{Environment.NewLine}WHERE ID = {SimpleBuilderSettings.DatabaseParameterPrefix}{expectedParameterName}";
+        var expectedSql = $"{Environment.NewLine}WHERE ID = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{expectedParameterName}";
 
         var sut = SimpleBuilder.Create();
 
@@ -222,9 +222,9 @@ public class SimpleBuilderTests
     {
         //Arrange
         const int id = 10;
-        var expectedParameterName = $"{SimpleBuilderSettings.DatabaseParameterNameTemplate}0";
+        var expectedParameterName = $"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0";
         FormattableString formattable = $"SELECT * FROM TABLE WHERE ID = {id}";
-        var expectedSql = $"SELECT * FROM TABLE WHERE ID = {SimpleBuilderSettings.DatabaseParameterPrefix}{expectedParameterName}";
+        var expectedSql = $"SELECT * FROM TABLE WHERE ID = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{expectedParameterName}";
 
         SimpleBuilderBase sut = SimpleBuilder.Create();
 
@@ -243,7 +243,7 @@ public class SimpleBuilderTests
         //Arrange
         var model = new { Id = 10, TypeId = 20, Age = default(int?), Name = "John", MiddleName = default(string) };
         const int expectedParameterCount = 7;
-        var parameterNamePrefix = SimpleBuilderSettings.DatabaseParameterPrefix + SimpleBuilderSettings.DatabaseParameterNameTemplate;
+        var parameterNamePrefix = SimpleBuilderSettings.Instance.DatabaseParameterPrefix + SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate;
 
         var expectedSql =
             $@"INSERT INTO TABLE
@@ -286,8 +286,8 @@ public class SimpleBuilderTests
 
             yield return new object[]
             {
-            formattableString, //FormattableString
-            expectedSql, //expectedSql
+                formattableString, //FormattableString
+                expectedSql, //expectedSql
             };
         }
 
@@ -301,8 +301,8 @@ public class SimpleBuilderTests
                AND NAME = {name}";
 
             var expectedSql =
-            $@"SELECT * FROM TABLE WHERE ID = {SimpleBuilderSettings.DatabaseParameterPrefix}{SimpleBuilderSettings.DatabaseParameterNameTemplate}0
-               AND NAME = {SimpleBuilderSettings.DatabaseParameterPrefix}{SimpleBuilderSettings.DatabaseParameterNameTemplate}1";
+            $@"SELECT * FROM TABLE WHERE ID = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0
+               AND NAME = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}1";
 
             yield return new object[]
             {
@@ -327,8 +327,8 @@ public class SimpleBuilderTests
 
             var expectedSql =
             $@"SELECT * FROM TABLE
-               WHERE ID = {SimpleBuilderSettings.DatabaseParameterPrefix}{SimpleBuilderSettings.DatabaseParameterNameTemplate}0
-               AND NAME = {SimpleBuilderSettings.DatabaseParameterPrefix}{SimpleBuilderSettings.DatabaseParameterNameTemplate}1
+               WHERE ID = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0
+               AND NAME = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}1
                AND TYPE = 'myType'
                AND SECOND_ID = 10";
 
@@ -365,10 +365,10 @@ public class SimpleBuilderTests
             SELECT * FROM
             (
             SELECT m.*,
-            (SELECT DESCRIPTION FROM TABLE2 WHERE ID = {SimpleBuilderSettings.DatabaseParameterPrefix}{SimpleBuilderSettings.DatabaseParameterNameTemplate}0) DESCRIPTION
+            (SELECT DESCRIPTION FROM TABLE2 WHERE ID = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0) DESCRIPTION
             FROM TABLE m
-            WHERE NAME = {SimpleBuilderSettings.DatabaseParameterPrefix}{SimpleBuilderSettings.DatabaseParameterNameTemplate}1
-            ) WHERE ROWNUM > {SimpleBuilderSettings.DatabaseParameterPrefix}{SimpleBuilderSettings.DatabaseParameterNameTemplate}2";
+            WHERE NAME = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}1
+            ) WHERE ROWNUM > {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}2";
 
             yield return new object[]
             {

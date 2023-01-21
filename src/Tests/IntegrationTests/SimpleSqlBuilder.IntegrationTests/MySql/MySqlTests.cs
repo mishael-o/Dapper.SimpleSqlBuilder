@@ -113,7 +113,7 @@ public class MySqlTests : IClassFixture<MySqlTestsFixture>
                    VALUES ({products[i].Id}, {products[i].TypeId}, {products[i].Tag}, {products[i].CreatedDate.DefineParam(DbType.Date)});");
             }
 
-            await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
+            await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
             return products;
         }
