@@ -3,26 +3,45 @@
 /// <summary>
 /// Global settings for the simple sql builder.
 /// </summary>
-public static class SimpleBuilderSettings
+public sealed class SimpleBuilderSettings
 {
     internal const string DefaultDatabaseParameterNameTemplate = "p";
     internal const string DefaultDatabaseParameterPrefix = "@";
     internal const bool DefaultReuseParameters = false;
 
+    private static readonly object LockObject = new();
+
+    /// <summary>
+    /// Initializes static members of the <see cref="SimpleBuilderSettings"/> class.
+    /// Explicit static constructor for beforefieldinit.
+    /// </summary>
+    static SimpleBuilderSettings()
+    {
+    }
+
+    private SimpleBuilderSettings()
+    {
+    }
+
+    /// <summary>
+    /// Singleton instance to access the builder settings.
+    /// </summary>
+    public static SimpleBuilderSettings Instance { get; } = new();
+
     /// <summary>
     /// Gets the parameter name template used to create the parameter names for the generated sql.
     /// </summary>
-    public static string DatabaseParameterNameTemplate { get; private set; } = DefaultDatabaseParameterNameTemplate;
+    public string DatabaseParameterNameTemplate { get; private set; } = DefaultDatabaseParameterNameTemplate;
 
     /// <summary>
     /// Gets the parameter prefix used in the rendered sql.
     /// </summary>
-    public static string DatabaseParameterPrefix { get; private set; } = DefaultDatabaseParameterPrefix;
+    public string DatabaseParameterPrefix { get; private set; } = DefaultDatabaseParameterPrefix;
 
     /// <summary>
     /// Gets the value indicating whether to reuse parameters or not.
     /// </summary>
-    public static bool ReuseParameters { get; private set; } = DefaultReuseParameters;
+    public bool ReuseParameters { get; private set; } = DefaultReuseParameters;
 
     /// <summary>
     /// Configures the Simple builder settings. Null or empty arguments will be ignored.
@@ -41,19 +60,22 @@ public static class SimpleBuilderSettings
     /// </param>
     public static void Configure(string? parameterNameTemplate = null, string? parameterPrefix = null, bool? reuseParameters = null)
     {
-        if (!string.IsNullOrWhiteSpace(parameterNameTemplate))
+        lock (LockObject)
         {
-            DatabaseParameterNameTemplate = parameterNameTemplate!;
-        }
+            if (!string.IsNullOrWhiteSpace(parameterNameTemplate))
+            {
+                Instance.DatabaseParameterNameTemplate = parameterNameTemplate!;
+            }
 
-        if (!string.IsNullOrWhiteSpace(parameterPrefix))
-        {
-            DatabaseParameterPrefix = parameterPrefix!;
-        }
+            if (!string.IsNullOrWhiteSpace(parameterPrefix))
+            {
+                Instance.DatabaseParameterPrefix = parameterPrefix!;
+            }
 
-        if (reuseParameters.HasValue)
-        {
-            ReuseParameters = reuseParameters.Value;
+            if (reuseParameters.HasValue)
+            {
+                Instance.ReuseParameters = reuseParameters.Value;
+            }
         }
     }
 }

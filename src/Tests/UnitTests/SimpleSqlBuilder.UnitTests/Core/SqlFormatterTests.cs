@@ -40,7 +40,7 @@ public class SqlFormatterTests
         var model = new { Id = 10, TypeId = 20 };
         const int expectedParameterCount = 3;
         var parameters = new DynamicParameters();
-        var parameterNamePrefix = SimpleBuilderSettings.DatabaseParameterPrefix + SimpleBuilderSettings.DatabaseParameterNameTemplate;
+        var parameterNamePrefix = SimpleBuilderSettings.Instance.DatabaseParameterPrefix + SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate;
 
         FormattableString innerFormattableString1 = $"SELECT Description FROM TYPE_TABLE WHERE Id = {model.TypeId}";
         FormattableString innerFormattableString2 = $"SELECT Id FROM TYPE_TABLE WHERE EXPIRED_DATE IS NULL";
@@ -93,7 +93,7 @@ public class SqlFormatterTests
     {
         //Arrange
         var parameters = new DynamicParameters();
-        var parameterName = $"{SimpleBuilderSettings.DatabaseParameterNameTemplate}0";
+        var parameterName = $"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0";
 
         var sut = CreateSqlFormatter(parameters);
 
@@ -101,7 +101,7 @@ public class SqlFormatterTests
         var result = sut.Format(null, argument, sut);
 
         //Assert
-        result.Should().Be(SimpleBuilderSettings.DatabaseParameterPrefix + parameterName);
+        result.Should().Be(SimpleBuilderSettings.Instance.DatabaseParameterPrefix + parameterName);
         parameters.Get<object?>(parameterName).Should().Be(argument);
     }
 
@@ -114,7 +114,7 @@ public class SqlFormatterTests
         //Arrange
         var parameterInfo = new SimpleParameterInfo(value);
         var parameters = new DynamicParameters();
-        var parameterName = $"{SimpleBuilderSettings.DatabaseParameterNameTemplate}0";
+        var parameterName = $"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0";
 
         var sut = CreateSqlFormatter(parameters);
 
@@ -122,7 +122,7 @@ public class SqlFormatterTests
         var result = sut.Format(null, parameterInfo, sut);
 
         //Assert
-        result.Should().Be(SimpleBuilderSettings.DatabaseParameterPrefix + parameterName);
+        result.Should().Be(SimpleBuilderSettings.Instance.DatabaseParameterPrefix + parameterName);
         parameters.Get<object?>(parameterName).Should().Be(parameterInfo.Value);
     }
 
@@ -133,7 +133,7 @@ public class SqlFormatterTests
         var model = new { Id = 10, ProductName = "Product", Price = 10.2.DefineParam(DbType.Double), IsActive = true, SecondName = default(string) };
         const int expectedParameterCount = 6;
         var parameters = new DynamicParameters();
-        var parameterNamePrefix = SimpleBuilderSettings.DatabaseParameterPrefix + SimpleBuilderSettings.DatabaseParameterNameTemplate;
+        var parameterNamePrefix = SimpleBuilderSettings.Instance.DatabaseParameterPrefix + SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate;
 
         FormattableString formattableString = $@"
             INSERT INTO TABLE
@@ -167,8 +167,8 @@ public class SqlFormatterTests
     {
         return new SqlFormatter(
             parameters ?? new DynamicParameters(),
-            SimpleBuilderSettings.DatabaseParameterNameTemplate,
-            SimpleBuilderSettings.DatabaseParameterPrefix,
+            SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate,
+            SimpleBuilderSettings.Instance.DatabaseParameterPrefix,
             reuseParameters);
     }
 }
