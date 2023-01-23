@@ -3,6 +3,9 @@
     labels:
       - ignore-for-release
   categories:
+    - title: Hot Fixes 🔥
+      labels:
+        - hotfix  
     - title: Breaking Changes 🛠
       labels:
         - breaking-change

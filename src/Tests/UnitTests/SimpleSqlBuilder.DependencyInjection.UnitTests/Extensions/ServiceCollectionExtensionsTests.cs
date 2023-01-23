@@ -63,8 +63,8 @@ public class ServiceCollectionExtensionsTests
         configuredOptions.Value.DatabaseParameterNameTemplate.Should().Be(options.DatabaseParameterNameTemplate);
         configuredOptions.Value.DatabaseParameterPrefix.Should().Be(options.DatabaseParameterPrefix);
         configuredOptions.Value.ReuseParameters.Should().Be(options.ReuseParameters);
-        SimpleBuilderSettings.DatabaseParameterNameTemplate.Should().Be(options.DatabaseParameterNameTemplate);
-        SimpleBuilderSettings.DatabaseParameterPrefix.Should().Be(options.DatabaseParameterPrefix);
-        SimpleBuilderSettings.ReuseParameters.Should().Be(options.ReuseParameters);
+        SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(options.DatabaseParameterNameTemplate);
+        SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(options.DatabaseParameterPrefix);
+        SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(options.ReuseParameters);
     }
 }

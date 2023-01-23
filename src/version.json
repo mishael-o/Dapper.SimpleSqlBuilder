@@ -1,8 +1,8 @@
 {
     "$schema": "https://raw.githubusercontent.com/dotnet/Nerdbank.GitVersioning/master/src/NerdBank.GitVersioning/version.schema.json",
-    "version": "1.1",
+    "version": "2.0",
     "assemblyVersion": "1.0.0.0",
-    "pathFilters": [ "!Benchmark", "!Tests" ],
+    "pathFilters": [ ":!Benchmark", ":!Tests" ],
     "versionHeightOffset": -1,
     "publicReleaseRefSpec": [
         "^refs/heads/main$"
@@ -11,7 +11,6 @@
         "semVer": 2
     },
     "cloudBuild": {
-        "setAllVariables": true,
         "buildNumber": {
             "enabled": true
         }
