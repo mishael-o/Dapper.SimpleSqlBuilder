@@ -48,7 +48,7 @@ public static class SimpleBuilder
         useLowerCaseClauses ??= SimpleBuilderSettings.Instance.UseLowerCaseClauses;
 
         return new FluentSqlBuilder(
-            SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate,
+            SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate,
             parameterPrefix!,
             reuseParameters.Value,
             useLowerCaseClauses.Value);

@@ -38,8 +38,29 @@ public class SimpleBuilderSettingsTests
         sut.GetValue<int>($"{parameterNameTemplate}0").Should().Be(id);
     }
 
+    [Fact]
+    [TestPriority(3)]
+    public void Configure_CustomParameterNameTemplateFluentBuilder_ReturnsVoid()
+    {
+        //Arrange
+        const int id = 10;
+        const string parameterNameTemplate = "fluCstPrm";
+        string expectedSql = $"SELECT *{Environment.NewLine}FROM TABLE{Environment.NewLine}WHERE ID = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{parameterNameTemplate}0";
+
+        //Act
+        SimpleBuilderSettings.Configure(parameterNameTemplate: parameterNameTemplate);
+        var sut = SimpleBuilder.CreateFluent()
+            .Select($"*")
+            .From($"TABLE")
+            .Where($"ID = {id}");
+
+        //Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.GetValue<int>($"{parameterNameTemplate}0").Should().Be(id);
+    }
+
     [Theory]
-    [TestPriority(2)]
+    [TestPriority(4)]
     [InlineData("param", ":", true, true)]
     public void Configure_ConfigureSettings_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
     {
@@ -54,7 +75,7 @@ public class SimpleBuilderSettingsTests
     }
 
     [Theory]
-    [TestPriority(3)]
+    [TestPriority(5)]
     [InlineData("myParam", null, null, null, "myParam", "@", false, false)]
     [InlineData("", ":", null, null, "prm", ":", false, false)]
     [InlineData(null, null, true, null, "prm", "@", true, false)]
