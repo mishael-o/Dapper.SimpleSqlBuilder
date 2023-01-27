@@ -17,6 +17,7 @@ public class SimpleBuilderSettingsTests
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(SimpleBuilderSettings.DefaultReuseParameters);
+        SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(SimpleBuilderSettings.DefaultUseLowerCaseClauses);
     }
 
     [Fact]
@@ -38,41 +39,46 @@ public class SimpleBuilderSettingsTests
     }
 
     [Theory]
-    [TestPriority(3)]
-    [InlineData("param", ":", true)]
-    public void Configure_AllArgumentsPassed_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters)
+    [TestPriority(2)]
+    [InlineData("param", ":", true, true)]
+    public void Configure_ConfigureSettings_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
     {
         //Act
-        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters);
+        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters, useLowerCaseClauses);
 
         //Assert
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(parameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(parameterPrefix);
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(reuseParameters);
+        SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(useLowerCaseClauses);
     }
 
     [Theory]
-    [TestPriority(4)]
-    [InlineData("myParamz", null, null, "myParamz", "@", false)]
-    [InlineData("", ":", null, "prm", ":", false)]
-    [InlineData(null, null, true, "prm", "@", true)]
+    [TestPriority(3)]
+    [InlineData("myParam", null, null, null, "myParam", "@", false, false)]
+    [InlineData("", ":", null, null, "prm", ":", false, false)]
+    [InlineData(null, null, true, null, "prm", "@", true, false)]
+    [InlineData(null, null, null, true, "prm", "@", false, true)]
     public void Configure_ConfigureSingleSetting_ReturnsVoid(
         string? parameterNameTemplate,
         string? parameterPrefix,
         bool? reuseParameters,
+        bool? useLowerCaseClauses,
         string expectedParameterNameTemplate,
         string expectedParameterPrefix,
-        bool expectedReuseParameters)
+        bool expectedReuseParameters,
+        bool expectedUseLowerCaseClauses)
     {
         //Arrange
-        SimpleBuilderSettings.Configure("prm", "@", false);
+        SimpleBuilderSettings.Configure("prm", "@", false, false);
 
         //Act
-        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters);
+        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters, useLowerCaseClauses);
 
         //Assert
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(expectedParameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(expectedParameterPrefix);
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(expectedReuseParameters);
+        SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(expectedUseLowerCaseClauses);
     }
 }
