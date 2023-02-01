@@ -28,7 +28,7 @@ public class MySqlTestsFixture : IAsyncLifetime
     {
         var fixture = new Fixture();
         var dbPassword = fixture.Create<string>();
-        DefaultProductType = fixture.Create<CustomProductType>();
+        SeedProductTypes = new Fixture().CreateMany<CustomProductType>(2).ToArray();
 
         connectionString = $"Server=localhost;Port={Port};Uid={DbUser};Pwd={dbPassword};Database={DbName}";
         container = CreateMySQLContainer(dbPassword);
@@ -36,7 +36,7 @@ public class MySqlTestsFixture : IAsyncLifetime
 
     public string StoredProcName { get; } = "CreateProduct";
 
-    public CustomProductType DefaultProductType { get; }
+    public IReadOnlyList<CustomProductType> SeedProductTypes { get; }
 
     public async Task InitializeAsync()
     {
@@ -90,12 +90,15 @@ public class MySqlTestsFixture : IAsyncLifetime
            );
 
            INSERT INTO {nameof(CustomProductType):raw}
-           VALUES ({DefaultProductType.Id}, {DefaultProductType.Description});
+           VALUES ({SeedProductTypes[0].Id}, {SeedProductTypes[0].Description});
+
+           INSERT INTO {nameof(CustomProductType):raw}
+           VALUES ({SeedProductTypes[1].Id}, {SeedProductTypes[1].Description});
 
            CREATE TABLE {nameof(CustomProduct):raw}
            (
                 {nameof(CustomProduct.Id):raw} BINARY(16) PRIMARY KEY,
-                {nameof(CustomProduct.TypeId):raw} BINARY(16) NOT NULL,
+                {nameof(CustomProduct.TypeId):raw} BINARY(16) NULL,
                 {nameof(CustomProduct.Tag):raw} VARCHAR(50),
                 {nameof(CustomProduct.CreatedDate):raw} DATE,
                 FOREIGN KEY ({nameof(CustomProduct.TypeId):raw}) REFERENCES {nameof(CustomProductType):raw}({nameof(CustomProductType.Id):raw})
@@ -124,11 +127,11 @@ public class MySqlTestsFixture : IAsyncLifetime
     private async Task InitialiseRespawnerAsync()
     {
 #if NET461
-        respawner = new Checkpoint
+        await Task.Run(() => respawner = new Checkpoint
         {
             DbAdapter = DbAdapter.MySql,
             TablesToIgnore = new[] { nameof(CustomProductType) }
-        };
+        });
 #else
         respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
         {

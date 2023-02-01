@@ -27,7 +27,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     {
         var fixture = new Fixture();
         var dbPassword = fixture.Create<string>();
-        DefaultProductType = fixture.Create<ProductType>();
+        SeedProductTypes = new Fixture().CreateMany<ProductType>(2).ToArray();
 
         connectionString = $"Host=localhost;Port={Port};Username={DbUser};Password={dbPassword};Database={DbName}";
         container = CreatePostgreSQLContainer(dbPassword);
@@ -35,7 +35,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     public string StoredProcName { get; } = "createProduct";
 
-    public ProductType DefaultProductType { get; }
+    public IReadOnlyList<ProductType> SeedProductTypes { get; }
 
     public async Task InitializeAsync()
     {
@@ -87,12 +87,15 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
            );
 
            INSERT INTO {nameof(ProductType):raw}
-           VALUES ({DefaultProductType.Id}, {DefaultProductType.Description});
+           VALUES ({SeedProductTypes[0].Id}, {SeedProductTypes[0].Description});
+
+           INSERT INTO {nameof(ProductType):raw}
+           VALUES ({SeedProductTypes[1].Id}, {SeedProductTypes[1].Description});
 
            CREATE TABLE {nameof(Product):raw}
            (
                 {nameof(Product.Id):raw} uuid PRIMARY KEY,
-                {nameof(Product.TypeId):raw} uuid NOT NULL REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
+                {nameof(Product.TypeId):raw} uuid NULL REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
                 {nameof(Product.Tag):raw} VARCHAR(50),
                 {nameof(Product.CreatedDate):raw} DATE
            );");
@@ -124,12 +127,12 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     private async Task InitialiseRespawnerAsync()
     {
 #if NET461
-        respawner = new Checkpoint
+        await Task.Run(() => respawner = new Checkpoint
         {
             SchemasToInclude = new[] { "public" },
             DbAdapter = DbAdapter.Postgres,
             TablesToIgnore = new[] { nameof(ProductType).ToLowerInvariant() }
-        };
+        });
 #else
         respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
         {

@@ -33,7 +33,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
     public MSSqlTestsFixture()
     {
         const string dbPassword = "Mssql!Pa55w0rD";
-        DefaultProductType = new Fixture().Create<ProductType>();
+        SeedProductTypes = new Fixture().CreateMany<ProductType>(2).ToArray();
 
         connectionString = $"Data Source=localhost,{Port};Initial Catalog={DbName};User ID={DbUser};Password={dbPassword};TrustServerCertificate=True";
         container = CreateSqlServerContainer(dbPassword);
@@ -41,7 +41,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     public string StoredProcName { get; } = "CreateProduct";
 
-    public ProductType DefaultProductType { get; }
+    public IReadOnlyList<ProductType> SeedProductTypes { get; }
 
     public async Task InitializeAsync()
     {
@@ -92,12 +92,15 @@ public class MSSqlTestsFixture : IAsyncLifetime
            );
 
            INSERT INTO {nameof(ProductType):raw}
-           VALUES ({DefaultProductType.Id}, {DefaultProductType.Description});
+           VALUES ({SeedProductTypes[0].Id}, {SeedProductTypes[0].Description});
+
+           INSERT INTO {nameof(ProductType):raw}
+           VALUES ({SeedProductTypes[1].Id}, {SeedProductTypes[1].Description});
 
            CREATE TABLE {nameof(Product):raw}
            (
                 {nameof(Product.Id):raw} UNIQUEIDENTIFIER PRIMARY KEY,
-                {nameof(Product.TypeId):raw} UNIQUEIDENTIFIER NOT NULL REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
+                {nameof(Product.TypeId):raw} UNIQUEIDENTIFIER NULL REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
                 {nameof(Product.Tag):raw} VARCHAR(50),
                 {nameof(Product.CreatedDate):raw} DATE
            );");
@@ -114,18 +117,6 @@ public class MSSqlTestsFixture : IAsyncLifetime
                 RETURN @@ROWCOUNT;
            END");
 
-        // Stored procedure can also be created from 'Append' methods string
-
-        //var storedProcBuilder = SimpleBuilder.Create()
-        //   .AppendIntact($"CREATE PROCEDURE {StoredProcName:raw} @TypeId UNIQUEIDENTIFIER, @UserId UNIQUEIDENTIFIER OUT")
-        //   .AppendNewLine($"AS")
-        //   .AppendNewLine($"BEGIN")
-        //   .AppendNewLine($"SET @UserId = NEWID();")
-        //   .AppendNewLine($"INSERT INTO {nameof(Product):raw}")
-        //   .AppendNewLine($"VALUES (@UserId, @TypeId, NULL, GETDATE());")
-        //   .AppendNewLine($"RETURN @@ROWCOUNT;")
-        //   .AppendNewLine($"END");
-
         await dbConnection.ExecuteAsync(storedProcBuilder.Sql);
     }
 
@@ -138,12 +129,12 @@ public class MSSqlTestsFixture : IAsyncLifetime
     private async Task InitialiseRespawnerAsync()
     {
 #if NET461
-        respawner = new Checkpoint
+        await Task.Run(() => respawner = new Checkpoint
         {
             SchemasToInclude = new[] { "dbo" },
             DbAdapter = DbAdapter.SqlServer,
             TablesToIgnore = new[] { nameof(ProductType) }
-        };
+        });
 #else
         respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
         {

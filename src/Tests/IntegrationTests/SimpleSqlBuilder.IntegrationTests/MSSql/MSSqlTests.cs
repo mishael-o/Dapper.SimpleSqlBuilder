@@ -16,7 +16,7 @@ public class MSSqlTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task CreateTable_ValidateTableExists()
+    public async Task Builder_CreateTable_ReturnsBoolean()
     {
         //Arrange
         const string tableName = "MyTable";
@@ -45,11 +45,11 @@ public class MSSqlTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task InsertDataInTable_ValidateInsert()
+    public async Task Builder_InsertProducts_ReturnsInteger()
     {
         //Arrange
         const string tag = "insert";
-        var products = Helpers.GetBaseProductComposer(mssqlTestsFixture.DefaultProductType.Id, tag: tag)
+        var products = ProductHelpers.GetProductFixture(tag: tag)
             .CreateMany()
             .ToArray();
 
@@ -73,7 +73,7 @@ public class MSSqlTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task GetDataInTable_ValidateSelect()
+    public async Task Builder_GetProductsWithSelectTag_ReturnsIEnumerableOfProduct()
     {
         //Arrange
         const string tag = "select";
@@ -81,11 +81,11 @@ public class MSSqlTests : IAsyncLifetime
         using var connection = mssqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await Helpers.GenerateSeedProductsDataAsync(
-            mssqlTestsFixture.DefaultProductType.Id,
+        var products = await ProductHelpers.GenerateSeedProductsAsync(
             connection,
+            productTypeId: mssqlTestsFixture.SeedProductTypes[0].Id,
             tag: tag,
-            productDescription: mssqlTestsFixture.DefaultProductType.Description);
+            productDescription: mssqlTestsFixture.SeedProductTypes[0].Description);
 
         FormattableString subQuery = $@"
             SELECT {nameof(ProductType.Description):raw}
@@ -105,7 +105,7 @@ public class MSSqlTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task UpdateDataInTable_ValidateUpdate()
+    public async Task Builder_UpdateProductsWithUpdateTag_ReturnsInteger()
     {
         //Arrange
         const int count = 3;
@@ -115,7 +115,7 @@ public class MSSqlTests : IAsyncLifetime
         using var connection = mssqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await Helpers.GenerateSeedProductsDataAsync(mssqlTestsFixture.DefaultProductType.Id, connection, count, tag);
+        await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var builder = SimpleBuilder
             .Create($"UPDATE {nameof(Product):raw}")
@@ -128,15 +128,16 @@ public class MSSqlTests : IAsyncLifetime
 
         //Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
-        var expectedCreatedDates = await connection.QueryAsync<DateTime>(getUpdatedDateBuilder.Sql, getUpdatedDateBuilder.Parameters);
 
         //Assert
         result.Should().Be(count);
+
+        var expectedCreatedDates = await connection.QueryAsync<DateTime>(getUpdatedDateBuilder.Sql, getUpdatedDateBuilder.Parameters);
         expectedCreatedDates.Should().AllBeEquivalentTo(createdDate);
     }
 
     [Fact]
-    public async Task DeleteDataInTable_ValidateDelete()
+    public async Task Builder_DeleteProductsWithDeleteTag_ReturnsInteger()
     {
         //Arrange
         const int count = 3;
@@ -145,7 +146,7 @@ public class MSSqlTests : IAsyncLifetime
         using var connection = mssqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await Helpers.GenerateSeedProductsDataAsync(mssqlTestsFixture.DefaultProductType.Id, connection, count, tag);
+        await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var builder = SimpleBuilder
             .Create($"DELETE FROM {nameof(Product):raw}")
@@ -160,22 +161,23 @@ public class MSSqlTests : IAsyncLifetime
 
         //Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
-        var dataExists = await connection.ExecuteScalarAsync<bool>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);
 
         //Assert
         result.Should().Be(count);
+
+        var dataExists = await connection.ExecuteScalarAsync<bool>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);
         dataExists.Should().BeFalse();
     }
 
     [Fact]
-    public async Task ExecuteStoredProcedure_ValidateResult()
+    public async Task Builder_ExecuteStoredProcedure_ReturnsTask()
     {
         //Arrange
         const string resultParamName = "Result";
         const string userIdParamName = "UserId";
 
         var builder = SimpleBuilder.Create($"{mssqlTestsFixture.StoredProcName:raw}")
-            .AddParameter(nameof(Product.TypeId), mssqlTestsFixture.DefaultProductType.Id, dbType: DbType.Guid)
+            .AddParameter(nameof(Product.TypeId), mssqlTestsFixture.SeedProductTypes[0].Id, dbType: DbType.Guid)
             .AddParameter(userIdParamName, dbType: DbType.Guid, direction: ParameterDirection.Output)
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 

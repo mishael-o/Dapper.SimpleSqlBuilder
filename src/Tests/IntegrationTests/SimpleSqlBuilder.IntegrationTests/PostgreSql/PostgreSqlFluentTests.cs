@@ -3,16 +3,16 @@ using Dapper.SimpleSqlBuilder.Extensions;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
-namespace Dapper.SimpleSqlBuilder.IntegrationTests.MSSql;
+namespace Dapper.SimpleSqlBuilder.IntegrationTests.PostgreSql;
 
-[Collection(nameof(MSSqlTestsCollection))]
-public class MSSqlFluentTests : IAsyncLifetime
+[Collection(nameof(PostgreSqlTestsCollection))]
+public class PostgreSqlFluentTests : IAsyncLifetime
 {
-    private readonly MSSqlTestsFixture mssqlTestsFixture;
+    private readonly PostgreSqlTestsFixture postgreSqlTestsFixture;
 
-    public MSSqlFluentTests(MSSqlTestsFixture mssqlTestsFixture)
+    public PostgreSqlFluentTests(PostgreSqlTestsFixture postgreSqlTestsFixture)
     {
-        this.mssqlTestsFixture = mssqlTestsFixture;
+        this.postgreSqlTestsFixture = postgreSqlTestsFixture;
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class MSSqlFluentTests : IAsyncLifetime
             .From($"{nameof(Product):raw}")
             .Where($"{nameof(Product.Tag):raw} = {tag}");
 
-        using var connection = mssqlTestsFixture.CreateDbConnection();
+        using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
         //Act
@@ -54,16 +54,16 @@ public class MSSqlFluentTests : IAsyncLifetime
     {
         //Arrange
         const string tag = "select";
-        const string tag2 = $"{tag}2";
+        const string tag2 = "select2";
 
-        using var connection = mssqlTestsFixture.CreateDbConnection();
+        using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
         var products = (await ProductHelpers.GenerateSeedProductsAsync(
             connection,
-            productTypeId: mssqlTestsFixture.SeedProductTypes[0].Id,
+            productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id,
             tag: tag,
-            productDescription: mssqlTestsFixture.SeedProductTypes[0].Description)).ToList();
+            productDescription: postgreSqlTestsFixture.SeedProductTypes[0].Description)).ToList();
 
         products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, tag: tag2));
 
@@ -92,19 +92,19 @@ public class MSSqlFluentTests : IAsyncLifetime
         //Arrange
         const string tag = "selectInnerJoin";
 
-        using var connection = mssqlTestsFixture.CreateDbConnection();
+        using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
         var products = await ProductHelpers.GenerateSeedProductsAsync(
-            connection, productTypeId: mssqlTestsFixture.SeedProductTypes[0].Id, tag: tag, productDescription: mssqlTestsFixture.SeedProductTypes[0].Description);
-        await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: mssqlTestsFixture.SeedProductTypes[1].Id, tag: tag);
+            connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag, productDescription: postgreSqlTestsFixture.SeedProductTypes[0].Description);
+        await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[1].Id, tag: tag);
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"p.*, pt.{nameof(ProductType.Description):raw}")
             .From($"{nameof(Product):raw} p")
             .InnerJoin($"{nameof(ProductType):raw} pt ON (p.{nameof(Product.TypeId):raw} = pt.{nameof(Product.Id):raw})")
             .Where($"p.{nameof(Product.Tag):raw} = {tag}")
-            .Where($"p.{nameof(Product.TypeId):raw} = {mssqlTestsFixture.SeedProductTypes[0].Id.DefineParam(DbType.Guid)}");
+            .Where($"p.{nameof(Product.TypeId):raw} = {postgreSqlTestsFixture.SeedProductTypes[0].Id.DefineParam(DbType.Guid)}");
 
         //Act
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
@@ -119,12 +119,12 @@ public class MSSqlFluentTests : IAsyncLifetime
         //Arrange
         const string tag = "selectLeftJoin";
 
-        using var connection = mssqlTestsFixture.CreateDbConnection();
+        using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
         var products = (await ProductHelpers.GenerateSeedProductsAsync(connection, tag: tag)).ToList();
         products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(
-            connection, productTypeId: mssqlTestsFixture.SeedProductTypes[0].Id, tag: tag, productDescription: mssqlTestsFixture.SeedProductTypes[0].Description));
+            connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag, productDescription: postgreSqlTestsFixture.SeedProductTypes[0].Description));
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"p.*")
@@ -148,14 +148,14 @@ public class MSSqlFluentTests : IAsyncLifetime
         const string tag = "selectRightJoin";
         const string tag2 = $"{tag}2";
 
-        using var connection = mssqlTestsFixture.CreateDbConnection();
+        using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
         var products = (await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag)).ToList();
         products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(
-            connection, count, mssqlTestsFixture.SeedProductTypes[0].Id, tag, mssqlTestsFixture.SeedProductTypes[0].Description));
+            connection, count, postgreSqlTestsFixture.SeedProductTypes[0].Id, tag, postgreSqlTestsFixture.SeedProductTypes[0].Description));
         products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(
-            connection, count, mssqlTestsFixture.SeedProductTypes[1].Id, tag2, mssqlTestsFixture.SeedProductTypes[1].Description));
+            connection, count, postgreSqlTestsFixture.SeedProductTypes[1].Id, tag2, postgreSqlTestsFixture.SeedProductTypes[1].Description));
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"p.*")
@@ -179,14 +179,14 @@ public class MSSqlFluentTests : IAsyncLifetime
         const string tag = "update";
         var createdDate = DateTime.Now.AddDays(100).Date;
 
-        using var connection = mssqlTestsFixture.CreateDbConnection();
+        using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
         var product = (await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag)).Single();
 
         var builder = SimpleBuilder.CreateFluent()
             .Update($"{nameof(Product):raw}")
-            .Set(!product.TypeId.HasValue, $"{nameof(Product.TypeId):raw} = {mssqlTestsFixture.SeedProductTypes[0].Id}")
+            .Set(!product.TypeId.HasValue, $"{nameof(Product.TypeId):raw} = {postgreSqlTestsFixture.SeedProductTypes[0].Id}")
             .Set($"{nameof(Product.CreatedDate):raw} = {createdDate}")
             .WhereFilter($"{nameof(Product.Tag):raw} = {tag}").WithFilter($"{nameof(Product.TypeId):raw} IS NULL");
 
@@ -202,7 +202,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         result.Should().Be(count);
 
         var updatedProduct = await connection.QuerySingleAsync<Product>(getUpdatedProduct.Sql, getUpdatedProduct.Parameters);
-        updatedProduct.TypeId.Should().Be(mssqlTestsFixture.SeedProductTypes[0].Id);
+        updatedProduct.TypeId.Should().Be(postgreSqlTestsFixture.SeedProductTypes[0].Id);
         updatedProduct.CreatedDate.Should().Be(createdDate);
     }
 
@@ -213,7 +213,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         const int count = 3;
         const string tag = "delete";
 
-        using var connection = mssqlTestsFixture.CreateDbConnection();
+        using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
         await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
@@ -241,5 +241,5 @@ public class MSSqlFluentTests : IAsyncLifetime
         => Task.CompletedTask;
 
     public Task DisposeAsync()
-        => mssqlTestsFixture.ResetDatabaseAsync();
+        => postgreSqlTestsFixture.ResetDatabaseAsync();
 }
