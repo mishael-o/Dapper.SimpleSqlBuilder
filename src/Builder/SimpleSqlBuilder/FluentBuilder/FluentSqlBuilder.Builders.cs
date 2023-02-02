@@ -320,9 +320,17 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFluentBui
         }
 
         AppendClause(clauseAction);
-        stringBuilder.Append(Format(formattable));
-        CloseOpenParentheses();
 
+        if (formattable.ArgumentCount == 0)
+        {
+            stringBuilder.Append(formattable.Format);
+        }
+        else
+        {
+            stringBuilder.AppendFormat(sqlFormatter, formattable.Format, formattable.GetArguments());
+        }
+
+        CloseOpenParentheses();
         return this;
     }
 

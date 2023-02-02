@@ -5,16 +5,6 @@
 /// </summary>
 internal partial class FluentSqlBuilder : IFluentSqlFormatter
 {
-    public object? GetFormat(Type? formatType)
-    {
-        return typeof(ICustomFormatter).IsAssignableFrom(formatType)
-            ? this
-            : null;
-    }
-
-    public string Format(string? format, object? arg, IFormatProvider? formatProvider)
-       => Format(arg, format);
-
     public void StartClauseAction(ClauseAction clauseAction)
         => AppendClause(clauseAction);
 
@@ -25,7 +15,7 @@ internal partial class FluentSqlBuilder : IFluentSqlFormatter
         => stringBuilder.Append(value);
 
     public void FormatParameter<T>(T value, string? format = null)
-        => stringBuilder.Append(Format(value, format));
+        => stringBuilder.Append(sqlFormatter.Format(value, format));
 
     public bool IsClauseActionEnabled(ClauseAction clauseAction)
     {

@@ -1,6 +1,6 @@
 ﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
-internal interface IFluentSqlFormatter : IFormatProvider, ICustomFormatter, IFluentBuilder
+internal interface IFluentSqlFormatter : IFluentBuilder
 {
     void StartClauseAction(ClauseAction action);
 

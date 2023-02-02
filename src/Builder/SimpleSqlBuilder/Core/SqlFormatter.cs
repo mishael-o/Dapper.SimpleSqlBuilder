@@ -35,8 +35,11 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
     }
 
     public string Format(string? format, object? arg, IFormatProvider? formatProvider)
+        => Format(arg, format);
+
+    public string Format<T>(T value, string? format = null)
     {
-        if (arg is FormattableString formattableString)
+        if (value is FormattableString formattableString)
         {
             return formattableString.ArgumentCount == 0
                 ? formattableString.Format
@@ -45,20 +48,15 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 
         if (Constants.RawFormat.Equals(format, StringComparison.OrdinalIgnoreCase))
         {
-            return arg?.ToString() ?? string.Empty;
+            return value?.ToString() ?? string.Empty;
         }
 
-        if ((arg is null or not SimpleParameterInfo) && !reuseParameters)
+        if ((value is null or not SimpleParameterInfo) && !reuseParameters)
         {
-            return AddValueToParameters(arg);
+            return AddValueToParameters(value);
         }
 
-        if (arg is SimpleParameterInfo parameterInfo)
-        {
-            return AddParameterInfoToParameters(parameterInfo);
-        }
-
-        parameterInfo = new SimpleParameterInfo(arg);
+        var parameterInfo = value as SimpleParameterInfo ?? new SimpleParameterInfo(value);
         return AddParameterInfoToParameters(parameterInfo);
     }
 
@@ -71,7 +69,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 
     private string AddParameterInfoToParameters(SimpleParameterInfo parameterInfo)
     {
-        parameterDictionary ??= new(SimpleParameterInfoComparer.StaticInstance);
+        parameterDictionary ??= new(SimpleParameterInfoComparer.Instance);
 
         if (parameterDictionary.TryGetValue(parameterInfo, out var dbPrefixedParameterName))
         {
