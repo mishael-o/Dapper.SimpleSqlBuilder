@@ -12,29 +12,29 @@ public class SimpleSqlBuilderBenchmark
 {
     private const int ProductCount = 100;
 
-    private Product product = default!;
-    private IEnumerable<Product> products = default!;
+    private Product testProduct = default!;
+    private IEnumerable<Product> testProducts = default!;
 
     [GlobalSetup]
     public void GlobalSetUp()
     {
         var fixture = new Fixture();
-        product = fixture.Create<Product>();
-        products = CreateProducts(fixture, product);
+        testProduct = fixture.Create<Product>();
+        testProducts = CreateProducts(fixture, testProduct);
     }
 
     [Benchmark(Description = "SqlBuilder (Dapper) - Simple query")]
     public string SqlBuilder()
     {
-        const string sql = $"SELECT x.*, (SELECT DESCRIPTION FROM ProductType WHERE Id = @{nameof(product.TypeId)}) FROM Product x /**where**/";
+        const string sql = $"SELECT x.*, (SELECT DESCRIPTION FROM ProductType WHERE Id = @{nameof(testProduct.TypeId)}) FROM Product x /**where**/";
 
         var sqlBuilder = new SqlBuilder()
-            .Where($"Id = @{nameof(product.Id)}", new { product.Id })
-            .Where($"TypeId = @{nameof(product.TypeId)}", new { product.TypeId })
-            .Where($"RecommendedPrice = @{nameof(product.RecommendedPrice)}", new { product.RecommendedPrice })
-            .Where($"SellingPrice = @{nameof(product.SellingPrice)}", new { product.SellingPrice })
-            .Where($"IsActive = @{nameof(product.IsActive)}", new { product.IsActive })
-            .Where($"CreateDate = @{nameof(product.CreateDate)}", new { product.CreateDate });
+            .Where($"Id = @{nameof(Product.Id)}", new { testProduct.Id })
+            .Where($"TypeId = @{nameof(Product.TypeId)}", new { testProduct.TypeId })
+            .Where($"RecommendedPrice = @{nameof(Product.RecommendedPrice)}", new { testProduct.RecommendedPrice })
+            .Where($"SellingPrice = @{nameof(Product.SellingPrice)}", new { testProduct.SellingPrice })
+            .Where($"IsActive = @{nameof(Product.IsActive)}", new { testProduct.IsActive })
+            .Where($"CreateDate = @{nameof(Product.CreateDate)}", new { testProduct.CreateDate });
 
         var template = sqlBuilder.AddTemplate(sql);
         return template.RawSql;
@@ -44,14 +44,14 @@ public class SimpleSqlBuilderBenchmark
     public string SimpleSqlBuilder()
     {
         var builder = SimpleBuilder.Create($@"
-               SELECT x.*, (SELECT DESCRIPTION FROM ProductType WHERE ID = {product.TypeId})
+               SELECT x.*, (SELECT DESCRIPTION FROM ProductType WHERE ID = {testProduct.TypeId})
                FROM Product x
-               WHERE Id = {product.Id}
-               AND TypeId = {product.TypeId}
-               AND RecommendedPrice = {product.RecommendedPrice}
-               AND SellingPrice = {product.SellingPrice}
-               AND IsActive = {product.IsActive}
-               AND CreateDate = {product.CreateDate}");
+               WHERE Id = {testProduct.Id}
+               AND TypeId = {testProduct.TypeId}
+               AND RecommendedPrice = {testProduct.RecommendedPrice}
+               AND SellingPrice = {testProduct.SellingPrice}
+               AND IsActive = {testProduct.IsActive}
+               AND CreateDate = {testProduct.CreateDate}");
 
         return builder.Sql;
     }
@@ -60,14 +60,14 @@ public class SimpleSqlBuilderBenchmark
     public string SimpleSqlBuilderReuseParameters()
     {
         var builder = SimpleBuilder.Create(reuseParameters: true).Append($@"
-               SELECT x.*, (SELECT DESCRIPTION FROM ProductType WHERE ID = {product.TypeId})
+               SELECT x.*, (SELECT DESCRIPTION FROM ProductType WHERE ID = {testProduct.TypeId})
                FROM Product x
-               WHERE Id = {product.Id}
-               AND TypeId = {product.TypeId}
-               AND RecommendedPrice = {product.RecommendedPrice}
-               AND SellingPrice = {product.SellingPrice}
-               AND IsActive = {product.IsActive}
-               AND CreateDate = {product.CreateDate}");
+               WHERE Id = {testProduct.Id}
+               AND TypeId = {testProduct.TypeId}
+               AND RecommendedPrice = {testProduct.RecommendedPrice}
+               AND SellingPrice = {testProduct.SellingPrice}
+               AND IsActive = {testProduct.IsActive}
+               AND CreateDate = {testProduct.CreateDate}");
 
         return builder.Sql;
     }
@@ -81,16 +81,16 @@ public class SimpleSqlBuilderBenchmark
         var stringBuilder = new StringBuilder();
 
         var sqlBuilder = new SqlBuilder()
-            .Set($"TypeId = @{nameof(product.TypeId)}")
-            .Set($"RecommendedPrice = @{nameof(product.RecommendedPrice)}")
-            .Set($"SellingPrice = @{nameof(product.SellingPrice)}")
-            .Set($"IsActive = @{nameof(product.IsActive)}")
-            .Set($"CreateDate = @{nameof(product.CreateDate)}")
-            .Where($"Id = @{nameof(product.Id)}");
+            .Set($"TypeId = @{nameof(Product.TypeId)}")
+            .Set($"RecommendedPrice = @{nameof(Product.RecommendedPrice)}")
+            .Set($"SellingPrice = @{nameof(Product.SellingPrice)}")
+            .Set($"IsActive = @{nameof(Product.IsActive)}")
+            .Set($"CreateDate = @{nameof(Product.CreateDate)}")
+            .Where($"Id = @{nameof(Product.Id)}");
 
-        foreach (var product in products)
+        foreach (var prd in testProducts)
         {
-            var template = sqlBuilder.AddTemplate(sql, product);
+            var template = sqlBuilder.AddTemplate(sql, prd);
             stringBuilder.Append(template.RawSql);
         }
 
@@ -102,7 +102,7 @@ public class SimpleSqlBuilderBenchmark
     {
         var builder = SimpleBuilder.Create();
 
-        foreach (var product in products)
+        foreach (var product in testProducts)
         {
             builder.Append(@$"
                 UPDATE Product
@@ -123,7 +123,7 @@ public class SimpleSqlBuilderBenchmark
     {
         var builder = SimpleBuilder.Create(reuseParameters: true);
 
-        foreach (var product in products)
+        foreach (var product in testProducts)
         {
             builder.Append(@$"
                 UPDATE Product

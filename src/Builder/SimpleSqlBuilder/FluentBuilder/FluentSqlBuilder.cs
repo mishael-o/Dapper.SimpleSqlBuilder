@@ -8,9 +8,9 @@ namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 internal partial class FluentSqlBuilder
 {
     private readonly bool useLowerCaseClauses;
-    private readonly StringBuilder stringBuilder = new();
-    private readonly DynamicParameters parameters = new();
-    private readonly List<ClauseAction> clauseActions = new();
+    private readonly StringBuilder stringBuilder;
+    private readonly DynamicParameters parameters;
+    private readonly List<ClauseAction> clauseActions;
     private readonly SqlFormatter sqlFormatter;
 
     private bool hasOpenParentheses;
@@ -19,7 +19,11 @@ internal partial class FluentSqlBuilder
     public FluentSqlBuilder(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
     {
         this.useLowerCaseClauses = useLowerCaseClauses;
-        sqlFormatter = new SqlFormatter(parameters, parameterNameTemplate, parameterPrefix, reuseParameters);
+
+        stringBuilder = new();
+        parameters = new();
+        clauseActions = new();
+        sqlFormatter = new(parameters, parameterNameTemplate, parameterPrefix, reuseParameters);
     }
 
     private void AppendClause(ClauseAction clauseAction)
@@ -145,7 +149,7 @@ internal partial class FluentSqlBuilder
             stringBuilder.Length--;
 
             stringBuilder
-                .Append(ClauseConstants.Insert.Seperator)
+                .Append(ClauseConstants.Insert.Separator)
                 .Append(ClauseConstants.Space);
 
             return;
@@ -166,7 +170,7 @@ internal partial class FluentSqlBuilder
             stringBuilder.Length--;
 
             stringBuilder
-                .Append(ClauseConstants.Insert.Seperator)
+                .Append(ClauseConstants.Insert.Separator)
                 .Append(ClauseConstants.Space);
 
             return;
@@ -190,7 +194,7 @@ internal partial class FluentSqlBuilder
         if (clauseActions.Contains(clauseAction))
         {
             stringBuilder
-                .Append(ClauseConstants.Select.Seperator)
+                .Append(ClauseConstants.Select.Separator)
                 .Append(ClauseConstants.Space);
 
             return;
@@ -243,7 +247,7 @@ internal partial class FluentSqlBuilder
         if (clauseActions.Contains(ClauseAction.UpdateSet))
         {
             stringBuilder
-                .Append(ClauseConstants.Update.SetSeperator)
+                .Append(ClauseConstants.Update.SetSeparator)
                 .Append(ClauseConstants.Space);
 
             return;
@@ -262,7 +266,7 @@ internal partial class FluentSqlBuilder
         {
             stringBuilder
                 .Append(ClauseConstants.Space)
-                .Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeperatorLower : ClauseConstants.Where.AndSeperator);
+                .Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeparatorLower : ClauseConstants.Where.AndSeparator);
         }
         else
         {
@@ -296,7 +300,7 @@ internal partial class FluentSqlBuilder
 
         stringBuilder
             .Append(ClauseConstants.Space)
-            .Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeperatorLower : ClauseConstants.Where.OrSeperator)
+            .Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeparatorLower : ClauseConstants.Where.OrSeparator)
             .Append(ClauseConstants.Space);
 
         if (isFilter)
@@ -341,11 +345,11 @@ internal partial class FluentSqlBuilder
         switch (clauseAction)
         {
             case ClauseAction.WhereWithFilter:
-                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeperatorLower : ClauseConstants.Where.AndSeperator);
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeparatorLower : ClauseConstants.Where.AndSeparator);
                 break;
 
             case ClauseAction.WhereWithOrFilter:
-                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeperatorLower : ClauseConstants.Where.OrSeperator);
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeparatorLower : ClauseConstants.Where.OrSeparator);
                 break;
         }
 
@@ -390,7 +394,7 @@ internal partial class FluentSqlBuilder
         if (clauseActions.Contains(ClauseAction.GroupBy))
         {
             stringBuilder
-                .Append(ClauseConstants.GroupBy.Seperator)
+                .Append(ClauseConstants.GroupBy.Separator)
                 .Append(ClauseConstants.Space);
 
             return;
@@ -408,7 +412,7 @@ internal partial class FluentSqlBuilder
         if (clauseActions.Contains(ClauseAction.OrderBy))
         {
             stringBuilder
-                .Append(ClauseConstants.OrderBy.Seperator)
+                .Append(ClauseConstants.OrderBy.Separator)
                 .Append(ClauseConstants.Space);
 
             return;
@@ -427,7 +431,7 @@ internal partial class FluentSqlBuilder
         {
             stringBuilder
                 .Append(ClauseConstants.Space)
-                .Append(ClauseConstants.Having.Seperator)
+                .Append(ClauseConstants.Having.Separator)
                 .Append(ClauseConstants.Space);
 
             return;

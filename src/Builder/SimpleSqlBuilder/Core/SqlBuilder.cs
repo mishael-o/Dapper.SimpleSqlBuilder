@@ -15,7 +15,6 @@ internal sealed class SqlBuilder : SimpleBuilderBase
     {
         stringBuilder = new();
         parameters = new();
-
         sqlFormatter = new(parameters, parameterNameTemplate, parameterPrefix, reuseParameters);
 
         if (formattable is not null)

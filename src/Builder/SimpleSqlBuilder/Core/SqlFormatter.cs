@@ -12,16 +12,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 
     public SqlFormatter(DynamicParameters parameters, string parameterNameTemplate, string parameterPrefix, bool reuseParameters)
     {
-#if NET6_0_OR_GREATER
-        ArgumentNullException.ThrowIfNull(parameters);
-#else
-        if (parameters is null)
-        {
-            throw new ArgumentNullException(nameof(parameters));
-        }
-#endif
-
-        this.parameters = parameters;
+        this.parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
         this.parameterNameTemplate = parameterNameTemplate;
         this.parameterPrefix = parameterPrefix;
         this.reuseParameters = reuseParameters;
@@ -56,11 +47,11 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
             return AddValueToParameters(value);
         }
 
-        var parameterInfo = value as SimpleParameterInfo ?? new SimpleParameterInfo(value);
+        var parameterInfo = value as SimpleParameterInfo ?? new(value);
         return AddParameterInfoToParameters(parameterInfo);
     }
 
-    private string AddValueToParameters(object? value)
+    private string AddValueToParameters<T>(T value)
     {
         var parameterName = GetNextParameterName();
         parameters.Add(parameterName, value, direction: System.Data.ParameterDirection.Input);
