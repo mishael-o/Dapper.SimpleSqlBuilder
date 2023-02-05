@@ -30,16 +30,9 @@ public abstract class SimpleBuilderBase : ISqlBuilder
     /// <returns>Returns a <see cref="SimpleBuilder"/>.</returns>
     public static SimpleBuilderBase operator +(SimpleBuilderBase simpleBuilder, FormattableString formattable)
     {
-#if NET6_0_OR_GREATER
-        ArgumentNullException.ThrowIfNull(simpleBuilder);
-#else
-        if (simpleBuilder is null)
-        {
-            throw new ArgumentNullException(nameof(simpleBuilder));
-        }
-#endif
-
-        return simpleBuilder.AppendIntact(formattable);
+        return simpleBuilder is null
+            ? throw new ArgumentNullException(nameof(simpleBuilder))
+            : simpleBuilder.AppendIntact(formattable);
     }
 
     /// <summary>

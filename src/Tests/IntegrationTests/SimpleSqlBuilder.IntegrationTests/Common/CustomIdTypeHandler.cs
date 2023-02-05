@@ -14,14 +14,11 @@ public class CustomIdTypeHandler : SqlMapper.TypeHandler<CustomId>
 
     public override void SetValue(IDbDataParameter parameter, CustomId value)
     {
-#if NET6_0_OR_GREATER
-        ArgumentNullException.ThrowIfNull(parameter);
-#else
         if (parameter is null)
         {
             throw new ArgumentNullException(nameof(parameter));
         }
-#endif
+
         parameter.Value = value.ToByteArray();
     }
 }
