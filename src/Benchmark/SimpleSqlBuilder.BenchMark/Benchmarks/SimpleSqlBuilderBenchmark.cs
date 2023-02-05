@@ -1,170 +1,235 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using AutoFixture;
+﻿using AutoFixture;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
 using Dapper;
 using Dapper.SimpleSqlBuilder;
 
 namespace SimpleSqlBuilder.BenchMark.Benchmarks;
 
 [MemoryDiagnoser]
+[CategoriesColumn]
+[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 public class SimpleSqlBuilderBenchmark
 {
-    private const int ProductCount = 100;
+    private const int WhereOperationCount = 50;
 
-    private Product testProduct = default!;
-    private IEnumerable<Product> testProducts = default!;
+    private Product product = default!;
 
     [GlobalSetup]
     public void GlobalSetUp()
     {
-        var fixture = new Fixture();
-        testProduct = fixture.Create<Product>();
-        testProducts = CreateProducts(fixture, testProduct);
+        product = new Fixture().Create<Product>();
     }
 
-    [Benchmark(Description = "SqlBuilder (Dapper) - Simple query")]
+    [Benchmark(Description = "SqlBuilder (Dapper)")]
+    [BenchmarkCategory("Simple query")]
     public string SqlBuilder()
     {
-        const string sql = $"SELECT x.*, (SELECT DESCRIPTION FROM ProductType WHERE Id = @{nameof(testProduct.TypeId)}) FROM Product x /**where**/";
+        const string sql = $"SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = @{nameof(Product.TypeId)} OR Description = @{nameof(Product.Description)}) FROM Product x /**where**/";
 
         var sqlBuilder = new SqlBuilder()
-            .Where($"Id = @{nameof(Product.Id)}", new { testProduct.Id })
-            .Where($"TypeId = @{nameof(Product.TypeId)}", new { testProduct.TypeId })
-            .Where($"RecommendedPrice = @{nameof(Product.RecommendedPrice)}", new { testProduct.RecommendedPrice })
-            .Where($"SellingPrice = @{nameof(Product.SellingPrice)}", new { testProduct.SellingPrice })
-            .Where($"IsActive = @{nameof(Product.IsActive)}", new { testProduct.IsActive })
-            .Where($"CreateDate = @{nameof(Product.CreateDate)}", new { testProduct.CreateDate });
+            .Where($"Id = @{nameof(Product.Id)}", new { product.Id })
+            .Where($"TypeId = @{nameof(Product.TypeId)}", new { product.TypeId })
+            .Where($"RecommendedPrice = @{nameof(Product.RecommendedPrice)}", new { product.RecommendedPrice })
+            .Where($"Description = @{nameof(Product.Description)}", new { product.Description })
+            .Where($"SellingPrice = @{nameof(Product.SellingPrice)}", new { product.SellingPrice })
+            .Where($"IsActive = @{nameof(Product.IsActive)}", new { product.IsActive })
+            .Where($"CreateDate = @{nameof(Product.CreateDate)}", new { product.CreateDate });
 
         var template = sqlBuilder.AddTemplate(sql);
         return template.RawSql;
     }
 
-    [Benchmark(Description = "SimpleSqlBuilder - Simple query")]
+    [Benchmark(Description = "Builder")]
+    [BenchmarkCategory("Simple query")]
     public string SimpleSqlBuilder()
     {
         var builder = SimpleBuilder.Create($@"
-               SELECT x.*, (SELECT DESCRIPTION FROM ProductType WHERE ID = {testProduct.TypeId})
+               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description}
                FROM Product x
-               WHERE Id = {testProduct.Id}
-               AND TypeId = {testProduct.TypeId}
-               AND RecommendedPrice = {testProduct.RecommendedPrice}
-               AND SellingPrice = {testProduct.SellingPrice}
-               AND IsActive = {testProduct.IsActive}
-               AND CreateDate = {testProduct.CreateDate}");
+               WHERE Id = {product.Id}
+               AND TypeId = {product.TypeId}
+               AND Description = {product.Description}
+               AND RecommendedPrice = {product.RecommendedPrice}
+               AND SellingPrice = {product.SellingPrice}
+               AND IsActive = {product.IsActive}
+               AND CreateDate = {product.CreateDate}");
 
         return builder.Sql;
     }
 
-    [Benchmark(Description = "SimpleSqlBuilder - Simple query (Reuse parameters)")]
+    [Benchmark(Description = "FluentBuilder")]
+    [BenchmarkCategory("Simple query")]
+    public string SimpleSqlFluentBuilder()
+    {
+        var builder = SimpleBuilder.CreateFluent()
+            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description})")
+            .From($"Product x")
+            .Where($"Id = {product.Id}")
+            .Where($"TypeId = {product.TypeId}")
+            .Where($"Description = {product.Description}")
+            .Where($"RecommendedPrice = {product.RecommendedPrice}")
+            .Where($"SellingPrice = {product.SellingPrice}")
+            .Where($"IsActive = {product.IsActive}")
+            .Where($"CreateDate = {product.CreateDate}");
+
+        return builder.Sql;
+    }
+
+    [Benchmark(Description = "Builder (Reuse parameters)")]
+    [BenchmarkCategory("Simple query")]
     public string SimpleSqlBuilderReuseParameters()
     {
         var builder = SimpleBuilder.Create(reuseParameters: true).Append($@"
-               SELECT x.*, (SELECT DESCRIPTION FROM ProductType WHERE ID = {testProduct.TypeId})
+               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description})
                FROM Product x
-               WHERE Id = {testProduct.Id}
-               AND TypeId = {testProduct.TypeId}
-               AND RecommendedPrice = {testProduct.RecommendedPrice}
-               AND SellingPrice = {testProduct.SellingPrice}
-               AND IsActive = {testProduct.IsActive}
-               AND CreateDate = {testProduct.CreateDate}");
+               WHERE Id = {product.Id}
+               AND TypeId = {product.TypeId}
+               AND Description = {product.Description}
+               AND RecommendedPrice = {product.RecommendedPrice}
+               AND SellingPrice = {product.SellingPrice}
+               AND IsActive = {product.IsActive}
+               AND CreateDate = {product.CreateDate}");
 
         return builder.Sql;
     }
 
-    [Benchmark(Description = "SqlBuilder (Dapper) - Large query")]
+    [Benchmark(Description = "FluentBuilder (Reuse parameters)")]
+    [BenchmarkCategory("Simple query")]
+    public string SimpleSqlFluentBuilderReuseParameters()
+    {
+        var builder = SimpleBuilder.CreateFluent(reuseParameters: true)
+            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description})")
+            .From($"Product x")
+            .Where($"Id = {product.Id}")
+            .Where($"TypeId = {product.TypeId}")
+            .Where($"Description = {product.Description}")
+            .Where($"RecommendedPrice = {product.RecommendedPrice}")
+            .Where($"SellingPrice = {product.SellingPrice}")
+            .Where($"IsActive = {product.IsActive}")
+            .Where($"CreateDate = {product.CreateDate}");
+
+        return builder.Sql;
+    }
+
+    [Benchmark(Description = "SqlBuilder (Dapper)")]
+    [BenchmarkCategory("Large query")]
     public string SqlBuilderLarge()
     {
-        const string sql = "UPDATE Product /**set**/ /**where**/";
+        const string sql = $"SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = @{nameof(Product.TypeId)} OR Description = @{nameof(Product.Description)}) FROM Product x /**where**/";
 
-        //object to hold the queries created by SqlBuilder.
-        var stringBuilder = new StringBuilder();
+        var sqlBuilder = new SqlBuilder();
 
-        var sqlBuilder = new SqlBuilder()
-            .Set($"TypeId = @{nameof(Product.TypeId)}")
-            .Set($"RecommendedPrice = @{nameof(Product.RecommendedPrice)}")
-            .Set($"SellingPrice = @{nameof(Product.SellingPrice)}")
-            .Set($"IsActive = @{nameof(Product.IsActive)}")
-            .Set($"CreateDate = @{nameof(Product.CreateDate)}")
-            .Where($"Id = @{nameof(Product.Id)}");
-
-        foreach (var prd in testProducts)
+        // Simulating large query
+        for (var i = 0; i < WhereOperationCount; i++)
         {
-            var template = sqlBuilder.AddTemplate(sql, prd);
-            stringBuilder.Append(template.RawSql);
+            sqlBuilder
+                .Where($"Id = @{nameof(Product.Id)}", new { product.Id })
+                .Where($"TypeId = @{nameof(Product.TypeId)}", new { product.TypeId })
+                .Where($"Description = @{nameof(Product.Description)}", new { product.Description })
+                .Where($"RecommendedPrice = @{nameof(Product.RecommendedPrice)}", new { product.RecommendedPrice })
+                .Where($"SellingPrice = @{nameof(Product.SellingPrice)}", new { product.SellingPrice })
+                .Where($"IsActive = @{nameof(Product.IsActive)}", new { product.IsActive })
+                .Where($"CreateDate = @{nameof(Product.CreateDate)}", new { product.CreateDate });
         }
 
-        return stringBuilder.ToString();
+        var template = sqlBuilder.AddTemplate(sql);
+        return template.RawSql;
     }
 
-    [Benchmark(Description = "SimpleSqlBuilder - Large query")]
+    [Benchmark(Description = "Builder")]
+    [BenchmarkCategory("Large query")]
     public string SimpleSqlBuilderLarge()
     {
-        var builder = SimpleBuilder.Create();
+        var builder = SimpleBuilder.Create($@"
+               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description}
+               FROM Product x");
 
-        foreach (var product in testProducts)
+        // Simulating large query
+        for (var i = 0; i < WhereOperationCount; i++)
         {
-            builder.Append(@$"
-                UPDATE Product
-                SET TypeId = {product.TypeId},
-                RecommendedPrice = {product.RecommendedPrice},
-                SellingPrice = {product.SellingPrice},
-                IsActive = {product.IsActive},
-                CreateDate = {product.CreateDate}
-                WHERE Id = {product.Id}")
-                .AppendNewLine();
+            builder.Append($@"
+               WHERE Id = {product.Id}
+               AND TypeId = {product.TypeId}
+               AND Description = {product.Description}
+               AND RecommendedPrice = {product.RecommendedPrice}
+               AND SellingPrice = {product.SellingPrice}
+               AND IsActive = {product.IsActive}
+               AND CreateDate = {product.CreateDate}");
         }
 
         return builder.Sql;
     }
 
-    [Benchmark(Description = "SimpleSqlBuilder - Large query (Reuse parameters)")]
+    [Benchmark(Description = "FluentBuilder")]
+    [BenchmarkCategory("Large query")]
+    public string SimpleSqlFluentBuilderLarge()
+    {
+        var builder = SimpleBuilder.CreateFluent()
+            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description})")
+            .From($"Product x");
+
+        // Simulating large query
+        for (var i = 0; i < WhereOperationCount; i++)
+        {
+            builder
+                .Where($"Id = {product.Id}")
+                .Where($"TypeId = {product.TypeId}")
+                .Where($"Description = {product.Description}")
+                .Where($"RecommendedPrice = {product.RecommendedPrice}")
+                .Where($"SellingPrice = {product.SellingPrice}")
+                .Where($"IsActive = {product.IsActive}")
+                .Where($"CreateDate = {product.CreateDate}");
+        }
+
+        return builder.Sql;
+    }
+
+    [Benchmark(Description = "Builder (Reuse parameters)")]
+    [BenchmarkCategory("Large query")]
     public string SimpleSqlBuilderLargeReuseParameters()
     {
-        var builder = SimpleBuilder.Create(reuseParameters: true);
+        var builder = SimpleBuilder.Create(reuseParameters: true).Append($@"
+               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description}
+               FROM Product x");
 
-        foreach (var product in testProducts)
+        // Simulating large query
+        for (var i = 0; i < WhereOperationCount; i++)
         {
-            builder.Append(@$"
-                UPDATE Product
-                SET TypeId = {product.TypeId},
-                RecommendedPrice = {product.RecommendedPrice},
-                SellingPrice = {product.SellingPrice},
-                IsActive = {product.IsActive},
-                CreateDate = {product.CreateDate}
-                WHERE Id = {product.Id}")
-                .AppendNewLine();
+            builder.Append($@"
+               WHERE Id = {product.Id}
+               AND TypeId = {product.TypeId}
+               AND Description = {product.Description}
+               AND RecommendedPrice = {product.RecommendedPrice}
+               AND SellingPrice = {product.SellingPrice}
+               AND IsActive = {product.IsActive}
+               AND CreateDate = {product.CreateDate}");
         }
 
         return builder.Sql;
     }
 
-    private static IEnumerable<Product> CreateProducts(Fixture fixture, Product templateProduct)
+    [Benchmark(Description = "FluentBuilder (Reuse parameters)")]
+    [BenchmarkCategory("Large query")]
+    public string SimpleSqlFluentBuilderLargeReuseParameters()
     {
-        const int repeatCount = 25;
+        var builder = SimpleBuilder.CreateFluent(reuseParameters: true)
+            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description})")
+            .From($"Product x");
 
-        var products = new List<Product>();
+        // Simulating large query
+        for (var i = 0; i < WhereOperationCount; i++)
+        {
+            builder
+                .Where($"Id = {product.Id}")
+                .Where($"TypeId = {product.TypeId}")
+                .Where($"Description = {product.Description}")
+                .Where($"RecommendedPrice = {product.RecommendedPrice}")
+                .Where($"SellingPrice = {product.SellingPrice}")
+                .Where($"IsActive = {product.IsActive}")
+                .Where($"CreateDate = {product.CreateDate}");
+        }
 
-        products.AddRange(
-            fixture.Build<Product>()
-            .With(x => x.TypeId, templateProduct.TypeId)
-            .CreateMany(repeatCount));
-
-        products.AddRange(
-            fixture.Build<Product>()
-            .With(x => x.RecommendedPrice, templateProduct.RecommendedPrice)
-            .CreateMany(repeatCount));
-
-        products.AddRange(
-            fixture.Build<Product>()
-            .With(x => x.SellingPrice, templateProduct.SellingPrice)
-            .CreateMany(repeatCount));
-
-        products.AddRange(
-            fixture.Build<Product>()
-            .With(x => x.CreateDate, templateProduct.CreateDate)
-            .CreateMany(repeatCount));
-
-        return products.OrderBy(_ => RandomNumberGenerator.GetInt32(ProductCount)).ToList();
+        return builder.Sql;
     }
 }

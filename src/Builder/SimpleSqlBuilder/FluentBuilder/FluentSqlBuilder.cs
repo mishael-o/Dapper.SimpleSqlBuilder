@@ -28,13 +28,11 @@ internal partial class FluentSqlBuilder
 
     private void AppendClause(ClauseAction clauseAction)
     {
-        if (clauseAction == ClauseAction.None)
-        {
-            return;
-        }
-
         switch (clauseAction)
         {
+            case ClauseAction.None:
+                return;
+
             case ClauseAction.Delete:
                 AppendDelete();
                 break;
@@ -278,11 +276,13 @@ internal partial class FluentSqlBuilder
 
         stringBuilder.Append(ClauseConstants.Space);
 
-        if (isFilter)
+        if (!isFilter)
         {
-            stringBuilder.Append(ClauseConstants.OpenParentheses);
-            hasOpenParentheses = true;
+            return;
         }
+
+        stringBuilder.Append(ClauseConstants.OpenParentheses);
+        hasOpenParentheses = true;
     }
 
     private void AppendWhereOr(bool isFilter = false)
@@ -303,11 +303,13 @@ internal partial class FluentSqlBuilder
             .Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeparatorLower : ClauseConstants.Where.OrSeparator)
             .Append(ClauseConstants.Space);
 
-        if (isFilter)
+        if (!isFilter)
         {
-            stringBuilder.Append(ClauseConstants.OpenParentheses);
-            hasOpenParentheses = true;
+            return;
         }
+
+        stringBuilder.Append(ClauseConstants.OpenParentheses);
+        hasOpenParentheses = true;
     }
 
     private void AppendWhereWithFilter(ClauseAction clauseAction)

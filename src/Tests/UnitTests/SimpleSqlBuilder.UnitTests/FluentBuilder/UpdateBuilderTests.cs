@@ -103,7 +103,7 @@ public class UpdateBuilderTests
     {
         //Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Age = @p0{Environment.NewLine}" +
-            "WHERE (Age = @p1 OR Type = @p2 AND Age IN (1, 2, 3)) AND Type LIKE '%Type' AND (Age > 10 AND Type = @p3) OR Id NOT IN (1, 2, 3)";
+            "WHERE (Age = @p1 OR Type = @p2 AND Age IN (1, 2, 3)) AND Type LIKE '%Type' OR (Age > 10 AND Type = @p3) OR Id NOT IN (1, 2, 3)";
 
         //Act
         var builder = SimpleBuilder.CreateFluent()
@@ -111,9 +111,9 @@ public class UpdateBuilderTests
             .Set($"Age = {age}")
             .Where(false, $"Id = {id}")
             .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(false, $"Age > {age}")
-            .OrWhereFilter().WithFilter($"Age = {age}").WithOrFilter(false, $"Type = {type}").WithOrFilter($"Type = {type}").WithFilter($"Age IN (1, 2, 3)")
+            .OrWhereFilter().WithFilter(true, $"Age = {age}").WithOrFilter($"Type = {type}").WithFilter($"Age IN (1, 2, 3)")
             .Where($"Type LIKE '%Type'")
-            .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(true, $"Age > 10").WithFilter($"Type = {type}")
+            .OrWhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(true, $"Age > 10").WithFilter($"Type = {type}")
             .OrWhere(true, $"Id NOT IN (1, 2, 3)");
 
         //Assert
