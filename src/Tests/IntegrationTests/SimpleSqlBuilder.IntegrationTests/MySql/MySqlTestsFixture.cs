@@ -28,10 +28,10 @@ public class MySqlTestsFixture : IAsyncLifetime
     {
         var fixture = new Fixture();
         var dbPassword = fixture.Create<string>();
-        SeedProductTypes = new Fixture().CreateMany<CustomProductType>(2).ToArray();
+        SeedProductTypes = fixture.CreateMany<CustomProductType>(2).ToArray();
 
         connectionString = $"Server=localhost;Port={Port};Uid={DbUser};Pwd={dbPassword};Database={DbName}";
-        container = CreateMySQLContainer(dbPassword);
+        container = CreateMySqlContainer(dbPassword);
     }
 
     public string StoredProcName { get; } = "CreateProduct";
@@ -66,7 +66,7 @@ public class MySqlTestsFixture : IAsyncLifetime
 #endif
     }
 
-    private static TestcontainersContainer CreateMySQLContainer(string dbPassword)
+    private static TestcontainersContainer CreateMySqlContainer(string dbPassword)
     {
         return new TestcontainersBuilder<MySqlTestcontainer>()
                 .WithDatabase(new MySqlTestcontainerConfiguration("mysql:8")

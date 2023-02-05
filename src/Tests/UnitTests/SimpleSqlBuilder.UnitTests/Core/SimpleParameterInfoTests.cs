@@ -6,7 +6,7 @@ public class SimpleParameterInfoTests
 {
     [Theory]
     [AutoData]
-    public void Constructor_SetPropetiesWithNullValue_ReturnsVoid(DbType dbType, int size, byte precision, byte scale)
+    public void Constructor_SetPropertiesWithNullValue_ReturnsVoid(DbType dbType, int size, byte precision, byte scale)
     {
         //Act
         var sut = new SimpleParameterInfo(null, dbType, size, precision, scale);
@@ -26,7 +26,7 @@ public class SimpleParameterInfoTests
 
     [Theory]
     [AutoData]
-    public void Constructor_SetPropeties_ReturnsVoid(string name, object value, DbType dbType, ParameterDirection direction, int size, byte precision, byte scale)
+    public void Constructor_SetProperties_ReturnsVoid(string name, object value, DbType dbType, ParameterDirection direction, int size, byte precision, byte scale)
     {
         //Act
         var sut = new SimpleParameterInfo(name, value, dbType, direction, size, precision, scale);

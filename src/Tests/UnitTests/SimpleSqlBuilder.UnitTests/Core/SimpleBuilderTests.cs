@@ -218,7 +218,7 @@ public class SimpleBuilderTests
     }
 
     [Fact]
-    public void AddOpertator_AppendsFormattableString_ReturnsISimpleBuilder()
+    public void AddOperator_AppendsFormattableString_ReturnsISimpleBuilder()
     {
         //Arrange
         const int id = 10;

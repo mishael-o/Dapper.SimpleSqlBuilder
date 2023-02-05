@@ -26,11 +26,13 @@ public static class ServiceCollectionExtensions
         service.Add(serviceDescriptor);
         var optionsBuilder = service.AddOptions<SimpleBuilderOptions>();
 
-        if (configure is not null)
+        if (configure is null)
         {
-            optionsBuilder.Configure(configure);
-            ConfigureStaticSimpleBuilderSettings(configure);
+            return service;
         }
+
+        optionsBuilder.Configure(configure);
+        ConfigureStaticSimpleBuilderSettings(configure);
 
         return service;
     }

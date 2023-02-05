@@ -9,7 +9,8 @@ internal static class ProductHelpers
     {
         var products = GetProductFixture(productTypeId, tag, productDescription)
             .With(x => x.CreatedDate, DateTime.Now.Date)
-            .CreateMany(count);
+            .CreateMany(count)
+            .ToArray();
 
         var builder = SimpleBuilder.Create(reuseParameters: true);
 
@@ -29,7 +30,8 @@ internal static class ProductHelpers
     {
         var products = GetCustomProductFixture(productTypeId, tag, productDescription)
             .With(x => x.CreatedDate, DateTime.Now.Date)
-            .CreateMany(count);
+            .CreateMany(count)
+            .ToArray();
 
         var builder = SimpleBuilder.Create(reuseParameters: true);
 

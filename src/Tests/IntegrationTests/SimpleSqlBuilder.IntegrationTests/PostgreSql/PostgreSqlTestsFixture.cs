@@ -27,10 +27,10 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     {
         var fixture = new Fixture();
         var dbPassword = fixture.Create<string>();
-        SeedProductTypes = new Fixture().CreateMany<ProductType>(2).ToArray();
+        SeedProductTypes = fixture.CreateMany<ProductType>(2).ToArray();
 
         connectionString = $"Host=localhost;Port={Port};Username={DbUser};Password={dbPassword};Database={DbName}";
-        container = CreatePostgreSQLContainer(dbPassword);
+        container = CreatePostgreSqlContainer(dbPassword);
     }
 
     public string StoredProcName { get; } = "createProduct";
@@ -63,7 +63,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 #endif
     }
 
-    private static TestcontainersContainer CreatePostgreSQLContainer(string dbPassword)
+    private static TestcontainersContainer CreatePostgreSqlContainer(string dbPassword)
     {
         return new TestcontainersBuilder<PostgreSqlTestcontainer>()
                 .WithDatabase(new PostgreSqlTestcontainerConfiguration("postgres:14")

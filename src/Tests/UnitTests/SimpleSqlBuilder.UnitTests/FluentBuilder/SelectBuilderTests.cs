@@ -44,7 +44,7 @@ public class SelectBuilderTests
     public void Select_BuildSqlWithJoinMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
-        var expectedSql = $"SELECT *" +
+        var expectedSql = "SELECT *" +
             $"{Environment.NewLine}FROM Table1" +
             $"{Environment.NewLine}INNER JOIN Table2 ON Table1.Id = Table2.Id" +
             $"{Environment.NewLine}LEFT JOIN Table3 ON Table1.Id = Table3.Id" +
@@ -67,7 +67,7 @@ public class SelectBuilderTests
     public void Select_BuildSqlWithJoinConditionalMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
-        var expectedSql = $"SELECT *" +
+        var expectedSql = "SELECT *" +
             $"{Environment.NewLine}FROM Table1" +
             $"{Environment.NewLine}LEFT JOIN Table2 ON Table1.Id = Table2.Id" +
             $"{Environment.NewLine}INNER JOIN Table5 ON Table1.Id = Table5.Id" +
@@ -155,7 +155,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildSqlWithWhereConditonalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Select_BuildSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}" +
@@ -220,7 +220,7 @@ public class SelectBuilderTests
     public void Select_BuildSqlWithHavingMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
-        var expectedSql = $"SELECT Id, COUNT(Type) AS TypeCount" +
+        var expectedSql = "SELECT Id, COUNT(Type) AS TypeCount" +
             $"{Environment.NewLine}FROM Table" +
             $"{Environment.NewLine}HAVING COUNT(Type) > 1 AND COUNT(Type) < 100";
 
@@ -241,7 +241,7 @@ public class SelectBuilderTests
     public void Select_BuildSqlWithHavingConditionalMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
-        var expectedSql = $"SELECT Id, COUNT(Type) AS TypeCount" +
+        var expectedSql = "SELECT Id, COUNT(Type) AS TypeCount" +
             $"{Environment.NewLine}FROM Table" +
             $"{Environment.NewLine}HAVING COUNT(Type) > 1 AND COUNT(Type) < 100";
 
@@ -435,7 +435,7 @@ public class SelectBuilderTests
     public void Select_BuildSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
-        var expectedSql = $"select *" +
+        var expectedSql = "select *" +
             $"{Environment.NewLine}from Table1" +
             $"{Environment.NewLine}inner join Table2 on Table1.Id = Table2.Id" +
             $"{Environment.NewLine}left join Table3 on Table1.Id = Table3.Id" +

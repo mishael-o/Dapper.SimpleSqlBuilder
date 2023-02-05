@@ -64,7 +64,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildSqlWithWhereConditonalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void DeleteFrom_BuildSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}" +
