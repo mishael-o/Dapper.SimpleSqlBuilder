@@ -177,7 +177,7 @@ internal partial class FluentSqlBuilder
         clauseActions.Add(ClauseAction.InsertValue);
         stringBuilder
             .AppendLine()
-            .Append(useLowerCaseClauses ? ClauseConstants.Insert.ValuesLower : ClauseConstants.Insert.Values)
+            .Append(useLowerCaseClauses ? ClauseConstants.Insert.ValuesLower : ClauseConstants.Insert.ValuesUpper)
             .Append(ClauseConstants.Space)
             .Append(ClauseConstants.OpenParentheses);
     }
@@ -264,7 +264,7 @@ internal partial class FluentSqlBuilder
         {
             stringBuilder
                 .Append(ClauseConstants.Space)
-                .Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeparatorLower : ClauseConstants.Where.AndSeparator);
+                .Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeparatorLower : ClauseConstants.Where.AndSeparatorUpper);
         }
         else
         {
@@ -300,7 +300,7 @@ internal partial class FluentSqlBuilder
 
         stringBuilder
             .Append(ClauseConstants.Space)
-            .Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeparatorLower : ClauseConstants.Where.OrSeparator)
+            .Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeparatorLower : ClauseConstants.Where.OrSeparatorUpper)
             .Append(ClauseConstants.Space);
 
         if (!isFilter)
@@ -347,11 +347,11 @@ internal partial class FluentSqlBuilder
         switch (clauseAction)
         {
             case ClauseAction.WhereWithFilter:
-                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeparatorLower : ClauseConstants.Where.AndSeparator);
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeparatorLower : ClauseConstants.Where.AndSeparatorUpper);
                 break;
 
             case ClauseAction.WhereWithOrFilter:
-                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeparatorLower : ClauseConstants.Where.OrSeparator);
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeparatorLower : ClauseConstants.Where.OrSeparatorUpper);
                 break;
         }
 
@@ -376,15 +376,15 @@ internal partial class FluentSqlBuilder
         switch (clauseAction)
         {
             case ClauseAction.InnerJoin:
-                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.LowerInnerJoin : ClauseConstants.Join.UpperInnerJoin);
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.InnerJoinLower : ClauseConstants.Join.InnerJoinUpper);
                 break;
 
             case ClauseAction.LeftJoin:
-                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.LowerLeftJoin : ClauseConstants.Join.UpperLeftJoin);
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.LeftJoinLower : ClauseConstants.Join.LeftJoinUpper);
                 break;
 
             case ClauseAction.RightJoin:
-                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.LowerRightJoin : ClauseConstants.Join.UpperRightJoin);
+                stringBuilder.Append(useLowerCaseClauses ? ClauseConstants.Join.RightJoinLower : ClauseConstants.Join.RightJoinUpper);
                 break;
         }
 
@@ -433,7 +433,7 @@ internal partial class FluentSqlBuilder
         {
             stringBuilder
                 .Append(ClauseConstants.Space)
-                .Append(ClauseConstants.Having.Separator)
+                .Append(useLowerCaseClauses ? ClauseConstants.Having.SeparatorLower : ClauseConstants.Having.SeparatorUpper)
                 .Append(ClauseConstants.Space);
 
             return;

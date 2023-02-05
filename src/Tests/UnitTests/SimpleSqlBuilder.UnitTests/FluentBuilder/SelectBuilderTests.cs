@@ -442,7 +442,7 @@ public class SelectBuilderTests
             $"{Environment.NewLine}right join Table4 on Table1.Id = Table4.Id" +
             $"{Environment.NewLine}where Table1.Id = @p0 or (Table1.Age = @p1 and Table1.Type = @p2)" +
             $"{Environment.NewLine}group by Table1.Id" +
-            $"{Environment.NewLine}having count(Table1.Type) > 1" +
+            $"{Environment.NewLine}having count(Table1.Type) > 1 and count(Table1.Type) < 10" +
             $"{Environment.NewLine}order by Table1.Type";
 
         //Act
@@ -456,6 +456,7 @@ public class SelectBuilderTests
             .OrWhereFilter($"Table1.Age = {age}").WithFilter($"Table1.Type = {type}")
             .GroupBy($"Table1.Id")
             .Having($"count(Table1.Type) > 1")
+            .Having($"count(Table1.Type) < 10")
             .OrderBy($"Table1.Type");
 
         //Assert
