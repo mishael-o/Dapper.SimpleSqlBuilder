@@ -284,7 +284,7 @@ public class SimpleBuilderTests
         sut.GetValue<string?>($"{parameterNamePrefix}6").Should().Be(model.MiddleName);
     }
 
-    internal static class SimpleBuilderTestCases
+    private static class SimpleBuilderTestCases
     {
         public static IEnumerable<object[]> FormattableStringWithRawValue_TestCases()
         {
