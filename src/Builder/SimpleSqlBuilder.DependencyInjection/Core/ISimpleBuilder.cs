@@ -13,8 +13,8 @@ public interface ISimpleBuilder
     /// <param name="formattable">The <see cref="FormattableString">formattable string</see>.</param>
     /// <param name="parameterPrefix">The parameter prefix to override the <see cref="SimpleBuilderSettings.DatabaseParameterPrefix">default value</see>.</param>
     /// <param name="reuseParameters">The boolean value to override the <see cref="SimpleBuilderSettings.ReuseParameters"> default value</see>/>.</param>
-    /// <returns>Returns a <see cref="SimpleBuilderBase"/>.</returns>
-    SimpleBuilderBase Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null);
+    /// <returns>Returns a <see cref="Builder"/>.</returns>
+    Builder Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null);
 
     /// <summary>
     /// A static method to create a fluent builder instance.

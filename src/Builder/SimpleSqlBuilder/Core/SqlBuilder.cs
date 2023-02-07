@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Dapper.SimpleSqlBuilder;
 
-internal sealed class SqlBuilder : SimpleBuilderBase
+internal sealed class SqlBuilder : Builder
 {
     private const char SpacePrefix = ' ';
 
@@ -32,22 +32,22 @@ internal sealed class SqlBuilder : SimpleBuilderBase
     public override IEnumerable<string> ParameterNames
         => parameters.ParameterNames;
 
-    public override SimpleBuilderBase Append(FormattableString formattable)
+    public override Builder Append(FormattableString formattable)
         => AppendSql(formattable, addSpacePrefix: true);
 
-    public override SimpleBuilderBase AppendIntact(FormattableString formattable)
+    public override Builder AppendIntact(FormattableString formattable)
         => AppendSql(formattable);
 
-    public override SimpleBuilderBase AppendNewLine(FormattableString? formattable = null)
+    public override Builder AppendNewLine(FormattableString? formattable = null)
         => AppendSql(formattable, startNewLine: true);
 
-    public override SimpleBuilderBase AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null)
+    public override Builder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null)
     {
         parameters.Add(name, value, dbType, direction, size, precision, scale);
         return this;
     }
 
-    public override SimpleBuilderBase AddDynamicParameters(object? parameter)
+    public override Builder AddDynamicParameters(object? parameter)
     {
         parameters.AddDynamicParams(parameter);
         return this;
@@ -56,7 +56,7 @@ internal sealed class SqlBuilder : SimpleBuilderBase
     public override T GetValue<T>(string parameterName)
         => parameters.Get<T>(parameterName);
 
-    private SimpleBuilderBase AppendSql(FormattableString? formattable, bool startNewLine = false, bool addSpacePrefix = false)
+    private Builder AppendSql(FormattableString? formattable, bool startNewLine = false, bool addSpacePrefix = false)
     {
         if (startNewLine)
         {

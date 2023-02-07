@@ -4,11 +4,11 @@ using Microsoft.Extensions.Options;
 
 namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Core;
 
-public class InternalSimpleBuilderTests
+public class SimpleBuilderFactoryTests
 {
     [Theory]
     [AutoMoqData(true)]
-    internal void Create_NoArgumentsPassed_ReturnsSimpleBuilderBase(InternalSimpleBuilder sut)
+    internal void Create_NoArgumentsPassed_ReturnsSimpleBuilderBase(SimpleBuilderFactory sut)
     {
         //Act
         var result = sut.Create();
@@ -22,7 +22,7 @@ public class InternalSimpleBuilderTests
     [AutoMoqData]
     internal void Create_FormattableStringArgumentOnly_ReturnsSimpleBuilderBase(
         [Frozen] Mock<IOptions<SimpleBuilderOptions>> optionsMock,
-        InternalSimpleBuilder sut,
+        SimpleBuilderFactory sut,
         [NoAutoProperties] SimpleBuilderOptions options,
         int id)
     {
@@ -44,7 +44,7 @@ public class InternalSimpleBuilderTests
     [AutoMoqData]
     internal void Create_AllArgumentsPassed_ReturnsSimpleBuilderBase(
         [Frozen] Mock<IOptions<SimpleBuilderOptions>> optionsMock,
-        InternalSimpleBuilder sut,
+        SimpleBuilderFactory sut,
         [NoAutoProperties] SimpleBuilderOptions options,
         int id)
     {
@@ -66,7 +66,7 @@ public class InternalSimpleBuilderTests
     [Theory]
     [AutoMoqData(true)]
     [InlineAutoMoqData(configureMembers: true, generateDelegates: false, null, null, null)]
-    internal void CreateFluent_InitialiseFluentBuilder_ReturnsISimpleFluentBuilder(string? parameterPrefix, bool? reuseParameters, bool? useLowerCaseClauses, InternalSimpleBuilder sut)
+    internal void CreateFluent_InitialiseFluentBuilder_ReturnsISimpleFluentBuilder(string? parameterPrefix, bool? reuseParameters, bool? useLowerCaseClauses, SimpleBuilderFactory sut)
     {
         //Act
         var result = sut.CreateFluent(parameterPrefix, reuseParameters, useLowerCaseClauses);

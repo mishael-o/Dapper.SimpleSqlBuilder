@@ -5,7 +5,7 @@ namespace Dapper.SimpleSqlBuilder.Extensions;
 /// <summary>
 /// An extension class for <see cref="ISimpleParameterInfo"/>.
 /// </summary>
-public static class ISimpleParameterInfoExtensions
+public static class SimpleParameterInfoExtensions
 {
     /// <summary>
     /// An extension method to create a <see cref="ISimpleParameterInfo"/>.
@@ -20,11 +20,8 @@ public static class ISimpleParameterInfoExtensions
     /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when called on <see cref="ISimpleParameterInfo"/>.</exception>
     public static ISimpleParameterInfo DefineParam<T>(this T value, DbType? dbType = null, int? size = null, byte? precision = null, byte? scale = null)
     {
-        if (value is ISimpleParameterInfo)
-        {
-            throw new ArgumentException($"Value is already a {nameof(ISimpleParameterInfo)}.", nameof(value));
-        }
-
-        return new SimpleParameterInfo(value, dbType, size, precision, scale);
+        return value is ISimpleParameterInfo
+            ? throw new ArgumentException($"Value is already a {nameof(ISimpleParameterInfo)}.", nameof(value))
+            : new SimpleParameterInfo(value, dbType, size, precision, scale);
     }
 }

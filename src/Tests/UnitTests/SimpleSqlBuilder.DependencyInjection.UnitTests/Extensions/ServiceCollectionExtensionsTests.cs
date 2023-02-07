@@ -31,7 +31,7 @@ public class ServiceCollectionExtensionsTests
         var configuredOptions = provider.GetService<IOptions<SimpleBuilderOptions>>();
 
         //Assert
-        serviceDescriptor.ImplementationType.Should().Be(typeof(InternalSimpleBuilder));
+        serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
         serviceDescriptor.Lifetime.Should().Be(ServiceLifetime.Singleton);
         configuredOptions!.Value.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
         configuredOptions.Value.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
@@ -60,7 +60,7 @@ public class ServiceCollectionExtensionsTests
         var configuredOptions = provider.GetRequiredService<IOptions<SimpleBuilderOptions>>();
 
         //Assert
-        serviceDescriptor.ImplementationType.Should().Be(typeof(InternalSimpleBuilder));
+        serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
         serviceDescriptor.Lifetime.Should().Be(serviceLifetime);
         configuredOptions.Value.DatabaseParameterNameTemplate.Should().Be(options.DatabaseParameterNameTemplate);
         configuredOptions.Value.DatabaseParameterPrefix.Should().Be(options.DatabaseParameterPrefix);
