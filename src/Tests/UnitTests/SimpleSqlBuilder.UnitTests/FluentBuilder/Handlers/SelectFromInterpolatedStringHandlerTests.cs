@@ -45,7 +45,7 @@ public class SelectFromInterpolatedStringHandlerTests
         sut.AppendLiteral(value);
 
         //Assert
-        fluentSqlFormatterMock.Verify(x => x.FormatLiteral(value));
+        fluentSqlFormatterMock.Verify(x => x.AppendLiteral(value));
     }
 
     [Theory]
@@ -60,7 +60,7 @@ public class SelectFromInterpolatedStringHandlerTests
         sut.AppendFormatted(value);
 
         //Assert
-        fluentSqlFormatterMock.Verify(x => x.FormatParameter(value, null));
+        fluentSqlFormatterMock.Verify(x => x.AppendFormatted(value, null));
     }
 
     [Theory]
@@ -76,7 +76,7 @@ public class SelectFromInterpolatedStringHandlerTests
         sut.AppendFormatted(value, format);
 
         //Assert
-        fluentSqlFormatterMock.Verify(x => x.FormatParameter(value, format));
+        fluentSqlFormatterMock.Verify(x => x.AppendFormatted(value, format));
     }
 
     [Theory]

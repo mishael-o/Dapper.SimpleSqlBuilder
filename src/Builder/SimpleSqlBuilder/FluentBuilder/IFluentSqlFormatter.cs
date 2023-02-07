@@ -2,13 +2,13 @@
 
 internal interface IFluentSqlFormatter : IFluentBuilder
 {
-    void StartClauseAction(ClauseAction action);
+    void AppendLiteral(string value);
+
+    void AppendFormatted<T>(T value, string? format = null);
 
     void EndClauseAction(ClauseAction action);
 
-    void FormatLiteral(string value);
-
-    void FormatParameter<T>(T value, string? format = null);
-
     bool IsClauseActionEnabled(ClauseAction action);
+
+    void StartClauseAction(ClauseAction action);
 }

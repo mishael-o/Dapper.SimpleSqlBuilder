@@ -28,13 +28,13 @@ public ref struct OrderByInterpolatedStringHandler
     }
 
     public void AppendLiteral(string value)
-        => formatter?.FormatLiteral(value);
+        => formatter?.AppendLiteral(value);
 
     public void AppendFormatted<T>(T value)
         => AppendFormatted(value, null);
 
     public void AppendFormatted<T>(T value, string? format)
-        => formatter?.FormatParameter(value, format);
+        => formatter?.AppendFormatted(value, format);
 
     internal void Close()
         => formatter?.EndClauseAction(ClauseAction.OrderBy);
