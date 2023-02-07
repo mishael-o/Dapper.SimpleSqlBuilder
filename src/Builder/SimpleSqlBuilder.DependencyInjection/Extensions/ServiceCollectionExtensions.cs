@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
             throw new ArgumentNullException(nameof(service));
         }
 
-        var serviceDescriptor = ServiceDescriptor.Describe(typeof(ISimpleBuilder), typeof(InternalSimpleBuilder), serviceLifetime);
+        var serviceDescriptor = ServiceDescriptor.Describe(typeof(ISimpleBuilder), typeof(SimpleBuilderFactory), serviceLifetime);
         service.Add(serviceDescriptor);
         var optionsBuilder = service.AddOptions<SimpleBuilderOptions>();
 

@@ -3,16 +3,16 @@ using Microsoft.Extensions.Options;
 
 namespace Dapper.SimpleSqlBuilder.DependencyInjection;
 
-internal sealed class InternalSimpleBuilder : ISimpleBuilder
+internal sealed class SimpleBuilderFactory : ISimpleBuilder
 {
     private readonly IOptions<SimpleBuilderOptions> options;
 
-    public InternalSimpleBuilder(IOptions<SimpleBuilderOptions> options)
+    public SimpleBuilderFactory(IOptions<SimpleBuilderOptions> options)
     {
         this.options = options;
     }
 
-    public SimpleBuilderBase Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null)
+    public Builder Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null)
     {
         if (string.IsNullOrWhiteSpace(parameterPrefix))
         {

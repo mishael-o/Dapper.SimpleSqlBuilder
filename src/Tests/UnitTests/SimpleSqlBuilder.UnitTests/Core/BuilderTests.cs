@@ -2,7 +2,7 @@
 
 namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
 
-public class SimpleBuilderTests
+public class BuilderTests
 {
     [Theory]
     [MemberData(nameof(SimpleBuilderTestCases.FormattableStringWithRawValue_TestCases), MemberType = typeof(SimpleBuilderTestCases))]
@@ -226,7 +226,7 @@ public class SimpleBuilderTests
         FormattableString formattable = $"SELECT * FROM TABLE WHERE ID = {id}";
         var expectedSql = $"SELECT * FROM TABLE WHERE ID = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{expectedParameterName}";
 
-        SimpleBuilderBase sut = SimpleBuilder.Create();
+        Builder sut = SimpleBuilder.Create();
 
         //Act
         var result = sut += formattable;
@@ -241,13 +241,13 @@ public class SimpleBuilderTests
     public void AddOpertator_SimpleBuilderIsNull_ThrowsArgumentNullException()
     {
         //Arrange
-        SimpleBuilderBase sut = null!;
+        Builder sut = null!;
 
         //Act
         var act = () => sut += $"SELECT * FROM TABLE WHERE";
 
         //Assert
-        act.Should().Throw<ArgumentNullException>().WithParameterName("simpleBuilder");
+        act.Should().Throw<ArgumentNullException>().WithParameterName("builder");
     }
 
     [Fact]

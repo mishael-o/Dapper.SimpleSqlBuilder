@@ -5,7 +5,7 @@ namespace Dapper.SimpleSqlBuilder;
 /// <summary>
 /// An abstract class that defines the simple builder type or contract.
 /// </summary>
-public abstract class SimpleBuilderBase : ISqlBuilder
+public abstract class Builder : ISqlBuilder
 {
     /// <summary>
     /// Gets the generated the Sql.
@@ -25,36 +25,36 @@ public abstract class SimpleBuilderBase : ISqlBuilder
     /// <summary>
     /// An add operator for the builder that enables dynamic query concatenation.
     /// </summary>
-    /// <param name="simpleBuilder">The <see cref="SimpleBuilderBase"/>.</param>
+    /// <param name="builder">The <see cref="Builder"/>.</param>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>Returns a <see cref="SimpleBuilder"/>.</returns>
-    public static SimpleBuilderBase operator +(SimpleBuilderBase simpleBuilder, FormattableString formattable)
+    /// <returns>Returns a <see cref="Builder"/>.</returns>
+    public static Builder operator +(Builder builder, FormattableString formattable)
     {
-        return simpleBuilder is null
-            ? throw new ArgumentNullException(nameof(simpleBuilder))
-            : simpleBuilder.AppendIntact(formattable);
+        return builder is null
+            ? throw new ArgumentNullException(nameof(builder))
+            : builder.AppendIntact(formattable);
     }
 
     /// <summary>
     /// Appends a space prefix and a <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString">formattable string</see>.</param>
-    /// <returns>Returns a <see cref="SimpleBuilderBase"/>.</returns>
-    public abstract SimpleBuilderBase Append(FormattableString formattable);
+    /// <returns>Returns a <see cref="Builder"/>.</returns>
+    public abstract Builder Append(FormattableString formattable);
 
     /// <summary>
     /// Appends a <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>Returns a <see cref="SimpleBuilderBase"/>.</returns>
-    public abstract SimpleBuilderBase AppendIntact(FormattableString formattable);
+    /// <returns>Returns a <see cref="Builder"/>.</returns>
+    public abstract Builder AppendIntact(FormattableString formattable);
 
     /// <summary>
     /// Appends an <see cref="Environment.NewLine"/> and a <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>Returns <see cref="SimpleBuilderBase"/>.</returns>
-    public abstract SimpleBuilderBase AppendNewLine(FormattableString? formattable = null);
+    /// <returns>Returns <see cref="Builder"/>.</returns>
+    public abstract Builder AppendNewLine(FormattableString? formattable = null);
 
     /// <summary>
     /// Adds a parameter to the <see cref="Parameters">dynamic parameter</see> list.
@@ -66,8 +66,8 @@ public abstract class SimpleBuilderBase : ISqlBuilder
     /// <param name="size">The size of the parameter.</param>
     /// <param name="precision">The precision of the parameter.</param>
     /// <param name="scale">The scale of the parameter.</param>
-    /// <returns>Returns <see cref="SimpleBuilderBase"/>.</returns>
-    public abstract SimpleBuilderBase AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null);
+    /// <returns>Returns <see cref="Builder"/>.</returns>
+    public abstract Builder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null);
 
     /// <summary>
     /// Append a whole object full of parameters to the <see cref="Parameters">dynamic parameter</see> bag.
@@ -80,8 +80,8 @@ public abstract class SimpleBuilderBase : ISqlBuilder
     /// <para>AddDynamicParameters(dynamicParameters) // will add parameters A and B to the <see cref="Parameters">dynamic parameter</see> bag.</para>
     /// </summary>
     /// <param name="param">The parameter.</param>
-    /// <returns>Returns <see cref="SimpleBuilderBase"/>.</returns>
-    public abstract SimpleBuilderBase AddDynamicParameters(object? param);
+    /// <returns>Returns <see cref="Builder"/>.</returns>
+    public abstract Builder AddDynamicParameters(object? param);
 
     /// <summary>
     /// Get the value of a parameter.
