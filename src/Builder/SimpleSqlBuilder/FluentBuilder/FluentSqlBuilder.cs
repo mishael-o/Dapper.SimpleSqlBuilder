@@ -30,9 +30,6 @@ internal partial class FluentSqlBuilder
     {
         switch (clauseAction)
         {
-            case ClauseAction.None:
-                return;
-
             case ClauseAction.Delete:
                 AppendDelete();
                 break;

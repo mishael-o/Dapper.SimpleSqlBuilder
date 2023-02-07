@@ -47,7 +47,7 @@ public class PostgreSqlTests : IAsyncLifetime
         const string tag = "insert";
         var products = ProductHelpers.GetProductFixture(tag: tag)
             .CreateMany()
-            .ToArray();
+            .AsArray();
 
         var builder = SimpleBuilder.Create(reuseParameters: true);
 

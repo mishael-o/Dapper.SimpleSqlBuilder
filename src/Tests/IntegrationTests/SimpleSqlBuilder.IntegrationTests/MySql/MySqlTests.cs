@@ -51,7 +51,7 @@ public class MySqlTests : IAsyncLifetime
         const string tag = "insert";
         var products = ProductHelpers.GetCustomProductFixture(tag: tag)
             .CreateMany()
-            .ToArray();
+            .AsArray();
 
         var builder = SimpleBuilder.Create(reuseParameters: true);
 

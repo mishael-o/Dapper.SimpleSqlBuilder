@@ -183,14 +183,15 @@ public class SelectBuilderTests
     public void Select_BuildSqlWithGroupByMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}GROUP BY Id, Type";
+        const string typeColumn = "Type";
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}GROUP BY Id, {typeColumn}";
 
         //Act
         var builder = SimpleBuilder.CreateFluent()
             .Select($"*")
             .From($"Table")
             .GroupBy($"Id")
-            .GroupBy($"Type");
+            .GroupBy($"{typeColumn:raw}");
 
         //Assert
         builder.Sql.Should().Be(expectedSql);
@@ -220,9 +221,10 @@ public class SelectBuilderTests
     public void Select_BuildSqlWithHavingMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
+        const string typeColumn = "Type";
         var expectedSql = "SELECT Id, COUNT(Type) AS TypeCount" +
             $"{Environment.NewLine}FROM Table" +
-            $"{Environment.NewLine}HAVING COUNT(Type) > 1 AND COUNT(Type) < 100";
+            $"{Environment.NewLine}HAVING COUNT(Type) > 1 AND COUNT({typeColumn}) < 100";
 
         //Act
         var builder = SimpleBuilder.CreateFluent()
@@ -230,7 +232,7 @@ public class SelectBuilderTests
             .Select($"COUNT(Type) AS TypeCount")
             .From($"Table")
             .Having($"COUNT(Type) > 1")
-            .Having($"COUNT(Type) < 100");
+            .Having($"COUNT({typeColumn:raw}) < 100");
 
         //Assert
         builder.Sql.Should().Be(expectedSql);
@@ -263,14 +265,15 @@ public class SelectBuilderTests
     public void Select_BuildSqlWithOrderByMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}ORDER BY Id, Type";
+        const string typeColumn = "Type";
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}ORDER BY Id, {typeColumn}";
 
         //Act
         var builder = SimpleBuilder.CreateFluent()
             .Select($"*")
             .From($"Table")
             .OrderBy($"Id")
-            .OrderBy($"Type");
+            .OrderBy($"{typeColumn:raw}");
 
         //Assert
         builder.Sql.Should().Be(expectedSql);
