@@ -1,6 +1,6 @@
 ﻿namespace Dapper.SimpleSqlBuilder.UnitTestHelpers.XUnit;
 
-[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Method)]
 public sealed class TestPriorityAttribute : Attribute
 {
     public TestPriorityAttribute(int priority)

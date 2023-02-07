@@ -51,4 +51,9 @@ public sealed class SimpleBuilderOptions
     /// <para>Example: If set to <see langword="true"/> parameters are reused and if set <see langword="false"/> to they are not.</para>
     /// </summary>
     public bool ReuseParameters { get; set; } = SimpleBuilderSettings.DefaultReuseParameters;
+
+    /// <summary>
+    /// Get the value indicating whether sql clauses should be in upper case (default) or lower case. The default value is <see langword="false"/>.
+    /// </summary>
+    public bool UseLowerCaseClauses { get; set; } = SimpleBuilderSettings.DefaultUseLowerCaseClauses;
 }

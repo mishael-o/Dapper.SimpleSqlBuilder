@@ -218,7 +218,7 @@ public class SimpleBuilderTests
     }
 
     [Fact]
-    public void AddOpertator_AppendsFormattableString_ReturnsISimpleBuilder()
+    public void AddOperator_AppendsFormattableString_ReturnsISimpleBuilder()
     {
         //Arrange
         const int id = 10;
@@ -235,6 +235,19 @@ public class SimpleBuilderTests
         result.Should().Be(sut);
         sut.GetValue<int>(expectedParameterName).Should().Be(id);
         sut.Sql.Should().Be(expectedSql);
+    }
+
+    [Fact]
+    public void AddOpertator_SimpleBuilderIsNull_ThrowsArgumentNullException()
+    {
+        //Arrange
+        SimpleBuilderBase sut = null!;
+
+        //Act
+        var act = () => sut += $"SELECT * FROM TABLE WHERE";
+
+        //Assert
+        act.Should().Throw<ArgumentNullException>().WithParameterName("simpleBuilder");
     }
 
     [Fact]
@@ -271,7 +284,7 @@ public class SimpleBuilderTests
         sut.GetValue<string?>($"{parameterNamePrefix}6").Should().Be(model.MiddleName);
     }
 
-    internal static class SimpleBuilderTestCases
+    private static class SimpleBuilderTestCases
     {
         public static IEnumerable<object[]> FormattableStringWithRawValue_TestCases()
         {

@@ -30,16 +30,9 @@ public abstract class SimpleBuilderBase : ISqlBuilder
     /// <returns>Returns a <see cref="SimpleBuilder"/>.</returns>
     public static SimpleBuilderBase operator +(SimpleBuilderBase simpleBuilder, FormattableString formattable)
     {
-#if NET6_0_OR_GREATER
-        ArgumentNullException.ThrowIfNull(simpleBuilder);
-#else
-        if (simpleBuilder is null)
-        {
-            throw new ArgumentNullException(nameof(simpleBuilder));
-        }
-#endif
-
-        return simpleBuilder.AppendIntact(formattable);
+        return simpleBuilder is null
+            ? throw new ArgumentNullException(nameof(simpleBuilder))
+            : simpleBuilder.AppendIntact(formattable);
     }
 
     /// <summary>
@@ -81,10 +74,10 @@ public abstract class SimpleBuilderBase : ISqlBuilder
     /// <para>Example 1:</para>
     /// <para>AddDynamicParameters(new {A = 1, B = 2}) // will add property A and B to the dynamic.</para>
     /// <para>Example 2:</para>
-    /// <para>var dynamicParamters = new DynamicParameters(); //creating a <see cref="DynamicParameters"/> object to hold the parameters.</para>
-    /// <para>dynamicParamters.Add("A", 1);.</para>
-    /// <para>dynamicParamters.Add("B", 2);.</para>
-    /// <para>AddDynamicParameters(dynamicParamters) // will add parameters A and B to the <see cref="Parameters">dynamic parameter</see> bag.</para>
+    /// <para>var dynamicParameters = new DynamicParameters(); //creating a <see cref="DynamicParameters"/> object to hold the parameters.</para>
+    /// <para>dynamicParameters.Add("A", 1);.</para>
+    /// <para>dynamicParameters.Add("B", 2);.</para>
+    /// <para>AddDynamicParameters(dynamicParameters) // will add parameters A and B to the <see cref="Parameters">dynamic parameter</see> bag.</para>
     /// </summary>
     /// <param name="param">The parameter.</param>
     /// <returns>Returns <see cref="SimpleBuilderBase"/>.</returns>

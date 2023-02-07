@@ -17,6 +17,7 @@ public class SimpleBuilderSettingsTests
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(SimpleBuilderSettings.DefaultReuseParameters);
+        SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(SimpleBuilderSettings.DefaultUseLowerCaseClauses);
     }
 
     [Fact]
@@ -37,42 +38,68 @@ public class SimpleBuilderSettingsTests
         sut.GetValue<int>($"{parameterNameTemplate}0").Should().Be(id);
     }
 
-    [Theory]
+    [Fact]
     [TestPriority(3)]
-    [InlineData("param", ":", true)]
-    public void Configure_AllArgumentsPassed_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters)
+    public void Configure_CustomParameterNameTemplateFluentBuilder_ReturnsVoid()
+    {
+        //Arrange
+        const int id = 10;
+        const string parameterNameTemplate = "fluCstPrm";
+        string expectedSql = $"SELECT *{Environment.NewLine}FROM TABLE{Environment.NewLine}WHERE ID = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{parameterNameTemplate}0";
+
+        //Act
+        SimpleBuilderSettings.Configure(parameterNameTemplate: parameterNameTemplate);
+        var sut = SimpleBuilder.CreateFluent()
+            .Select($"*")
+            .From($"TABLE")
+            .Where($"ID = {id}");
+
+        //Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.GetValue<int>($"{parameterNameTemplate}0").Should().Be(id);
+    }
+
+    [Theory]
+    [TestPriority(4)]
+    [InlineData("param", ":", true, true)]
+    public void Configure_ConfigureSettings_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
     {
         //Act
-        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters);
+        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters, useLowerCaseClauses);
 
         //Assert
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(parameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(parameterPrefix);
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(reuseParameters);
+        SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(useLowerCaseClauses);
     }
 
     [Theory]
-    [TestPriority(4)]
-    [InlineData("myParamz", null, null, "myParamz", "@", false)]
-    [InlineData("", ":", null, "prm", ":", false)]
-    [InlineData(null, null, true, "prm", "@", true)]
+    [TestPriority(5)]
+    [InlineData("myParam", null, null, null, "myParam", "@", false, false)]
+    [InlineData("", ":", null, null, "prm", ":", false, false)]
+    [InlineData(null, null, true, null, "prm", "@", true, false)]
+    [InlineData(null, null, null, true, "prm", "@", false, true)]
     public void Configure_ConfigureSingleSetting_ReturnsVoid(
         string? parameterNameTemplate,
         string? parameterPrefix,
         bool? reuseParameters,
+        bool? useLowerCaseClauses,
         string expectedParameterNameTemplate,
         string expectedParameterPrefix,
-        bool expectedReuseParameters)
+        bool expectedReuseParameters,
+        bool expectedUseLowerCaseClauses)
     {
         //Arrange
-        SimpleBuilderSettings.Configure("prm", "@", false);
+        SimpleBuilderSettings.Configure("prm", "@", false, false);
 
         //Act
-        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters);
+        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters, useLowerCaseClauses);
 
         //Assert
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(expectedParameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(expectedParameterPrefix);
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(expectedReuseParameters);
+        SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(expectedUseLowerCaseClauses);
     }
 }

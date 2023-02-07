@@ -17,24 +17,22 @@ public static class ServiceCollectionExtensions
     /// <exception cref="ArgumentNullException">Throws a <see cref="ArgumentNullException"/> when <paramref name="service"/> is <see langword="null"/>.</exception>
     public static IServiceCollection AddSimpleSqlBuilder(this IServiceCollection service, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton, Action<SimpleBuilderOptions>? configure = null)
     {
-#if NET6_0_OR_GREATER
-        ArgumentNullException.ThrowIfNull(service);
-#else
         if (service is null)
         {
             throw new ArgumentNullException(nameof(service));
         }
-#endif
 
         var serviceDescriptor = ServiceDescriptor.Describe(typeof(ISimpleBuilder), typeof(InternalSimpleBuilder), serviceLifetime);
         service.Add(serviceDescriptor);
         var optionsBuilder = service.AddOptions<SimpleBuilderOptions>();
 
-        if (configure is not null)
+        if (configure is null)
         {
-            optionsBuilder.Configure(configure);
-            ConfigureStaticSimpleBuilderSettings(configure);
+            return service;
         }
+
+        optionsBuilder.Configure(configure);
+        ConfigureStaticSimpleBuilderSettings(configure);
 
         return service;
     }
@@ -47,6 +45,7 @@ public static class ServiceCollectionExtensions
         SimpleBuilderSettings.Configure(
             options.DatabaseParameterNameTemplate,
             options.DatabaseParameterPrefix,
-            options.ReuseParameters);
+            options.ReuseParameters,
+            options.UseLowerCaseClauses);
     }
 }

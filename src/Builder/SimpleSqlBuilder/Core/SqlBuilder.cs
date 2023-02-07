@@ -8,15 +8,14 @@ internal sealed class SqlBuilder : SimpleBuilderBase
     private const char SpacePrefix = ' ';
 
     private readonly StringBuilder stringBuilder;
-    private readonly SqlFormatter formatter;
+    private readonly SqlFormatter sqlFormatter;
     private readonly DynamicParameters parameters;
 
     public SqlBuilder(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, FormattableString? formattable = null)
     {
         stringBuilder = new();
         parameters = new();
-
-        formatter = new(parameters, parameterNameTemplate, parameterPrefix, reuseParameters);
+        sqlFormatter = new(parameters, parameterNameTemplate, parameterPrefix, reuseParameters);
 
         if (formattable is not null)
         {
@@ -54,8 +53,8 @@ internal sealed class SqlBuilder : SimpleBuilderBase
         return this;
     }
 
-    public override T GetValue<T>(string name)
-        => parameters.Get<T>(name);
+    public override T GetValue<T>(string parameterName)
+        => parameters.Get<T>(parameterName);
 
     private SimpleBuilderBase AppendSql(FormattableString? formattable, bool startNewLine = false, bool addSpacePrefix = false)
     {
@@ -80,7 +79,7 @@ internal sealed class SqlBuilder : SimpleBuilderBase
         }
         else
         {
-            stringBuilder.AppendFormat(formatter, formattable.Format, formattable.GetArguments());
+            stringBuilder.AppendFormat(sqlFormatter, formattable.Format, formattable.GetArguments());
         }
 
         return this;

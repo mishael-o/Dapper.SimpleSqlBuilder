@@ -1,4 +1,5 @@
-﻿using Dapper.SimpleSqlBuilder.UnitTestHelpers.AutoFixture;
+﻿using Dapper.SimpleSqlBuilder.FluentBuilder;
+using Dapper.SimpleSqlBuilder.UnitTestHelpers.AutoFixture;
 using Microsoft.Extensions.Options;
 
 namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Core;
@@ -6,14 +7,14 @@ namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Core;
 public class InternalSimpleBuilderTests
 {
     [Theory]
-    [AutoMoqData(configureMembers: true)]
+    [AutoMoqData(true)]
     internal void Create_NoArgumentsPassed_ReturnsSimpleBuilderBase(InternalSimpleBuilder sut)
     {
         //Act
         var result = sut.Create();
 
         //Assert
-        result.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
+        result.Should().BeOfType<SqlBuilder>();
         result.ParameterNames.Should().HaveCount(0);
     }
 
@@ -34,7 +35,7 @@ public class InternalSimpleBuilderTests
         var result = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id}");
 
         //Assert
-        result.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
+        result.Should().BeOfType<SqlBuilder>();
         result.Sql.Should().Be(expectedSql);
         result.ParameterNames.Should().HaveCount(2);
     }
@@ -57,8 +58,20 @@ public class InternalSimpleBuilderTests
         var result = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id}", parameterPrefix, true);
 
         //Assert
-        result.Should().BeOfType<SqlBuilder>().And.BeAssignableTo<SimpleBuilderBase>();
+        result.Should().BeOfType<SqlBuilder>();
         result.Sql.Should().Be(expectedSql);
         result.ParameterNames.Should().HaveCount(1);
+    }
+
+    [Theory]
+    [AutoMoqData(true)]
+    [InlineAutoMoqData(configureMembers: true, generateDelegates: false, null, null, null)]
+    internal void CreateFluent_InitialiseFluentBuilder_ReturnsISimpleFluentBuilder(string? parameterPrefix, bool? reuseParameters, bool? useLowerCaseClauses, InternalSimpleBuilder sut)
+    {
+        //Act
+        var result = sut.CreateFluent(parameterPrefix, reuseParameters, useLowerCaseClauses);
+
+        //Assert
+        result.Should().BeOfType<FluentSqlBuilder>();
     }
 }

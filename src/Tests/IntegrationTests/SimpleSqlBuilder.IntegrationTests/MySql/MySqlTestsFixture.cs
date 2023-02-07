@@ -1,66 +1,87 @@
 ﻿using System.Data.Common;
+using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
+using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
+using DotNet.Testcontainers.Configurations;
 using MySql.Data.MySqlClient;
+using Respawn;
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.MySql;
 
 public class MySqlTestsFixture : IAsyncLifetime
 {
-    private const string DbName = "test-db";
     private const string DbUser = "dbUser";
+    private const string DbName = "test-db";
     private const int Port = 3306;
 
     private readonly string connectionString;
     private readonly TestcontainersContainer container;
 
+    private DbConnection dbConnection = null!;
+
+#if NET461
+    private Checkpoint respawner = null!;
+#else
+    private Respawner respawner = null!;
+#endif
+
     public MySqlTestsFixture()
     {
         var fixture = new Fixture();
         var dbPassword = fixture.Create<string>();
-        ProductTypeInDB = fixture.Create<CustomProductType>();
+        SeedProductTypes = fixture.CreateMany<CustomProductType>(2).ToArray();
 
         connectionString = $"Server=localhost;Port={Port};Uid={DbUser};Pwd={dbPassword};Database={DbName}";
-        container = CreateMySQLContainer(dbPassword);
+        container = CreateMySqlContainer(dbPassword);
     }
 
     public string StoredProcName { get; } = "CreateProduct";
 
-    public CustomProductType ProductTypeInDB { get; }
+    public IReadOnlyList<CustomProductType> SeedProductTypes { get; }
 
     public async Task InitializeAsync()
     {
-        SqlMapper.AddTypeHandler(new MySqlCustomIdTypeHandler());
+        SqlMapper.AddTypeHandler(new CustomIdTypeHandler());
 
         await container.StartAsync();
+        await InitialiseDbConnectionAsync();
         await CreateSchemaAsync();
+        await InitialiseRespawnerAsync();
     }
 
     public async Task DisposeAsync()
     {
+        dbConnection.Dispose();
         await container.DisposeAsync();
     }
 
     public DbConnection CreateDbConnection()
         => new MySqlConnection(connectionString);
 
-    private static TestcontainersContainer CreateMySQLContainer(string dbPassword)
+    public async Task ResetDatabaseAsync()
     {
-        return new TestcontainersBuilder<TestcontainersContainer>()
-                .WithImage("mysql:8")
+#if NET461
+        await respawner.Reset(dbConnection);
+#else
+        await respawner.ResetAsync(dbConnection);
+#endif
+    }
+
+    private static TestcontainersContainer CreateMySqlContainer(string dbPassword)
+    {
+        return new TestcontainersBuilder<MySqlTestcontainer>()
+                .WithDatabase(new MySqlTestcontainerConfiguration("mysql:8")
+                {
+                    Database = DbName,
+                    Username = DbUser,
+                    Password = dbPassword,
+                    Port = Port
+                })
                 .WithName("mysql")
-                .WithPortBinding(Port)
-                .WithEnvironment("MYSQL_ROOT_PASSWORD", Guid.NewGuid().ToString())
-                .WithEnvironment("MYSQL_DATABASE", DbName)
-                .WithEnvironment("MYSQL_USER", DbUser)
-                .WithEnvironment("MYSQL_PASSWORD", dbPassword)
-                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(Port))
                 .Build();
     }
 
     private async Task CreateSchemaAsync()
     {
-        using var connection = CreateDbConnection();
-        await connection.OpenAsync();
-
         var tableBuilder = SimpleBuilder.Create($@"
            CREATE TABLE {nameof(CustomProductType):raw}
            (
@@ -69,27 +90,54 @@ public class MySqlTestsFixture : IAsyncLifetime
            );
 
            INSERT INTO {nameof(CustomProductType):raw}
-           VALUES ({ProductTypeInDB.Id}, {ProductTypeInDB.Description});
+           VALUES ({SeedProductTypes[0].Id}, {SeedProductTypes[0].Description});
+
+           INSERT INTO {nameof(CustomProductType):raw}
+           VALUES ({SeedProductTypes[1].Id}, {SeedProductTypes[1].Description});
 
            CREATE TABLE {nameof(CustomProduct):raw}
            (
                 {nameof(CustomProduct.Id):raw} BINARY(16) PRIMARY KEY,
-                {nameof(CustomProduct.TypeId):raw} BINARY(16) NOT NULL REFERENCES {nameof(CustomProductType):raw}({nameof(CustomProductType.Id):raw}),
+                {nameof(CustomProduct.TypeId):raw} BINARY(16) NULL,
                 {nameof(CustomProduct.Tag):raw} VARCHAR(50),
-                {nameof(CustomProduct.CreatedDate):raw} DATE
+                {nameof(CustomProduct.CreatedDate):raw} DATE,
+                FOREIGN KEY ({nameof(CustomProduct.TypeId):raw}) REFERENCES {nameof(CustomProductType):raw}({nameof(CustomProductType.Id):raw})
            );");
 
-        await connection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
+        await dbConnection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
 
         var storedProcBuilder = SimpleBuilder.Create($@"
            CREATE PROCEDURE {StoredProcName:raw} (TypeId BINARY(16), OUT UserId BINARY(16), OUT Result INT)
            BEGIN
                 SET UserId = UUID_TO_BIN(UUID());
                 INSERT INTO {nameof(CustomProduct):raw}
-                VALUES (UserId, TypeId, NULL, CURRENT_DATE());
+                VALUES (UserId, TypeId, 'procedure', CURRENT_DATE());
                 SET Result = ROW_COUNT();
            END");
 
-        await connection.ExecuteAsync(storedProcBuilder.Sql);
+        await dbConnection.ExecuteAsync(storedProcBuilder.Sql);
+    }
+
+    private async Task InitialiseDbConnectionAsync()
+    {
+        dbConnection = CreateDbConnection();
+        await dbConnection.OpenAsync();
+    }
+
+    private async Task InitialiseRespawnerAsync()
+    {
+#if NET461
+        await Task.Run(() => respawner = new Checkpoint
+        {
+            DbAdapter = DbAdapter.MySql,
+            TablesToIgnore = new[] { nameof(CustomProductType) }
+        });
+#else
+        respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
+        {
+            DbAdapter = DbAdapter.MySql,
+            TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(CustomProductType)) }
+        });
+#endif
     }
 }

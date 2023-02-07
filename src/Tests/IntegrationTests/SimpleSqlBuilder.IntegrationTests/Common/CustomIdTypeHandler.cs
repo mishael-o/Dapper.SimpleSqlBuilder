@@ -1,8 +1,9 @@
 ﻿using System.Data;
+using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
-namespace Dapper.SimpleSqlBuilder.IntegrationTests.MySql;
+namespace Dapper.SimpleSqlBuilder.IntegrationTests.Common;
 
-public class MySqlCustomIdTypeHandler : SqlMapper.TypeHandler<CustomId>
+public class CustomIdTypeHandler : SqlMapper.TypeHandler<CustomId>
 {
     public override CustomId Parse(object value)
     {
@@ -13,7 +14,10 @@ public class MySqlCustomIdTypeHandler : SqlMapper.TypeHandler<CustomId>
 
     public override void SetValue(IDbDataParameter parameter, CustomId value)
     {
-        ArgumentNullException.ThrowIfNull(parameter);
+        if (parameter is null)
+        {
+            throw new ArgumentNullException(nameof(parameter));
+        }
 
         parameter.Value = value.ToByteArray();
     }

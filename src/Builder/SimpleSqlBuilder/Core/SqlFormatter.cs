@@ -2,10 +2,6 @@
 
 internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 {
-    private static readonly SimpleParameterInfoComparer Comparer = new();
-
-    internal const string RawFormat = "raw";
-
     private readonly DynamicParameters parameters;
     private readonly string parameterNameTemplate;
     private readonly string parameterPrefix;
@@ -16,16 +12,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 
     public SqlFormatter(DynamicParameters parameters, string parameterNameTemplate, string parameterPrefix, bool reuseParameters)
     {
-#if NET6_0_OR_GREATER
-        ArgumentNullException.ThrowIfNull(parameters);
-#else
-        if (parameters is null)
-        {
-            throw new ArgumentNullException(nameof(parameters));
-        }
-#endif
-
-        this.parameters = parameters;
+        this.parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
         this.parameterNameTemplate = parameterNameTemplate;
         this.parameterPrefix = parameterPrefix;
         this.reuseParameters = reuseParameters;
@@ -39,34 +26,32 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
     }
 
     public string Format(string? format, object? arg, IFormatProvider? formatProvider)
+        => Format(arg, format);
+
+    public string Format<T>(T value, string? format = null)
     {
-        if (arg is FormattableString formattableString)
+        if (value is FormattableString formattableString)
         {
             return formattableString.ArgumentCount == 0
                 ? formattableString.Format
                 : string.Format(this, formattableString.Format, formattableString.GetArguments());
         }
 
-        if (RawFormat.Equals(format, StringComparison.OrdinalIgnoreCase))
+        if (Constants.RawFormat.Equals(format, StringComparison.OrdinalIgnoreCase))
         {
-            return arg?.ToString() ?? string.Empty;
+            return value?.ToString() ?? string.Empty;
         }
 
-        if ((arg is null or not SimpleParameterInfo) && !reuseParameters)
+        if ((value is null or not SimpleParameterInfo) && !reuseParameters)
         {
-            return AddValueToParameters(arg);
+            return AddValueToParameters(value);
         }
 
-        if (arg is SimpleParameterInfo parameterInfo)
-        {
-            return AddParameterInfoToParameters(parameterInfo);
-        }
-
-        parameterInfo = new SimpleParameterInfo(arg);
+        var parameterInfo = value as SimpleParameterInfo ?? new(value);
         return AddParameterInfoToParameters(parameterInfo);
     }
 
-    private string AddValueToParameters(object? value)
+    private string AddValueToParameters<T>(T value)
     {
         var parameterName = GetNextParameterName();
         parameters.Add(parameterName, value, direction: System.Data.ParameterDirection.Input);
@@ -75,7 +60,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 
     private string AddParameterInfoToParameters(SimpleParameterInfo parameterInfo)
     {
-        parameterDictionary ??= new(Comparer);
+        parameterDictionary ??= new(SimpleParameterInfoComparer.Instance);
 
         if (parameterDictionary.TryGetValue(parameterInfo, out var dbPrefixedParameterName))
         {

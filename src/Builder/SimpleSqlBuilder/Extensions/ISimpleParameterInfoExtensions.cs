@@ -25,6 +25,6 @@ public static class ISimpleParameterInfoExtensions
             throw new ArgumentException($"Value is already a {nameof(ISimpleParameterInfo)}.", nameof(value));
         }
 
-        return new SimpleParameterInfo(value, dbType: dbType, size: size, precision: precision, scale: scale);
+        return new SimpleParameterInfo(value, dbType, size, precision, scale);
     }
 }
