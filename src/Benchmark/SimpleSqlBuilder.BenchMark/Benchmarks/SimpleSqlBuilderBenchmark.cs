@@ -11,7 +11,7 @@ namespace SimpleSqlBuilder.BenchMark.Benchmarks;
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 public class SimpleSqlBuilderBenchmark
 {
-    private const int WhereOperationCount = 50;
+    private const int WhereOperationCount = 20;
 
     private Product product = default!;
 
@@ -21,7 +21,7 @@ public class SimpleSqlBuilderBenchmark
         product = new Fixture().Create<Product>();
     }
 
-    [Benchmark(Description = "SqlBuilder (Dapper)")]
+    [Benchmark(Description = "SqlBuilder (Dapper)", Baseline = true)]
     [BenchmarkCategory("Simple query")]
     public string SqlBuilder()
     {
@@ -112,7 +112,7 @@ public class SimpleSqlBuilderBenchmark
         return builder.Sql;
     }
 
-    [Benchmark(Description = "SqlBuilder (Dapper)")]
+    [Benchmark(Description = "SqlBuilder (Dapper)", Baseline = true)]
     [BenchmarkCategory("Large query")]
     public string SqlBuilderLarge()
     {

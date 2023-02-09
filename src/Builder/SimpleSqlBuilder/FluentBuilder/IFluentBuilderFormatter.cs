@@ -1,10 +1,10 @@
 ﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
-internal interface IFluentSqlFormatter : IFluentBuilder
+internal interface IFluentBuilderFormatter : IFluentBuilder
 {
-    void AppendLiteral(string value);
-
     void AppendFormatted<T>(T value, string? format = null);
+
+    void AppendLiteral(string value);
 
     void EndClauseAction(ClauseAction action);
 

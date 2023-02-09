@@ -5,7 +5,7 @@ namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 [InterpolatedStringHandler]
 public ref struct HavingInterpolatedStringHandler
 {
-    private readonly IFluentSqlFormatter? formatter;
+    private readonly IFluentBuilderFormatter? formatter;
 
     public HavingInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder, out bool isHandlerEnabled)
         : this(literalLength, formattedCount, true, builder, out isHandlerEnabled)
@@ -14,7 +14,8 @@ public ref struct HavingInterpolatedStringHandler
 
     public HavingInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentBuilder builder, out bool isHandlerEnabled)
     {
-        formatter = builder as IFluentSqlFormatter ?? throw new ArgumentNullException(nameof(builder));
+        formatter = builder as IFluentBuilderFormatter
+            ?? throw new ArgumentException($"The {nameof(builder)} must implement {nameof(IFluentBuilderFormatter)}.", nameof(builder));
 
         if (!(condition && formatter.IsClauseActionEnabled(ClauseAction.Having)))
         {

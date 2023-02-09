@@ -3,9 +3,9 @@
 namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 /// <summary>
-/// <see cref="ISimpleFluentBuilder"/> and <see cref="ISimpleFluentBuilderEntry"/> implementation for <see cref="FluentSqlBuilder"/> partial class.
+/// Implements <see cref="ISimpleFluentBuilder"/> and <see cref="ISimpleFluentBuilderEntry"/> interfaces for the <see cref="FluentSqlBuilder"/> type.
 /// </summary>
-internal partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFluentBuilderEntry
+internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFluentBuilderEntry
 {
     public string Sql
         => stringBuilder.ToString();
@@ -217,104 +217,104 @@ internal partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFluentBui
 #else
 
     public IDeleteBuilder DeleteFrom(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Delete, formattable);
+        => AppendFormattable(ClauseAction.Delete, formattable);
 
     public IInsertBuilder InsertInto(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Insert, formattable);
+        => AppendFormattable(ClauseAction.Insert, formattable);
 
     public IInsertBuilder Columns(FormattableString formattable)
-        => FormatFormattable(ClauseAction.InsertColumn, formattable);
+        => AppendFormattable(ClauseAction.InsertColumn, formattable);
 
     public IInsertValueBuilder Values(FormattableString formattable)
-        => FormatFormattable(ClauseAction.InsertValue, formattable);
+        => AppendFormattable(ClauseAction.InsertValue, formattable);
 
     public ISelectBuilder Select(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Select, formattable);
+        => AppendFormattable(ClauseAction.Select, formattable);
 
     public ISelectDistinctBuilder SelectDistinct(FormattableString formattable)
-        => FormatFormattable(ClauseAction.SelectDistinct, formattable);
+        => AppendFormattable(ClauseAction.SelectDistinct, formattable);
 
     public ISelectFromBuilder From(FormattableString formattable)
-        => FormatFormattable(ClauseAction.SelectFrom, formattable);
+        => AppendFormattable(ClauseAction.SelectFrom, formattable);
 
     public IUpdateBuilder Update(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Update, formattable);
+        => AppendFormattable(ClauseAction.Update, formattable);
 
     public IUpdateBuilder Set(FormattableString formattable) =>
-        FormatFormattable(ClauseAction.UpdateSet, formattable);
+        AppendFormattable(ClauseAction.UpdateSet, formattable);
 
     public IUpdateBuilder Set(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.UpdateSet, formattable, condition);
+        => AppendFormattable(ClauseAction.UpdateSet, formattable, condition);
 
     public IJoinBuilder InnerJoin(FormattableString formattable)
-        => FormatFormattable(ClauseAction.InnerJoin, formattable);
+        => AppendFormattable(ClauseAction.InnerJoin, formattable);
 
     public IJoinBuilder InnerJoin(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.InnerJoin, formattable, condition);
+        => AppendFormattable(ClauseAction.InnerJoin, formattable, condition);
 
     public IJoinBuilder LeftJoin(FormattableString formattable)
-        => FormatFormattable(ClauseAction.LeftJoin, formattable);
+        => AppendFormattable(ClauseAction.LeftJoin, formattable);
 
     public IJoinBuilder LeftJoin(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.LeftJoin, formattable, condition);
+        => AppendFormattable(ClauseAction.LeftJoin, formattable, condition);
 
     public IJoinBuilder RightJoin(FormattableString formattable)
-        => FormatFormattable(ClauseAction.RightJoin, formattable);
+        => AppendFormattable(ClauseAction.RightJoin, formattable);
 
     public IJoinBuilder RightJoin(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.RightJoin, formattable, condition);
+        => AppendFormattable(ClauseAction.RightJoin, formattable, condition);
 
     public IWhereBuilder Where(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Where, formattable);
+        => AppendFormattable(ClauseAction.Where, formattable);
 
     public IWhereBuilder Where(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.Where, formattable, condition);
+        => AppendFormattable(ClauseAction.Where, formattable, condition);
 
     public IWhereBuilder OrWhere(FormattableString formattable)
-        => FormatFormattable(ClauseAction.WhereOr, formattable);
+        => AppendFormattable(ClauseAction.WhereOr, formattable);
 
     public IWhereBuilder OrWhere(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.WhereOr, formattable, condition);
+        => AppendFormattable(ClauseAction.WhereOr, formattable, condition);
 
     public IWhereFilter WhereFilter(FormattableString formattable)
-        => FormatFormattable(ClauseAction.WhereFilter, formattable);
+        => AppendFormattable(ClauseAction.WhereFilter, formattable);
 
     public IWhereFilter OrWhereFilter(FormattableString formattable)
-        => FormatFormattable(ClauseAction.WhereOrFilter, formattable);
+        => AppendFormattable(ClauseAction.WhereOrFilter, formattable);
 
     public IWhereFilter WithFilter(FormattableString formattable)
-        => FormatFormattable(ClauseAction.WhereWithFilter, formattable);
+        => AppendFormattable(ClauseAction.WhereWithFilter, formattable);
 
     public IWhereFilter WithFilter(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.WhereWithFilter, formattable, condition);
+        => AppendFormattable(ClauseAction.WhereWithFilter, formattable, condition);
 
     public IWhereFilter WithOrFilter(FormattableString formattable)
-        => FormatFormattable(ClauseAction.WhereWithOrFilter, formattable);
+        => AppendFormattable(ClauseAction.WhereWithOrFilter, formattable);
 
     public IWhereFilter WithOrFilter(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.WhereWithOrFilter, formattable, condition);
+        => AppendFormattable(ClauseAction.WhereWithOrFilter, formattable, condition);
 
     public IGroupByBuilder GroupBy(FormattableString formattable)
-        => FormatFormattable(ClauseAction.GroupBy, formattable);
+        => AppendFormattable(ClauseAction.GroupBy, formattable);
 
     public IGroupByBuilder GroupBy(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.GroupBy, formattable, condition);
+        => AppendFormattable(ClauseAction.GroupBy, formattable, condition);
 
     public IHavingBuilder Having(FormattableString formattable)
-        => FormatFormattable(ClauseAction.Having, formattable);
+        => AppendFormattable(ClauseAction.Having, formattable);
 
     public IHavingBuilder Having(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.Having, formattable, condition);
+        => AppendFormattable(ClauseAction.Having, formattable, condition);
 
     public IOrderByBuilder OrderBy(FormattableString formattable)
-        => FormatFormattable(ClauseAction.OrderBy, formattable);
+        => AppendFormattable(ClauseAction.OrderBy, formattable);
 
     public IOrderByBuilder OrderBy(bool condition, FormattableString formattable)
-        => FormatFormattable(ClauseAction.OrderBy, formattable, condition);
+        => AppendFormattable(ClauseAction.OrderBy, formattable, condition);
 
-    private ISimpleFluentBuilder FormatFormattable(ClauseAction clauseAction, FormattableString formattable, bool condition = true)
+    private ISimpleFluentBuilder AppendFormattable(ClauseAction clauseAction, FormattableString formattable, bool condition = true)
     {
-        if (!condition || !IsClauseActionEnabled(clauseAction))
+        if (!condition || !CanAppendClause(clauseAction))
         {
             return this;
         }

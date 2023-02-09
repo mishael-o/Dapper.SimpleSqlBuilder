@@ -6,7 +6,7 @@ namespace Dapper.SimpleSqlBuilder.UnitTests.FluentBuilder.Handlers;
 public class HavingInterpolatedStringHandlerTests
 {
     [Fact]
-    public void Constructor_FluentBuilderIsNull_ThrowsArgumentNullException()
+    public void Constructor_FluentBuilderIsNull_ThrowsArgumentException()
     {
         //Arrange
         IFluentBuilder fluentBuilder = null!;
@@ -15,18 +15,32 @@ public class HavingInterpolatedStringHandlerTests
         Action act = () => _ = new HavingInterpolatedStringHandler(0, 0, fluentBuilder, out var _);
 
         //Assert
-        act.Should().Throw<ArgumentNullException>()
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("The builder must implement IFluentBuilderFormatter.*")
             .WithParameterName("builder");
     }
 
     [Theory]
     [AutoData]
-    public void Constructor_InitialiseHandler_HandlerInitialised(Mock<IFluentBuilder> fluentBuilderMock)
+    public void Constructor_BuilderDoesNotImplementIFluentBuilderFormatter_ThrowsArgumentException(Mock<IFluentBuilder> fluentBuilderMock)
+    {
+        //Act
+        Action act = () => _ = new HavingInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
+
+        //Assert
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("The builder must implement IFluentBuilderFormatter.*")
+            .WithParameterName("builder");
+    }
+
+    [Theory]
+    [AutoData]
+    public void Constructor_InitialisesHandler_ReturnsHandler(Mock<IFluentBuilder> fluentBuilderMock)
     {
         //Arrange
-        var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
+        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
 
-        fluentSqlFormatterMock
+        fluentFormatterMock
             .Setup(x => x.IsClauseActionEnabled(ClauseAction.Having))
             .Returns(true);
 
@@ -35,22 +49,23 @@ public class HavingInterpolatedStringHandlerTests
 
         //Assert
         isHandlerEnabled.Should().BeTrue();
-        fluentSqlFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.Having));
+        fluentFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.Having));
     }
 
     [Theory]
     [AutoData]
-    public void Constructor_InitialiseHandler_HandlerDisabled(Mock<IFluentBuilder> fluentBuilderMock)
+    public void Constructor_HandlerDisabledByCondition_ReturnsHandler(Mock<IFluentBuilder> fluentBuilderMock)
     {
         //Arrange
-        var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
+        const bool condition = false;
+        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
 
-        fluentSqlFormatterMock
-            .Setup(x => x.IsClauseActionEnabled(ClauseAction.Having))
-            .Returns(false);
+        fluentFormatterMock
+            .Setup(x => x.IsClauseActionEnabled(ClauseAction.GroupBy))
+            .Returns(true);
 
         //Act
-        var sut = new HavingInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var isHandlerEnabled);
+        var sut = new HavingInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
 
         //Assert
         isHandlerEnabled.Should().BeFalse();
@@ -58,36 +73,15 @@ public class HavingInterpolatedStringHandlerTests
 
     [Theory]
     [AutoData]
-    public void Constructor_InitialiseHandlerWithCondition_HandlerInitialised(Mock<IFluentBuilder> fluentBuilderMock)
+    public void Constructor_HandlerDisabledByClauseAction_ReturnsHandler(Mock<IFluentBuilder> fluentBuilderMock)
     {
         //Arrange
         const bool condition = true;
-        var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
+        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
 
-        fluentSqlFormatterMock
-            .Setup(x => x.IsClauseActionEnabled(ClauseAction.Having))
-            .Returns(true);
-
-        //Act
-        var sut = new HavingInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
-
-        //Assert
-        isHandlerEnabled.Should().BeTrue();
-        fluentSqlFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.Having));
-    }
-
-    [Theory]
-    [InlineAutoData(true, false)]
-    [InlineAutoData(false, true)]
-    [InlineAutoData(false, false)]
-    public void Constructor_InitialiseHandlerWithCondition_HandlerDisabled(bool condition, bool isClauseActionEnabled, Mock<IFluentBuilder> fluentBuilderMock)
-    {
-        //Arrange
-        var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
-
-        fluentSqlFormatterMock
-            .Setup(x => x.IsClauseActionEnabled(ClauseAction.Having))
-            .Returns(isClauseActionEnabled);
+        fluentFormatterMock
+            .Setup(x => x.IsClauseActionEnabled(ClauseAction.GroupBy))
+            .Returns(false);
 
         //Act
         var sut = new HavingInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
@@ -98,12 +92,12 @@ public class HavingInterpolatedStringHandlerTests
 
     [Theory]
     [AutoData]
-    public void AppendLiteral_LiteralValueAppended_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
+    public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
     {
         //Arrange
-        var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
+        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
 
-        fluentSqlFormatterMock
+        fluentFormatterMock
             .Setup(x => x.IsClauseActionEnabled(ClauseAction.Having))
             .Returns(true);
 
@@ -113,17 +107,17 @@ public class HavingInterpolatedStringHandlerTests
         sut.AppendLiteral(value);
 
         //Assert
-        fluentSqlFormatterMock.Verify(x => x.AppendLiteral(value));
+        fluentFormatterMock.Verify(x => x.AppendLiteral(value));
     }
 
     [Theory]
     [AutoData]
-    public void AppendFormatted_FormattedValueAppended_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
+    public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
     {
         //Arrange
-        var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
+        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
 
-        fluentSqlFormatterMock
+        fluentFormatterMock
             .Setup(x => x.IsClauseActionEnabled(ClauseAction.Having))
             .Returns(true);
 
@@ -133,18 +127,18 @@ public class HavingInterpolatedStringHandlerTests
         sut.AppendFormatted(value);
 
         //Assert
-        fluentSqlFormatterMock.Verify(x => x.AppendFormatted(value, null));
+        fluentFormatterMock.Verify(x => x.AppendFormatted(value, null));
     }
 
     [Theory]
     [InlineAutoData(0, null)]
     [InlineAutoData("value", "raw")]
-    public void AppendFormatted_FormattedValueWithFormatAppended_ReturnsVoid(object value, string? format, Mock<IFluentBuilder> fluentBuilderMock)
+    public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format, Mock<IFluentBuilder> fluentBuilderMock)
     {
         //Arrange
-        var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
+        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
 
-        fluentSqlFormatterMock
+        fluentFormatterMock
             .Setup(x => x.IsClauseActionEnabled(ClauseAction.Having))
             .Returns(true);
 
@@ -154,17 +148,17 @@ public class HavingInterpolatedStringHandlerTests
         sut.AppendFormatted(value, format);
 
         //Assert
-        fluentSqlFormatterMock.Verify(x => x.AppendFormatted(value, format));
+        fluentFormatterMock.Verify(x => x.AppendFormatted(value, format));
     }
 
     [Theory]
     [AutoData]
-    public void Close_ClauseActionEnded_ReturnsVoid(Mock<IFluentBuilder> fluentBuilderMock)
+    public void Close_ClosesHandler_ReturnsVoid(Mock<IFluentBuilder> fluentBuilderMock)
     {
         //Arrange
-        var fluentSqlFormatterMock = fluentBuilderMock.As<IFluentSqlFormatter>();
+        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
 
-        fluentSqlFormatterMock
+        fluentFormatterMock
             .Setup(x => x.IsClauseActionEnabled(ClauseAction.Having))
             .Returns(true);
 
@@ -174,7 +168,7 @@ public class HavingInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentSqlFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.Having));
+        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.Having));
     }
 }
 #endif

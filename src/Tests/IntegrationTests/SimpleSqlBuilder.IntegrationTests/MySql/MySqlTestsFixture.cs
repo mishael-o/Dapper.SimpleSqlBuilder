@@ -69,7 +69,9 @@ public class MySqlTestsFixture : IAsyncLifetime
     private static TestcontainersContainer CreateMySqlContainer(string dbPassword)
     {
         return new TestcontainersBuilder<MySqlTestcontainer>()
+#pragma warning disable CA2000 // Dispose objects before losing scope
                 .WithDatabase(new MySqlTestcontainerConfiguration("mysql:8")
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 {
                     Database = DbName,
                     Username = DbUser,
