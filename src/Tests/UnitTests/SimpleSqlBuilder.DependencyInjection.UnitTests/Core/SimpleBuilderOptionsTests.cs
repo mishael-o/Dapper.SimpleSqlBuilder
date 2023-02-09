@@ -6,7 +6,7 @@ public class SimpleBuilderOptionsTests
     [InlineAutoData("")]
     [InlineAutoData(null)]
     [InlineAutoData("   ")]
-    public void Set_DatabaseParameterNameTemplateIsNullOrWhiteSpace_ThrowsArgumentException(string value, [NoAutoProperties] SimpleBuilderOptions sut)
+    public void DatabaseParameterNameTemplate_SetValueIsNullOrWhiteSpace_ThrowsArgumentException(string value, [NoAutoProperties] SimpleBuilderOptions sut)
     {
         //Act
         var act = () => sut.DatabaseParameterNameTemplate = value;
@@ -21,7 +21,7 @@ public class SimpleBuilderOptionsTests
     [InlineAutoData("")]
     [InlineAutoData(null)]
     [InlineAutoData("   ")]
-    public void Set_DatabaseParameterPrefixIsNullOrWhiteSpace_ThrowsArgumentException(string value, [NoAutoProperties] SimpleBuilderOptions sut)
+    public void DatabaseParameterPrefix_SetValueIsNullOrWhiteSpace_ThrowsArgumentException(string value, [NoAutoProperties] SimpleBuilderOptions sut)
     {
         //Act
         var act = () => sut.DatabaseParameterPrefix = value;

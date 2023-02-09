@@ -3,11 +3,11 @@ using Dapper.SimpleSqlBuilder.Extensions;
 
 namespace Dapper.SimpleSqlBuilder.UnitTests.Extensions;
 
-public class ISimpleParameterInfoExtensionsTests
+public class SimpleParameterInfoExtensionsTests
 {
     [Theory]
     [AutoData]
-    public void DefineParam_DefineParamCalledOnSimpleParameterInfo_ThrowsInvalidOperations(SimpleParameterInfo value)
+    public void DefineParam_GenericTypeIsSimpleParameterInfo_ThrowsInvalidOperations(SimpleParameterInfo value)
     {
         //Act
         Action act = () => value.DefineParam(DbType.Int64);
@@ -20,8 +20,7 @@ public class ISimpleParameterInfoExtensionsTests
 
     [Theory]
     [AutoData]
-    public void DefineParam_CreateSimpleParameterInfo_ReturnsISimpleParameterInfo(
-        object value, DbType dbType, int size, byte precision, byte scale)
+    public void DefineParam_CreatesSimpleParameterInfo_ReturnsISimpleParameterInfo(object value, DbType dbType, int size, byte precision, byte scale)
     {
         //Act
         var valueParam = value.DefineParam(dbType, size, precision, scale);

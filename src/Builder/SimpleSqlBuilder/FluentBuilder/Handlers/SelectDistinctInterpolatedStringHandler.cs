@@ -5,11 +5,12 @@ namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 [InterpolatedStringHandler]
 public ref struct SelectDistinctInterpolatedStringHandler
 {
-    private readonly IFluentSqlFormatter formatter;
+    private readonly IFluentBuilderFormatter formatter;
 
     public SelectDistinctInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
     {
-        formatter = builder as IFluentSqlFormatter ?? throw new ArgumentNullException(nameof(builder));
+        formatter = builder as IFluentBuilderFormatter
+            ?? throw new ArgumentException($"The {nameof(builder)} must implement {nameof(IFluentBuilderFormatter)}.", nameof(builder));
         formatter.StartClauseAction(ClauseAction.SelectDistinct);
     }
 

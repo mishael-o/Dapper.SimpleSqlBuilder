@@ -7,7 +7,7 @@ namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Extensions;
 public class ServiceCollectionExtensionsTests
 {
     [Fact]
-    public void AddSimpleSqlBuilder_ServiceCollectionIsNull_ThrowsArgumentException()
+    public void AddSimpleSqlBuilder_ServiceCollectionIsNull_ThrowsArgumentNullException()
     {
         //Arrange
         IServiceCollection sut = null!;
@@ -22,7 +22,7 @@ public class ServiceCollectionExtensionsTests
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_DefaultConfiguration_ReturnsIServiceCollection(ServiceCollection sut)
+    public void AddSimpleSqlBuilder_AddsSimpeSqlBuilderConfigurations_ReturnsIServiceCollection(ServiceCollection sut)
     {
         //Act
         sut.AddSimpleSqlBuilder();
@@ -41,7 +41,7 @@ public class ServiceCollectionExtensionsTests
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_CustomConfiguration_ReturnsIServiceCollection(ServiceLifetime serviceLifetime, ServiceCollection sut)
+    public void AddSimpleSqlBuilder_AddsSimpleSqlBuilderWithCustomConfigurations_ReturnsIServiceCollection(ServiceLifetime serviceLifetime, ServiceCollection sut)
     {
         //Arrange
         var options = new SimpleBuilderOptions { DatabaseParameterNameTemplate = "myParam", DatabaseParameterPrefix = ":", ReuseParameters = true, UseLowerCaseClauses = true };

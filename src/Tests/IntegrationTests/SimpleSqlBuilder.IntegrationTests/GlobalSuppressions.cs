@@ -5,9 +5,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed", Scope = "member", Target = "~M:Dapper.SimpleSqlBuilder.IntegrationTests.MSSql.MSSqlTestsFixture.CreateSqlServerContainer(System.String)~DotNet.Testcontainers.Containers.TestcontainersContainer")]
-[assembly: SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed", Scope = "member", Target = "~M:Dapper.SimpleSqlBuilder.IntegrationTests.MySql.MySqlTestsFixture.CreateMySqlContainer(System.String)~DotNet.Testcontainers.Containers.TestcontainersContainer")]
-[assembly: SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed", Scope = "member", Target = "~M:Dapper.SimpleSqlBuilder.IntegrationTests.PostgreSql.PostgreSqlTestsFixture.CreatePostgreSqlContainer(System.String)~DotNet.Testcontainers.Containers.TestcontainersContainer")]
 [assembly: SuppressMessage("Naming", "CA1711:Identifiers should not have incorrect suffix", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.IntegrationTests.MySql.MySqlTestsCollection")]
 [assembly: SuppressMessage("Naming", "CA1711:Identifiers should not have incorrect suffix", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.IntegrationTests.MSSql.MSSqlTestsCollection")]
 [assembly: SuppressMessage("Naming", "CA1711:Identifiers should not have incorrect suffix", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.IntegrationTests.PostgreSql.PostgreSqlTestsCollection")]

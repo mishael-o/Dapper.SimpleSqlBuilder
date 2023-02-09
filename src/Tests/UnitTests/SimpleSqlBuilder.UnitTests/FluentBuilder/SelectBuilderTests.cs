@@ -6,7 +6,7 @@ namespace Dapper.SimpleSqlBuilder.UnitTests.FluentBuilder;
 public class SelectBuilderTests
 {
     [Fact]
-    public void Select_BuildSql_ReturnsFluentSqlBuilder()
+    public void Select_BuildsSql_ReturnsFluentSqlBuilder()
     {
         //Arrange
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table";
@@ -24,7 +24,7 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void SelectDistinct_BuildSql_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSql_ReturnsFluentSqlBuilder()
     {
         //Arrange
         var expectedSql = $"SELECT DISTINCT Id, Type{Environment.NewLine}FROM Table";
@@ -41,7 +41,7 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildSqlWithJoinMethods_ReturnsFluentSqlBuilder()
+    public void Select_BuildsSqlWithJoinMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
         var expectedSql = "SELECT *" +
@@ -64,7 +64,7 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildSqlWithJoinConditionalMethods_ReturnsFluentSqlBuilder()
+    public void Select_BuildsSqlWithJoinConditionalMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
         var expectedSql = "SELECT *" +
@@ -91,7 +91,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildSqlWithWhereMethods_ReturnsFluentSqlBuilder(int id, string type)
+    public void Select_BuildsSqlWithWhereMethods_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"SELECT Id, Type{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 OR Type = @p1";
@@ -113,7 +113,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void SelectDistinct_BuildSqlWithWhereMethods_ReturnsFluentSqlBuilder(int id, string type)
+    public void SelectDistinct_BuildsSqlWithWhereMethods_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"SELECT DISTINCT Id, Type{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 OR Type = @p1";
@@ -134,7 +134,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildSqlWithWhereFilterMethods_ReturnsFluentSqlBuilder(int id, string type)
+    public void Select_BuildsSqlWithWhereFilterMethods_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"SELECT Id, Type{Environment.NewLine}FROM Table{Environment.NewLine}WHERE (Id = @p0) OR (Type = @p1)";
@@ -155,7 +155,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Select_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}" +
@@ -180,7 +180,7 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildSqlWithGroupByMethods_ReturnsFluentSqlBuilder()
+    public void Select_BuildsSqlWithGroupByMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
         const string typeColumn = "Type";
@@ -199,7 +199,7 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildSqlWithGroupByConditionalMethods_ReturnsFluentSqlBuilder()
+    public void Select_BuildsSqlWithGroupByConditionalMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}GROUP BY Age, Type";
@@ -218,7 +218,7 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildSqlWithHavingMethods_ReturnsFluentSqlBuilder()
+    public void Select_BuildsSqlWithHavingMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
         const string typeColumn = "Type";
@@ -240,7 +240,7 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildSqlWithHavingConditionalMethods_ReturnsFluentSqlBuilder()
+    public void Select_BuildsSqlWithHavingConditionalMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
         var expectedSql = "SELECT Id, COUNT(Type) AS TypeCount" +
@@ -262,7 +262,7 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildSqlWithOrderByMethods_ReturnsFluentSqlBuilder()
+    public void Select_BuildsSqlWithOrderByMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
         const string typeColumn = "Type";
@@ -281,7 +281,7 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildSqlWithOrderByConditionalMethods_ReturnsFluentSqlBuilder()
+    public void Select_BuildsSqlWithOrderByConditionalMethods_ReturnsFluentSqlBuilder()
     {
         //Arrange
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}ORDER BY Id, Type";
@@ -301,7 +301,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, string type)
+    public void Select_BuildsSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 AND TypeId IN (SELECT TypeId WHERE Type = @p1)";
@@ -323,7 +323,7 @@ public class SelectBuilderTests
 
     [Theory]
     [InlineAutoData(null)]
-    public void Select_BuildSqlAndAddRawValues_ReturnsFluentSqlBuilder(int? groupId, string tableName, int typeId, string type)
+    public void Select_BuildsSqlWithRawValues_ReturnsFluentSqlBuilder(int? groupId, string tableName, int typeId, string type)
     {
         //Arrange
         var expectedSql = $"SELECT *{Environment.NewLine}FROM {tableName}{Environment.NewLine}WHERE Type = @p0 AND GroupId = '' AND TypeGroup IN (SELECT TypeGroup WHERE TypeId = {typeId})";
@@ -345,7 +345,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildSqlAndAddSimpleParameterInfoValues_ReturnsFluentSqlBuilder(int id, string type)
+    public void Select_BuildsSqlWithSimpleParameterInfoValues_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var idParam = id.DefineParam();
@@ -369,7 +369,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildSqlAndAddParameter_ReturnsFluentSqlBuilder(int id)
+    public void Select_BuildsSqlAndAddParameter_ReturnsFluentSqlBuilder(int id)
     {
         //Arrange
         string expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @{nameof(id)}";
@@ -390,7 +390,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildSqlWithCustomParameterPrefix_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Select_BuildsSqlWithCustomParameterPrefix_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = :p0 OR Age = :p1 AND Type = :p2";
@@ -413,7 +413,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildSqlAndReuseParameters_ReturnsFluentSqlBuilder(int id, string type)
+    public void Select_BuildsSqlAndReuseParameters_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE (Id = @p0 AND Type = @p1) OR Id = @p0 OR Type = @p1";
@@ -435,7 +435,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Select_BuildsSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = "select *" +
@@ -471,7 +471,7 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void SelectDistinct_BuildSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder()
     {
         //Arrange
         var expectedSql = $"select distinct Id, Type{Environment.NewLine}from Table";

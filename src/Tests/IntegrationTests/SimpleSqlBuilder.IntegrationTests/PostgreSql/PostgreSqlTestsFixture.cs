@@ -66,7 +66,9 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     private static TestcontainersContainer CreatePostgreSqlContainer(string dbPassword)
     {
         return new TestcontainersBuilder<PostgreSqlTestcontainer>()
+#pragma warning disable CA2000 // Dispose objects before losing scope
                 .WithDatabase(new PostgreSqlTestcontainerConfiguration("postgres:14")
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 {
                     Database = DbName,
                     Username = DbUser,

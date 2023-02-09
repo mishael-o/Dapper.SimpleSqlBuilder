@@ -20,7 +20,7 @@ public class SimpleParameterInfoComparerTests
 
     [Theory]
     [MemberData(nameof(SimpleParameterInfoComparerTestCases.Equals_ParametersAreEqual_TestCases), MemberType = typeof(SimpleParameterInfoComparerTestCases))]
-    public void Equals_ParametersAreEqual_ReturnsFalse(SimpleParameterInfo? param1, SimpleParameterInfo? param2)
+    public void Equals_ParametersAreEqual_ReturnsTrue(SimpleParameterInfo? param1, SimpleParameterInfo? param2)
     {
         //Arrange
         var sut = SimpleParameterInfoComparer.Instance;
@@ -34,7 +34,7 @@ public class SimpleParameterInfoComparerTests
 
     [Theory]
     [AutoData]
-    public void GetHashCode_GenerateHashCode_ReturnsInt(SimpleParameterInfo parameterInfo)
+    public void GetHashCode_GetsHashCode_ReturnsInteger(SimpleParameterInfo parameterInfo)
     {
         //Arrange
         var sut = SimpleParameterInfoComparer.Instance;

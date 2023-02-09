@@ -3,7 +3,10 @@ using System.Text;
 
 namespace Dapper.SimpleSqlBuilder;
 
-internal sealed class SqlBuilder : Builder
+/// <summary>
+/// A class that defines the SQL builder type or contract. The core <see cref="SqlBuilder"/> partial class.
+/// </summary>
+internal sealed partial class SqlBuilder : Builder
 {
     private const char SpacePrefix = ' ';
 
@@ -16,11 +19,7 @@ internal sealed class SqlBuilder : Builder
         stringBuilder = new();
         parameters = new();
         sqlFormatter = new(parameters, parameterNameTemplate, parameterPrefix, reuseParameters);
-
-        if (formattable is not null)
-        {
-            AppendSql(formattable);
-        }
+        AppendFormattable(formattable);
     }
 
     public override string Sql
@@ -32,14 +31,44 @@ internal sealed class SqlBuilder : Builder
     public override IEnumerable<string> ParameterNames
         => parameters.ParameterNames;
 
+#if NET6_0_OR_GREATER
+    public override Builder Append([InterpolatedStringHandlerArgument("")] ref AppendSqlIntepolatedStringHandler handler)
+        => this;
+
+    public override Builder AppendIntact([InterpolatedStringHandlerArgument("")] ref AppendIntactSqlIntepolatedStringHandler handler)
+        => this;
+
+    public override Builder AppendNewLine([InterpolatedStringHandlerArgument("")] ref AppendNewLineSqlIntepolatedStringHandler handler)
+        => this;
+#else
+
     public override Builder Append(FormattableString formattable)
-        => AppendSql(formattable, addSpacePrefix: true);
+    {
+        AppendSpace();
+        AppendFormattable(formattable);
+        return this;
+    }
 
     public override Builder AppendIntact(FormattableString formattable)
-        => AppendSql(formattable);
+    {
+        AppendFormattable(formattable);
+        return this;
+    }
 
-    public override Builder AppendNewLine(FormattableString? formattable = null)
-        => AppendSql(formattable, startNewLine: true);
+    public override Builder AppendNewLine(FormattableString formattable)
+    {
+        AppendNewLine();
+        AppendFormattable(formattable);
+        return this;
+    }
+
+#endif
+
+    public override Builder AppendNewLine()
+    {
+        stringBuilder.AppendLine();
+        return this;
+    }
 
     public override Builder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null)
     {
@@ -56,32 +85,22 @@ internal sealed class SqlBuilder : Builder
     public override T GetValue<T>(string parameterName)
         => parameters.Get<T>(parameterName);
 
-    private Builder AppendSql(FormattableString? formattable, bool startNewLine = false, bool addSpacePrefix = false)
+    private void AppendFormattable(FormattableString? formattable)
     {
-        if (startNewLine)
-        {
-            stringBuilder.AppendLine();
-        }
-
         if (formattable is null)
         {
-            return this;
-        }
-
-        if (addSpacePrefix)
-        {
-            stringBuilder.Append(SpacePrefix);
+            return;
         }
 
         if (formattable.ArgumentCount == 0)
         {
             stringBuilder.Append(formattable.Format);
-        }
-        else
-        {
-            stringBuilder.AppendFormat(sqlFormatter, formattable.Format, formattable.GetArguments());
+            return;
         }
 
-        return this;
+        stringBuilder.AppendFormat(sqlFormatter, formattable.Format, formattable.GetArguments());
     }
+
+    private void AppendSpace()
+        => stringBuilder.Append(SpacePrefix);
 }

@@ -3,9 +3,9 @@
 namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 /// <summary>
-/// Core <see cref="FluentSqlBuilder"/> partial class.
+/// A class that implements the simple fluent SQL builder type or contract. The core <see cref="FluentSqlBuilder"/> partial class.
 /// </summary>
-internal partial class FluentSqlBuilder
+internal sealed partial class FluentSqlBuilder
 {
     private readonly bool useLowerCaseClauses;
     private readonly StringBuilder stringBuilder;
@@ -441,6 +441,12 @@ internal partial class FluentSqlBuilder
             .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.Having.Lower : ClauseConstants.Having.Upper)
             .Append(ClauseConstants.Space);
+    }
+
+    private bool CanAppendClause(ClauseAction clauseAction)
+    {
+        return !clauseActions.Exists(c => c is ClauseAction.Delete or ClauseAction.Update)
+            || clauseAction is not ClauseAction.GroupBy and not ClauseAction.Having and not ClauseAction.OrderBy;
     }
 
     private void CloseOpenParentheses()

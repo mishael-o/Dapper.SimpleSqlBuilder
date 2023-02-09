@@ -8,7 +8,7 @@ namespace Dapper.SimpleSqlBuilder;
 public abstract class Builder : ISqlBuilder
 {
     /// <summary>
-    /// Gets the generated the Sql.
+    /// Gets the generated the SQL.
     /// </summary>
     public abstract string Sql { get; }
 
@@ -32,8 +32,35 @@ public abstract class Builder : ISqlBuilder
     {
         return builder is null
             ? throw new ArgumentNullException(nameof(builder))
+#if NET6_0_OR_GREATER
+            : builder.AppendIntact($"{formattable}");
+#else
             : builder.AppendIntact(formattable);
+#endif
     }
+
+#if NET6_0_OR_GREATER
+    /// <summary>
+    /// Appends a space prefix and the interpolated string to the builder.
+    /// </summary>
+    /// <param name="handler">The <see cref="AppendSqlIntepolatedStringHandler">handler</see> for the interpolated string.</param>
+    /// <returns>Returns a <see cref="Builder"/>.</returns>
+    public abstract Builder Append([InterpolatedStringHandlerArgument("")] ref AppendSqlIntepolatedStringHandler handler);
+
+    /// <summary>
+    /// Appends the interpolated string to the builder.
+    /// </summary>
+    /// <param name="handler">The <see cref="AppendIntactSqlIntepolatedStringHandler">handler</see> for the interpolated string.</param>
+    /// <returns>Returns a <see cref="Builder"/>.</returns>
+    public abstract Builder AppendIntact([InterpolatedStringHandlerArgument("")] ref AppendIntactSqlIntepolatedStringHandler handler);
+
+    /// <summary>
+    /// Appends an <see cref="Environment.NewLine"/> and the interpolated string to the builder.
+    /// </summary>
+    /// <param name="handler">The <see cref="AppendNewLineSqlIntepolatedStringHandler">handler</see> for the interpolated string.</param>
+    /// <returns>Returns a <see cref="Builder"/>.</returns>
+    public abstract Builder AppendNewLine([InterpolatedStringHandlerArgument("")] ref AppendNewLineSqlIntepolatedStringHandler handler);
+#else
 
     /// <summary>
     /// Appends a space prefix and a <see cref="FormattableString"/> to the builder.
@@ -54,7 +81,15 @@ public abstract class Builder : ISqlBuilder
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>Returns <see cref="Builder"/>.</returns>
-    public abstract Builder AppendNewLine(FormattableString? formattable = null);
+    public abstract Builder AppendNewLine(FormattableString formattable);
+
+#endif
+
+    /// <summary>
+    /// Appends an <see cref="Environment.NewLine"/> to the builder.
+    /// </summary>
+    /// <returns>Returns <see cref="Builder"/>.</returns>
+    public abstract Builder AppendNewLine();
 
     /// <summary>
     /// Adds a parameter to the <see cref="Parameters">dynamic parameter</see> list.

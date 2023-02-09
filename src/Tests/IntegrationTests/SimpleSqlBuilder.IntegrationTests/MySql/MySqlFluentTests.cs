@@ -16,7 +16,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Insert_AddProducts_ReturnsInteger()
+    public async Task Insert_AddsProducts_ReturnsInteger()
     {
         //Arrange
         const string tag = "insert";
@@ -50,7 +50,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetProductsWithSelectTags_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsWithSelectTags_ReturnsIEnumerableOfCustomProduct()
     {
         //Arrange
         const string tag = "select";
@@ -87,7 +87,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetProductsByInnerJoinProductAndProductType_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsByInnerJoinProductAndProductType_ReturnsIEnumerableOfCustomProduct()
     {
         //Arrange
         const string tag = "selectInnerJoin";
@@ -114,7 +114,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetProductsByLeftJoinProductAndProductType_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsByLeftJoinProductAndProductType_ReturnsIEnumerableOfCustomProduct()
     {
         //Arrange
         const string tag = "selectLeftJoin";
@@ -141,7 +141,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetProductsByRightJoinProductTypeAndProduct_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsByRightJoinProductTypeAndProduct_ReturnsIEnumerableOfCustomProduct()
     {
         //Arrange
         const int count = 3;
@@ -172,7 +172,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Update_UpdateProductWithUpdateTag_ReturnsInteger()
+    public async Task Update_UpdatesProductWithUpdateTag_ReturnsInteger()
     {
         //Arrange
         const int count = 1;
@@ -207,7 +207,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Delete_DeleteProductsWithDeleteTag_ReturnsInteger()
+    public async Task Delete_DeletesProductsWithDeleteTag_ReturnsInteger()
     {
         //Arrange
         const int count = 3;

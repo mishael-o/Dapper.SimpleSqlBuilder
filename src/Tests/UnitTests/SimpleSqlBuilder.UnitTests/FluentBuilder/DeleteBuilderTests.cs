@@ -6,7 +6,7 @@ namespace Dapper.SimpleSqlBuilder.UnitTests.FluentBuilder;
 public class DeleteBuilderTests
 {
     [Fact]
-    public void DeleteFrom_BuildSql_ReturnsFluentSqlBuilder()
+    public void DeleteFrom_BuildsSql_ReturnsFluentSqlBuilder()
     {
         //Arrange
         const string expectedSql = "DELETE FROM Table";
@@ -24,7 +24,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildSqlWithWhereMethods_ReturnsFluentSqlBuilder(int id, string type)
+    public void DeleteFrom_BuildsSqlWithWhereMethods_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE Id = @p0 OR Type = @p1";
@@ -44,7 +44,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildSqlWithWhereFilterMethods_ReturnsFluentSqlBuilder(int id, string type)
+    public void DeleteFrom_BuildsSqlWithWhereFilterMethods_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE (Id = @p0) OR (Type = @p1)";
@@ -64,7 +64,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void DeleteFrom_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}" +
@@ -89,7 +89,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildSqlIgnoreNotAllowedMethods_ReturnsFluentSqlBuilder(int id)
+    public void DeleteFrom_BuildsSqlAndIgnoreNotAllowedMethods_ReturnsFluentSqlBuilder(int id)
     {
         //Arrange
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE Id = @p0";
@@ -110,7 +110,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, string type)
+    public void DeleteFrom_BuildsSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE Id = @p0 AND TypeId IN (SELECT TypeId WHERE Type = @p1)";
@@ -131,7 +131,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [InlineAutoData(null)]
-    public void DeleteFrom_BuildSqlAndAddRawValues_ReturnsFluentSqlBuilder(string? group, string tableName, int typeId, string type)
+    public void DeleteFrom_BuildsSqlWithRawValues_ReturnsFluentSqlBuilder(string? group, string tableName, int typeId, string type)
     {
         //Arrange
         var expectedSql = $"DELETE FROM {tableName}{Environment.NewLine}WHERE Type = @p0 AND Group = '' AND TypeGroup IN (SELECT TypeGroup WHERE TypeId = {typeId})";
@@ -152,7 +152,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildSqlAndAddSimpleParameterInfoValues_ReturnsFluentSqlBuilder(int id, string type)
+    public void DeleteFrom_BuildsSqlWithSimpleParameterInfoValues_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var idParam = id.DefineParam(System.Data.DbType.Int32, 1, 1, 1);
@@ -175,7 +175,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildSqlAndAddParameter_ReturnsFluentSqlBuilder(int id)
+    public void DeleteFrom_BuildsSqlAndAddParameter_ReturnsFluentSqlBuilder(int id)
     {
         //Arrange
         string expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE Id = @{nameof(id)}";
@@ -195,7 +195,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildSqlWithCustomParameterPrefix_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void DeleteFrom_BuildsSqlWithCustomParameterPrefix_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE Id = :p0 OR Age = :p1 AND Type = :p2";
@@ -217,7 +217,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildSqlAndReuseParameters_ReturnsFluentSqlBuilder(int id, string type)
+    public void DeleteFrom_BuildsSqlAndReuseParameters_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE (Id = @p0 AND Type = @p1) OR Id = @p0 OR Type = @p1";
@@ -238,7 +238,7 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void DeleteFrom_BuildsSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"delete from Table{Environment.NewLine}where Id = @p0 or (Age = @p1 and Type = @p2)";

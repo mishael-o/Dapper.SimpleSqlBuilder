@@ -5,7 +5,7 @@ namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 [InterpolatedStringHandler]
 public ref struct InnerJoinInterpolatedStringHandler
 {
-    private readonly IFluentSqlFormatter? formatter;
+    private readonly IFluentBuilderFormatter? formatter;
 
     public InnerJoinInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder, out bool isHandlerEnabled)
         : this(literalLength, formattedCount, true, builder, out isHandlerEnabled)
@@ -21,7 +21,8 @@ public ref struct InnerJoinInterpolatedStringHandler
             return;
         }
 
-        formatter = builder as IFluentSqlFormatter ?? throw new ArgumentNullException(nameof(builder));
+        formatter = builder as IFluentBuilderFormatter
+            ?? throw new ArgumentException($"The {nameof(builder)} must implement {nameof(IFluentBuilderFormatter)}.", nameof(builder));
         isHandlerEnabled = true;
         formatter.StartClauseAction(ClauseAction.InnerJoin);
     }

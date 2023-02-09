@@ -72,7 +72,9 @@ public class MSSqlTestsFixture : IAsyncLifetime
     private static TestcontainersContainer CreateSqlServerContainer(string dbPassword)
     {
         return new TestcontainersBuilder<MsSqlTestcontainer>()
+#pragma warning disable CA2000 // Dispose objects before losing scope
                 .WithDatabase(new MsSqlTestcontainerConfiguration("mcr.microsoft.com/mssql/server:2019-latest")
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 {
                     Password = dbPassword,
                     Database = DbName,

@@ -7,7 +7,7 @@ public class UpdateBuilderTests
 {
     [Theory]
     [AutoData]
-    public void Update_BuildSql_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Update_BuildsSql_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Id = @p0, Age = @p1, Type = @p2";
@@ -30,7 +30,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildSqlWithSetConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Update_BuildsSqlWithSetConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Age = @p0, Type = @p1";
@@ -51,7 +51,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildSqlWithWhereMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Update_BuildsSqlWithWhereMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Age = @p0, Type = @p1{Environment.NewLine}WHERE Id = @p2 OR Type = @p3";
@@ -75,7 +75,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildSqlWithWhereFilterMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Update_BuildsSqlWithWhereFilterMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Age = @p0, Type = @p1{Environment.NewLine}WHERE (Id = @p2) OR (Type = @p3)";
@@ -99,7 +99,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Update_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Age = @p0{Environment.NewLine}" +
@@ -127,7 +127,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, string type)
+    public void Update_BuildsSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Id = @p0{Environment.NewLine}WHERE TypeId IN (SELECT TypeId WHERE Type = @p1)";
@@ -148,7 +148,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [InlineAutoData(null)]
-    public void Update_BuildSqlAndAddRawValues_ReturnsFluentSqlBuilder(string? group, string tableName, int typeId, string type)
+    public void Update_BuildsSqlWithRawValues_ReturnsFluentSqlBuilder(string? group, string tableName, int typeId, string type)
     {
         //Arrange
         var expectedSql = $"UPDATE {tableName}{Environment.NewLine}SET Type = @p0, Group = ''{Environment.NewLine}WHERE TypeGroup IN (SELECT TypeGroup WHERE TypeId = {typeId})";
@@ -169,7 +169,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildSqlAndAddSimpleParameterInfoValues_ReturnsFluentSqlBuilder(int id, string type)
+    public void Update_BuildsSqlWithSimpleParameterInfoValues_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var idParam = id.DefineParam(System.Data.DbType.Int32, 1, 1, 1);
@@ -193,7 +193,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildSqlAndAddParameter_ReturnsFluentSqlBuilder(int id, string type)
+    public void Update_BuildsSqlAndAddParameter_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Type = @{nameof(type)}{Environment.NewLine}WHERE Id = @{nameof(id)}";
@@ -216,7 +216,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildSqlIgnoreNotAllowedMethods_ReturnsFluentSqlBuilder(int id, int age)
+    public void Update_BuildsSqlAndIgnoreNotAllowedMethods_ReturnsFluentSqlBuilder(int id, int age)
     {
         //Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Age = @p0{Environment.NewLine}WHERE Id = @p1";
@@ -239,7 +239,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildSqlWithCustomParameterPrefix_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Update_BuildsSqlWithCustomParameterPrefix_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Id = :p0, Age = :p1, Type = :p2{Environment.NewLine}WHERE Id = :p3";
@@ -261,7 +261,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildSqlAndReuseParameters_ReturnsFluentSqlBuilder(int id, string type)
+    public void Update_BuildsSqlAndReuseParameters_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Id = @p0, Type = @p1{Environment.NewLine}WHERE Id = @p0 AND Type = @p1";
@@ -283,7 +283,7 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Update_BuildsSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"update Table{Environment.NewLine}set Id = @p0, Age = @p1{Environment.NewLine}where Id = @p2 or (Type = @p3 and Age = @p4)";

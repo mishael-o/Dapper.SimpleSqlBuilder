@@ -8,7 +8,7 @@ public class SimpleBuilderSettingsTests
 {
     [Fact]
     [TestPriority(1)]
-    public void Configure_NoArgumentsPassed_ReturnsVoid()
+    public void Configure_ConfiguresDefaultSettings_ReturnsVoid()
     {
         //Act
         SimpleBuilderSettings.Configure();
@@ -22,7 +22,7 @@ public class SimpleBuilderSettingsTests
 
     [Fact]
     [TestPriority(2)]
-    public void Configure_CustomParameterNameTemplate_ReturnsVoid()
+    public void Configure_ConfiguresParameterNameTemplate_ReturnsVoid()
     {
         //Arrange
         const int id = 10;
@@ -40,7 +40,7 @@ public class SimpleBuilderSettingsTests
 
     [Fact]
     [TestPriority(3)]
-    public void Configure_CustomParameterNameTemplateFluentBuilder_ReturnsVoid()
+    public void Configure_ConfiguresParameterNameTemplateFluentBuilder_ReturnsVoid()
     {
         //Arrange
         const int id = 10;
@@ -62,7 +62,7 @@ public class SimpleBuilderSettingsTests
     [Theory]
     [TestPriority(4)]
     [InlineData("param", ":", true, true)]
-    public void Configure_ConfigureSettings_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
+    public void Configure_ConfiguresAllSettings_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
     {
         //Act
         SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters, useLowerCaseClauses);
@@ -80,7 +80,7 @@ public class SimpleBuilderSettingsTests
     [InlineData("", ":", null, null, "prm", ":", false, false)]
     [InlineData(null, null, true, null, "prm", "@", true, false)]
     [InlineData(null, null, null, true, "prm", "@", false, true)]
-    public void Configure_ConfigureSingleSetting_ReturnsVoid(
+    public void Configure_ConfiguresIndividualSettings_ReturnsVoid(
         string? parameterNameTemplate,
         string? parameterPrefix,
         bool? reuseParameters,

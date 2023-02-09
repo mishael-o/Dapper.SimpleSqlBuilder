@@ -16,7 +16,7 @@ public class PostgreSqlTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Builder_CreateTable_ReturnsBoolean()
+    public async Task Builder_CreatesTable_ReturnsBoolean()
     {
         //Arrange
         const string tableName = "mytable";
@@ -41,7 +41,7 @@ public class PostgreSqlTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Builder_InsertProducts_ReturnsInteger()
+    public async Task Builder_InsertsProducts_ReturnsInteger()
     {
         //Arrange
         const string tag = "insert";
@@ -69,7 +69,7 @@ public class PostgreSqlTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Builder_GetProductsWithSelectTag_ReturnsIEnumerableOfProduct()
+    public async Task Builder_GetsProductsWithSelectTag_ReturnsIEnumerableOfProduct()
     {
         //Arrange
         const string tag = "select";
@@ -101,7 +101,7 @@ public class PostgreSqlTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Builder_UpdateProductsWithUpdateTag_ReturnsInteger()
+    public async Task Builder_UpdatesProductsWithUpdateTag_ReturnsInteger()
     {
         //Arrange
         const int count = 3;
@@ -133,7 +133,7 @@ public class PostgreSqlTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Builder_DeleteProductsWithDeleteTag_ReturnsInteger()
+    public async Task Builder_DeletesProductsWithDeleteTag_ReturnsInteger()
     {
         //Arrange
         const int count = 3;
@@ -162,7 +162,7 @@ public class PostgreSqlTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Builder_ExecuteStoredProcedure_ReturnsTask()
+    public async Task Builder_ExecutesStoredProcedure_ReturnsTask()
     {
         //Arrange
         const string resultParamName = "Result";

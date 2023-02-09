@@ -7,7 +7,7 @@ public class InsertBuilderTests
 {
     [Theory]
     [AutoData]
-    public void InsertInto_BuildSql_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void InsertInto_BuildsSql_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"INSERT INTO Table{Environment.NewLine}VALUES (@p0, @p1, @p2)";
@@ -30,7 +30,7 @@ public class InsertBuilderTests
 
     [Theory]
     [AutoData]
-    public void InsertInto_BuildSqlWithColumns_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void InsertInto_BuildsSqlWithColumns_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"INSERT INTO Table (Id, Age, Type){Environment.NewLine}VALUES (@p0, @p1, @p2)";
@@ -53,7 +53,7 @@ public class InsertBuilderTests
 
     [Theory]
     [AutoData]
-    public void InsertInto_BuildSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void InsertInto_BuildsSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"INSERT INTO Table (Id, Age, Type){Environment.NewLine}VALUES (@p0, @p1, @p2)";
@@ -75,7 +75,7 @@ public class InsertBuilderTests
 
     [Theory]
     [InlineAutoData(null)]
-    public void InsertInto_BuildSqlAndAddRawValues_ReturnsFluentSqlBuilder(int? groupId, string tableName, int id, int age, string type)
+    public void InsertInto_BuildsSqlWithRawValues_ReturnsFluentSqlBuilder(int? groupId, string tableName, int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"INSERT INTO {tableName}{Environment.NewLine}VALUES ({id}, '', @p0, '{type}')";
@@ -96,7 +96,7 @@ public class InsertBuilderTests
 
     [Theory]
     [AutoData]
-    public void InsertInto_BuildSqlAndAddSimpleParameterInfoValues_ReturnsFluentSqlBuilder(int id, string type)
+    public void InsertInto_BuildsSqlWithSimpleParameterInfoValues_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var idParam = id.DefineParam(System.Data.DbType.Int32, 1, 1, 1);
@@ -120,7 +120,7 @@ public class InsertBuilderTests
 
     [Theory]
     [AutoData]
-    public void InsertInto_BuildSqlAndAddParameter_ReturnsFluentSqlBuilder(int id, string type)
+    public void InsertInto_BuildsSqlAndAddParameter_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"INSERT INTO Table{Environment.NewLine}VALUES (@{nameof(id)}, @{nameof(type)})";
@@ -143,7 +143,7 @@ public class InsertBuilderTests
 
     [Theory]
     [AutoData]
-    public void InsertInto_BuildSqlWithCustomParameterPrefix_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void InsertInto_BuildsSqlWithCustomParameterPrefix_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"INSERT INTO Table{Environment.NewLine}VALUES (:p0, :p1, :p2)";
@@ -164,7 +164,7 @@ public class InsertBuilderTests
 
     [Theory]
     [AutoData]
-    public void InsertInto_BuildSqlAndReuseParameters_ReturnsFluentSqlBuilder(int id, string type)
+    public void InsertInto_BuildsSqlAndReuseParameters_ReturnsFluentSqlBuilder(int id, string type)
     {
         //Arrange
         var expectedSql = $"INSERT INTO Table{Environment.NewLine}VALUES (@p0, @p1, @p0, @p1)";
@@ -183,7 +183,7 @@ public class InsertBuilderTests
 
     [Theory]
     [AutoData]
-    public void InsertInto_BuildSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void InsertInto_BuildsSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         //Arrange
         var expectedSql = $"insert into Table{Environment.NewLine}values (@p0, @p1, @p2)";
