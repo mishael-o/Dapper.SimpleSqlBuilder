@@ -3,5 +3,5 @@
 internal enum ControlType
 {
     Space,
-    NewLine,
+    NewLine
 }
