@@ -45,13 +45,13 @@ jobs:
       - name: Build solution
         run: dotnet build --no-restore -c $configuration
       - name: Run unit tests
-        run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~UnitTests" -c $configuration -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura -p:CoverletOutput=${{ env.coverageReportPath }} -p:Exclude="[*]Dapper.SimpleSqlBuilder.UnitTestHelpers*"
+        run: dotnet test --no-build -c $configuration --collect:"XPlat Code Coverage" --filter "FullyQualifiedName~UnitTests" --results-directory ${{ env.coverageReportPath }} --verbosity normal -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[*]Dapper.SimpleSqlBuilder.UnitTestHelpers*"
       - name: Run integration tests
-        run: dotnet test --no-build --filter "FullyQualifiedName~IntegrationTests" --verbosity normal -c $configuration
+        run: dotnet test --no-build -c $configuration --filter "FullyQualifiedName~IntegrationTests" --verbosity normal
       - name: Install dotnet-coverage
         run: dotnet tool install --global dotnet-coverage
       - name: Merge coverage reports
-        run: dotnet-coverage merge ${{ env.coverageReportPath }}*.xml -f cobertura -o ${{ env.coverageReportPath }}${{ env.mergedCoverageReportFileName }}      
+        run: dotnet-coverage merge ${{ env.coverageReportPath }}*.xml --recursive -f cobertura -o ${{ env.coverageReportPath }}${{ env.mergedCoverageReportFileName }}      
       - name: Codecov
         uses: codecov/codecov-action@v3
         with:
