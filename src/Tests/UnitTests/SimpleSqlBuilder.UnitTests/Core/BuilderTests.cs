@@ -12,9 +12,23 @@ public class BuilderTests
 
         //Assert
         sut.Should().BeOfType<SqlBuilder>();
+        sut.Sql.Should().BeEmpty();
         sut.ParameterNames.Should().BeEmpty();
         sut.Parameters.Should().BeOfType<DynamicParameters>();
-        sut.Sql.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void Create_CreatesBuilderWithInterpolatedString_ReturnsSqlBuilder()
+    {
+        //Arrange
+        const string expectedSql = "SELECT * FROM TABLE";
+
+        //Act
+        var sut = SimpleBuilder.Create($"SELECT * FROM TABLE");
+
+        //Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().BeEmpty();
     }
 
     [Theory]
@@ -48,8 +62,8 @@ public class BuilderTests
 
         //Assert
         result.Should().Be(sut);
-        sut.ParameterNames.Should().BeEmpty();
         sut.Sql.Should().BeEmpty();
+        sut.ParameterNames.Should().BeEmpty();
     }
 
 #endif
@@ -243,8 +257,8 @@ public class BuilderTests
 
         //Assert
         result.Should().Be(sut);
-        sut.GetValue<int>("p0").Should().Be(id);
         sut.Sql.Should().Be("SELECT * FROM TABLE WHERE ID = @p0");
+        sut.GetValue<int>("p0").Should().Be(id);
     }
 
     [Fact]

@@ -12,15 +12,15 @@ public class SelectBuilderTests
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"Table");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table");
 
         //Assert
-        builder.Should().BeOfType<FluentSqlBuilder>();
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
-        builder.Parameters.Should().BeOfType<DynamicParameters>();
+        sut.Should().BeOfType<FluentSqlBuilder>();
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
+        sut.Parameters.Should().BeOfType<DynamicParameters>();
     }
 
     [Fact]
@@ -30,14 +30,14 @@ public class SelectBuilderTests
         var expectedSql = $"SELECT DISTINCT Id, Type{Environment.NewLine}FROM Table";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .SelectDistinct($"Id")
-            .SelectDistinct($"Type")
-            .From($"Table");
+        var sut = SimpleBuilder.CreateFluent()
+                    .SelectDistinct($"Id")
+                    .SelectDistinct($"Type")
+                    .From($"Table");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
     }
 
     [Fact]
@@ -51,16 +51,16 @@ public class SelectBuilderTests
             $"{Environment.NewLine}RIGHT JOIN Table4 ON Table1.Id = Table4.Id";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"Table1")
-            .InnerJoin($"Table2 ON Table1.Id = Table2.Id")
-            .LeftJoin($"Table3 ON Table1.Id = Table3.Id")
-            .RightJoin($"Table4 ON Table1.Id = Table4.Id");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table1")
+                    .InnerJoin($"Table2 ON Table1.Id = Table2.Id")
+                    .LeftJoin($"Table3 ON Table1.Id = Table3.Id")
+                    .RightJoin($"Table4 ON Table1.Id = Table4.Id");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
     }
 
     [Fact]
@@ -74,19 +74,19 @@ public class SelectBuilderTests
             $"{Environment.NewLine}RIGHT JOIN Table7 ON Table1.Id = Table7.Id";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"Table1")
-            .LeftJoin(true, $"Table2 ON Table1.Id = Table2.Id")
-            .LeftJoin(false, $"Table3 ON Table1.Id = Table3.Id")
-            .InnerJoin(false, $"Table4 ON Table1.Id = Table4.Id")
-            .InnerJoin($"Table5 ON Table1.Id = Table5.Id")
-            .RightJoin(false, $"Table6 ON Table1.Id = Table6.Id")
-            .RightJoin(true, $"Table7 ON Table1.Id = Table7.Id");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table1")
+                    .LeftJoin(true, $"Table2 ON Table1.Id = Table2.Id")
+                    .LeftJoin(false, $"Table3 ON Table1.Id = Table3.Id")
+                    .InnerJoin(false, $"Table4 ON Table1.Id = Table4.Id")
+                    .InnerJoin($"Table5 ON Table1.Id = Table5.Id")
+                    .RightJoin(false, $"Table6 ON Table1.Id = Table6.Id")
+                    .RightJoin(true, $"Table7 ON Table1.Id = Table7.Id");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
     }
 
     [Theory]
@@ -97,18 +97,18 @@ public class SelectBuilderTests
         var expectedSql = $"SELECT Id, Type{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 OR Type = @p1";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"Id")
-            .Select($"Type")
-            .From($"Table")
-            .Where($"Id = {id}")
-            .OrWhere($"Type = {type}");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"Id")
+                    .Select($"Type")
+                    .From($"Table")
+                    .Where($"Id = {id}")
+                    .OrWhere($"Type = {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -119,17 +119,17 @@ public class SelectBuilderTests
         var expectedSql = $"SELECT DISTINCT Id, Type{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 OR Type = @p1";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .SelectDistinct($"Id, Type")
-            .From($"Table")
-            .Where($"Id = {id}")
-            .OrWhere($"Type = {type}");
+        var sut = SimpleBuilder.CreateFluent()
+                    .SelectDistinct($"Id, Type")
+                    .From($"Table")
+                    .Where($"Id = {id}")
+                    .OrWhere($"Type = {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -140,17 +140,17 @@ public class SelectBuilderTests
         var expectedSql = $"SELECT Id, Type{Environment.NewLine}FROM Table{Environment.NewLine}WHERE (Id = @p0) OR (Type = @p1)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"Id, Type")
-            .From($"Table")
-            .WhereFilter($"Id = {id}")
-            .OrWhereFilter($"Type = {type}");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"Id, Type")
+                    .From($"Table")
+                    .WhereFilter($"Id = {id}")
+                    .OrWhereFilter($"Type = {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -162,21 +162,21 @@ public class SelectBuilderTests
             "WHERE (Age < 100 OR Age = @p0 OR Age IN (1, 2, 3)) AND Type LIKE '%Type' AND (Age > 10 AND Type = @p1) OR Id NOT IN (1, 2, 3)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"Table")
-            .Where(false, $"Id = {id}")
-            .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(false, $"Age > {age}")
-            .OrWhereFilter().WithFilter(true, $"Age < 100").WithOrFilter($"Age = {age}").WithOrFilter($"Age IN (1, 2, 3)")
-            .Where($"Type LIKE '%Type'")
-            .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(true, $"Age > 10").WithFilter($"Type = {type}")
-            .OrWhere(true, $"Id NOT IN (1, 2, 3)");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .Where(false, $"Id = {id}")
+                    .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(false, $"Age > {age}")
+                    .OrWhereFilter().WithFilter(true, $"Age < 100").WithOrFilter($"Age = {age}").WithOrFilter($"Age IN (1, 2, 3)")
+                    .Where($"Type LIKE '%Type'")
+                    .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(true, $"Age > 10").WithFilter($"Type = {type}")
+                    .OrWhere(true, $"Id NOT IN (1, 2, 3)");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(age);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(age);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Fact]
@@ -187,15 +187,15 @@ public class SelectBuilderTests
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}GROUP BY Id, {typeColumn}";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"Table")
-            .GroupBy($"Id")
-            .GroupBy($"{typeColumn:raw}");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .GroupBy($"Id")
+                    .GroupBy($"{typeColumn:raw}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
     }
 
     [Fact]
@@ -205,16 +205,16 @@ public class SelectBuilderTests
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}GROUP BY Age, Type";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"Table")
-            .GroupBy(false, $"Id")
-            .GroupBy(true, $"Age")
-            .GroupBy(true, $"Type");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .GroupBy(false, $"Id")
+                    .GroupBy(true, $"Age")
+                    .GroupBy(true, $"Type");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
     }
 
     [Fact]
@@ -227,16 +227,16 @@ public class SelectBuilderTests
             $"{Environment.NewLine}HAVING COUNT(Type) > 1 AND COUNT({typeColumn}) < 100";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"Id")
-            .Select($"COUNT(Type) AS TypeCount")
-            .From($"Table")
-            .Having($"COUNT(Type) > 1")
-            .Having($"COUNT({typeColumn:raw}) < 100");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"Id")
+                    .Select($"COUNT(Type) AS TypeCount")
+                    .From($"Table")
+                    .Having($"COUNT(Type) > 1")
+                    .Having($"COUNT({typeColumn:raw}) < 100");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
     }
 
     [Fact]
@@ -248,17 +248,17 @@ public class SelectBuilderTests
             $"{Environment.NewLine}HAVING COUNT(Type) > 1 AND COUNT(Type) < 100";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"Id")
-            .Select($"COUNT(Type) AS TypeCount")
-            .From($"Table")
-            .Having(true, $"COUNT(Type) > 1")
-            .Having(false, $"COUNT(Type) >= 50")
-            .Having(true, $"COUNT(Type) < 100");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"Id")
+                    .Select($"COUNT(Type) AS TypeCount")
+                    .From($"Table")
+                    .Having(true, $"COUNT(Type) > 1")
+                    .Having(false, $"COUNT(Type) >= 50")
+                    .Having(true, $"COUNT(Type) < 100");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
     }
 
     [Fact]
@@ -269,15 +269,15 @@ public class SelectBuilderTests
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}ORDER BY Id, {typeColumn}";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"Table")
-            .OrderBy($"Id")
-            .OrderBy($"{typeColumn:raw}");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .OrderBy($"Id")
+                    .OrderBy($"{typeColumn:raw}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
     }
 
     [Fact]
@@ -287,16 +287,16 @@ public class SelectBuilderTests
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}ORDER BY Id, Type";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"Table")
-            .OrderBy(true, $"Id")
-            .OrderBy(false, $"Age")
-            .OrderBy(true, $"Type");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .OrderBy(true, $"Id")
+                    .OrderBy(false, $"Age")
+                    .OrderBy(true, $"Type");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
     }
 
     [Theory]
@@ -308,17 +308,17 @@ public class SelectBuilderTests
         FormattableString subQuery = $"SELECT TypeId WHERE Type = {type}";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"Table")
-            .Where($"Id = {id}")
-            .Where($"TypeId IN ({subQuery})");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .Where($"Id = {id}")
+                    .Where($"TypeId IN ({subQuery})");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -330,17 +330,17 @@ public class SelectBuilderTests
         FormattableString subQuery = $"SELECT TypeGroup WHERE TypeId = {typeId:raw}";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"{tableName:raw}")
-            .Where($"Type = {type}")
-            .Where($"GroupId = '{groupId:raw}'")
-            .Where($"TypeGroup IN ({subQuery})");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"{tableName:raw}")
+                    .Where($"Type = {type}")
+                    .Where($"GroupId = '{groupId:raw}'")
+                    .Where($"TypeGroup IN ({subQuery})");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(1);
-        builder.GetValue<string>("p0").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(1);
+        sut.GetValue<string>("p0").Should().Be(type);
     }
 
     [Theory]
@@ -353,18 +353,18 @@ public class SelectBuilderTests
         string expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 AND Type = @p1 OR (Id = @p0 AND Type = @p1)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"Table")
-            .Where($"Id = {idParam}")
-            .Where($"Type = {typeParam}")
-            .OrWhereFilter($"Id = {idParam}").WithFilter($"Type = {typeParam}");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .Where($"Id = {idParam}")
+                    .Where($"Type = {typeParam}")
+                    .OrWhereFilter($"Id = {idParam}").WithFilter($"Type = {typeParam}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -374,18 +374,18 @@ public class SelectBuilderTests
         //Arrange
         string expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @{nameof(id)}";
 
-        var builder = SimpleBuilder.CreateFluent()
-            .Select($"*")
-            .From($"Table")
-            .Where($"Id = @{nameof(id):raw}");
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .Where($"Id = @{nameof(id):raw}");
 
         //Act
-        builder.AddParameter(nameof(id), id);
+        sut.AddParameter(nameof(id), id);
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(1);
-        builder.GetValue<int>(nameof(id)).Should().Be(id);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(1);
+        sut.GetValue<int>(nameof(id)).Should().Be(id);
     }
 
     [Theory]
@@ -396,19 +396,19 @@ public class SelectBuilderTests
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = :p0 OR Age = :p1 AND Type = :p2";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent(parameterPrefix: ":")
-            .Select($"*")
-            .From($"Table")
-            .Where($"Id = {id}")
-            .OrWhere($"Age = {age}")
-            .Where($"Type = {type}");
+        var sut = SimpleBuilder.CreateFluent(parameterPrefix: ":")
+                    .Select($"*")
+                    .From($"Table")
+                    .Where($"Id = {id}")
+                    .OrWhere($"Age = {age}")
+                    .Where($"Type = {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(3);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<int>("p1").Should().Be(age);
-        builder.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(3);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<int>("p1").Should().Be(age);
+        sut.GetValue<string>("p2").Should().Be(type);
     }
 
     [Theory]
@@ -419,18 +419,18 @@ public class SelectBuilderTests
         var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE (Id = @p0 AND Type = @p1) OR Id = @p0 OR Type = @p1";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent(reuseParameters: true)
-            .Select($"*")
-            .From($"Table")
-            .WhereFilter($"Id = {id}").WithFilter($"Type = {type}")
-            .OrWhere($"Id = {id}")
-            .OrWhere($"Type = {type}");
+        var sut = SimpleBuilder.CreateFluent(reuseParameters: true)
+                    .Select($"*")
+                    .From($"Table")
+                    .WhereFilter($"Id = {id}").WithFilter($"Type = {type}")
+                    .OrWhere($"Id = {id}")
+                    .OrWhere($"Type = {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -449,25 +449,25 @@ public class SelectBuilderTests
             $"{Environment.NewLine}order by Table1.Type";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
-            .Select($"*")
-            .From($"Table1")
-            .InnerJoin($"Table2 on Table1.Id = Table2.Id")
-            .LeftJoin($"Table3 on Table1.Id = Table3.Id")
-            .RightJoin($"Table4 on Table1.Id = Table4.Id")
-            .Where($"Table1.Id = {id}")
-            .OrWhereFilter($"Table1.Age = {age}").WithFilter($"Table1.Type = {type}")
-            .GroupBy($"Table1.Id")
-            .Having($"count(Table1.Type) > 1")
-            .Having($"count(Table1.Type) < 10")
-            .OrderBy($"Table1.Type");
+        var sut = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
+                    .Select($"*")
+                    .From($"Table1")
+                    .InnerJoin($"Table2 on Table1.Id = Table2.Id")
+                    .LeftJoin($"Table3 on Table1.Id = Table3.Id")
+                    .RightJoin($"Table4 on Table1.Id = Table4.Id")
+                    .Where($"Table1.Id = {id}")
+                    .OrWhereFilter($"Table1.Age = {age}").WithFilter($"Table1.Type = {type}")
+                    .GroupBy($"Table1.Id")
+                    .Having($"count(Table1.Type) > 1")
+                    .Having($"count(Table1.Type) < 10")
+                    .OrderBy($"Table1.Type");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(3);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<int>("p1").Should().Be(age);
-        builder.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(3);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<int>("p1").Should().Be(age);
+        sut.GetValue<string>("p2").Should().Be(type);
     }
 
     [Fact]
@@ -477,12 +477,12 @@ public class SelectBuilderTests
         var expectedSql = $"select distinct Id, Type{Environment.NewLine}from Table";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
-            .SelectDistinct($"Id, Type")
-            .From($"Table");
+        var sut = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
+                    .SelectDistinct($"Id, Type")
+                    .From($"Table");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
     }
 }

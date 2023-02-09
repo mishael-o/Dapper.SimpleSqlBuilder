@@ -12,14 +12,14 @@ public class DeleteBuilderTests
         const string expectedSql = "DELETE FROM Table";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .DeleteFrom($"Table");
 
         //Assert
-        builder.Should().BeOfType<FluentSqlBuilder>();
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(0);
-        builder.Parameters.Should().BeOfType<DynamicParameters>();
+        sut.Should().BeOfType<FluentSqlBuilder>();
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
+        sut.Parameters.Should().BeOfType<DynamicParameters>();
     }
 
     [Theory]
@@ -30,16 +30,16 @@ public class DeleteBuilderTests
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE Id = @p0 OR Type = @p1";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .DeleteFrom($"Table")
             .Where($"Id = {id}")
             .OrWhere($"Type = {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -50,16 +50,16 @@ public class DeleteBuilderTests
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE (Id = @p0) OR (Type = @p1)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .DeleteFrom($"Table")
             .WhereFilter($"Id = {id}")
             .OrWhereFilter($"Type = {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -71,7 +71,7 @@ public class DeleteBuilderTests
             "WHERE (Age < 100 OR Age = @p0 OR Age IN (1, 2, 3)) AND Type LIKE '%Type' AND (Age > 10 AND Type = @p1) OR Id NOT IN (1, 2, 3)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .DeleteFrom($"Table")
             .Where(false, $"Id = {id}")
             .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(false, $"Age > {age}")
@@ -81,10 +81,10 @@ public class DeleteBuilderTests
             .OrWhere(true, $"Id NOT IN (1, 2, 3)");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(age);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(age);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -95,7 +95,7 @@ public class DeleteBuilderTests
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE Id = @p0";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .DeleteFrom($"Table")
             .Where($"Id = {id}")
             .GroupBy($"Id")
@@ -103,9 +103,9 @@ public class DeleteBuilderTests
             .OrderBy($"Type");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(1);
-        builder.GetValue<int>("p0").Should().Be(id);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(1);
+        sut.GetValue<int>("p0").Should().Be(id);
     }
 
     [Theory]
@@ -117,16 +117,16 @@ public class DeleteBuilderTests
         FormattableString subQuery = $"SELECT TypeId WHERE Type = {type}";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .DeleteFrom($"Table")
             .Where($"Id = {id}")
             .Where($"TypeId IN ({subQuery})");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -138,16 +138,16 @@ public class DeleteBuilderTests
         FormattableString subQuery = $"SELECT TypeGroup WHERE TypeId = {typeId:raw}";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .DeleteFrom($"{tableName:raw}")
             .Where($"Type = {type}")
             .Where($"Group = '{group:raw}'")
             .Where($"TypeGroup IN ({subQuery})");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(1);
-        builder.GetValue<string>("p0").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(1);
+        sut.GetValue<string>("p0").Should().Be(type);
     }
 
     [Theory]
@@ -160,17 +160,17 @@ public class DeleteBuilderTests
         string expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE Id = @p0 AND Type = @p1 OR (Id = @p0 AND Type = @p1)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .DeleteFrom($"Table")
             .Where($"Id = {idParam}")
             .Where($"Type = {typeParam}")
             .OrWhereFilter($"Id = {idParam}").WithFilter($"Type = {typeParam}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -180,17 +180,17 @@ public class DeleteBuilderTests
         //Arrange
         string expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE Id = @{nameof(id)}";
 
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .DeleteFrom($"Table")
             .Where($"Id = @{nameof(id):raw}");
 
         //Act
-        builder.AddParameter(nameof(id), id);
+        sut.AddParameter(nameof(id), id);
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(1);
-        builder.GetValue<int>(nameof(id)).Should().Be(id);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(1);
+        sut.GetValue<int>(nameof(id)).Should().Be(id);
     }
 
     [Theory]
@@ -201,18 +201,18 @@ public class DeleteBuilderTests
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE Id = :p0 OR Age = :p1 AND Type = :p2";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent(parameterPrefix: ":")
+        var sut = SimpleBuilder.CreateFluent(parameterPrefix: ":")
             .DeleteFrom($"Table")
             .Where($"Id = {id}")
             .OrWhere($"Age = {age}")
             .Where($"Type = {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(3);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<int>("p1").Should().Be(age);
-        builder.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(3);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<int>("p1").Should().Be(age);
+        sut.GetValue<string>("p2").Should().Be(type);
     }
 
     [Theory]
@@ -223,17 +223,17 @@ public class DeleteBuilderTests
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE (Id = @p0 AND Type = @p1) OR Id = @p0 OR Type = @p1";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent(reuseParameters: true)
+        var sut = SimpleBuilder.CreateFluent(reuseParameters: true)
             .DeleteFrom($"Table")
             .WhereFilter($"Id = {id}").WithFilter($"Type = {type}")
             .OrWhere($"Id = {id}")
             .OrWhere($"Type = {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -244,16 +244,16 @@ public class DeleteBuilderTests
         var expectedSql = $"delete from Table{Environment.NewLine}where Id = @p0 or (Age = @p1 and Type = @p2)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
+        var sut = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
             .DeleteFrom($"Table")
             .Where($"Id = {id}")
             .OrWhereFilter($"Age = {age}").WithFilter($"Type = {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(3);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<int>("p1").Should().Be(age);
-        builder.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(3);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<int>("p1").Should().Be(age);
+        sut.GetValue<string>("p2").Should().Be(type);
     }
 }

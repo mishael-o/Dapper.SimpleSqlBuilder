@@ -13,19 +13,19 @@ public class InsertBuilderTests
         var expectedSql = $"INSERT INTO Table{Environment.NewLine}VALUES (@p0, @p1, @p2)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .InsertInto($"Table")
             .Values($"{id}")
             .Values($"{age}, {type}");
 
         //Assert
-        builder.Should().BeOfType<FluentSqlBuilder>();
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(3);
-        builder.Parameters.Should().BeOfType<DynamicParameters>();
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<int>("p1").Should().Be(age);
-        builder.GetValue<string>("p2").Should().Be(type);
+        sut.Should().BeOfType<FluentSqlBuilder>();
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(3);
+        sut.Parameters.Should().BeOfType<DynamicParameters>();
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<int>("p1").Should().Be(age);
+        sut.GetValue<string>("p2").Should().Be(type);
     }
 
     [Theory]
@@ -36,7 +36,7 @@ public class InsertBuilderTests
         var expectedSql = $"INSERT INTO Table (Id, Age, Type){Environment.NewLine}VALUES (@p0, @p1, @p2)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .InsertInto($"Table")
             .Columns($"Id, Age")
             .Columns($"Type")
@@ -44,11 +44,11 @@ public class InsertBuilderTests
             .Values($"{type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(3);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<int>("p1").Should().Be(age);
-        builder.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(3);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<int>("p1").Should().Be(age);
+        sut.GetValue<string>("p2").Should().Be(type);
     }
 
     [Theory]
@@ -60,17 +60,17 @@ public class InsertBuilderTests
         FormattableString values = $"{id}, {age}, {type}";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .InsertInto($"Table")
             .Columns($"Id").Columns($"Age, Type")
             .Values($"{values}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(3);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<int>("p1").Should().Be(age);
-        builder.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(3);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<int>("p1").Should().Be(age);
+        sut.GetValue<string>("p2").Should().Be(type);
     }
 
     [Theory]
@@ -82,16 +82,16 @@ public class InsertBuilderTests
         FormattableString values = $"{age}, '{type:raw}'";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .InsertInto($"{tableName:raw}")
             .Values($"{id:raw}")
             .Values($"'{groupId:raw}'")
             .Values($"{values}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(1);
-        builder.GetValue<int>("p0").Should().Be(age);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(1);
+        sut.GetValue<int>("p0").Should().Be(age);
     }
 
     [Theory]
@@ -104,7 +104,7 @@ public class InsertBuilderTests
         var expectedSql = $"INSERT INTO Table{Environment.NewLine}VALUES (@p0, @p1, @p0, @p1)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .InsertInto($"Table")
             .Values($"{idParam}")
             .Values($"{typeParam}")
@@ -112,10 +112,10 @@ public class InsertBuilderTests
             .Values($"{typeParam}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("@p0").Should().Be(id);
-        builder.GetValue<string>("@p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("@p0").Should().Be(id);
+        sut.GetValue<string>("@p1").Should().Be(type);
     }
 
     [Theory]
@@ -125,20 +125,20 @@ public class InsertBuilderTests
         //Arrange
         var expectedSql = $"INSERT INTO Table{Environment.NewLine}VALUES (@{nameof(id)}, @{nameof(type)})";
 
-        var builder = SimpleBuilder.CreateFluent()
+        var sut = SimpleBuilder.CreateFluent()
             .InsertInto($"Table")
             .Values($"@{nameof(id):raw}")
             .Values($"@{nameof(type):raw}");
 
         //Act
-        builder.AddParameter(nameof(id), id);
-        builder.AddParameter(nameof(type), type);
+        sut.AddParameter(nameof(id), id);
+        sut.AddParameter(nameof(type), type);
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>(nameof(id)).Should().Be(id);
-        builder.GetValue<string>(nameof(type)).Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>(nameof(id)).Should().Be(id);
+        sut.GetValue<string>(nameof(type)).Should().Be(type);
     }
 
     [Theory]
@@ -149,17 +149,17 @@ public class InsertBuilderTests
         var expectedSql = $"INSERT INTO Table{Environment.NewLine}VALUES (:p0, :p1, :p2)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent(parameterPrefix: ":")
+        var sut = SimpleBuilder.CreateFluent(parameterPrefix: ":")
             .InsertInto($"Table")
             .Values($"{id}")
             .Values($"{age}, {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(3);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<int>("p1").Should().Be(age);
-        builder.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(3);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<int>("p1").Should().Be(age);
+        sut.GetValue<string>("p2").Should().Be(type);
     }
 
     [Theory]
@@ -170,15 +170,15 @@ public class InsertBuilderTests
         var expectedSql = $"INSERT INTO Table{Environment.NewLine}VALUES (@p0, @p1, @p0, @p1)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent(reuseParameters: true)
+        var sut = SimpleBuilder.CreateFluent(reuseParameters: true)
             .InsertInto($"Table")
             .Values($"{id}, {type}, {id}, {type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(2);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
     }
 
     [Theory]
@@ -189,17 +189,17 @@ public class InsertBuilderTests
         var expectedSql = $"insert into Table{Environment.NewLine}values (@p0, @p1, @p2)";
 
         //Act
-        var builder = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
+        var sut = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
             .InsertInto($"Table")
             .Values($"{id}")
             .Values($"{age}")
             .Values($"{type}");
 
         //Assert
-        builder.Sql.Should().Be(expectedSql);
-        builder.ParameterNames.Should().HaveCount(3);
-        builder.GetValue<int>("p0").Should().Be(id);
-        builder.GetValue<int>("p1").Should().Be(age);
-        builder.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(3);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<int>("p1").Should().Be(age);
+        sut.GetValue<string>("p2").Should().Be(type);
     }
 }
