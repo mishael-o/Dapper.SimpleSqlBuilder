@@ -47,7 +47,7 @@ jobs:
       - name: Run unit tests
         run: dotnet test --no-build -c $configuration --collect:"XPlat Code Coverage" --filter "FullyQualifiedName~UnitTests" --results-directory ${{ env.coverageReportPath }} --verbosity normal -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[*]Dapper.SimpleSqlBuilder.UnitTestHelpers*"
       - name: Run integration tests
-        run: dotnet test --no-build --filter "FullyQualifiedName~IntegrationTests" --verbosity normal -c $configuration
+        run: dotnet test --no-build -c $configuration --filter "FullyQualifiedName~IntegrationTests" --verbosity normal
       - name: Install dotnet-coverage
         run: dotnet tool install --global dotnet-coverage
       - name: Merge coverage reports
