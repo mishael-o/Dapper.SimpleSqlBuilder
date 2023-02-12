@@ -11,9 +11,9 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder")]
 [assembly: SuppressMessage("Design", "CA1040:Avoid empty interfaces", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.FluentBuilder.IFluentBuilder")]
 #if NET6_0_OR_GREATER
-[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.AppendSqlIntepolatedStringHandler")]
-[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.AppendIntactSqlIntepolatedStringHandler")]
-[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.AppendNewLineSqlIntepolatedStringHandler")]
+[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.AppendInterpolatedStringHandler")]
+[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.AppendIntactInterpolatedStringHandler")]
+[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.AppendNewLineInterpolatedStringHandler")]
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.FluentBuilder.DeleteInterpolatedStringHandler")]
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.FluentBuilder.GroupByInterpolatedStringHandler")]
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.FluentBuilder.HavingInterpolatedStringHandler")]

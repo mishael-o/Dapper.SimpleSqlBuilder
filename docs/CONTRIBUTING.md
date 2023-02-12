@@ -8,7 +8,7 @@ Please note we have a [Code of Conduct](https://github.com/mishael-o/Dapper.Simp
 
 ## Project Prerequisites
 
-- Visual Studio 2022 is the recommended IDE, however any modern .Net IDE can also be used.
+- Visual Studio 2022 is preferred, however any modern .Net IDE can also be used.
 - Docker is required if you would like to run the integration tests locally.
 
 ## Change Guidelines

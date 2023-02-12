@@ -44,7 +44,7 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Simple query")]
     public string SimpleSqlBuilder()
     {
-        var builder = SimpleBuilder.Create($@"
+        var builder = SimpleBuilder.Create().Append($@"
                SELECT x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description}
                FROM Product x
                WHERE Id = {product.Id}
@@ -141,7 +141,7 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Large query")]
     public string SimpleSqlBuilderLarge()
     {
-        var builder = SimpleBuilder.Create($@"
+        var builder = SimpleBuilder.Create().Append($@"
                SELECT x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description}
                FROM Product x");
 

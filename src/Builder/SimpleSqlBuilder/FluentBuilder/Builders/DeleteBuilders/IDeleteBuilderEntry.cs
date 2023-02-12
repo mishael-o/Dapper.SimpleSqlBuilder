@@ -1,24 +1,24 @@
 ﻿namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 /// <summary>
-/// An interface that defines the fluent delete builder entry type or contract.
+/// An interface that defines the delete builder entry type.
 /// </summary>
 public interface IDeleteBuilderEntry
 {
 #if NET6_0_OR_GREATER
     /// <summary>
-    /// Deletes from the specified table.
+    /// Appends the 'delete from' clause and the interpolated string to the builder.
     /// </summary>
-    /// <param name="handler">The <see cref="DeleteInterpolatedStringHandler"/>.</param>
-    /// <returns>Returns <see cref="IDeleteBuilder"/>.</returns>
+    /// <param name="handler">The handler for the interpolated string.</param>
+    /// <returns><see cref="IDeleteBuilder"/>.</returns>
     IDeleteBuilder DeleteFrom([InterpolatedStringHandlerArgument("")] ref DeleteInterpolatedStringHandler handler);
 #else
 
     /// <summary>
-    /// Deletes from the specified table.
+    /// Appends the 'delete from' clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>Returns <see cref="IDeleteBuilder"/>.</returns>
+    /// <returns><see cref="IDeleteBuilder"/>.</returns>
     IDeleteBuilder DeleteFrom(FormattableString formattable);
 
 #endif

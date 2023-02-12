@@ -3,7 +3,7 @@
 namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 /// <summary>
-/// A class that implements the simple fluent SQL builder type or contract. The core <see cref="FluentSqlBuilder"/> partial class.
+/// A class that defines the fluent SQL builder type. The core <see cref="FluentSqlBuilder"/> partial class.
 /// </summary>
 internal sealed partial class FluentSqlBuilder
 {

@@ -1,7 +1,7 @@
 ﻿namespace Dapper.SimpleSqlBuilder.DependencyInjection;
 
 /// <summary>
-/// An options class for configuring the simple builder settings.
+/// An options class for configuring the Simple Builder settings.
 /// </summary>
 public sealed class SimpleBuilderOptions
 {
@@ -9,7 +9,7 @@ public sealed class SimpleBuilderOptions
     private string databaseParameterPrefix = SimpleBuilderSettings.DefaultDatabaseParameterPrefix;
 
     /// <summary>
-    /// Gets or sets the parameter name template used to create the parameter names for the generated sql. The default is "p" so the parameter names will be generated as p0, p1, etc.
+    /// Gets or sets the parameter name template used to create the parameter names for the generated SQL. The default is "p" so the parameter names will be generated as p0, p1, etc.
     /// <para>Example: If you set the template to "param" it will generate param0, param1, etc.</para>
     /// </summary>
     /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when new value is <see langword="null"/>, <see cref="string.Empty"/> contains only white space.</exception>
@@ -28,7 +28,7 @@ public sealed class SimpleBuilderOptions
     }
 
     /// <summary>
-    /// Gets or sets the parameter prefix used in the rendered sql. The default is "@", so you will get @p0, @p1, etc.
+    /// Gets or sets the parameter prefix used in the rendered SQL. The default is "@", so you will get @p0, @p1, etc.
     /// <para>Example: If you set the parameter prefix to ":" it will generate :p0, :p1, etc.</para>
     /// </summary>
     /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when new value is <see langword="null"/>, <see cref="string.Empty"/> contains only white space.</exception>
@@ -53,7 +53,8 @@ public sealed class SimpleBuilderOptions
     public bool ReuseParameters { get; set; } = SimpleBuilderSettings.DefaultReuseParameters;
 
     /// <summary>
-    /// Get the value indicating whether sql clauses should be in upper case (default) or lower case. The default value is <see langword="false"/>.
+    /// Get the value indicating whether SQL clauses should be in upper case or lower case. The default value is <see langword="false"/> meaning SQL clauses will be in upper cases. i.e. SELECT, UPDATE, etc.
+    /// <para>Example: If set to <see langword="true"/>, SQL clauses will be in lower cases i.e. select, update, etc.</para>
     /// </summary>
     public bool UseLowerCaseClauses { get; set; } = SimpleBuilderSettings.DefaultUseLowerCaseClauses;
 }

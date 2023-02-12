@@ -1,12 +1,12 @@
 ﻿namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// An interface that defines the base builder type or contract.
+/// An interface that defines the SQL builder type.
 /// </summary>
 public interface ISqlBuilder
 {
     /// <summary>
-    /// Gets the generated the Sql.
+    /// Gets the generated the SQL.
     /// </summary>
     string Sql { get; }
 
