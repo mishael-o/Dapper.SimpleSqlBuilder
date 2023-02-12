@@ -10,7 +10,7 @@ public interface IInsertBuilder : IInsertValueBuilder
     /// Appends the interpolated string column value to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns><see cref="IInsertBuilder"/>.</returns>
+    /// <returns>The <see cref="IInsertBuilder"/>.</returns>
     IInsertBuilder Columns([InterpolatedStringHandlerArgument("")] ref InsertColumnInterpolatedStringHandler handler);
 #else
 
@@ -18,7 +18,7 @@ public interface IInsertBuilder : IInsertValueBuilder
     /// Appends the interpolated string or <see cref="FormattableString"/> column value to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns><see cref="IInsertBuilder"/>.</returns>
+    /// <returns>The <see cref="IInsertBuilder"/>.</returns>
     IInsertBuilder Columns(FormattableString formattable);
 
 #endif

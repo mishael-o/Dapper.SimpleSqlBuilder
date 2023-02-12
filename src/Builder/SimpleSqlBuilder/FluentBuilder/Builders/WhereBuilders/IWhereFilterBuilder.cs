@@ -10,7 +10,7 @@ public interface IWhereFilterBuilder : IWhereFilterBuilderEntry, IWhereBuilder
     /// Appends the 'or' clause filter and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns><see cref="IWhereFilterBuilder"/>.</returns>
+    /// <returns>The <see cref="IWhereFilterBuilder"/>.</returns>
     IWhereFilterBuilder WithOrFilter([InterpolatedStringHandlerArgument("")] ref WhereWithOrFilterInterpolatedStringHandler handler);
 
     /// <summary>
@@ -18,7 +18,7 @@ public interface IWhereFilterBuilder : IWhereFilterBuilderEntry, IWhereBuilder
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns><see cref="IWhereFilterBuilder"/>.</returns>
+    /// <returns>The <see cref="IWhereFilterBuilder"/>.</returns>
     IWhereFilterBuilder WithOrFilter(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref WhereWithOrFilterInterpolatedStringHandler handler);
 #else
 
@@ -26,7 +26,7 @@ public interface IWhereFilterBuilder : IWhereFilterBuilderEntry, IWhereBuilder
     /// Appends the 'or' clause filter and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns><see cref="IWhereFilterBuilder"/>.</returns>
+    /// <returns>The <see cref="IWhereFilterBuilder"/>.</returns>
     IWhereFilterBuilder WithOrFilter(FormattableString formattable);
 
     /// <summary>
@@ -34,7 +34,7 @@ public interface IWhereFilterBuilder : IWhereFilterBuilderEntry, IWhereBuilder
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns><see cref="IWhereFilterBuilder"/>.</returns>
+    /// <returns>The <see cref="IWhereFilterBuilder"/>.</returns>
     IWhereFilterBuilder WithOrFilter(bool condition, FormattableString formattable);
 
 #endif

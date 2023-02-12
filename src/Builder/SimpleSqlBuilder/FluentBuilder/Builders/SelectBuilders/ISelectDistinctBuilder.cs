@@ -10,7 +10,7 @@ public interface ISelectDistinctBuilder : ISelectFromBuilderEntry
     /// Appends the 'select distinct' clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns><see cref="ISelectDistinctBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectDistinctBuilder"/>.</returns>
     ISelectDistinctBuilder SelectDistinct([InterpolatedStringHandlerArgument("")] ref SelectDistinctInterpolatedStringHandler handler);
 #else
 
@@ -18,7 +18,7 @@ public interface ISelectDistinctBuilder : ISelectFromBuilderEntry
     /// Appends the 'select distinct' clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns><see cref="ISelectDistinctBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectDistinctBuilder"/>.</returns>
     ISelectDistinctBuilder SelectDistinct(FormattableString formattable);
 
 #endif

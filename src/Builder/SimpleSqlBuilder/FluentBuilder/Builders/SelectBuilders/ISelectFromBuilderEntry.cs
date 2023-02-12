@@ -10,7 +10,7 @@ public interface ISelectFromBuilderEntry : IFluentSqlBuilder
     /// Appends the 'from' clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns><see cref="ISelectFromBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectFromBuilder"/>.</returns>
     ISelectFromBuilder From([InterpolatedStringHandlerArgument("")] ref SelectFromInterpolatedStringHandler handler);
 #else
 
@@ -18,7 +18,7 @@ public interface ISelectFromBuilderEntry : IFluentSqlBuilder
     /// Appends the 'from' clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns><see cref="ISelectFromBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectFromBuilder"/>.</returns>
     ISelectFromBuilder From(FormattableString formattable);
 
 #endif

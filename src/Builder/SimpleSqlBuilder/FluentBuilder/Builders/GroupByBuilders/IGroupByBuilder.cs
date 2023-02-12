@@ -10,7 +10,7 @@ public interface IGroupByBuilder : IHavingBuilder
     /// Appends the 'group by' clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns><see cref="IGroupByBuilder"/>.</returns>
+    /// <returns>The <see cref="IGroupByBuilder"/>.</returns>
     IGroupByBuilder GroupBy([InterpolatedStringHandlerArgument("")] ref GroupByInterpolatedStringHandler handler);
 
     /// <summary>
@@ -18,7 +18,7 @@ public interface IGroupByBuilder : IHavingBuilder
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns><see cref="IGroupByBuilder"/>.</returns>
+    /// <returns>The <see cref="IGroupByBuilder"/>.</returns>
     IGroupByBuilder GroupBy(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref GroupByInterpolatedStringHandler handler);
 #else
 
@@ -26,7 +26,7 @@ public interface IGroupByBuilder : IHavingBuilder
     /// Appends the 'group by' clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns><see cref="IGroupByBuilder"/>.</returns>
+    /// <returns>The <see cref="IGroupByBuilder"/>.</returns>
     IGroupByBuilder GroupBy(FormattableString formattable);
 
     /// <summary>
@@ -34,7 +34,7 @@ public interface IGroupByBuilder : IHavingBuilder
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns><see cref="IGroupByBuilder"/>.</returns>
+    /// <returns>The <see cref="IGroupByBuilder"/>.</returns>
     IGroupByBuilder GroupBy(bool condition, FormattableString formattable);
 
 #endif

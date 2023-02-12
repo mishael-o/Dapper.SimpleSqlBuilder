@@ -10,7 +10,7 @@ public interface IUpdateBuilderEntry
     /// Appends the 'update' clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns><see cref="IUpdateBuilder"/>.</returns>
+    /// <returns>The <see cref="IUpdateBuilder"/>.</returns>
     IUpdateBuilder Update([InterpolatedStringHandlerArgument("")] ref UpdateInterpolatedStringHandler handler);
 #else
 
@@ -18,7 +18,7 @@ public interface IUpdateBuilderEntry
     /// Appends the 'update' clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns><see cref="IUpdateBuilder"/>.</returns>
+    /// <returns>The <see cref="IUpdateBuilder"/>.</returns>
     IUpdateBuilder Update(FormattableString formattable);
 
 #endif

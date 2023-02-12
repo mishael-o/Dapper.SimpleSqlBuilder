@@ -10,7 +10,7 @@ public interface ISelectBuilder : ISelectFromBuilderEntry
     /// Appends the 'select' clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns><see cref="ISelectBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectBuilder"/>.</returns>
     ISelectBuilder Select([InterpolatedStringHandlerArgument("")] ref SelectInterpolatedStringHandler handler);
 
 #else
@@ -19,7 +19,7 @@ public interface ISelectBuilder : ISelectFromBuilderEntry
     /// Appends the 'select' clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns><see cref="ISelectBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectBuilder"/>.</returns>
     ISelectBuilder Select(FormattableString formattable);
 
 #endif
