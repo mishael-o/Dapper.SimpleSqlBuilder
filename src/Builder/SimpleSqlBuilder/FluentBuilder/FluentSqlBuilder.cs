@@ -3,7 +3,7 @@
 namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 /// <summary>
-/// A class that implements the simple fluent SQL builder type or contract. The core <see cref="FluentSqlBuilder"/> partial class.
+/// A class that defines the fluent SQL builder type. The core <see cref="FluentSqlBuilder"/> partial class.
 /// </summary>
 internal sealed partial class FluentSqlBuilder
 {
@@ -119,7 +119,7 @@ internal sealed partial class FluentSqlBuilder
         clauseActions.Add(ClauseAction.Delete);
         stringBuilder
             .Append(useLowerCaseClauses ? ClauseConstants.Delete.Lower : ClauseConstants.Delete.Upper)
-            .Append(ClauseConstants.Space);
+            .Append(Constants.Space);
     }
 
     private void AppendInsert()
@@ -132,7 +132,7 @@ internal sealed partial class FluentSqlBuilder
         clauseActions.Add(ClauseAction.Insert);
         stringBuilder
             .Append(useLowerCaseClauses ? ClauseConstants.Insert.Lower : ClauseConstants.Insert.Upper)
-            .Append(ClauseConstants.Space);
+            .Append(Constants.Space);
     }
 
     private void AppendInsertColumn()
@@ -145,14 +145,14 @@ internal sealed partial class FluentSqlBuilder
 
             stringBuilder
                 .Append(ClauseConstants.Insert.Separator)
-                .Append(ClauseConstants.Space);
+                .Append(Constants.Space);
 
             return;
         }
 
         clauseActions.Add(ClauseAction.InsertColumn);
         stringBuilder
-            .Append(ClauseConstants.Space)
+            .Append(Constants.Space)
             .Append(ClauseConstants.OpenParentheses);
     }
 
@@ -166,7 +166,7 @@ internal sealed partial class FluentSqlBuilder
 
             stringBuilder
                 .Append(ClauseConstants.Insert.Separator)
-                .Append(ClauseConstants.Space);
+                .Append(Constants.Space);
 
             return;
         }
@@ -175,7 +175,7 @@ internal sealed partial class FluentSqlBuilder
         stringBuilder
             .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.Insert.ValuesLower : ClauseConstants.Insert.ValuesUpper)
-            .Append(ClauseConstants.Space)
+            .Append(Constants.Space)
             .Append(ClauseConstants.OpenParentheses);
     }
 
@@ -190,7 +190,7 @@ internal sealed partial class FluentSqlBuilder
         {
             stringBuilder
                 .Append(ClauseConstants.Select.Separator)
-                .Append(ClauseConstants.Space);
+                .Append(Constants.Space);
 
             return;
         }
@@ -207,7 +207,7 @@ internal sealed partial class FluentSqlBuilder
         }
 
         clauseActions.Add(clauseAction);
-        stringBuilder.Append(ClauseConstants.Space);
+        stringBuilder.Append(Constants.Space);
     }
 
     private void AppendSelectFrom()
@@ -221,7 +221,7 @@ internal sealed partial class FluentSqlBuilder
         stringBuilder
             .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.Select.FromLower : ClauseConstants.Select.FromUpper)
-            .Append(ClauseConstants.Space);
+            .Append(Constants.Space);
     }
 
     private void AppendUpdate()
@@ -234,7 +234,7 @@ internal sealed partial class FluentSqlBuilder
         clauseActions.Add(ClauseAction.Update);
         stringBuilder
             .Append(useLowerCaseClauses ? ClauseConstants.Update.Lower : ClauseConstants.Update.Upper)
-            .Append(ClauseConstants.Space);
+            .Append(Constants.Space);
     }
 
     private void AppendUpdateSet()
@@ -243,7 +243,7 @@ internal sealed partial class FluentSqlBuilder
         {
             stringBuilder
                 .Append(ClauseConstants.Update.SetSeparator)
-                .Append(ClauseConstants.Space);
+                .Append(Constants.Space);
 
             return;
         }
@@ -252,7 +252,7 @@ internal sealed partial class FluentSqlBuilder
         stringBuilder
             .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.Update.SetLower : ClauseConstants.Update.SetUpper)
-            .Append(ClauseConstants.Space);
+            .Append(Constants.Space);
     }
 
     private void AppendWhere(bool isFilter = false)
@@ -260,7 +260,7 @@ internal sealed partial class FluentSqlBuilder
         if (clauseActions.Contains(ClauseAction.Where))
         {
             stringBuilder
-                .Append(ClauseConstants.Space)
+                .Append(Constants.Space)
                 .Append(useLowerCaseClauses ? ClauseConstants.Where.AndSeparatorLower : ClauseConstants.Where.AndSeparatorUpper);
         }
         else
@@ -271,7 +271,7 @@ internal sealed partial class FluentSqlBuilder
                 .Append(useLowerCaseClauses ? ClauseConstants.Where.Lower : ClauseConstants.Where.Upper);
         }
 
-        stringBuilder.Append(ClauseConstants.Space);
+        stringBuilder.Append(Constants.Space);
 
         if (!isFilter)
         {
@@ -296,9 +296,9 @@ internal sealed partial class FluentSqlBuilder
         }
 
         stringBuilder
-            .Append(ClauseConstants.Space)
+            .Append(Constants.Space)
             .Append(useLowerCaseClauses ? ClauseConstants.Where.OrSeparatorLower : ClauseConstants.Where.OrSeparatorUpper)
-            .Append(ClauseConstants.Space);
+            .Append(Constants.Space);
 
         if (!isFilter)
         {
@@ -339,7 +339,7 @@ internal sealed partial class FluentSqlBuilder
         }
 
         stringBuilder.Length--;
-        stringBuilder.Append(ClauseConstants.Space);
+        stringBuilder.Append(Constants.Space);
 
         switch (clauseAction)
         {
@@ -352,7 +352,7 @@ internal sealed partial class FluentSqlBuilder
                 break;
         }
 
-        stringBuilder.Append(ClauseConstants.Space);
+        stringBuilder.Append(Constants.Space);
         hasOpenParentheses = true;
     }
 
@@ -385,7 +385,7 @@ internal sealed partial class FluentSqlBuilder
                 break;
         }
 
-        stringBuilder.Append(ClauseConstants.Space);
+        stringBuilder.Append(Constants.Space);
     }
 
     private void AppendGroupBy()
@@ -394,7 +394,7 @@ internal sealed partial class FluentSqlBuilder
         {
             stringBuilder
                 .Append(ClauseConstants.GroupBy.Separator)
-                .Append(ClauseConstants.Space);
+                .Append(Constants.Space);
 
             return;
         }
@@ -403,7 +403,7 @@ internal sealed partial class FluentSqlBuilder
         stringBuilder
             .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.GroupBy.Lower : ClauseConstants.GroupBy.Upper)
-            .Append(ClauseConstants.Space);
+            .Append(Constants.Space);
     }
 
     private void AppendOrderBy()
@@ -412,7 +412,7 @@ internal sealed partial class FluentSqlBuilder
         {
             stringBuilder
                 .Append(ClauseConstants.OrderBy.Separator)
-                .Append(ClauseConstants.Space);
+                .Append(Constants.Space);
 
             return;
         }
@@ -421,7 +421,7 @@ internal sealed partial class FluentSqlBuilder
         stringBuilder
             .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.OrderBy.Lower : ClauseConstants.OrderBy.Upper)
-            .Append(ClauseConstants.Space);
+            .Append(Constants.Space);
     }
 
     private void AppendHaving()
@@ -429,9 +429,9 @@ internal sealed partial class FluentSqlBuilder
         if (clauseActions.Contains(ClauseAction.Having))
         {
             stringBuilder
-                .Append(ClauseConstants.Space)
+                .Append(Constants.Space)
                 .Append(useLowerCaseClauses ? ClauseConstants.Having.SeparatorLower : ClauseConstants.Having.SeparatorUpper)
-                .Append(ClauseConstants.Space);
+                .Append(Constants.Space);
 
             return;
         }
@@ -440,7 +440,7 @@ internal sealed partial class FluentSqlBuilder
         stringBuilder
             .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.Having.Lower : ClauseConstants.Having.Upper)
-            .Append(ClauseConstants.Space);
+            .Append(Constants.Space);
     }
 
     private bool CanAppendClause(ClauseAction clauseAction)

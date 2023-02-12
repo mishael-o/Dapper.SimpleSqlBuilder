@@ -3,12 +3,12 @@
 namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 
 /// <summary>
-/// An interface that defines the fluent sql builder type or contract.
+/// An interface that defines the fluent SQL builder type.
 /// </summary>
 public interface IFluentSqlBuilder : ISqlBuilder, IFluentBuilder
 {
     /// <summary>
-    /// Adds a parameter to the <see cref="ISqlBuilder.Parameters">dynamic parameter</see> list.
+    /// Adds a parameter to the dynamic <see cref="ISqlBuilder.Parameters">parameters</see> list.
     /// </summary>
     /// <param name="name">The name of the parameter.</param>
     /// <param name="value">The value of the parameter.</param>
@@ -24,6 +24,6 @@ public interface IFluentSqlBuilder : ISqlBuilder, IFluentBuilder
     /// </summary>
     /// <typeparam name="T">The type to cast the value to.</typeparam>
     /// <param name="parameterName">The name of the parameter.</param>
-    /// <returns>The value, note <see cref="DBNull.Value"/> is not returned, instead the value is returned as <see langword="null"/>.</returns>
+    /// <returns>The value. Note <see cref="DBNull.Value"/> is not returned, instead the value is returned as <see langword="null"/>.</returns>
     T GetValue<T>(string parameterName);
 }

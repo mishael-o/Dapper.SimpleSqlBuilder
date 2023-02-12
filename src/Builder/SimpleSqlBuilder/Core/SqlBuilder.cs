@@ -4,12 +4,10 @@ using System.Text;
 namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// A class that defines the SQL builder type or contract. The core <see cref="SqlBuilder"/> partial class.
+/// A class that defines the SQL builder type. The core <see cref="SqlBuilder"/> partial class.
 /// </summary>
 internal sealed partial class SqlBuilder : Builder
 {
-    private const char SpacePrefix = ' ';
-
     private readonly StringBuilder stringBuilder;
     private readonly SqlFormatter sqlFormatter;
     private readonly DynamicParameters parameters;
@@ -32,13 +30,13 @@ internal sealed partial class SqlBuilder : Builder
         => parameters.ParameterNames;
 
 #if NET6_0_OR_GREATER
-    public override Builder Append([InterpolatedStringHandlerArgument("")] ref AppendSqlIntepolatedStringHandler handler)
+    public override Builder Append([InterpolatedStringHandlerArgument("")] ref AppendInterpolatedStringHandler handler)
         => this;
 
-    public override Builder AppendIntact([InterpolatedStringHandlerArgument("")] ref AppendIntactSqlIntepolatedStringHandler handler)
+    public override Builder AppendIntact([InterpolatedStringHandlerArgument("")] ref AppendIntactInterpolatedStringHandler handler)
         => this;
 
-    public override Builder AppendNewLine([InterpolatedStringHandlerArgument("")] ref AppendNewLineSqlIntepolatedStringHandler handler)
+    public override Builder AppendNewLine([InterpolatedStringHandlerArgument("")] ref AppendNewLineInterpolatedStringHandler handler)
         => this;
 #else
 
@@ -102,5 +100,5 @@ internal sealed partial class SqlBuilder : Builder
     }
 
     private void AppendSpace()
-        => stringBuilder.Append(SpacePrefix);
+        => stringBuilder.Append(Constants.Space);
 }

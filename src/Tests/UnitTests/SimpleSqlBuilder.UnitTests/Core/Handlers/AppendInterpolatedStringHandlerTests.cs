@@ -1,16 +1,16 @@
 ﻿#if NET6_0_OR_GREATER
 namespace Dapper.SimpleSqlBuilder.UnitTests.Handlers;
 
-public class AppendSqlIntepolatedStringHandlerTests
+public class AppendInterpolatedStringHandlerTests
 {
     [Fact]
     public void Constructor_BuilderIsNull_ThrowsArgumentException()
     {
         //Arrange
-        ISqlBuilder builder = null!;
+        Builder builder = null!;
 
         //Act
-        Action act = () => _ = new AppendSqlIntepolatedStringHandler(0, 0, builder);
+        Action act = () => _ = new AppendInterpolatedStringHandler(0, 0, builder);
 
         //Assert
         act.Should().Throw<ArgumentException>()
@@ -20,10 +20,10 @@ public class AppendSqlIntepolatedStringHandlerTests
 
     [Theory]
     [AutoData]
-    public void Constructor_BuilderDoesNotImplementIBuilderFormatter_ThrowsArgumentException(Mock<ISqlBuilder> builderMock)
+    public void Constructor_BuilderDoesNotImplementIBuilderFormatter_ThrowsArgumentException(Mock<Builder> builderMock)
     {
         //Act
-        Action act = () => _ = new AppendSqlIntepolatedStringHandler(0, 0, builderMock.Object);
+        Action act = () => _ = new AppendInterpolatedStringHandler(0, 0, builderMock.Object);
 
         //Assert
         act.Should().Throw<ArgumentException>()
@@ -33,13 +33,13 @@ public class AppendSqlIntepolatedStringHandlerTests
 
     [Theory]
     [AutoData]
-    public void Constructor_InitialisesHandler_ReturnsHandler(Mock<ISqlBuilder> builderMock)
+    public void Constructor_InitialisesHandler_ReturnsHandler(Mock<Builder> builderMock)
     {
         //Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
 
         //Act
-        var sut = new AppendSqlIntepolatedStringHandler(0, 0, builderMock.Object);
+        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object);
 
         //Assert
         builderFormatterMock.Verify(x => x.AppendControl(ControlType.Space));
@@ -47,11 +47,11 @@ public class AppendSqlIntepolatedStringHandlerTests
 
     [Theory]
     [AutoData]
-    public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, Mock<ISqlBuilder> builderMock)
+    public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, Mock<Builder> builderMock)
     {
         //Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendSqlIntepolatedStringHandler(0, 0, builderMock.Object);
+        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object);
 
         //Act
         sut.AppendLiteral(value);
@@ -62,11 +62,11 @@ public class AppendSqlIntepolatedStringHandlerTests
 
     [Theory]
     [AutoData]
-    public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value, Mock<ISqlBuilder> builderMock)
+    public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value, Mock<Builder> builderMock)
     {
         //Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendSqlIntepolatedStringHandler(0, 0, builderMock.Object);
+        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object);
 
         //Act
         sut.AppendFormatted(value);
@@ -78,11 +78,11 @@ public class AppendSqlIntepolatedStringHandlerTests
     [Theory]
     [InlineAutoData(0, null)]
     [InlineAutoData("value", "raw")]
-    public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format, Mock<ISqlBuilder> builderMock)
+    public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format, Mock<Builder> builderMock)
     {
         //Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendSqlIntepolatedStringHandler(0, 0, builderMock.Object);
+        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object);
 
         //Act
         sut.AppendFormatted(value, format);

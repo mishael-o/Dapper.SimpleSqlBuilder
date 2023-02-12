@@ -3,7 +3,7 @@
 namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// An abstract class that defines the simple builder type or contract.
+/// An abstract class that implements the <see cref="ISqlBuilder"/> and defines the builder type.
 /// </summary>
 public abstract class Builder : ISqlBuilder
 {
@@ -27,7 +27,8 @@ public abstract class Builder : ISqlBuilder
     /// </summary>
     /// <param name="builder">The <see cref="Builder"/>.</param>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>Returns a <see cref="Builder"/>.</returns>
+    /// <returns><see cref="Builder"/>.</returns>
+    /// <exception cref="ArgumentNullException">Throws an <see cref="ArgumentNullException"/> when called on a <see langword="null"/> object.</exception>
     public static Builder operator +(Builder builder, FormattableString formattable)
     {
         return builder is null
@@ -43,44 +44,44 @@ public abstract class Builder : ISqlBuilder
     /// <summary>
     /// Appends a space prefix and the interpolated string to the builder.
     /// </summary>
-    /// <param name="handler">The <see cref="AppendSqlIntepolatedStringHandler">handler</see> for the interpolated string.</param>
-    /// <returns>Returns a <see cref="Builder"/>.</returns>
-    public abstract Builder Append([InterpolatedStringHandlerArgument("")] ref AppendSqlIntepolatedStringHandler handler);
+    /// <param name="handler">The handler for the interpolated string.</param>
+    /// <returns><see cref="Builder"/>.</returns>
+    public abstract Builder Append([InterpolatedStringHandlerArgument("")] ref AppendInterpolatedStringHandler handler);
 
     /// <summary>
     /// Appends the interpolated string to the builder.
     /// </summary>
-    /// <param name="handler">The <see cref="AppendIntactSqlIntepolatedStringHandler">handler</see> for the interpolated string.</param>
-    /// <returns>Returns a <see cref="Builder"/>.</returns>
-    public abstract Builder AppendIntact([InterpolatedStringHandlerArgument("")] ref AppendIntactSqlIntepolatedStringHandler handler);
+    /// <param name="handler">The handler for the interpolated string.</param>
+    /// <returns><see cref="Builder"/>.</returns>
+    public abstract Builder AppendIntact([InterpolatedStringHandlerArgument("")] ref AppendIntactInterpolatedStringHandler handler);
 
     /// <summary>
     /// Appends an <see cref="Environment.NewLine"/> and the interpolated string to the builder.
     /// </summary>
-    /// <param name="handler">The <see cref="AppendNewLineSqlIntepolatedStringHandler">handler</see> for the interpolated string.</param>
-    /// <returns>Returns a <see cref="Builder"/>.</returns>
-    public abstract Builder AppendNewLine([InterpolatedStringHandlerArgument("")] ref AppendNewLineSqlIntepolatedStringHandler handler);
+    /// <param name="handler">The handler for the interpolated string.</param>
+    /// <returns><see cref="Builder"/>.</returns>
+    public abstract Builder AppendNewLine([InterpolatedStringHandlerArgument("")] ref AppendNewLineInterpolatedStringHandler handler);
 #else
 
     /// <summary>
-    /// Appends a space prefix and a <see cref="FormattableString"/> to the builder.
+    /// Appends a space prefix and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
-    /// <param name="formattable">The <see cref="FormattableString">formattable string</see>.</param>
-    /// <returns>Returns a <see cref="Builder"/>.</returns>
+    /// <param name="formattable">The <see cref="FormattableString"/>.</param>
+    /// <returns><see cref="Builder"/>.</returns>
     public abstract Builder Append(FormattableString formattable);
 
     /// <summary>
-    /// Appends a <see cref="FormattableString"/> to the builder.
+    /// Appends the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>Returns a <see cref="Builder"/>.</returns>
+    /// <returns><see cref="Builder"/>.</returns>
     public abstract Builder AppendIntact(FormattableString formattable);
 
     /// <summary>
-    /// Appends an <see cref="Environment.NewLine"/> and a <see cref="FormattableString"/> to the builder.
+    /// Appends an <see cref="Environment.NewLine"/> and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>Returns <see cref="Builder"/>.</returns>
+    /// <returns><see cref="Builder"/>.</returns>
     public abstract Builder AppendNewLine(FormattableString formattable);
 
 #endif
@@ -88,11 +89,11 @@ public abstract class Builder : ISqlBuilder
     /// <summary>
     /// Appends an <see cref="Environment.NewLine"/> to the builder.
     /// </summary>
-    /// <returns>Returns <see cref="Builder"/>.</returns>
+    /// <returns><see cref="Builder"/>.</returns>
     public abstract Builder AppendNewLine();
 
     /// <summary>
-    /// Adds a parameter to the <see cref="Parameters">dynamic parameter</see> list.
+    /// Adds a parameter to the dynamic <see cref="Parameters">parameters</see> list.
     /// </summary>
     /// <param name="name">The name of the parameter.</param>
     /// <param name="value">The value of the parameter.</param>
@@ -101,28 +102,28 @@ public abstract class Builder : ISqlBuilder
     /// <param name="size">The size of the parameter.</param>
     /// <param name="precision">The precision of the parameter.</param>
     /// <param name="scale">The scale of the parameter.</param>
-    /// <returns>Returns <see cref="Builder"/>.</returns>
+    /// <returns><see cref="Builder"/>.</returns>
     public abstract Builder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null);
 
     /// <summary>
-    /// Append a whole object full of parameters to the <see cref="Parameters">dynamic parameter</see> bag.
+    /// Appends a whole object full of parameters to the dynamic <see cref="Parameters">parameters</see> bag.
     /// <para>Example 1:</para>
     /// <para>AddDynamicParameters(new {A = 1, B = 2}) // will add property A and B to the dynamic.</para>
     /// <para>Example 2:</para>
     /// <para>var dynamicParameters = new DynamicParameters(); //creating a <see cref="DynamicParameters"/> object to hold the parameters.</para>
     /// <para>dynamicParameters.Add("A", 1);.</para>
     /// <para>dynamicParameters.Add("B", 2);.</para>
-    /// <para>AddDynamicParameters(dynamicParameters) // will add parameters A and B to the <see cref="Parameters">dynamic parameter</see> bag.</para>
+    /// <para>AddDynamicParameters(dynamicParameters) // will add parameters A and B to the dynamic <see cref="Parameters">parameters</see> bag.</para>
     /// </summary>
-    /// <param name="param">The parameter.</param>
-    /// <returns>Returns <see cref="Builder"/>.</returns>
-    public abstract Builder AddDynamicParameters(object? param);
+    /// <param name="parameter">The parameter.</param>
+    /// <returns><see cref="Builder"/>.</returns>
+    public abstract Builder AddDynamicParameters(object? parameter);
 
     /// <summary>
     /// Get the value of a parameter.
     /// </summary>
     /// <typeparam name="T">The type to cast the value to.</typeparam>
     /// <param name="parameterName">The name of the parameter.</param>
-    /// <returns>The value, note <see cref="DBNull.Value"/> is not returned, instead the value is returned as <see langword="null"/>.</returns>
+    /// <returns>The value. Note <see cref="DBNull.Value"/> is not returned, instead the value is returned as <see langword="null"/>.</returns>
     public abstract T GetValue<T>(string parameterName);
 }

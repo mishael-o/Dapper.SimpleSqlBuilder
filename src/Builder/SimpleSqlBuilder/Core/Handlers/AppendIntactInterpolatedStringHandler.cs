@@ -1,27 +1,25 @@
 ﻿#if NET6_0_OR_GREATER
-
-namespace Dapper.SimpleSqlBuilder.FluentBuilder;
+namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// A handler used by the language compiler to append interpolated strings into <see cref="IFluentBuilder"/> instances.
+/// A handler used by the language compiler to append interpolated strings into <see cref="Builder"/> instances.
 /// </summary>
 [InterpolatedStringHandler]
-public ref struct UpdateInterpolatedStringHandler
+public ref struct AppendIntactInterpolatedStringHandler
 {
-    private readonly IFluentBuilderFormatter formatter;
+    private readonly IBuilderFormatter formatter;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="UpdateInterpolatedStringHandler"/> struct.
+    /// Initializes a new instance of the <see cref="AppendIntactInterpolatedStringHandler"/> struct.
     /// </summary>
     /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
-    /// <param name="builder">The fluent builder associated with the handler.</param>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IFluentBuilderFormatter"/>.</exception>
-    public UpdateInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
+    /// <param name="builder">The builder associated with the handler.</param>
+    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IBuilderFormatter"/>.</exception>
+    public AppendIntactInterpolatedStringHandler(int literalLength, int formattedCount, Builder builder)
     {
-        formatter = builder as IFluentBuilderFormatter
-            ?? throw new ArgumentException($"The {nameof(builder)} must implement {nameof(IFluentBuilderFormatter)}.", nameof(builder));
-        formatter.StartClauseAction(ClauseAction.Update);
+        formatter = builder as IBuilderFormatter
+            ?? throw new ArgumentException($"The {nameof(builder)} must implement {nameof(IBuilderFormatter)}.", nameof(builder));
     }
 
     /// <summary>
@@ -47,8 +45,5 @@ public ref struct UpdateInterpolatedStringHandler
     /// <param name="format">The format string for the value.</param>
     public void AppendFormatted<T>(T value, string? format)
         => formatter.AppendFormatted(value, format);
-
-    internal void Close()
-        => formatter.EndClauseAction(ClauseAction.Update);
 }
 #endif

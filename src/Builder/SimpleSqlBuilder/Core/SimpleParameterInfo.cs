@@ -20,7 +20,7 @@ public sealed class SimpleParameterInfo : ISimpleParameterInfo
     /// <param name="precision">The parameter precision.</param>
     /// <param name="scale">The parameter scale.</param>
     public SimpleParameterInfo(object? value, DbType? dbType = null, int? size = null, byte? precision = null, byte? scale = null)
-    : this(null, value, dbType, null, size, precision, scale)
+        : this(null, value, dbType, null, size, precision, scale)
     {
     }
 

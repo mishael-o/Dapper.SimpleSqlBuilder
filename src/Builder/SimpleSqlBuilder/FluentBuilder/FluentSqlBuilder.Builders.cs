@@ -131,7 +131,7 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
         return this;
     }
 
-    public IWhereFilter WhereFilter([InterpolatedStringHandlerArgument("")] ref WhereFilterInterpolatedStringHandler handler)
+    public IWhereFilterBuilder WhereFilter([InterpolatedStringHandlerArgument("")] ref WhereFilterInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
@@ -149,31 +149,31 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
         return this;
     }
 
-    public IWhereFilter OrWhereFilter([InterpolatedStringHandlerArgument("")] ref WhereOrFilterInterpolatedStringHandler handler)
+    public IWhereFilterBuilder OrWhereFilter([InterpolatedStringHandlerArgument("")] ref WhereOrFilterInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
     }
 
-    public IWhereFilter WithFilter([InterpolatedStringHandlerArgument("")] ref WhereWithFilterInterpolatedStringHandler handler)
+    public IWhereFilterBuilder WithFilter([InterpolatedStringHandlerArgument("")] ref WhereWithFilterInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
     }
 
-    public IWhereFilter WithFilter(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref WhereWithFilterInterpolatedStringHandler handler)
+    public IWhereFilterBuilder WithFilter(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref WhereWithFilterInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
     }
 
-    public IWhereFilter WithOrFilter([InterpolatedStringHandlerArgument("")] ref WhereWithOrFilterInterpolatedStringHandler handler)
+    public IWhereFilterBuilder WithOrFilter([InterpolatedStringHandlerArgument("")] ref WhereWithOrFilterInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
     }
 
-    public IWhereFilter WithOrFilter(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref WhereWithOrFilterInterpolatedStringHandler handler)
+    public IWhereFilterBuilder WithOrFilter(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref WhereWithOrFilterInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
@@ -276,22 +276,22 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
     public IWhereBuilder OrWhere(bool condition, FormattableString formattable)
         => AppendFormattable(ClauseAction.WhereOr, formattable, condition);
 
-    public IWhereFilter WhereFilter(FormattableString formattable)
+    public IWhereFilterBuilder WhereFilter(FormattableString formattable)
         => AppendFormattable(ClauseAction.WhereFilter, formattable);
 
-    public IWhereFilter OrWhereFilter(FormattableString formattable)
+    public IWhereFilterBuilder OrWhereFilter(FormattableString formattable)
         => AppendFormattable(ClauseAction.WhereOrFilter, formattable);
 
-    public IWhereFilter WithFilter(FormattableString formattable)
+    public IWhereFilterBuilder WithFilter(FormattableString formattable)
         => AppendFormattable(ClauseAction.WhereWithFilter, formattable);
 
-    public IWhereFilter WithFilter(bool condition, FormattableString formattable)
+    public IWhereFilterBuilder WithFilter(bool condition, FormattableString formattable)
         => AppendFormattable(ClauseAction.WhereWithFilter, formattable, condition);
 
-    public IWhereFilter WithOrFilter(FormattableString formattable)
+    public IWhereFilterBuilder WithOrFilter(FormattableString formattable)
         => AppendFormattable(ClauseAction.WhereWithOrFilter, formattable);
 
-    public IWhereFilter WithOrFilter(bool condition, FormattableString formattable)
+    public IWhereFilterBuilder WithOrFilter(bool condition, FormattableString formattable)
         => AppendFormattable(ClauseAction.WhereWithOrFilter, formattable, condition);
 
     public IGroupByBuilder GroupBy(FormattableString formattable)
@@ -336,13 +336,13 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
 
 #endif
 
-    public IWhereFilterEntry WhereFilter()
+    public IWhereFilterBuilderEntry WhereFilter()
     {
         pendingWhereFilter = ClauseAction.WhereFilter;
         return this;
     }
 
-    public IWhereFilterEntry OrWhereFilter()
+    public IWhereFilterBuilderEntry OrWhereFilter()
     {
         pendingWhereFilter = ClauseAction.WhereOrFilter;
         return this;
