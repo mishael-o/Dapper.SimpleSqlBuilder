@@ -636,7 +636,7 @@ FROM User x
 WHERE UserTypeId = @p1;
 ```
 
-## Parameter properties
+## Parameter Properties
 
 The library enables you to configure parameter properties via the `AddParameter(...)` method. For example, you may want to define a `DbType` for a parameter, and the code below is how you will do this.
 
