@@ -121,7 +121,7 @@ public class RightJoinInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.RightJoin));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

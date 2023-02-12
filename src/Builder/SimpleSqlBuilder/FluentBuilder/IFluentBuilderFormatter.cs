@@ -6,7 +6,7 @@ internal interface IFluentBuilderFormatter : IFluentBuilder
 
     void AppendLiteral(string value);
 
-    void EndClauseAction(ClauseAction action);
+    void EndClauseAction();
 
     bool IsClauseActionEnabled(ClauseAction action);
 

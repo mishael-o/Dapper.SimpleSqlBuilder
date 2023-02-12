@@ -168,7 +168,7 @@ public class HavingInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.Having));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

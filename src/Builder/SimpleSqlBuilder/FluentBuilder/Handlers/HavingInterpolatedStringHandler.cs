@@ -72,6 +72,6 @@ public ref struct HavingInterpolatedStringHandler
         => formatter?.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter?.EndClauseAction(ClauseAction.Having);
+        => formatter?.EndClauseAction();
 }
 #endif

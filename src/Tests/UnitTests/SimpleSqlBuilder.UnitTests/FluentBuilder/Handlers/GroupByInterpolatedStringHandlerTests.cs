@@ -168,7 +168,7 @@ public class GroupByInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.GroupBy));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

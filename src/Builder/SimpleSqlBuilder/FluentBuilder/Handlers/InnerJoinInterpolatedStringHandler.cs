@@ -71,7 +71,7 @@ public ref struct InnerJoinInterpolatedStringHandler
         => formatter?.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter?.EndClauseAction(ClauseAction.InnerJoin);
+        => formatter?.EndClauseAction();
 }
 
 #endif

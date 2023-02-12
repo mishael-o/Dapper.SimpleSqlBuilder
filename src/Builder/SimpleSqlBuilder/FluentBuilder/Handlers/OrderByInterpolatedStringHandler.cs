@@ -72,6 +72,6 @@ public ref struct OrderByInterpolatedStringHandler
         => formatter?.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter?.EndClauseAction(ClauseAction.OrderBy);
+        => formatter?.EndClauseAction();
 }
 #endif

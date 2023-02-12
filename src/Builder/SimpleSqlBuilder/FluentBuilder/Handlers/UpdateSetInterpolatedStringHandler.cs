@@ -71,6 +71,6 @@ public ref struct UpdateSetInterpolatedStringHandler
         => formatter?.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter?.EndClauseAction(ClauseAction.UpdateSet);
+        => formatter?.EndClauseAction();
 }
 #endif

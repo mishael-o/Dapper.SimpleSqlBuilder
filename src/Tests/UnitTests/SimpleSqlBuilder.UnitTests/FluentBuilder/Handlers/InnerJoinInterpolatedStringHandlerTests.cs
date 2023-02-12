@@ -121,7 +121,7 @@ public class InnerJoinInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.InnerJoin));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

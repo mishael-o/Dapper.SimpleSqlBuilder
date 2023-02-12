@@ -105,7 +105,7 @@ public class UpdateInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.Update));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

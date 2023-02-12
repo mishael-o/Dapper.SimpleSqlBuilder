@@ -10,7 +10,7 @@ public interface IInsertBuilderEntry
     /// Appends the 'insert into' clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns><see cref="IInsertBuilder"/>.</returns>
+    /// <returns>The <see cref="IInsertBuilder"/>.</returns>
     IInsertBuilder InsertInto([InterpolatedStringHandlerArgument("")] ref InsertInterpolatedStringHandler handler);
 #else
 
@@ -18,7 +18,7 @@ public interface IInsertBuilderEntry
     /// Appends the 'insert into' clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns><see cref="IInsertBuilder"/>.</returns>
+    /// <returns>The <see cref="IInsertBuilder"/>.</returns>
     IInsertBuilder InsertInto(FormattableString formattable);
 
 #endif

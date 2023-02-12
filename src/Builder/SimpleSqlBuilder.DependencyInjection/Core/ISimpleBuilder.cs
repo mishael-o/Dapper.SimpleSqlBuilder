@@ -13,7 +13,7 @@ public interface ISimpleBuilder
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <param name="parameterPrefix">The value to override the <see cref="SimpleBuilderOptions.DatabaseParameterPrefix"/> value.</param>
     /// <param name="reuseParameters">The value to override the <see cref="SimpleBuilderOptions.ReuseParameters"/> value.</param>
-    /// <returns><see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder">builder</see> instance.</returns>
     Builder Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null);
 
     /// <summary>
@@ -22,6 +22,6 @@ public interface ISimpleBuilder
     /// <param name="parameterPrefix">The value to override the <see cref="SimpleBuilderOptions.DatabaseParameterPrefix"/> value.</param>
     /// <param name="reuseParameters">The value to override the <see cref="SimpleBuilderOptions.ReuseParameters"/> value.</param>
     /// <param name="useLowerCaseClauses">The value to override the <see cref="SimpleBuilderOptions.UseLowerCaseClauses"/> value.</param>
-    /// <returns><see cref="ISimpleFluentBuilderEntry"/>.</returns>
+    /// <returns>The <see cref="ISimpleFluentBuilderEntry">fluent builder</see> instance.</returns>
     ISimpleFluentBuilderEntry CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null);
 }

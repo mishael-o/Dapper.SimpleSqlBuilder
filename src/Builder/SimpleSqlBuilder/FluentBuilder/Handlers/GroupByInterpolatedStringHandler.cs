@@ -72,6 +72,6 @@ public ref struct GroupByInterpolatedStringHandler
         => formatter?.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter?.EndClauseAction(ClauseAction.GroupBy);
+        => formatter?.EndClauseAction();
 }
 #endif
