@@ -105,7 +105,7 @@ public class SelectInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.Select));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

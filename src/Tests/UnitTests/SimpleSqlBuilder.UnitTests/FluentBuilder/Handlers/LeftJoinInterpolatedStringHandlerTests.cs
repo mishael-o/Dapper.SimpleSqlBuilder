@@ -120,7 +120,7 @@ public class LeftJoinInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.LeftJoin));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

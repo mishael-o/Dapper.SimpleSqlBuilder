@@ -49,6 +49,6 @@ public ref struct SelectInterpolatedStringHandler
         => formatter.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.Select);
+        => formatter.EndClauseAction();
 }
 #endif

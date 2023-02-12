@@ -42,7 +42,7 @@ public abstract class Builder : ISqlBuilder
 
 #if NET6_0_OR_GREATER
     /// <summary>
-    /// Appends a space prefix and the interpolated string to the builder.
+    /// Appends a space and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
     /// <returns><see cref="Builder"/>.</returns>
@@ -64,7 +64,7 @@ public abstract class Builder : ISqlBuilder
 #else
 
     /// <summary>
-    /// Appends a space prefix and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// Appends a space and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns><see cref="Builder"/>.</returns>

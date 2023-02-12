@@ -168,7 +168,7 @@ public class OrderByInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.OrderBy));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

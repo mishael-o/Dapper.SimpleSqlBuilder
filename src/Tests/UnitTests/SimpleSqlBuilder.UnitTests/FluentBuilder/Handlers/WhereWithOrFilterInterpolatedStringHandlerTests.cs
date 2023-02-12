@@ -121,7 +121,7 @@ public class WhereWithOrFilterInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.WhereWithOrFilter));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

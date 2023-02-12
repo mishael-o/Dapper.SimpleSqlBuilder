@@ -105,7 +105,7 @@ public class DeleteInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.Delete));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

@@ -121,7 +121,7 @@ public class WhereInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.Where));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

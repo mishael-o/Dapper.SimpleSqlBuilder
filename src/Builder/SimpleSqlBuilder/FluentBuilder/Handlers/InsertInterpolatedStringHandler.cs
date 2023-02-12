@@ -49,6 +49,6 @@ public ref struct InsertInterpolatedStringHandler
         => formatter.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.Insert);
+        => formatter.EndClauseAction();
 }
 #endif

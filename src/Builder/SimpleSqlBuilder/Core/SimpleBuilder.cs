@@ -3,7 +3,7 @@
 namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// A static class that enables you create a Simple Builder instance.
+/// A static class that enables creation of Simple Builder instances.
 /// </summary>
 public static class SimpleBuilder
 {

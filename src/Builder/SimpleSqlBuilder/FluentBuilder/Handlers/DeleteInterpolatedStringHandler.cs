@@ -49,6 +49,6 @@ public ref struct DeleteInterpolatedStringHandler
         => formatter.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.Delete);
+        => formatter.EndClauseAction();
 }
 #endif

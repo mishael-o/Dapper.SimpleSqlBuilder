@@ -105,7 +105,7 @@ public class SelectDistinctInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.SelectDistinct));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

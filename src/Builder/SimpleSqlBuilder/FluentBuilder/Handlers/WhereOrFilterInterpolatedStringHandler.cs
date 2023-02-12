@@ -49,7 +49,7 @@ public ref struct WhereOrFilterInterpolatedStringHandler
         => formatter.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.WhereOrFilter);
+        => formatter.EndClauseAction();
 }
 
 #endif

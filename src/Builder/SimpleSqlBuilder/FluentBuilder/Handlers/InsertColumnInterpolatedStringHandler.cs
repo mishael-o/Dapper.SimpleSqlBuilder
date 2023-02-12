@@ -49,6 +49,6 @@ public ref struct InsertColumnInterpolatedStringHandler
         => formatter.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.InsertColumn);
+        => formatter.EndClauseAction();
 }
 #endif

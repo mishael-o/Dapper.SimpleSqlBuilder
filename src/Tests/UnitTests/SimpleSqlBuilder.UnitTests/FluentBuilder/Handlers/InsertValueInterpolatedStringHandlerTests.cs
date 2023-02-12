@@ -105,7 +105,7 @@ public class InsertValueInterpolatedStringHandlerTests
         sut.Close();
 
         //Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction(ClauseAction.InsertValue));
+        fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
 #endif

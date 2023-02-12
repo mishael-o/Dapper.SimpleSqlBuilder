@@ -71,7 +71,7 @@ public ref struct WhereOrInterpolatedStringHandler
         => formatter?.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter?.EndClauseAction(ClauseAction.WhereOr);
+        => formatter?.EndClauseAction();
 }
 
 #endif

@@ -49,6 +49,6 @@ public ref struct SelectDistinctInterpolatedStringHandler
         => formatter.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction(ClauseAction.SelectDistinct);
+        => formatter.EndClauseAction();
 }
 #endif

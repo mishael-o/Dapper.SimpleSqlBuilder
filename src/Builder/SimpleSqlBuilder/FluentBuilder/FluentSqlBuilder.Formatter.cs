@@ -11,7 +11,7 @@ internal sealed partial class FluentSqlBuilder : IFluentBuilderFormatter
     public void AppendLiteral(string value)
         => stringBuilder.Append(value);
 
-    public void EndClauseAction(ClauseAction clauseAction)
+    public void EndClauseAction()
         => CloseOpenParentheses();
 
     public bool IsClauseActionEnabled(ClauseAction clauseAction)
