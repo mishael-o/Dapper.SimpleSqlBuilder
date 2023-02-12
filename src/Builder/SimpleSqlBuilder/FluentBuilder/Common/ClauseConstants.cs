@@ -5,7 +5,6 @@ internal static class ClauseConstants
     private const char Comma = ',';
     private const string AndLower = "and";
 
-    internal const char Space = ' ';
     internal const char OpenParentheses = '(';
     internal const char CloseParentheses = ')';
 

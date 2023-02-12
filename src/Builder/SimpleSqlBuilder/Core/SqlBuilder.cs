@@ -8,8 +8,6 @@ namespace Dapper.SimpleSqlBuilder;
 /// </summary>
 internal sealed partial class SqlBuilder : Builder
 {
-    private const char SpacePrefix = ' ';
-
     private readonly StringBuilder stringBuilder;
     private readonly SqlFormatter sqlFormatter;
     private readonly DynamicParameters parameters;
@@ -102,5 +100,5 @@ internal sealed partial class SqlBuilder : Builder
     }
 
     private void AppendSpace()
-        => stringBuilder.Append(SpacePrefix);
+        => stringBuilder.Append(Constants.Space);
 }

@@ -44,7 +44,7 @@ dotnet add package Dapper.SimpleSqlBuilder
 
 ### Usage
 
-The library provides a static class called `SimpleBuilder` that can be used to create simple builder instances. However, the library also provides an alternative to the static classes via dependency injection, which is covered in the [Dependency Injection](#dependency-injection) section.
+The library provides a static class called `SimpleBuilder` that is used to create simple builder instances. However, the library also provides an alternative to the static classes via dependency injection, which is covered in the [Dependency Injection](#dependency-injection) section.
 
 #### Create SQL query with the Builder
 
@@ -194,7 +194,7 @@ var builder = SimpleBuilder.Create($@"
 INSERT INTO User (Role, Age)
 VALUES ({user.Role}, {user.Age}");
 
-//Execute the query with Dapper
+// Execute the query with Dapper
 dbConnection.Execute(builder.Sql, builder.Parameters);
 ```
 
@@ -248,10 +248,10 @@ var builder = SimpleBuilder.Create($"UserResources.ProcessUserInformation")
     .AddParameter("UserId", dbType: DbType.Int32, direction: ParameterDirection.Output)
     .AddParameter("Result", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
-//Execute the stored procedure with Dapper
+// Execute the stored procedure with Dapper
 dbConnection.Execute(builder.Sql, builder.Parameters, commandType: CommandType.StoredProcedure);
 
-//Get the output and return values
+// Get the output and return values
 int id = builder.GetValue<int>("UserId");
 int result = builder.GetValue<int>("Result");
 ```
@@ -277,7 +277,7 @@ var builder = SimpleBuilder.CreateFluent()
     .Where($"UserTypeId = {userTypeId}")
     .OrderBy($"Name ASC, Age DESC");
 
-//The query can also be written as this
+// The query can also be written as this
 builder = SimpleBuilder.CreateFluent()
     .Select($"Name").Select($"Age").Select($"Role")
     .From($"User")
@@ -286,7 +286,7 @@ builder = SimpleBuilder.CreateFluent()
     .OrderBy($"Name ASC").OrderBy($"Age DESC");
 
 
-//Execute the query with Dapper
+// Execute the query with Dapper
 var users = dbConnection.Query<User>(builder.Sql, builder.Parameters);
 ```
 
@@ -307,7 +307,7 @@ var builder = SimpleBuilder.CreateFluent()
     .From($"User")
     .Where($"UserTypeId = {userTypeId}");
 
-//The query can also be written as this
+// The query can also be written as this
 builder = SimpleBuilder.CreateFluent()
     .SelectDistinct($"Name").SelectDistinct($"Age").SelectDistinct($"Role")
     .From($"User")
@@ -319,7 +319,7 @@ The generated SQL will be.
 ```sql
 SELECT DISTINCT Name, Age, Role
 FROM User
-WHERE UserTypeId = @p1
+WHERE UserTypeId = @p0
 ```
 
 #### Example 3: SELECT
@@ -392,13 +392,13 @@ var builder = SimpleBuilder.CreateFluent()
     .Columns($"Id, Name, Role, Age")
     .Values($"{user.Id}, {user.Name}, {user.Role}, {user.Admin}");
 
-//The query can also be written as this
+// The query can also be written as this
 builder = SimpleBuilder.CreateFluent()
    .InsertInto($"User")
    .Columns($"Id").Columns($"Role").Columns($"Age")
    .Values($"{user.Id}").Values($"{user.Name}").Values($"{user.Role}").Values($"{user.Admin}");
 
-//Execute the query with Dapper
+// Execute the query with Dapper
 dbConnection.Execute(builder.Sql, builder.Parameters);
 ```
 
@@ -435,7 +435,7 @@ var builder = SimpleBuilder.CreateFluent()
     .Set($"Name = {user.Name}, Role = {user.Role}, Age = {user.Age}")
     .Where($"Id = {user.Id}");
 
-//The query can also be written as below
+// The query can also be written as below
 builder = SimpleBuilder.CreateFluent()
     .Update($"User")
     .Set($"Name = {user.Name}").Set($"Role = {user.Role}").Set($"Age = {user.Age}")
@@ -680,10 +680,10 @@ The code below shows how to do this.
 ```c#
 SimpleBuilderSettings.Configure
 (
-    parameterNameTemplate: "param", //Optional. Default is "p"
-    parameterPrefix: ":", //Optional. Default is "@"
-    reuseParameters: true // //Optional. Default is "false"
-    useLowerCaseClauses: true //Optional. Default is "false". This is only applicable to the fluent builder.
+    parameterNameTemplate: "param", // Optional. Default is "p"
+    parameterPrefix: ":", // Optional. Default is "@"
+    reuseParameters: true // Optional. Default is "false"
+    useLowerCaseClauses: true // Optional. Default is "false". This is only applicable to the fluent builder.
 );
 ```
 
@@ -776,11 +776,11 @@ WHERE UserTypeId = @p0
 AND Age <= @p1"
 ```
 
-## Raw values
-
-**Do not use raw values if you don't trust the source or have not sanitized your value, as this can lead to SQL injection.**
+## Raw values (:raw)
 
 There are scenarios where you may want to pass a raw value into the interpolated string and not parameterize the value. The `raw` format string is used to indicate that the value should not be parameterized.
+
+**Note: Do not use raw values if you don't trust the source or have not sanitized your value, as this can lead to SQL injection.**
 
 ### Example 1: Dynamic Data Retrieval
 
@@ -840,7 +840,7 @@ class MyClass
         int id = 10;
         var builder = simpleBuilder.Create($"SELECT * FROM User WHERE ID = {id}");
 
-        //Other code below .....
+        // Other code below .....
     }
 
     public void MyMethod2()
@@ -851,24 +851,24 @@ class MyClass
             .From($"User")
             .Where($"ID = {id}");
 
-        //Other code below .....
+        // Other code below .....
     }
 }
 ```
 
-### Configuring Simple Builder settings
+### Configuring Simple Builder Options
 
 You can also configure the simple builder settings and the `ISimpleBuilder` instance service lifetime.
 
 ```c#
 services.AddSimpleSqlBuilder(
-    serviceLifeTime = ServiceLifetime.Scoped, //Optional. Default is ServiceLifetime.Singleton
+    serviceLifeTime = ServiceLifetime.Scoped, // Optional. Default is ServiceLifetime.Singleton
     configure =>
     {
-        configure.DatabaseParameterNameTemplate = "param"; //Optional. Default is "p"
-        configure.DatabaseParameterPrefix = ":"; //Optional. Default is "@"
-        configure.ReuseParameters = true; //Optional. Default is "false"
-        configure.UseLowerCaseClauses = true; //Optional. Default is "false". This is only applicable to the fluent builder
+        configure.DatabaseParameterNameTemplate = "param"; // Optional. Default is "p"
+        configure.DatabaseParameterPrefix = ":"; // Optional. Default is "@"
+        configure.ReuseParameters = true; // Optional. Default is "false"
+        configure.UseLowerCaseClauses = true; // Optional. Default is "false". This is only applicable to the fluent builder
     });
 ```
 
