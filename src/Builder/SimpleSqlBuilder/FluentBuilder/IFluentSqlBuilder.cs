@@ -20,7 +20,7 @@ public interface IFluentSqlBuilder : ISqlBuilder, IFluentBuilder
     void AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null);
 
     /// <summary>
-    /// Get the value of a parameter.
+    /// Gets the value of a parameter.
     /// </summary>
     /// <typeparam name="T">The type to cast the value to.</typeparam>
     /// <param name="parameterName">The name of the parameter.</param>

@@ -120,7 +120,7 @@ public abstract class Builder : ISqlBuilder
     public abstract Builder AddDynamicParameters(object? parameter);
 
     /// <summary>
-    /// Get the value of a parameter.
+    /// Gets the value of a parameter.
     /// </summary>
     /// <typeparam name="T">The type to cast the value to.</typeparam>
     /// <param name="parameterName">The name of the parameter.</param>
