@@ -6,6 +6,19 @@ namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
 public class SqlFormatterTests
 {
     [Fact]
+    public void Constructor_DynamicParameterIsNull_ThrowsArgumentNullException()
+    {
+        //Arrange
+        DynamicParameters parameters = null!;
+
+        //Act
+        var act = () => new SqlFormatter(parameters, "p", "@", false);
+
+        //Assert
+        act.Should().Throw<ArgumentNullException>().WithParameterName("parameters");
+    }
+
+    [Fact]
     public void GetFormat_FormatterMatched_ReturnsObject()
     {
         //Arrange
@@ -34,13 +47,11 @@ public class SqlFormatterTests
     }
 
     [Fact]
-    public void Format_FormatFormattableString_ReturnsString()
+    public void Format_FormatsFormattableString_ReturnsString()
     {
         //Arrange
         var model = new { Id = 10, TypeId = 20 };
-        const int expectedParameterCount = 3;
         var parameters = new DynamicParameters();
-        var parameterNamePrefix = SimpleBuilderSettings.Instance.DatabaseParameterPrefix + SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate;
 
         FormattableString innerFormattableString1 = $"SELECT Description FROM TYPE_TABLE WHERE Id = {model.TypeId}";
         FormattableString innerFormattableString2 = $"SELECT Id FROM TYPE_TABLE WHERE EXPIRED_DATE IS NULL";
@@ -51,9 +62,9 @@ public class SqlFormatterTests
             AND TypeId NOT IN {innerFormattableString2}";
 
         var expectedResult = $@"
-            SELECT *, (SELECT Description FROM TYPE_TABLE WHERE Id = {parameterNamePrefix}0)
-            FROM TABLE x WHERE Id = {parameterNamePrefix}1
-            AND TypeId = {parameterNamePrefix}2
+            SELECT *, (SELECT Description FROM TYPE_TABLE WHERE Id = @p0)
+            FROM TABLE x WHERE Id = @p1
+            AND TypeId = @p2
             AND TypeId NOT IN {innerFormattableString2.Format}";
 
         var sut = CreateSqlFormatter(parameters);
@@ -63,23 +74,23 @@ public class SqlFormatterTests
 
         //Assert
         result.Should().Be(expectedResult);
-        parameters.ParameterNames.Should().HaveCount(expectedParameterCount);
-        parameters.Get<int>($"{parameterNamePrefix}0").Should().Be(model.TypeId);
-        parameters.Get<int>($"{parameterNamePrefix}1").Should().Be(model.Id);
-        parameters.Get<int>($"{parameterNamePrefix}2").Should().Be(model.TypeId);
+        parameters.ParameterNames.Should().HaveCount(3);
+        parameters.Get<int>("p0").Should().Be(model.TypeId);
+        parameters.Get<int>("p1").Should().Be(model.Id);
+        parameters.Get<int>("p2").Should().Be(model.TypeId);
     }
 
     [Theory]
     [InlineData("TABLE", "TABLE")]
     [InlineData(10, "10")]
     [InlineData(null, "")]
-    public void Format_FormatRaw_ReturnsString(object? argument, string expectedResult)
+    public void Format_FormatsArgumentWithRaw_ReturnsString(object? argument, string expectedResult)
     {
         //Arrange
         var sut = CreateSqlFormatter();
 
         //Act
-        var result = sut.Format(SqlFormatter.RawFormat, argument, sut);
+        var result = sut.Format(Constants.RawFormat, argument, sut);
 
         //Assert
         result.Should().Be(expectedResult);
@@ -89,20 +100,19 @@ public class SqlFormatterTests
     [InlineData("John")]
     [InlineData(10)]
     [InlineData(null)]
-    public void Format_FormatArgument_ReturnsString(object? argument)
+    public void Format_FormatsArgument_ReturnsString(object? argument)
     {
         //Arrange
         var parameters = new DynamicParameters();
-        var parameterName = $"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0";
-
         var sut = CreateSqlFormatter(parameters);
 
         //Act
         var result = sut.Format(null, argument, sut);
 
         //Assert
-        result.Should().Be(SimpleBuilderSettings.Instance.DatabaseParameterPrefix + parameterName);
-        parameters.Get<object?>(parameterName).Should().Be(argument);
+        result.Should().Be("@p0");
+        parameters.ParameterNames.Should().HaveCount(1);
+        parameters.Get<object?>("p0").Should().Be(argument);
     }
 
     [Theory]
@@ -114,7 +124,6 @@ public class SqlFormatterTests
         //Arrange
         var parameterInfo = new SimpleParameterInfo(value);
         var parameters = new DynamicParameters();
-        var parameterName = $"{SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate}0";
 
         var sut = CreateSqlFormatter(parameters);
 
@@ -122,18 +131,17 @@ public class SqlFormatterTests
         var result = sut.Format(null, parameterInfo, sut);
 
         //Assert
-        result.Should().Be(SimpleBuilderSettings.Instance.DatabaseParameterPrefix + parameterName);
-        parameters.Get<object?>(parameterName).Should().Be(parameterInfo.Value);
+        result.Should().Be("@p0");
+        parameters.ParameterNames.Should().HaveCount(1);
+        parameters.Get<object?>("p0").Should().Be(parameterInfo.Value);
     }
 
     [Fact]
-    public void Format_FormatFormattableStringAndReuseParameter_ReturnsString()
+    public void Format_FormatsFormattableStringAndReuseParameters_ReturnsString()
     {
         //Arrange
         var model = new { Id = 10, ProductName = "Product", Price = 10.2.DefineParam(DbType.Double), IsActive = true, SecondName = default(string) };
-        const int expectedParameterCount = 6;
         var parameters = new DynamicParameters();
-        var parameterNamePrefix = SimpleBuilderSettings.Instance.DatabaseParameterPrefix + SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate;
 
         FormattableString formattableString = $@"
             INSERT INTO TABLE
@@ -141,11 +149,11 @@ public class SqlFormatterTests
             INSERT INTO TABLE
             VALUES ({model.Id}, {model.ProductName}, {model.Price}, {model.IsActive}, {model.SecondName})";
 
-        var expectedResult = $@"
+        const string expectedResult = @"
             INSERT INTO TABLE
-            VALUES ({parameterNamePrefix}0, {parameterNamePrefix}1, {parameterNamePrefix}2, {parameterNamePrefix}3, {parameterNamePrefix}4)
+            VALUES (@p0, @p1, @p2, @p3, @p4)
             INSERT INTO TABLE
-            VALUES ({parameterNamePrefix}0, {parameterNamePrefix}1, {parameterNamePrefix}2, {parameterNamePrefix}3, {parameterNamePrefix}5)";
+            VALUES (@p0, @p1, @p2, @p3, @p5)";
 
         var sut = CreateSqlFormatter(parameters, true);
 
@@ -154,13 +162,13 @@ public class SqlFormatterTests
 
         //Assert
         result.Should().Be(expectedResult);
-        parameters.ParameterNames.Should().HaveCount(expectedParameterCount);
-        parameters.Get<int>($"{parameterNamePrefix}0").Should().Be(model.Id);
-        parameters.Get<string>($"{parameterNamePrefix}1").Should().Be(model.ProductName);
-        parameters.Get<double>($"{parameterNamePrefix}2").Should().Be(model.Price.Value.As<double>());
-        parameters.Get<bool>($"{parameterNamePrefix}3").Should().Be(model.IsActive);
-        parameters.Get<string?>($"{parameterNamePrefix}4").Should().Be(model.SecondName);
-        parameters.Get<string?>($"{parameterNamePrefix}5").Should().Be(model.SecondName);
+        parameters.ParameterNames.Should().HaveCount(6);
+        parameters.Get<int>("p0").Should().Be(model.Id);
+        parameters.Get<string>("p1").Should().Be(model.ProductName);
+        parameters.Get<double>("p2").Should().Be(model.Price.Value.As<double>());
+        parameters.Get<bool>("p3").Should().Be(model.IsActive);
+        parameters.Get<string?>("p4").Should().Be(model.SecondName);
+        parameters.Get<string?>("p5").Should().Be(model.SecondName);
     }
 
     private static SqlFormatter CreateSqlFormatter(DynamicParameters? parameters = null, bool reuseParameters = false)

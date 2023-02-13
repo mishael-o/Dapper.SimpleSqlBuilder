@@ -6,7 +6,7 @@ public class SimpleBuilderOptionsTests
     [InlineAutoData("")]
     [InlineAutoData(null)]
     [InlineAutoData("   ")]
-    public void Set_DatabaseParameterNameTemplateIsNullOrWhiteSpace_ThrowsArgumentException(string value, [NoAutoProperties] SimpleBuilderOptions sut)
+    public void DatabaseParameterNameTemplate_SetValueIsNullOrWhiteSpace_ThrowsArgumentException(string value, [NoAutoProperties] SimpleBuilderOptions sut)
     {
         //Act
         var act = () => sut.DatabaseParameterNameTemplate = value;
@@ -21,7 +21,7 @@ public class SimpleBuilderOptionsTests
     [InlineAutoData("")]
     [InlineAutoData(null)]
     [InlineAutoData("   ")]
-    public void Set_DatabaseParameterPrefixIsNullOrWhiteSpace_ThrowsArgumentException(string value, [NoAutoProperties] SimpleBuilderOptions sut)
+    public void DatabaseParameterPrefix_SetValueIsNullOrWhiteSpace_ThrowsArgumentException(string value, [NoAutoProperties] SimpleBuilderOptions sut)
     {
         //Act
         var act = () => sut.DatabaseParameterPrefix = value;
@@ -34,16 +34,23 @@ public class SimpleBuilderOptionsTests
 
     [Theory]
     [AutoData]
-    public void SimpleBuilderOptions_SetAllProperties_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, [NoAutoProperties] SimpleBuilderOptions sut)
+    public void SimpleBuilderOptions_SetAllProperties_ReturnsVoid(
+        string parameterNameTemplate,
+        string parameterPrefix,
+        bool reuseParameters,
+        bool useLowerCaseClauses,
+        [NoAutoProperties] SimpleBuilderOptions sut)
     {
         //Act
         sut.DatabaseParameterNameTemplate = parameterNameTemplate;
         sut.DatabaseParameterPrefix = parameterPrefix;
         sut.ReuseParameters = reuseParameters;
+        sut.UseLowerCaseClauses = useLowerCaseClauses;
 
         //Assert
         sut.DatabaseParameterNameTemplate.Should().Be(parameterNameTemplate);
         sut.DatabaseParameterPrefix.Should().Be(parameterPrefix);
         sut.ReuseParameters.Should().Be(reuseParameters);
+        sut.UseLowerCaseClauses.Should().Be(useLowerCaseClauses);
     }
 }

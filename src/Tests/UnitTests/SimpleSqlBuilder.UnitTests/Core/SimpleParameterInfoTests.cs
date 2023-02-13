@@ -6,7 +6,7 @@ public class SimpleParameterInfoTests
 {
     [Theory]
     [AutoData]
-    public void Constructor_SetPropetiesWithNullValue_ReturnsVoid(DbType dbType, int size, byte precision, byte scale)
+    public void Constructor_InitialisesSimpleParameterInfo_ReturnsSimpleParameterInfo(DbType dbType, int size, byte precision, byte scale)
     {
         //Act
         var sut = new SimpleParameterInfo(null, dbType, size, precision, scale);
@@ -26,7 +26,7 @@ public class SimpleParameterInfoTests
 
     [Theory]
     [AutoData]
-    public void Constructor_SetPropeties_ReturnsVoid(string name, object value, DbType dbType, ParameterDirection direction, int size, byte precision, byte scale)
+    public void InternalConstructor_InitialisesSimpleParameterInfo_ReturnsSimpleParameterInfo(string name, object value, DbType dbType, ParameterDirection direction, int size, byte precision, byte scale)
     {
         //Act
         var sut = new SimpleParameterInfo(name, value, dbType, direction, size, precision, scale);
@@ -46,7 +46,7 @@ public class SimpleParameterInfoTests
 
     [Theory]
     [AutoData]
-    public void SetName_NameSet_ReturnsVoid(string name, SimpleParameterInfo sut)
+    public void SetName_SetsName_ReturnsVoid(string name, SimpleParameterInfo sut)
     {
         //Act
         sut.SetName(name);
@@ -57,7 +57,7 @@ public class SimpleParameterInfoTests
 
     [Theory]
     [AutoData]
-    public void SetName_NameCannotBeChanged_ThrowsInvalidOperationException(string name, SimpleParameterInfo sut)
+    public void SetName_NameCannotBeChangedIfAlreadySet_ThrowsInvalidOperationException(string name, SimpleParameterInfo sut)
     {
         //Arrange
         sut.SetName(name);

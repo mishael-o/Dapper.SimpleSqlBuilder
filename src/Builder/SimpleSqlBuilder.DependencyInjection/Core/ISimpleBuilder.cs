@@ -1,16 +1,27 @@
-﻿namespace Dapper.SimpleSqlBuilder.DependencyInjection;
+﻿using Dapper.SimpleSqlBuilder.FluentBuilder;
+
+namespace Dapper.SimpleSqlBuilder.DependencyInjection;
 
 /// <summary>
-/// An interface that defines the simple builder type or contract.
+/// An interface that defines the simple builder factory type.
 /// </summary>
 public interface ISimpleBuilder
 {
     /// <summary>
-    /// A method to create a builder.
+    /// A method to create a builder instance.
     /// </summary>
-    /// <param name="formattable">The <see cref="FormattableString">formattable string</see>.</param>
-    /// <param name="parameterPrefix">The parameter prefix to override the <see cref="SimpleBuilderSettings.DatabaseParameterPrefix">default value</see>.</param>
-    /// <param name="reuseParameters">The boolean value to override the <see cref="SimpleBuilderSettings.ReuseParameters"> default value</see>/>.</param>
-    /// <returns>Returns a <see cref="SimpleBuilderBase"/>.</returns>
-    SimpleBuilderBase Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null);
+    /// <param name="formattable">The <see cref="FormattableString"/>.</param>
+    /// <param name="parameterPrefix">The value to override the <see cref="SimpleBuilderOptions.DatabaseParameterPrefix"/> value.</param>
+    /// <param name="reuseParameters">The value to override the <see cref="SimpleBuilderOptions.ReuseParameters"/> value.</param>
+    /// <returns>The <see cref="Builder">builder</see> instance.</returns>
+    Builder Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null);
+
+    /// <summary>
+    /// A method to create a fluent builder instance.
+    /// </summary>
+    /// <param name="parameterPrefix">The value to override the <see cref="SimpleBuilderOptions.DatabaseParameterPrefix"/> value.</param>
+    /// <param name="reuseParameters">The value to override the <see cref="SimpleBuilderOptions.ReuseParameters"/> value.</param>
+    /// <param name="useLowerCaseClauses">The value to override the <see cref="SimpleBuilderOptions.UseLowerCaseClauses"/> value.</param>
+    /// <returns>The <see cref="ISimpleFluentBuilderEntry">fluent builder</see> instance.</returns>
+    ISimpleFluentBuilderEntry CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null);
 }

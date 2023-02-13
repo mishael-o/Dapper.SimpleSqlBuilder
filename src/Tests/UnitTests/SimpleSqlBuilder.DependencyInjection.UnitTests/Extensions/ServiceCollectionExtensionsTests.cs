@@ -7,7 +7,7 @@ namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Extensions;
 public class ServiceCollectionExtensionsTests
 {
     [Fact]
-    public void AddSimpleSqlBuilder_ServiceCollectionIsNull_ThrowsArgumentException()
+    public void AddSimpleSqlBuilder_ServiceCollectionIsNull_ThrowsArgumentNullException()
     {
         //Arrange
         IServiceCollection sut = null!;
@@ -22,7 +22,7 @@ public class ServiceCollectionExtensionsTests
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_DefaultConfiguration_ReturnsIServiceCollection(ServiceCollection sut)
+    public void AddSimpleSqlBuilder_AddsSimpeSqlBuilderConfigurations_ReturnsIServiceCollection(ServiceCollection sut)
     {
         //Act
         sut.AddSimpleSqlBuilder();
@@ -31,19 +31,20 @@ public class ServiceCollectionExtensionsTests
         var configuredOptions = provider.GetService<IOptions<SimpleBuilderOptions>>();
 
         //Assert
-        serviceDescriptor.ImplementationType.Should().Be(typeof(InternalSimpleBuilder));
+        serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
         serviceDescriptor.Lifetime.Should().Be(ServiceLifetime.Singleton);
         configuredOptions!.Value.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
         configuredOptions.Value.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
         configuredOptions.Value.ReuseParameters.Should().Be(SimpleBuilderSettings.DefaultReuseParameters);
+        configuredOptions.Value.UseLowerCaseClauses.Should().Be(SimpleBuilderSettings.DefaultUseLowerCaseClauses);
     }
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_CustomConfiguration_ReturnsIServiceCollection(ServiceLifetime serviceLifetime, ServiceCollection sut)
+    public void AddSimpleSqlBuilder_AddsSimpleSqlBuilderWithCustomConfigurations_ReturnsIServiceCollection(ServiceLifetime serviceLifetime, ServiceCollection sut)
     {
         //Arrange
-        var options = new SimpleBuilderOptions { DatabaseParameterNameTemplate = "myParam", DatabaseParameterPrefix = ":", ReuseParameters = true };
+        var options = new SimpleBuilderOptions { DatabaseParameterNameTemplate = "myParam", DatabaseParameterPrefix = ":", ReuseParameters = true, UseLowerCaseClauses = true };
 
         //Act
         sut.AddSimpleSqlBuilder(serviceLifetime, configure =>
@@ -51,6 +52,7 @@ public class ServiceCollectionExtensionsTests
             configure.DatabaseParameterNameTemplate = options.DatabaseParameterNameTemplate;
             configure.DatabaseParameterPrefix = options.DatabaseParameterPrefix;
             configure.ReuseParameters = options.ReuseParameters;
+            configure.UseLowerCaseClauses = options.UseLowerCaseClauses;
         });
 
         var provider = sut.BuildServiceProvider();
@@ -58,13 +60,15 @@ public class ServiceCollectionExtensionsTests
         var configuredOptions = provider.GetRequiredService<IOptions<SimpleBuilderOptions>>();
 
         //Assert
-        serviceDescriptor.ImplementationType.Should().Be(typeof(InternalSimpleBuilder));
+        serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
         serviceDescriptor.Lifetime.Should().Be(serviceLifetime);
         configuredOptions.Value.DatabaseParameterNameTemplate.Should().Be(options.DatabaseParameterNameTemplate);
         configuredOptions.Value.DatabaseParameterPrefix.Should().Be(options.DatabaseParameterPrefix);
         configuredOptions.Value.ReuseParameters.Should().Be(options.ReuseParameters);
+        configuredOptions.Value.UseLowerCaseClauses.Should().Be(options.UseLowerCaseClauses);
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(options.DatabaseParameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(options.DatabaseParameterPrefix);
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(options.ReuseParameters);
+        SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(options.UseLowerCaseClauses);
     }
 }

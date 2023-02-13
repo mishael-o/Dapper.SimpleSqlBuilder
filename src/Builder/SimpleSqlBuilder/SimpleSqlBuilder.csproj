@@ -2,7 +2,7 @@
     
     <PropertyGroup>
         <TargetFrameworks>net461;netstandard2.0;net6.0</TargetFrameworks>
-        <Description>A simple sql builder for Dapper using string interpolation for building dynamic sql.</Description>
+        <Description>A simple SQL builder for Dapper using string interpolation and fluent API for building dynamic SQL.</Description>
         <RootNamespace>Dapper.SimpleSqlBuilder</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder</AssemblyName>
         <Title>Dapper SimpleSqlBuilder</Title>
@@ -28,6 +28,7 @@
         <InternalsVisibleTo Include="Dapper.SimpleSqlBuilder.UnitTests" />
         <InternalsVisibleTo Include="Dapper.SimpleSqlBuilder.DependencyInjection" />
         <InternalsVisibleTo Include="Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests" />
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 
 </Project>

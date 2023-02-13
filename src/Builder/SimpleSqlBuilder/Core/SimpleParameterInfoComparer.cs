@@ -6,6 +6,16 @@ namespace Dapper.SimpleSqlBuilder;
 
 internal sealed class SimpleParameterInfoComparer : IEqualityComparer<SimpleParameterInfo>
 {
+    private static readonly Lazy<SimpleParameterInfoComparer> Lazy
+        = new(() => new SimpleParameterInfoComparer());
+
+    private SimpleParameterInfoComparer()
+    {
+    }
+
+    public static SimpleParameterInfoComparer Instance
+        => Lazy.Value;
+
     public bool Equals(SimpleParameterInfo? x, SimpleParameterInfo? y)
     {
         if (x is null || y is null || !x.HasValue || !y.HasValue)

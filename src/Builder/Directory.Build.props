@@ -5,14 +5,14 @@
     <PropertyGroup Label="PackagePropertyGroup">
         <Version>1.0.0</Version>
         <Authors>Mishael Ogochukwu</Authors>
-        <Copyright>Copyright (c) 2022 Mishael Ogochukwu</Copyright>
+        <Copyright>Copyright (c) 2023 Mishael Ogochukwu</Copyright>
         <Company>Mishael Ogochukwu</Company>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageId>$(AssemblyName)</PackageId>
         <PackageReleaseNotes>https://github.com/mishael-o/Dapper.SimpleSqlBuilder/releases</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</PackageProjectUrl>
-        <PackageTags>dapper;dapper-simple-sql-builder;simple-sql-builder;dapper simple sql builder;simple sql builder</PackageTags>
+        <PackageTags>dapper;sql;sql-builder;dapper-sql-builder;simple-sql-builder;dapper-simple-sql-builder</PackageTags>
         <RepositoryUrl>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</RepositoryUrl>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>

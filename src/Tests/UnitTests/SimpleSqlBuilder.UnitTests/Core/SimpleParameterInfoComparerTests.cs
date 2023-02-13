@@ -9,7 +9,7 @@ public class SimpleParameterInfoComparerTests
     public void Equals_ParametersAreNotEqual_ReturnsFalse(SimpleParameterInfo? param1, SimpleParameterInfo? param2)
     {
         //Arrange
-        var sut = new SimpleParameterInfoComparer();
+        var sut = SimpleParameterInfoComparer.Instance;
 
         //Act
         var result = sut.Equals(param1, param2);
@@ -20,10 +20,10 @@ public class SimpleParameterInfoComparerTests
 
     [Theory]
     [MemberData(nameof(SimpleParameterInfoComparerTestCases.Equals_ParametersAreEqual_TestCases), MemberType = typeof(SimpleParameterInfoComparerTestCases))]
-    public void Equals_ParametersAreEqual_ReturnsFalse(SimpleParameterInfo? param1, SimpleParameterInfo? param2)
+    public void Equals_ParametersAreEqual_ReturnsTrue(SimpleParameterInfo? param1, SimpleParameterInfo? param2)
     {
         //Arrange
-        var sut = new SimpleParameterInfoComparer();
+        var sut = SimpleParameterInfoComparer.Instance;
 
         //Act
         var result = sut.Equals(param1, param2);
@@ -34,10 +34,10 @@ public class SimpleParameterInfoComparerTests
 
     [Theory]
     [AutoData]
-    public void GetHashCode_GenerateHashCode_ReturnsInt(SimpleParameterInfo parameterInfo)
+    public void GetHashCode_GetsHashCode_ReturnsInteger(SimpleParameterInfo parameterInfo)
     {
         //Arrange
-        var sut = new SimpleParameterInfoComparer();
+        var sut = SimpleParameterInfoComparer.Instance;
         var expectedHashCode = HashCode.Combine(parameterInfo.Value, parameterInfo.Type, parameterInfo.DbType, parameterInfo.Direction, parameterInfo.Size, parameterInfo.Precision, parameterInfo.Scale);
 
         //Act
@@ -47,14 +47,14 @@ public class SimpleParameterInfoComparerTests
         hashCode.Should().Be(expectedHashCode);
     }
 
-    internal static class SimpleParameterInfoComparerTestCases
+    private static class SimpleParameterInfoComparerTestCases
     {
         public static IEnumerable<object?[]> Equals_ParametersAreNotEqual_TestCases()
         {
-            yield return new SimpleParameterInfo?[] { null, null };
-            yield return new SimpleParameterInfo?[] { new(null), null };
-            yield return new SimpleParameterInfo?[] { null, new(null) };
-            yield return new SimpleParameterInfo?[] { new(null), new(null) };
+            yield return new object?[] { null, null };
+            yield return new object?[] { new SimpleParameterInfo(null), null };
+            yield return new object?[] { null, new SimpleParameterInfo(null) };
+            yield return new object?[] { new SimpleParameterInfo(null), new SimpleParameterInfo(null) };
         }
 
         public static IEnumerable<object[]> Equals_ParametersAreEqual_TestCases()
@@ -77,12 +77,12 @@ public class SimpleParameterInfoComparerTests
 
             for (int i = 0; i < values.Length; i++)
             {
-                yield return new SimpleParameterInfo[] { new(values[i].Value), new(values[i].Value) };
-                yield return new SimpleParameterInfo[] { new(values[i].Value, values[i].DbType), new(values[i].Value, values[i].DbType) };
-                yield return new SimpleParameterInfo[] { new(values[i].Value, values[i].DbType, size), new(values[i].Value, values[i].DbType, size) };
-                yield return new SimpleParameterInfo[] { new(values[i].Value, values[i].DbType, size, precision), new(values[i].Value, values[i].DbType, size, precision) };
-                yield return new SimpleParameterInfo[] { new(values[i].Value, values[i].DbType, size, precision, scale), new(values[i].Value, values[i].DbType, size, precision, scale) };
-                yield return new SimpleParameterInfo[] { new(null, values[i].Value, values[i].DbType, ParameterDirection.Input, size, precision, scale), new(null, values[i].Value, values[i].DbType, ParameterDirection.Input, size, precision, scale) };
+                yield return new object[] { new SimpleParameterInfo(values[i].Value), new SimpleParameterInfo(values[i].Value) };
+                yield return new object[] { new SimpleParameterInfo(values[i].Value, values[i].DbType), new SimpleParameterInfo(values[i].Value, values[i].DbType) };
+                yield return new object[] { new SimpleParameterInfo(values[i].Value, values[i].DbType, size), new SimpleParameterInfo(values[i].Value, values[i].DbType, size) };
+                yield return new object[] { new SimpleParameterInfo(values[i].Value, values[i].DbType, size, precision), new SimpleParameterInfo(values[i].Value, values[i].DbType, size, precision) };
+                yield return new object[] { new SimpleParameterInfo(values[i].Value, values[i].DbType, size, precision, scale), new SimpleParameterInfo(values[i].Value, values[i].DbType, size, precision, scale) };
+                yield return new object[] { new SimpleParameterInfo(null, values[i].Value, values[i].DbType, ParameterDirection.Input, size, precision, scale), new SimpleParameterInfo(null, values[i].Value, values[i].DbType, ParameterDirection.Input, size, precision, scale) };
             }
         }
     }

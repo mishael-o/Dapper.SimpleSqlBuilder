@@ -1,11 +1,12 @@
 ﻿using System.Data;
-using System.Data.Common;
 using Dapper.SimpleSqlBuilder.Extensions;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
+using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.MSSql;
 
-public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
+[Collection(nameof(MSSqlTestsCollection))]
+public class MSSqlTests : IAsyncLifetime
 {
     private readonly MSSqlTestsFixture mssqlTestsFixture;
 
@@ -15,7 +16,7 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
     }
 
     [Fact]
-    public async Task CreateTable_ValidateTableExists()
+    public async Task Builder_CreatesTable_ReturnsBoolean()
     {
         //Arrange
         const string tableName = "MyTable";
@@ -44,20 +45,21 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
     }
 
     [Fact]
-    public async Task InsertDataInTable_ValidateInsert()
+    public async Task Builder_InsertsProducts_ReturnsInteger()
     {
         //Arrange
-        var products = GetBaseProductComposer()
+        const string tag = "insert";
+        var products = ProductHelpers.GetProductFixture(tag: tag)
             .CreateMany()
-            .ToArray();
+            .AsArray();
 
         var builder = SimpleBuilder.Create(reuseParameters: true);
 
-        foreach (var product in products)
+        for (var i = 0; i < products.Length; i++)
         {
             builder.AppendNewLine($@"
-                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.CreatedDate):raw})
-                VALUES ({product.Id}, {product.TypeId.DefineParam(DbType.Guid)}, {product.CreatedDate});");
+                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
+                VALUES ({products[i].Id}, {products[i].TypeId.DefineParam(DbType.Guid)}, {products[i].Tag}, {products[i].CreatedDate});");
         }
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
@@ -71,7 +73,7 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
     }
 
     [Fact]
-    public async Task GetDataInTable_ValidateSelect()
+    public async Task Builder_GetsProductsWithSelectTag_ReturnsIEnumerableOfProduct()
     {
         //Arrange
         const string tag = "select";
@@ -79,7 +81,11 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
         using var connection = mssqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await GenerateSeedDataAsync(connection);
+        var products = await ProductHelpers.GenerateSeedProductsAsync(
+            connection,
+            productTypeId: mssqlTestsFixture.SeedProductTypes[0].Id,
+            tag: tag,
+            productDescription: mssqlTestsFixture.SeedProductTypes[0].Description);
 
         FormattableString subQuery = $@"
             SELECT {nameof(ProductType.Description):raw}
@@ -92,47 +98,26 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
             WHERE {nameof(Product.Tag):raw} = {tag}");
 
         //Act
-        var productsInDb = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
+        var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         //Assert
-        productsInDb.Should().BeEquivalentTo(products);
-
-        async Task<Product[]> GenerateSeedDataAsync(DbConnection connection)
-        {
-            var products = GetBaseProductComposer()
-                .With(x => x.Description, mssqlTestsFixture.ProductTypeInDB.Description)
-                .With(x => x.Tag, tag)
-                .CreateMany()
-                .ToArray();
-
-            var builder = SimpleBuilder.Create(reuseParameters: true);
-
-            for (var i = 0; i < products.Length; i++)
-            {
-                builder.AppendNewLine(
-                   $@"INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
-                   VALUES ({products[i].Id}, {products[i].TypeId}, {products[i].Tag}, {products[i].CreatedDate.DefineParam(DbType.Date)});");
-            }
-
-            await connection.ExecuteAsync(builder.Sql, builder.Parameters);
-
-            return products;
-        }
+        result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
-    public async Task UpdateDataInTable_ValidateUpdate()
+    public async Task Builder_UpdatesProductsWithUpdateTag_ReturnsInteger()
     {
         //Arrange
+        const int count = 3;
         const string tag = "update";
         var createdDate = DateTime.Now.AddDays(100).Date;
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await GenerateSeedDataAsync(connection);
+        await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
-        var updateBuilder = SimpleBuilder
+        var builder = SimpleBuilder
             .Create($"UPDATE {nameof(Product):raw}")
             .AppendNewLine($"SET {nameof(Product.CreatedDate):raw} = {createdDate}")
             .AppendNewLine($"WHERE {nameof(Product.Tag):raw} = {tag}");
@@ -142,37 +127,26 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
             .AppendNewLine($"WHERE {nameof(Product.Tag):raw} = {tag}");
 
         //Act
-        var result = await connection.ExecuteAsync(updateBuilder.Sql, updateBuilder.Parameters);
-        var expectedCreatedDate = await connection.ExecuteScalarAsync<DateTime>(getUpdatedDateBuilder.Sql, getUpdatedDateBuilder.Parameters);
+        var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         //Assert
-        result.Should().Be(1);
-        expectedCreatedDate.Should().Be(createdDate);
+        result.Should().Be(count);
 
-        async Task GenerateSeedDataAsync(DbConnection connection)
-        {
-            var product = GetBaseProductComposer()
-                .With(x => x.Tag, tag)
-                .Create();
-
-            var builder = SimpleBuilder.Create($@"
-                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
-                VALUES ({product.Id}, {product.TypeId}, {product.Tag}, {product.CreatedDate});");
-
-            await connection.ExecuteAsync(builder.Sql, builder.Parameters);
-        }
+        var expectedCreatedDates = await connection.QueryAsync<DateTime>(getUpdatedDateBuilder.Sql, getUpdatedDateBuilder.Parameters);
+        expectedCreatedDates.Should().AllBeEquivalentTo(createdDate);
     }
 
     [Fact]
-    public async Task DeleteDataInTable_ValidateDelete()
+    public async Task Builder_DeletesProductsWithDeleteTag_ReturnsInteger()
     {
         //Arrange
+        const int count = 3;
         const string tag = "delete";
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await GenerateSeedDataAsync(connection);
+        await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var builder = SimpleBuilder
             .Create($"DELETE FROM {nameof(Product):raw}")
@@ -187,35 +161,23 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
 
         //Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
-        var dataExists = await connection.ExecuteScalarAsync<bool>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);
 
         //Assert
-        result.Should().Be(1);
+        result.Should().Be(count);
+
+        var dataExists = await connection.ExecuteScalarAsync<bool>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);
         dataExists.Should().BeFalse();
-
-        async Task GenerateSeedDataAsync(DbConnection connection)
-        {
-            var product = GetBaseProductComposer()
-                .With(x => x.Tag, tag)
-                .Create();
-
-            var builder = SimpleBuilder.Create($@"
-                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
-                VALUES ({product.Id}, {product.TypeId}, {product.Tag}, {product.CreatedDate});");
-
-            await connection.ExecuteAsync(builder.Sql, builder.Parameters);
-        }
     }
 
     [Fact]
-    public async Task ExecuteStoredProcedure_ValidateResult()
+    public async Task Builder_ExecutesStoredProcedure_ReturnsTask()
     {
         //Arrange
         const string resultParamName = "Result";
         const string userIdParamName = "UserId";
 
         var builder = SimpleBuilder.Create($"{mssqlTestsFixture.StoredProcName:raw}")
-            .AddParameter(nameof(Product.TypeId), mssqlTestsFixture.ProductTypeInDB.Id, dbType: DbType.Guid)
+            .AddParameter(nameof(Product.TypeId), mssqlTestsFixture.SeedProductTypes[0].Id, dbType: DbType.Guid)
             .AddParameter(userIdParamName, dbType: DbType.Guid, direction: ParameterDirection.Output)
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
@@ -230,11 +192,9 @@ public class MSSqlTests : IClassFixture<MSSqlTestsFixture>
         builder.GetValue<Guid>(userIdParamName).Should().NotBe(default(Guid));
     }
 
-    private AutoFixture.Dsl.IPostprocessComposer<Product> GetBaseProductComposer()
-    {
-        return new Fixture()
-            .Build<Product>()
-            .With(x => x.TypeId, mssqlTestsFixture.ProductTypeInDB.Id)
-            .With(x => x.CreatedDate, DateTime.Now.Date);
-    }
+    public Task InitializeAsync()
+        => Task.CompletedTask;
+
+    public Task DisposeAsync()
+        => mssqlTestsFixture.ResetDatabaseAsync();
 }

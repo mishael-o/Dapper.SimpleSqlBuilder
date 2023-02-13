@@ -3,7 +3,7 @@
 namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// An interface that defines the simple parameter info type or contract.
+/// An interface that defines the simple parameter info type.
 /// </summary>
 public interface ISimpleParameterInfo
 {
