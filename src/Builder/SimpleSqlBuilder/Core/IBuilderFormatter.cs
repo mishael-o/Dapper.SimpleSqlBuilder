@@ -1,6 +1,6 @@
 ﻿namespace Dapper.SimpleSqlBuilder;
 
-internal interface IBuilderFormatter : ISqlBuilder
+internal interface IBuilderFormatter
 {
     void AppendControl(ControlType controlType);
 
