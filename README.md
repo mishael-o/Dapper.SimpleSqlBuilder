@@ -211,7 +211,8 @@ You can perform UPDATE operations with the builder as seen in the example below.
 
 ```c#
 var builder = SimpleBuilder.Create($@"
-UPDATE User SET Role = {user.Role}
+UPDATE User 
+SET Role = {user.Role}
 WHERE Id = {user.Id}");
 ```
 
