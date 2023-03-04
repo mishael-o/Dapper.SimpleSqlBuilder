@@ -18,7 +18,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
     [Fact]
     public async Task Insert_AddsProducts_ReturnsInteger()
     {
-        //Arrange
+        // Arrange
         const string tag = "insert";
         var product = ProductHelpers
             .GetProductFixture(tag: tag)
@@ -41,10 +41,10 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        //Act
+        // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         var insertCount = await connection.ExecuteScalarAsync<int>(insertCountBuilder.Sql, insertCountBuilder.Parameters);
         result.Should().Be(1).And.Be(insertCount);
     }
@@ -52,7 +52,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
     [Fact]
     public async Task Select_GetsProductsWithSelectTags_ReturnsIEnumerableOfProduct()
     {
-        //Arrange
+        // Arrange
         const string tag = "select";
         const string tag2 = "select2";
 
@@ -79,17 +79,17 @@ public class PostgreSqlFluentTests : IAsyncLifetime
             .Where($"{nameof(Product.Tag):raw} = {tag}")
             .OrWhere($"{nameof(Product.Tag):raw} = {tag2}");
 
-        //Act
+        // Act
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
     public async Task Select_GetsProductsByInnerJoinProductAndProductType_ReturnsIEnumerableOfProduct()
     {
-        //Arrange
+        // Arrange
         const string tag = "selectInnerJoin";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
@@ -106,17 +106,17 @@ public class PostgreSqlFluentTests : IAsyncLifetime
             .Where($"p.{nameof(Product.Tag):raw} = {tag}")
             .Where($"p.{nameof(Product.TypeId):raw} = {postgreSqlTestsFixture.SeedProductTypes[0].Id.DefineParam(DbType.Guid)}");
 
-        //Act
+        // Act
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
     public async Task Select_GetsProductsByLeftJoinProductAndProductType_ReturnsIEnumerableOfProduct()
     {
-        //Arrange
+        // Arrange
         const string tag = "selectLeftJoin";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
@@ -133,17 +133,17 @@ public class PostgreSqlFluentTests : IAsyncLifetime
             .LeftJoin($"{nameof(ProductType):raw} pt ON (p.{nameof(Product.TypeId):raw} = pt.{nameof(Product.Id):raw})")
             .WhereFilter($"p.{nameof(Product.Tag):raw} = {tag}");
 
-        //Act
+        // Act
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
     public async Task Select_GetsProductsByRightJoinProductTypeAndProduct_ReturnsIEnumerableOfProduct()
     {
-        //Arrange
+        // Arrange
         const int count = 3;
         const string tag = "selectRightJoin";
         const string tag2 = $"{tag}2";
@@ -164,17 +164,17 @@ public class PostgreSqlFluentTests : IAsyncLifetime
             .RightJoin($"{nameof(Product):raw} p ON (p.{nameof(Product.TypeId):raw} = pt.{nameof(Product.Id):raw})")
             .WhereFilter().WithFilter($"p.{nameof(Product.Tag):raw} = {tag}").OrWhereFilter($"p.{nameof(Product.Tag):raw} = {tag2}");
 
-        //Act
+        // Act
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
     public async Task Update_UpdatesProductWithUpdateTag_ReturnsInteger()
     {
-        //Arrange
+        // Arrange
         const int count = 1;
         const string tag = "update";
         var createdDate = DateTime.Now.AddDays(100).Date;
@@ -195,10 +195,10 @@ public class PostgreSqlFluentTests : IAsyncLifetime
             .From($"{nameof(Product):raw}")
             .Where($"{nameof(Product.Id):raw} = {product.Id}");
 
-        //Act
+        // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().Be(count);
 
         var updatedProduct = await connection.QuerySingleAsync<Product>(getUpdatedProduct.Sql, getUpdatedProduct.Parameters);
@@ -209,7 +209,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
     [Fact]
     public async Task Delete_DeletesProductsWithDeleteTag_ReturnsInteger()
     {
-        //Arrange
+        // Arrange
         const int count = 3;
         const string tag = "delete";
 
@@ -227,10 +227,10 @@ public class PostgreSqlFluentTests : IAsyncLifetime
             .From($"{nameof(Product):raw}")
             .Where($"{nameof(Product.Tag):raw} = {tag}");
 
-        //Act
+        // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().Be(count);
 
         var countResult = await connection.ExecuteScalarAsync<int>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);

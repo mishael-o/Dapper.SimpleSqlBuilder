@@ -8,13 +8,13 @@ public class SimpleBuilderOptionsTests
     [InlineAutoData("   ")]
     public void DatabaseParameterNameTemplate_SetValueIsNullOrWhiteSpace_ThrowsArgumentException(string value, [NoAutoProperties] SimpleBuilderOptions sut)
     {
-        //Act
+        // Act
         var act = () => sut.DatabaseParameterNameTemplate = value;
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(value)}' cannot be null or whitespace.*")
-            .WithParameterName(nameof(value));
+            .WithMessage($"'{nameof(SimpleBuilderOptions.DatabaseParameterNameTemplate)}' cannot be null, empty, or whitespace.*")
+            .WithParameterName(nameof(SimpleBuilderOptions.DatabaseParameterNameTemplate));
     }
 
     [Theory]
@@ -23,13 +23,13 @@ public class SimpleBuilderOptionsTests
     [InlineAutoData("   ")]
     public void DatabaseParameterPrefix_SetValueIsNullOrWhiteSpace_ThrowsArgumentException(string value, [NoAutoProperties] SimpleBuilderOptions sut)
     {
-        //Act
+        // Act
         var act = () => sut.DatabaseParameterPrefix = value;
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(value)}' cannot be null or whitespace.*")
-            .WithParameterName(nameof(value));
+            .WithMessage($"'{nameof(SimpleBuilderOptions.DatabaseParameterPrefix)}' cannot be null, empty, or whitespace.*")
+            .WithParameterName(nameof(SimpleBuilderOptions.DatabaseParameterPrefix));
     }
 
     [Theory]
@@ -41,13 +41,13 @@ public class SimpleBuilderOptionsTests
         bool useLowerCaseClauses,
         [NoAutoProperties] SimpleBuilderOptions sut)
     {
-        //Act
+        // Act
         sut.DatabaseParameterNameTemplate = parameterNameTemplate;
         sut.DatabaseParameterPrefix = parameterPrefix;
         sut.ReuseParameters = reuseParameters;
         sut.UseLowerCaseClauses = useLowerCaseClauses;
 
-        //Assert
+        // Assert
         sut.DatabaseParameterNameTemplate.Should().Be(parameterNameTemplate);
         sut.DatabaseParameterPrefix.Should().Be(parameterPrefix);
         sut.ReuseParameters.Should().Be(reuseParameters);

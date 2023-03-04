@@ -18,7 +18,7 @@ public class PostgreSqlTests : IAsyncLifetime
     [Fact]
     public async Task Builder_CreatesTable_ReturnsBoolean()
     {
-        //Arrange
+        // Arrange
         const string tableName = "mytable";
 
         var builder = SimpleBuilder.Create($@"
@@ -33,17 +33,17 @@ public class PostgreSqlTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        //Act
+        // Act
         var result = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().BeTrue();
     }
 
     [Fact]
     public async Task Builder_InsertsProducts_ReturnsInteger()
     {
-        //Arrange
+        // Arrange
         const string tag = "insert";
         var products = ProductHelpers.GetProductFixture(tag: tag)
             .CreateMany()
@@ -61,17 +61,17 @@ public class PostgreSqlTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        //Act
+        // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().Be(products.Length);
     }
 
     [Fact]
     public async Task Builder_GetsProductsWithSelectTag_ReturnsIEnumerableOfProduct()
     {
-        //Arrange
+        // Arrange
         const string tag = "select";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
@@ -93,17 +93,17 @@ public class PostgreSqlTests : IAsyncLifetime
             FROM {nameof(Product):raw} x
             WHERE {nameof(Product.Tag):raw} = {tag}");
 
-        //Act
+        // Act
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
     public async Task Builder_UpdatesProductsWithUpdateTag_ReturnsInteger()
     {
-        //Arrange
+        // Arrange
         const int count = 3;
         const string tag = "update";
         var createdDate = DateTime.Now.AddDays(100).Date;
@@ -122,10 +122,10 @@ public class PostgreSqlTests : IAsyncLifetime
             .Create($"SELECT {nameof(Product.CreatedDate):raw} FROM {nameof(Product):raw}")
             .AppendNewLine($"WHERE {nameof(Product.Tag):raw} = {tag}");
 
-        //Act
+        // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().Be(count);
 
         var expectedCreatedDates = await connection.QueryAsync<DateTime>(getUpdatedDateBuilder.Sql, getUpdatedDateBuilder.Parameters);
@@ -135,7 +135,7 @@ public class PostgreSqlTests : IAsyncLifetime
     [Fact]
     public async Task Builder_DeletesProductsWithDeleteTag_ReturnsInteger()
     {
-        //Arrange
+        // Arrange
         const int count = 3;
         const string tag = "delete";
 
@@ -151,10 +151,10 @@ public class PostgreSqlTests : IAsyncLifetime
         var checkDataExistsBuilder = SimpleBuilder.Create($@"
             SELECT EXISTS (SELECT 1 FROM {nameof(Product):raw} WHERE {nameof(Product.Tag):raw} = {tag})");
 
-        //Act
+        // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().Be(count);
 
         var dataExists = await connection.ExecuteScalarAsync<bool>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);
@@ -164,7 +164,7 @@ public class PostgreSqlTests : IAsyncLifetime
     [Fact]
     public async Task Builder_ExecutesStoredProcedure_ReturnsTask()
     {
-        //Arrange
+        // Arrange
         const string resultParamName = "Result";
         const string userIdParamName = "UserId";
 
@@ -176,10 +176,10 @@ public class PostgreSqlTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        //Act
+        // Act
         await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         builder.GetValue<Guid>(userIdParamName).Should().NotBe(default(Guid));
         builder.GetValue<int>(resultParamName).Should().Be(1);
     }

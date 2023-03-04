@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Dapper.SimpleSqlBuilder.DependencyInjection;
 
@@ -12,40 +13,77 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="service">The <see cref="IServiceCollection"/> instance.</param>
     /// <param name="serviceLifetime">The <see cref="ServiceLifetime"/> for the <see cref="ISimpleBuilder"/>.</param>
-    /// <param name="configure">The action to configure the <see cref="SimpleBuilderOptions"/> for the Simple builder settings.</param>
     /// <returns>The <see cref="IServiceCollection"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws a <see cref="ArgumentNullException"/> when <paramref name="service"/> is <see langword="null"/>.</exception>
-    public static IServiceCollection AddSimpleSqlBuilder(this IServiceCollection service, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton, Action<SimpleBuilderOptions>? configure = null)
+    public static IServiceCollection AddSimpleSqlBuilder(this IServiceCollection service, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
+    {
+        return service
+            .AddSimpleSqlBuilder(SimpleBuilderOptions.ConfigurationSectionName, serviceLifetime);
+    }
+
+    /// <summary>
+    /// Adds services for the Simple SQL builder.
+    /// </summary>
+    /// <param name="service">The <see cref="IServiceCollection"/> instance.</param>
+    /// <param name="configure">The action to configure the <see cref="SimpleBuilderOptions"/>.</param>
+    /// <param name="serviceLifetime">The <see cref="ServiceLifetime"/> for the <see cref="ISimpleBuilder"/>.</param>
+    /// <returns>The <see cref="IServiceCollection"/>.</returns>
+    /// <exception cref="ArgumentNullException">Throws a <see cref="ArgumentNullException"/> when <paramref name="service"/> or <paramref name="configure"/> is <see langword="null"/>.</exception>
+    public static IServiceCollection AddSimpleSqlBuilder(this IServiceCollection service, Action<SimpleBuilderOptions> configure, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
     {
         if (service is null)
         {
             throw new ArgumentNullException(nameof(service));
         }
 
-        var serviceDescriptor = ServiceDescriptor.Describe(typeof(ISimpleBuilder), typeof(SimpleBuilderFactory), serviceLifetime);
-        service.Add(serviceDescriptor);
-        var optionsBuilder = service.AddOptions<SimpleBuilderOptions>();
-
         if (configure is null)
         {
-            return service;
+            throw new ArgumentNullException(nameof(configure));
         }
 
-        optionsBuilder.Configure(configure);
-        ConfigureStaticSimpleBuilderSettings(configure);
+        service
+            .AddSimpleSqlBuilderDependencies(serviceLifetime)
+            .AddOptions<SimpleBuilderOptions>()
+            .Configure(configure);
 
         return service;
     }
 
-    private static void ConfigureStaticSimpleBuilderSettings(Action<SimpleBuilderOptions> configure)
+    /// <summary>
+    /// Adds services for the Simple SQL builder.
+    /// </summary>
+    /// <param name="service">The <see cref="IServiceCollection"/> instance.</param>
+    /// <param name="configurationSectionPath">The name of the configuration section to bind to the <see cref="SimpleBuilderOptions"/>.</param>
+    /// <param name="serviceLifetime">The <see cref="ServiceLifetime"/> for the <see cref="ISimpleBuilder"/>.</param>
+    /// <returns>The <see cref="IServiceCollection"/>.</returns>
+    /// <exception cref="ArgumentNullException">
+    /// Throws a <see cref="ArgumentNullException"/> when <paramref name="service"/> or <paramref name="configurationSectionPath"/> is <see langword="null"/>, empty or whitespace.
+    /// </exception>
+    public static IServiceCollection AddSimpleSqlBuilder(this IServiceCollection service, string configurationSectionPath, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
     {
-        var options = new SimpleBuilderOptions();
-        configure(options);
+        if (service is null)
+        {
+            throw new ArgumentNullException(nameof(service));
+        }
 
-        SimpleBuilderSettings.Configure(
-            options.DatabaseParameterNameTemplate,
-            options.DatabaseParameterPrefix,
-            options.ReuseParameters,
-            options.UseLowerCaseClauses);
+        if (string.IsNullOrWhiteSpace(configurationSectionPath))
+        {
+            throw new ArgumentNullException(nameof(configurationSectionPath));
+        }
+
+        service
+            .AddSimpleSqlBuilderDependencies(serviceLifetime)
+            .AddOptions<SimpleBuilderOptions>()
+            .BindConfiguration(configurationSectionPath);
+
+        return service;
+    }
+
+    private static IServiceCollection AddSimpleSqlBuilderDependencies(this IServiceCollection services, ServiceLifetime serviceLifetime)
+    {
+        var serviceDescriptor = ServiceDescriptor.Describe(typeof(ISimpleBuilder), typeof(SimpleBuilderFactory), serviceLifetime);
+        services.TryAdd(serviceDescriptor);
+
+        return services;
     }
 }
