@@ -5,9 +5,9 @@ namespace Dapper.SimpleSqlBuilder.DependencyInjection;
 
 internal sealed class SimpleBuilderFactory : ISimpleBuilder
 {
-    private readonly IOptions<SimpleBuilderOptions> options;
+    private readonly IOptionsMonitor<SimpleBuilderOptions> options;
 
-    public SimpleBuilderFactory(IOptions<SimpleBuilderOptions> options)
+    public SimpleBuilderFactory(IOptionsMonitor<SimpleBuilderOptions> options)
     {
         this.options = options;
     }
@@ -16,24 +16,24 @@ internal sealed class SimpleBuilderFactory : ISimpleBuilder
     {
         if (string.IsNullOrWhiteSpace(parameterPrefix))
         {
-            parameterPrefix = options.Value.DatabaseParameterPrefix;
+            parameterPrefix = options.CurrentValue.DatabaseParameterPrefix;
         }
 
-        reuseParameters ??= options.Value.ReuseParameters;
+        reuseParameters ??= options.CurrentValue.ReuseParameters;
 
-        return new SqlBuilder(options.Value.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, formattable);
+        return new SqlBuilder(options.CurrentValue.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, formattable);
     }
 
     public ISimpleFluentBuilderEntry CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
     {
         if (string.IsNullOrWhiteSpace(parameterPrefix))
         {
-            parameterPrefix = options.Value.DatabaseParameterPrefix;
+            parameterPrefix = options.CurrentValue.DatabaseParameterPrefix;
         }
 
-        reuseParameters ??= options.Value.ReuseParameters;
-        useLowerCaseClauses ??= options.Value.UseLowerCaseClauses;
+        reuseParameters ??= options.CurrentValue.ReuseParameters;
+        useLowerCaseClauses ??= options.CurrentValue.UseLowerCaseClauses;
 
-        return new FluentSqlBuilder(options.Value.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, useLowerCaseClauses.Value);
+        return new FluentSqlBuilder(options.CurrentValue.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, useLowerCaseClauses.Value);
     }
 }
