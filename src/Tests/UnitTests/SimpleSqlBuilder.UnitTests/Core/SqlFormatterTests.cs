@@ -8,48 +8,48 @@ public class SqlFormatterTests
     [Fact]
     public void Constructor_DynamicParameterIsNull_ThrowsArgumentNullException()
     {
-        //Arrange
+        // Arrange
         DynamicParameters parameters = null!;
 
-        //Act
+        // Act
         var act = () => new SqlFormatter(parameters, "p", "@", false);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentNullException>().WithParameterName("parameters");
     }
 
     [Fact]
     public void GetFormat_FormatterMatched_ReturnsObject()
     {
-        //Arrange
+        // Arrange
         var sut = CreateSqlFormatter();
         var formatType = typeof(SqlFormatter);
 
-        //Act
+        // Act
         var result = sut.GetFormat(formatType);
 
-        //Assert
+        // Assert
         result.Should().Be(sut);
     }
 
     [Fact]
     public void GetFormat_NoFormtterMatched_ReturnsObject()
     {
-        //Arrange
+        // Arrange
         var sut = CreateSqlFormatter();
         var formatType = typeof(int);
 
-        //Act
+        // Act
         var result = sut.GetFormat(formatType);
 
-        //Assert
+        // Assert
         result.Should().BeNull();
     }
 
     [Fact]
     public void Format_FormatsFormattableString_ReturnsString()
     {
-        //Arrange
+        // Arrange
         var model = new { Id = 10, TypeId = 20 };
         var parameters = new DynamicParameters();
 
@@ -69,10 +69,10 @@ public class SqlFormatterTests
 
         var sut = CreateSqlFormatter(parameters);
 
-        //Act
+        // Act
         var result = sut.Format(null, formattableString, sut);
 
-        //Assert
+        // Assert
         result.Should().Be(expectedResult);
         parameters.ParameterNames.Should().HaveCount(3);
         parameters.Get<int>("p0").Should().Be(model.TypeId);
@@ -86,13 +86,13 @@ public class SqlFormatterTests
     [InlineData(null, "")]
     public void Format_FormatsArgumentWithRaw_ReturnsString(object? argument, string expectedResult)
     {
-        //Arrange
+        // Arrange
         var sut = CreateSqlFormatter();
 
-        //Act
+        // Act
         var result = sut.Format(Constants.RawFormat, argument, sut);
 
-        //Assert
+        // Assert
         result.Should().Be(expectedResult);
     }
 
@@ -102,14 +102,14 @@ public class SqlFormatterTests
     [InlineData(null)]
     public void Format_FormatsArgument_ReturnsString(object? argument)
     {
-        //Arrange
+        // Arrange
         var parameters = new DynamicParameters();
         var sut = CreateSqlFormatter(parameters);
 
-        //Act
+        // Act
         var result = sut.Format(null, argument, sut);
 
-        //Assert
+        // Assert
         result.Should().Be("@p0");
         parameters.ParameterNames.Should().HaveCount(1);
         parameters.Get<object?>("p0").Should().Be(argument);
@@ -121,16 +121,16 @@ public class SqlFormatterTests
     [InlineData(null)]
     public void Format_FormatSimpleParameterInfo_ReturnsString(object? value)
     {
-        //Arrange
+        // Arrange
         var parameterInfo = new SimpleParameterInfo(value);
         var parameters = new DynamicParameters();
 
         var sut = CreateSqlFormatter(parameters);
 
-        //Act
+        // Act
         var result = sut.Format(null, parameterInfo, sut);
 
-        //Assert
+        // Assert
         result.Should().Be("@p0");
         parameters.ParameterNames.Should().HaveCount(1);
         parameters.Get<object?>("p0").Should().Be(parameterInfo.Value);
@@ -139,7 +139,7 @@ public class SqlFormatterTests
     [Fact]
     public void Format_FormatsFormattableStringAndReuseParameters_ReturnsString()
     {
-        //Arrange
+        // Arrange
         var model = new { Id = 10, ProductName = "Product", Price = 10.2.DefineParam(DbType.Double), IsActive = true, SecondName = default(string) };
         var parameters = new DynamicParameters();
 
@@ -157,10 +157,10 @@ public class SqlFormatterTests
 
         var sut = CreateSqlFormatter(parameters, true);
 
-        //Act
+        // Act
         var result = sut.Format(null, formattableString, sut);
 
-        //Assert
+        // Assert
         result.Should().Be(expectedResult);
         parameters.ParameterNames.Should().HaveCount(6);
         parameters.Get<int>("p0").Should().Be(model.Id);

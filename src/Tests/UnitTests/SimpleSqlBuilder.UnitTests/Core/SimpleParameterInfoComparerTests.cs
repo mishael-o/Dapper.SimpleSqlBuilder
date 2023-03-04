@@ -8,13 +8,13 @@ public class SimpleParameterInfoComparerTests
     [MemberData(nameof(SimpleParameterInfoComparerTestCases.Equals_ParametersAreNotEqual_TestCases), MemberType = typeof(SimpleParameterInfoComparerTestCases))]
     public void Equals_ParametersAreNotEqual_ReturnsFalse(SimpleParameterInfo? param1, SimpleParameterInfo? param2)
     {
-        //Arrange
+        // Arrange
         var sut = SimpleParameterInfoComparer.Instance;
 
-        //Act
+        // Act
         var result = sut.Equals(param1, param2);
 
-        //Assert
+        // Assert
         result.Should().BeFalse();
     }
 
@@ -22,13 +22,13 @@ public class SimpleParameterInfoComparerTests
     [MemberData(nameof(SimpleParameterInfoComparerTestCases.Equals_ParametersAreEqual_TestCases), MemberType = typeof(SimpleParameterInfoComparerTestCases))]
     public void Equals_ParametersAreEqual_ReturnsTrue(SimpleParameterInfo? param1, SimpleParameterInfo? param2)
     {
-        //Arrange
+        // Arrange
         var sut = SimpleParameterInfoComparer.Instance;
 
-        //Act
+        // Act
         var result = sut.Equals(param1, param2);
 
-        //Assert
+        // Assert
         result.Should().BeTrue();
     }
 
@@ -36,14 +36,14 @@ public class SimpleParameterInfoComparerTests
     [AutoData]
     public void GetHashCode_GetsHashCode_ReturnsInteger(SimpleParameterInfo parameterInfo)
     {
-        //Arrange
+        // Arrange
         var sut = SimpleParameterInfoComparer.Instance;
         var expectedHashCode = HashCode.Combine(parameterInfo.Value, parameterInfo.Type, parameterInfo.DbType, parameterInfo.Direction, parameterInfo.Size, parameterInfo.Precision, parameterInfo.Scale);
 
-        //Act
+        // Act
         var hashCode = sut.GetHashCode(parameterInfo);
 
-        //Assert
+        // Assert
         hashCode.Should().Be(expectedHashCode);
     }
 

@@ -10,10 +10,10 @@ public class SimpleBuilderSettingsTests
     [TestPriority(1)]
     public void Configure_ConfiguresDefaultSettings_ReturnsVoid()
     {
-        //Act
+        // Act
         SimpleBuilderSettings.Configure();
 
-        //Assert
+        // Assert
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(SimpleBuilderSettings.DefaultReuseParameters);
@@ -24,16 +24,16 @@ public class SimpleBuilderSettingsTests
     [TestPriority(2)]
     public void Configure_ConfiguresParameterNameTemplate_ReturnsVoid()
     {
-        //Arrange
+        // Arrange
         const int id = 10;
         const string parameterNameTemplate = "cstPrm";
         string expectedSql = $"SELECT * FROM TABLE WHERE ID = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{parameterNameTemplate}0";
 
-        //Act
+        // Act
         SimpleBuilderSettings.Configure(parameterNameTemplate: parameterNameTemplate);
         var sut = SimpleBuilder.Create($"SELECT * FROM TABLE WHERE ID = {id}");
 
-        //Assert
+        // Assert
         sut.Sql.Should().Be(expectedSql);
         sut.GetValue<int>($"{parameterNameTemplate}0").Should().Be(id);
     }
@@ -42,19 +42,19 @@ public class SimpleBuilderSettingsTests
     [TestPriority(3)]
     public void Configure_ConfiguresParameterNameTemplateFluentBuilder_ReturnsVoid()
     {
-        //Arrange
+        // Arrange
         const int id = 10;
         const string parameterNameTemplate = "fluCstPrm";
         string expectedSql = $"SELECT *{Environment.NewLine}FROM TABLE{Environment.NewLine}WHERE ID = {SimpleBuilderSettings.Instance.DatabaseParameterPrefix}{parameterNameTemplate}0";
 
-        //Act
+        // Act
         SimpleBuilderSettings.Configure(parameterNameTemplate: parameterNameTemplate);
         var sut = SimpleBuilder.CreateFluent()
             .Select($"*")
             .From($"TABLE")
             .Where($"ID = {id}");
 
-        //Assert
+        // Assert
         sut.Sql.Should().Be(expectedSql);
         sut.GetValue<int>($"{parameterNameTemplate}0").Should().Be(id);
     }
@@ -64,10 +64,10 @@ public class SimpleBuilderSettingsTests
     [InlineData("param", ":", true, true)]
     public void Configure_ConfiguresAllSettings_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
     {
-        //Act
+        // Act
         SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters, useLowerCaseClauses);
 
-        //Assert
+        // Assert
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(parameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(parameterPrefix);
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(reuseParameters);
@@ -90,13 +90,13 @@ public class SimpleBuilderSettingsTests
         bool expectedReuseParameters,
         bool expectedUseLowerCaseClauses)
     {
-        //Arrange
+        // Arrange
         SimpleBuilderSettings.Configure("prm", "@", false, false);
 
-        //Act
+        // Act
         SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters, useLowerCaseClauses);
 
-        //Assert
+        // Assert
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(expectedParameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(expectedParameterPrefix);
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(expectedReuseParameters);

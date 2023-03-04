@@ -211,7 +211,8 @@ You can perform UPDATE operations with the builder as seen in the example below.
 
 ```c#
 var builder = SimpleBuilder.Create($@"
-UPDATE User SET Role = {user.Role}
+UPDATE User 
+SET Role = {user.Role}
 WHERE Id = {user.Id}");
 ```
 
@@ -858,21 +859,41 @@ class MyClass
 
 ### Configuring Simple Builder Options
 
-You can also configure the simple builder settings and the `ISimpleBuilder` instance service lifetime.
+You can configure the simple builder settings and the `ISimpleBuilder` instance service lifetime. The various methods are described below.
+
+#### Configuring Simple Builder Settings via appsettings.json
+
+```json
+{
+  "SimpleSqlBuilder": {
+	"DatabaseParameterNameTemplate": "myParam", // Optional. Default is "p"
+	"DatabaseParameterPrefix": "@", // Optional. Default is "@"
+	"ReuseParameters": false, // Optional. Default is "false"
+	"UseLowerCaseClauses": false // Optional. Default is "false"
+  }
+}
+```
 
 ```c#
 services.AddSimpleSqlBuilder(
-    serviceLifeTime = ServiceLifetime.Scoped, // Optional. Default is ServiceLifetime.Singleton
+    // Optional. Default is ServiceLifetime.Singleton
+    serviceLifeTime = ServiceLifetime.Singleton);
+```
+
+#### Configuring Simple Builder Settings via code
+
+```c#
+services.AddSimpleSqlBuilder(
     configure =>
     {
         configure.DatabaseParameterNameTemplate = "param"; // Optional. Default is "p"
         configure.DatabaseParameterPrefix = ":"; // Optional. Default is "@"
         configure.ReuseParameters = true; // Optional. Default is "false"
         configure.UseLowerCaseClauses = true; // Optional. Default is "false". This is only applicable to the fluent builder
-    });
+    },
+    // Optional. Default is ServiceLifetime.Singleton
+    serviceLifeTime = ServiceLifetime.Scoped);
 ```
-
-The settings can also be configured per simple builder instance if you want to override the global settings.
 
 ## Database Support
 
