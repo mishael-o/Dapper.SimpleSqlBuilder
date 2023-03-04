@@ -18,7 +18,7 @@ public class MySqlFluentTests : IAsyncLifetime
     [Fact]
     public async Task Insert_AddsProducts_ReturnsInteger()
     {
-        //Arrange
+        // Arrange
         const string tag = "insert";
         var product = ProductHelpers
             .GetCustomProductFixture(tag: tag)
@@ -41,10 +41,10 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        //Act
+        // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         var insertCount = await connection.ExecuteScalarAsync<int>(insertCountBuilder.Sql, insertCountBuilder.Parameters);
         result.Should().Be(1).And.Be(insertCount);
     }
@@ -52,7 +52,7 @@ public class MySqlFluentTests : IAsyncLifetime
     [Fact]
     public async Task Select_GetsProductsWithSelectTags_ReturnsIEnumerableOfCustomProduct()
     {
-        //Arrange
+        // Arrange
         const string tag = "select";
         const string tag2 = $"{tag}2";
 
@@ -79,17 +79,17 @@ public class MySqlFluentTests : IAsyncLifetime
             .Where($"{nameof(CustomProduct.Tag):raw} = {tag}")
             .OrWhere($"{nameof(CustomProduct.Tag):raw} = {tag2}");
 
-        //Act
+        // Act
         var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
     public async Task Select_GetsProductsByInnerJoinProductAndProductType_ReturnsIEnumerableOfCustomProduct()
     {
-        //Arrange
+        // Arrange
         const string tag = "selectInnerJoin";
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
@@ -106,17 +106,17 @@ public class MySqlFluentTests : IAsyncLifetime
             .Where($"p.{nameof(CustomProduct.Tag):raw} = {tag.DefineParam(DbType.String)}")
             .Where($"p.{nameof(CustomProduct.TypeId):raw} = {mySqlTestsFixture.SeedProductTypes[0].Id}");
 
-        //Act
+        // Act
         var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
     public async Task Select_GetsProductsByLeftJoinProductAndProductType_ReturnsIEnumerableOfCustomProduct()
     {
-        //Arrange
+        // Arrange
         const string tag = "selectLeftJoin";
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
@@ -133,17 +133,17 @@ public class MySqlFluentTests : IAsyncLifetime
             .LeftJoin($"{nameof(CustomProductType):raw} pt ON (p.{nameof(CustomProduct.TypeId):raw} = pt.{nameof(CustomProduct.Id):raw})")
             .WhereFilter($"p.{nameof(CustomProduct.Tag):raw} = {tag}");
 
-        //Act
+        // Act
         var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
     public async Task Select_GetsProductsByRightJoinProductTypeAndProduct_ReturnsIEnumerableOfCustomProduct()
     {
-        //Arrange
+        // Arrange
         const int count = 3;
         const string tag = "selectRightJoin";
         const string tag2 = $"{tag}2";
@@ -164,17 +164,17 @@ public class MySqlFluentTests : IAsyncLifetime
             .RightJoin($"{nameof(CustomProduct):raw} p ON (p.{nameof(CustomProduct.TypeId):raw} = pt.{nameof(CustomProduct.Id):raw})")
             .WhereFilter().WithFilter($"p.{nameof(CustomProduct.Tag):raw} = {tag}").OrWhereFilter($"p.{nameof(CustomProduct.Tag):raw} = {tag2}");
 
-        //Act
+        // Act
         var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
     public async Task Update_UpdatesProductWithUpdateTag_ReturnsInteger()
     {
-        //Arrange
+        // Arrange
         const int count = 1;
         const string tag = "update";
         var createdDate = DateTime.Now.AddDays(100).Date;
@@ -195,10 +195,10 @@ public class MySqlFluentTests : IAsyncLifetime
             .From($"{nameof(CustomProduct):raw}")
             .Where($"{nameof(CustomProduct.Id):raw} = {product.Id}");
 
-        //Act
+        // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().Be(count);
 
         var updatedProduct = await connection.QuerySingleAsync<CustomProduct>(getUpdatedProduct.Sql, getUpdatedProduct.Parameters);
@@ -209,7 +209,7 @@ public class MySqlFluentTests : IAsyncLifetime
     [Fact]
     public async Task Delete_DeletesProductsWithDeleteTag_ReturnsInteger()
     {
-        //Arrange
+        // Arrange
         const int count = 3;
         const string tag = "delete";
 
@@ -227,10 +227,10 @@ public class MySqlFluentTests : IAsyncLifetime
             .From($"{nameof(CustomProduct):raw}")
             .Where($"{nameof(CustomProduct.Tag):raw} = {tag}");
 
-        //Act
+        // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        //Assert
+        // Assert
         result.Should().Be(count);
 
         var countResult = await connection.ExecuteScalarAsync<int>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);

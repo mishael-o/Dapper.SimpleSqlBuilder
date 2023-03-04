@@ -6,13 +6,13 @@ public class AppendNewLineInterpolatedStringHandlerTests
     [Fact]
     public void Constructor_BuilderIsNull_ThrowsArgumentException()
     {
-        //Arrange
+        // Arrange
         Builder builder = null!;
 
-        //Act
+        // Act
         Action act = () => _ = new AppendNewLineInterpolatedStringHandler(0, 0, builder);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentException>()
             .WithMessage("The builder must implement IBuilderFormatter.*")
             .WithParameterName("builder");
@@ -22,10 +22,10 @@ public class AppendNewLineInterpolatedStringHandlerTests
     [AutoData]
     public void Constructor_BuilderDoesNotImplementIBuilderFormatter_ThrowsArgumentException(Mock<Builder> builderMock)
     {
-        //Act
+        // Act
         Action act = () => _ = new AppendNewLineInterpolatedStringHandler(0, 0, builderMock.Object);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentException>()
             .WithMessage("The builder must implement IBuilderFormatter.*")
             .WithParameterName("builder");
@@ -35,13 +35,13 @@ public class AppendNewLineInterpolatedStringHandlerTests
     [AutoData]
     public void Constructor_InitialisesHandler_ReturnsHandler(Mock<Builder> builderMock)
     {
-        //Arrange
+        // Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
 
-        //Act
+        // Act
         var sut = new AppendNewLineInterpolatedStringHandler(0, 0, builderMock.Object);
 
-        //Assert
+        // Assert
         builderFormatterMock.Verify(x => x.AppendControl(ControlType.NewLine));
     }
 
@@ -49,14 +49,14 @@ public class AppendNewLineInterpolatedStringHandlerTests
     [AutoData]
     public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, Mock<Builder> builderMock)
     {
-        //Arrange
+        // Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
         var sut = new AppendNewLineInterpolatedStringHandler(0, 0, builderMock.Object);
 
-        //Act
+        // Act
         sut.AppendLiteral(value);
 
-        //Assert
+        // Assert
         builderFormatterMock.Verify(x => x.AppendLiteral(value));
     }
 
@@ -64,14 +64,14 @@ public class AppendNewLineInterpolatedStringHandlerTests
     [AutoData]
     public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value, Mock<Builder> builderMock)
     {
-        //Arrange
+        // Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
         var sut = new AppendNewLineInterpolatedStringHandler(0, 0, builderMock.Object);
 
-        //Act
+        // Act
         sut.AppendFormatted(value);
 
-        //Assert
+        // Assert
         builderFormatterMock.Verify(x => x.AppendFormatted(value, null));
     }
 
@@ -80,14 +80,14 @@ public class AppendNewLineInterpolatedStringHandlerTests
     [InlineAutoData("value", "raw")]
     public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format, Mock<Builder> builderMock)
     {
-        //Arrange
+        // Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
         var sut = new AppendNewLineInterpolatedStringHandler(0, 0, builderMock.Object);
 
-        //Act
+        // Act
         sut.AppendFormatted(value, format);
 
-        //Assert
+        // Assert
         builderFormatterMock.Verify(x => x.AppendFormatted(value, format));
     }
 }

@@ -8,13 +8,13 @@ public class WhereWithOrFilterInterpolatedStringHandlerTests
     [Fact]
     public void Constructor_FluentBuilderIsNull_ThrowsArgumentException()
     {
-        //Arrange
+        // Arrange
         IFluentBuilder fluentBuilder = null!;
 
-        //Act
+        // Act
         Action act = () => _ = new WhereWithOrFilterInterpolatedStringHandler(0, 0, fluentBuilder, out var _);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentException>()
             .WithMessage("The builder must implement IFluentBuilderFormatter.*")
             .WithParameterName("builder");
@@ -24,10 +24,10 @@ public class WhereWithOrFilterInterpolatedStringHandlerTests
     [AutoData]
     public void Constructor_BuilderDoesNotImplementIFluentBuilderFormatter_ThrowsArgumentException(Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Act
+        // Act
         Action act = () => _ = new WhereWithOrFilterInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentException>()
             .WithMessage("The builder must implement IFluentBuilderFormatter.*")
             .WithParameterName("builder");
@@ -37,13 +37,13 @@ public class WhereWithOrFilterInterpolatedStringHandlerTests
     [AutoData]
     public void Constructor_InitialisesHandler_ReturnsHandler(Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Arrange
+        // Arrange
         var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
 
-        //Act
+        // Act
         var sut = new WhereWithOrFilterInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var isHandlerEnabled);
 
-        //Assert
+        // Assert
         isHandlerEnabled.Should().BeTrue();
         fluentFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.WhereWithOrFilter));
     }
@@ -52,14 +52,14 @@ public class WhereWithOrFilterInterpolatedStringHandlerTests
     [AutoData]
     public void Constructor_HandlerDisabledByCondition_ReturnsHandler(Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Arrange
+        // Arrange
         const bool condition = false;
         fluentBuilderMock.As<IFluentBuilderFormatter>();
 
-        //Act
+        // Act
         var sut = new InnerJoinInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
 
-        //Assert
+        // Assert
         isHandlerEnabled.Should().BeFalse();
     }
 
@@ -67,14 +67,14 @@ public class WhereWithOrFilterInterpolatedStringHandlerTests
     [AutoData]
     public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Arrange
+        // Arrange
         var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
         var sut = new WhereWithOrFilterInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
 
-        //Act
+        // Act
         sut.AppendLiteral(value);
 
-        //Assert
+        // Assert
         fluentFormatterMock.Verify(x => x.AppendLiteral(value));
     }
 
@@ -82,14 +82,14 @@ public class WhereWithOrFilterInterpolatedStringHandlerTests
     [AutoData]
     public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Arrange
+        // Arrange
         var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
         var sut = new WhereWithOrFilterInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
 
-        //Act
+        // Act
         sut.AppendFormatted(value);
 
-        //Assert
+        // Assert
         fluentFormatterMock.Verify(x => x.AppendFormatted(value, null));
     }
 
@@ -98,14 +98,14 @@ public class WhereWithOrFilterInterpolatedStringHandlerTests
     [InlineAutoData("value", "raw")]
     public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format, Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Arrange
+        // Arrange
         var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
         var sut = new WhereWithOrFilterInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
 
-        //Act
+        // Act
         sut.AppendFormatted(value, format);
 
-        //Assert
+        // Assert
         fluentFormatterMock.Verify(x => x.AppendFormatted(value, format));
     }
 
@@ -113,14 +113,14 @@ public class WhereWithOrFilterInterpolatedStringHandlerTests
     [AutoData]
     public void Close_ClosesHandler_ReturnsVoid(Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Arrange
+        // Arrange
         var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
         var sut = new WhereWithOrFilterInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
 
-        //Act
+        // Act
         sut.Close();
 
-        //Assert
+        // Assert
         fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }

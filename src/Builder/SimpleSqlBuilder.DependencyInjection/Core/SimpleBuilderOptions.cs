@@ -5,6 +5,11 @@
 /// </summary>
 public sealed class SimpleBuilderOptions
 {
+    /// <summary>
+    /// The configuration section name for the Simple Builder settings.
+    /// </summary>
+    public const string ConfigurationSectionName = "SimpleSqlBuilder";
+
     private string databaseParameterNameTemplate = SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate;
     private string databaseParameterPrefix = SimpleBuilderSettings.DefaultDatabaseParameterPrefix;
 
@@ -20,7 +25,7 @@ public sealed class SimpleBuilderOptions
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new ArgumentException($"'{nameof(value)}' cannot be null or whitespace.", nameof(value));
+                throw new ArgumentException($"'{nameof(DatabaseParameterNameTemplate)}' cannot be null or whitespace.", nameof(DatabaseParameterNameTemplate));
             }
 
             databaseParameterNameTemplate = value;
@@ -39,7 +44,7 @@ public sealed class SimpleBuilderOptions
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new ArgumentException($"'{nameof(value)}' cannot be null or whitespace.", nameof(value));
+                throw new ArgumentException($"'{nameof(DatabaseParameterPrefix)}' cannot be null or whitespace.", nameof(DatabaseParameterPrefix));
             }
 
             databaseParameterPrefix = value;

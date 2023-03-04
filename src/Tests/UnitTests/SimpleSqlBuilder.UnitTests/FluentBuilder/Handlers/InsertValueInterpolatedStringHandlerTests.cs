@@ -8,13 +8,13 @@ public class InsertValueInterpolatedStringHandlerTests
     [Fact]
     public void Constructor_FluentBuilderIsNull_ThrowsArgumentException()
     {
-        //Arrange
+        // Arrange
         IFluentBuilder fluentBuilder = null!;
 
-        //Act
+        // Act
         Action act = () => _ = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilder);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentException>()
             .WithMessage("The builder must implement IFluentBuilderFormatter.*")
             .WithParameterName("builder");
@@ -24,10 +24,10 @@ public class InsertValueInterpolatedStringHandlerTests
     [AutoData]
     public void Constructor_BuilderDoesNotImplementIFluentBuilderFormatter_ThrowsArgumentException(Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Act
+        // Act
         Action act = () => _ = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentException>()
             .WithMessage("The builder must implement IFluentBuilderFormatter.*")
             .WithParameterName("builder");
@@ -37,13 +37,13 @@ public class InsertValueInterpolatedStringHandlerTests
     [AutoData]
     public void Constructor_InitialisesHandler_ReturnsHandler(Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Arrange
+        // Arrange
         var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
 
-        //Act
+        // Act
         var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
-        //Assert
+        // Assert
         fluentFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.InsertValue));
     }
 
@@ -51,14 +51,14 @@ public class InsertValueInterpolatedStringHandlerTests
     [AutoData]
     public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Arrange
+        // Arrange
         var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
         var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
-        //Act
+        // Act
         sut.AppendLiteral(value);
 
-        //Assert
+        // Assert
         fluentFormatterMock.Verify(x => x.AppendLiteral(value));
     }
 
@@ -66,14 +66,14 @@ public class InsertValueInterpolatedStringHandlerTests
     [AutoData]
     public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Arrange
+        // Arrange
         var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
         var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
-        //Act
+        // Act
         sut.AppendFormatted(value);
 
-        //Assert
+        // Assert
         fluentFormatterMock.Verify(x => x.AppendFormatted(value, null));
     }
 
@@ -82,14 +82,14 @@ public class InsertValueInterpolatedStringHandlerTests
     [InlineAutoData("value", "raw")]
     public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format, Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Arrange
+        // Arrange
         var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
         var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
-        //Act
+        // Act
         sut.AppendFormatted(value, format);
 
-        //Assert
+        // Assert
         fluentFormatterMock.Verify(x => x.AppendFormatted(value, format));
     }
 
@@ -97,14 +97,14 @@ public class InsertValueInterpolatedStringHandlerTests
     [AutoData]
     public void Close_ClosesHandler_ReturnsVoid(Mock<IFluentBuilder> fluentBuilderMock)
     {
-        //Arrange
+        // Arrange
         var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
         var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
-        //Act
+        // Act
         sut.Close();
 
-        //Assert
+        // Assert
         fluentFormatterMock.Verify(x => x.EndClauseAction());
     }
 }
