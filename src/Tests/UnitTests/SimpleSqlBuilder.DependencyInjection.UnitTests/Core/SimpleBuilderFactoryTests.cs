@@ -10,10 +10,10 @@ public class SimpleBuilderFactoryTests
     [AutoMoqData(true)]
     internal void Create_CreatesBuilder_ReturnsSqlBuilder(SimpleBuilderFactory sut)
     {
-        //Act
+        // Act
         var result = sut.Create();
 
-        //Assert
+        // Assert
         result.Should().BeOfType<SqlBuilder>();
         result.ParameterNames.Should().HaveCount(0);
     }
@@ -27,15 +27,15 @@ public class SimpleBuilderFactoryTests
         int id,
         string type)
     {
-        //Arrange
+        // Arrange
         string expectedSql = $"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = @p0) FROM TABLE WHERE Id = {id} AND Type = @p1";
 
         optionsMock.SetupGet(x => x.Value).Returns(options);
 
-        //Act
+        // Act
         var result = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id:raw} AND Type = {type}");
 
-        //Assert
+        // Assert
         result.Should().BeOfType<SqlBuilder>();
         result.Sql.Should().Be(expectedSql);
         result.ParameterNames.Should().HaveCount(2);
@@ -52,18 +52,18 @@ public class SimpleBuilderFactoryTests
         int id,
         string type)
     {
-        //Arrange
+        // Arrange
         string expectedSql = $"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = :p0 AND Type = :p1) FROM TABLE WHERE Id = {id} AND Type = :p1";
 
         optionsMock.SetupGet(x => x.Value).Returns(options);
 
-        //Act
+        // Act
         var result = sut.Create(
             $"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id} AND Type = {type}) FROM TABLE WHERE Id = {id:raw} AND Type = {type}",
             parameterPrefix: ":",
             reuseParameters: true);
 
-        //Assert
+        // Assert
         result.Should().BeOfType<SqlBuilder>();
         result.Sql.Should().Be(expectedSql);
         result.GetValue<int>("p0").Should().Be(id);
@@ -76,10 +76,10 @@ public class SimpleBuilderFactoryTests
     [InlineAutoMoqData(configureMembers: true, generateDelegates: false, null, null, null)]
     internal void CreateFluent_CreatesFluentBuilder_ReturnsFluentSqlBuilder(string? parameterPrefix, bool? reuseParameters, bool? useLowerCaseClauses, SimpleBuilderFactory sut)
     {
-        //Act
+        // Act
         var result = sut.CreateFluent(parameterPrefix, reuseParameters, useLowerCaseClauses);
 
-        //Assert
+        // Assert
         result.Should().BeOfType<FluentSqlBuilder>();
     }
 
@@ -92,7 +92,7 @@ public class SimpleBuilderFactoryTests
         int id,
         string type)
     {
-        //Arrange
+        // Arrange
         FormattableString subQuery = $"SELECT DESC FROM DESC_TABLE WHERE Id = {id}";
         string expectedSql = "SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = @p0)" +
             $"{Environment.NewLine}FROM TABLE" +
@@ -100,7 +100,7 @@ public class SimpleBuilderFactoryTests
 
         optionsMock.SetupGet(x => x.Value).Returns(options);
 
-        //Act
+        // Act
         var result = sut.CreateFluent()
             .Select($"x.*")
             .Select($"({subQuery})")
@@ -108,7 +108,7 @@ public class SimpleBuilderFactoryTests
             .Where($"Id = {id:raw}")
             .Where($"Type = {type}");
 
-        //Assert
+        // Assert
         result.Should().BeOfType<FluentSqlBuilder>();
         result.Sql.Should().Be(expectedSql);
         result.ParameterNames.Should().HaveCount(2);
@@ -125,7 +125,7 @@ public class SimpleBuilderFactoryTests
     int id,
     string type)
     {
-        //Arrange
+        // Arrange
         FormattableString subQuery = $"select DESC from DESC_TABLE where Id = {id} and Type = {type}";
         string expectedSql = "select x.*, (select DESC from DESC_TABLE where Id = :p0 and Type = :p1)" +
             $"{Environment.NewLine}from TABLE" +
@@ -133,7 +133,7 @@ public class SimpleBuilderFactoryTests
 
         optionsMock.SetupGet(x => x.Value).Returns(options);
 
-        //Act
+        // Act
         var result = sut.CreateFluent(":", true, true)
             .Select($"x.*")
             .Select($"({subQuery})")
@@ -141,7 +141,7 @@ public class SimpleBuilderFactoryTests
             .Where($"Id = {id:raw}")
             .Where($"Type = {type}");
 
-        //Assert
+        // Assert
         result.Should().BeOfType<FluentSqlBuilder>();
         result.Sql.Should().Be(expectedSql);
         result.ParameterNames.Should().HaveCount(2);

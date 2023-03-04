@@ -9,10 +9,10 @@ public class SimpleParameterInfoExtensionsTests
     [AutoData]
     public void DefineParam_GenericTypeIsSimpleParameterInfo_ThrowsInvalidOperations(SimpleParameterInfo value)
     {
-        //Act
+        // Act
         Action act = () => value.DefineParam(DbType.Int64);
 
-        //Assert
+        // Assert
         act.Should().Throw<ArgumentException>()
             .WithMessage($"Value is already a {nameof(ISimpleParameterInfo)}*")
             .WithParameterName(nameof(value));
@@ -22,10 +22,10 @@ public class SimpleParameterInfoExtensionsTests
     [AutoData]
     public void DefineParam_CreatesSimpleParameterInfo_ReturnsISimpleParameterInfo(object value, DbType dbType, int size, byte precision, byte scale)
     {
-        //Act
+        // Act
         var valueParam = value.DefineParam(dbType, size, precision, scale);
 
-        //Assert
+        // Assert
         valueParam.Should().BeOfType<SimpleParameterInfo>();
         valueParam.Value.Should().Be(value);
         valueParam.DbType.Should().Be(dbType);
