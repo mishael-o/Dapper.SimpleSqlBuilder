@@ -22,7 +22,7 @@ public class ServiceCollectionExtensionsTests
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_AddsConfiguration_ReturnsIServiceCollection(ServiceCollection sut, ConfigurationBuilder configurationBuilder)
+    public void AddSimpleSqlBuilder_AddsServices_ReturnsIServiceCollection(ServiceCollection sut, ConfigurationBuilder configurationBuilder)
     {
         // Arrange
         sut.AddSingleton<IConfiguration>(configurationBuilder.Build());
@@ -33,19 +33,19 @@ public class ServiceCollectionExtensionsTests
         // Assert
         var provider = sut.BuildServiceProvider();
         var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
-        var configuredOptions = provider.GetRequiredService<IOptions<SimpleBuilderOptions>>();
+        var configuredOptions = provider.GetRequiredService<IOptionsMonitor<SimpleBuilderOptions>>();
 
         serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
         serviceDescriptor.Lifetime.Should().Be(ServiceLifetime.Singleton);
-        configuredOptions.Value.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
-        configuredOptions.Value.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
-        configuredOptions.Value.ReuseParameters.Should().Be(SimpleBuilderSettings.DefaultReuseParameters);
-        configuredOptions.Value.UseLowerCaseClauses.Should().Be(SimpleBuilderSettings.DefaultUseLowerCaseClauses);
+        configuredOptions.CurrentValue.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
+        configuredOptions.CurrentValue.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
+        configuredOptions.CurrentValue.ReuseParameters.Should().Be(SimpleBuilderSettings.DefaultReuseParameters);
+        configuredOptions.CurrentValue.UseLowerCaseClauses.Should().Be(SimpleBuilderSettings.DefaultUseLowerCaseClauses);
     }
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_AddsConfigurationFromConfigurationSettings_ReturnsIServiceCollection(
+    public void AddSimpleSqlBuilder_AddsServicesWhenConfigurationFromConfigurationSettings_ReturnsIServiceCollection(
         ServiceCollection sut, ConfigurationBuilder configurationBuilder, ServiceLifetime serviceLifetime)
     {
         // Arrange
@@ -66,19 +66,19 @@ public class ServiceCollectionExtensionsTests
         // Assert
         var provider = sut.BuildServiceProvider();
         var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
-        var configuredOptions = provider.GetRequiredService<IOptions<SimpleBuilderOptions>>();
+        var configuredOptions = provider.GetRequiredService<IOptionsMonitor<SimpleBuilderOptions>>();
 
         serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
         serviceDescriptor.Lifetime.Should().Be(serviceLifetime);
-        configuredOptions.Value.DatabaseParameterNameTemplate.Should().Be(option.parameterNameTemplate);
-        configuredOptions.Value.DatabaseParameterPrefix.Should().Be(option.parameterPrefix);
-        configuredOptions.Value.ReuseParameters.Should().Be(option.reuseParameters);
-        configuredOptions.Value.UseLowerCaseClauses.Should().Be(option.userLowerCaseClauses);
+        configuredOptions.CurrentValue.DatabaseParameterNameTemplate.Should().Be(option.parameterNameTemplate);
+        configuredOptions.CurrentValue.DatabaseParameterPrefix.Should().Be(option.parameterPrefix);
+        configuredOptions.CurrentValue.ReuseParameters.Should().Be(option.reuseParameters);
+        configuredOptions.CurrentValue.UseLowerCaseClauses.Should().Be(option.userLowerCaseClauses);
     }
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_ServiceCollectionIsNullWhenCofiguringWithConfigureAction_ThrowsArgumentNullException(Action<SimpleBuilderOptions> configure)
+    public void AddSimpleSqlBuilder_ServiceCollectionIsNullWhenCofigurationFromConfigureAction_ThrowsArgumentNullException(Action<SimpleBuilderOptions> configure)
     {
         // Arrange
         IServiceCollection sut = null!;
@@ -108,7 +108,7 @@ public class ServiceCollectionExtensionsTests
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_AddsConfigurationFromConfigureAction_ReturnsIServiceCollection(ServiceLifetime serviceLifetime, ServiceCollection sut)
+    public void AddSimpleSqlBuilder_AddsServicesWhenConfigurationFromConfigureAction_ReturnsIServiceCollection(ServiceLifetime serviceLifetime, ServiceCollection sut)
     {
         // Arrange
         var option = new { DatabaseParameterNameTemplate = "myParam", DatabaseParameterPrefix = ":", ReuseParameters = true, UseLowerCaseClauses = true };
@@ -127,19 +127,19 @@ public class ServiceCollectionExtensionsTests
         // Assert
         var provider = sut.BuildServiceProvider();
         var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
-        var configuredOptions = provider.GetRequiredService<IOptions<SimpleBuilderOptions>>();
+        var configuredOptions = provider.GetRequiredService<IOptionsMonitor<SimpleBuilderOptions>>();
 
         serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
         serviceDescriptor.Lifetime.Should().Be(serviceLifetime);
-        configuredOptions.Value.DatabaseParameterNameTemplate.Should().Be(option.DatabaseParameterNameTemplate);
-        configuredOptions.Value.DatabaseParameterPrefix.Should().Be(option.DatabaseParameterPrefix);
-        configuredOptions.Value.ReuseParameters.Should().Be(option.ReuseParameters);
-        configuredOptions.Value.UseLowerCaseClauses.Should().Be(option.UseLowerCaseClauses);
+        configuredOptions.CurrentValue.DatabaseParameterNameTemplate.Should().Be(option.DatabaseParameterNameTemplate);
+        configuredOptions.CurrentValue.DatabaseParameterPrefix.Should().Be(option.DatabaseParameterPrefix);
+        configuredOptions.CurrentValue.ReuseParameters.Should().Be(option.ReuseParameters);
+        configuredOptions.CurrentValue.UseLowerCaseClauses.Should().Be(option.UseLowerCaseClauses);
     }
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_ServiceCollectionIsNullWhenCofiguringWithConfigurationSectionPath_ThrowsArgumentNullException(string configSectionPath)
+    public void AddSimpleSqlBuilder_ServiceCollectionIsNullWhenCofigurationFromConfigurationSectionPath_ThrowsArgumentNullException(string configSectionPath)
     {
         // Arrange
         IServiceCollection sut = null!;
@@ -180,19 +180,19 @@ public class ServiceCollectionExtensionsTests
         // Assert
         var provider = sut.BuildServiceProvider();
         var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
-        var configuredOptions = provider.GetRequiredService<IOptions<SimpleBuilderOptions>>();
+        var configuredOptions = provider.GetRequiredService<IOptionsMonitor<SimpleBuilderOptions>>();
 
         serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
         serviceDescriptor.Lifetime.Should().Be(ServiceLifetime.Singleton);
-        configuredOptions.Value.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
-        configuredOptions.Value.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
-        configuredOptions.Value.ReuseParameters.Should().Be(SimpleBuilderSettings.DefaultReuseParameters);
-        configuredOptions.Value.UseLowerCaseClauses.Should().Be(SimpleBuilderSettings.DefaultUseLowerCaseClauses);
+        configuredOptions.CurrentValue.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
+        configuredOptions.CurrentValue.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
+        configuredOptions.CurrentValue.ReuseParameters.Should().Be(SimpleBuilderSettings.DefaultReuseParameters);
+        configuredOptions.CurrentValue.UseLowerCaseClauses.Should().Be(SimpleBuilderSettings.DefaultUseLowerCaseClauses);
     }
 
     [Theory]
     [AutoData]
-    public void AddSimpleSqlBuilder_AddsConfigurationWithConfigurationSectionPath_ReturnsIServiceCollection(
+    public void AddSimpleSqlBuilder_AddsServicesWhenConfigurationFromConfigurationSectionPath_ReturnsIServiceCollection(
         ServiceCollection sut, ConfigurationBuilder configurationBuilder, string configSectionPath, ServiceLifetime serviceLifetime)
     {
         // Arrange
@@ -214,13 +214,13 @@ public class ServiceCollectionExtensionsTests
         // Assert
         var provider = sut.BuildServiceProvider();
         var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
-        var configuredOptions = provider.GetRequiredService<IOptions<SimpleBuilderOptions>>();
+        var configuredOptions = provider.GetRequiredService<IOptionsMonitor<SimpleBuilderOptions>>();
 
         serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
         serviceDescriptor.Lifetime.Should().Be(serviceLifetime);
-        configuredOptions.Value.DatabaseParameterNameTemplate.Should().Be(option.parameterNameTemplate);
-        configuredOptions.Value.DatabaseParameterPrefix.Should().Be(option.parameterPrefix);
-        configuredOptions.Value.ReuseParameters.Should().Be(option.reuseParameters);
-        configuredOptions.Value.UseLowerCaseClauses.Should().Be(option.userLowerCaseClauses);
+        configuredOptions.CurrentValue.DatabaseParameterNameTemplate.Should().Be(option.parameterNameTemplate);
+        configuredOptions.CurrentValue.DatabaseParameterPrefix.Should().Be(option.parameterPrefix);
+        configuredOptions.CurrentValue.ReuseParameters.Should().Be(option.reuseParameters);
+        configuredOptions.CurrentValue.UseLowerCaseClauses.Should().Be(option.userLowerCaseClauses);
     }
 }

@@ -21,7 +21,7 @@ public class SimpleBuilderFactoryTests
     [Theory]
     [AutoMoqData]
     internal void Create_CreatesBuilderWithInterpolatedString_ReturnsSqlBuilder(
-        [Frozen] Mock<IOptions<SimpleBuilderOptions>> optionsMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
         SimpleBuilderFactory sut,
         [NoAutoProperties] SimpleBuilderOptions options,
         int id,
@@ -30,7 +30,7 @@ public class SimpleBuilderFactoryTests
         // Arrange
         string expectedSql = $"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = @p0) FROM TABLE WHERE Id = {id} AND Type = @p1";
 
-        optionsMock.SetupGet(x => x.Value).Returns(options);
+        optionsMock.SetupGet(x => x.CurrentValue).Returns(options);
 
         // Act
         var result = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id:raw} AND Type = {type}");
@@ -46,7 +46,7 @@ public class SimpleBuilderFactoryTests
     [Theory]
     [AutoMoqData]
     internal void Create_CreatesBuilderWithAllArguments_ReturnsSqlBuilder(
-        [Frozen] Mock<IOptions<SimpleBuilderOptions>> optionsMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
         SimpleBuilderFactory sut,
         [NoAutoProperties] SimpleBuilderOptions options,
         int id,
@@ -55,7 +55,7 @@ public class SimpleBuilderFactoryTests
         // Arrange
         string expectedSql = $"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = :p0 AND Type = :p1) FROM TABLE WHERE Id = {id} AND Type = :p1";
 
-        optionsMock.SetupGet(x => x.Value).Returns(options);
+        optionsMock.SetupGet(x => x.CurrentValue).Returns(options);
 
         // Act
         var result = sut.Create(
@@ -86,7 +86,7 @@ public class SimpleBuilderFactoryTests
     [Theory]
     [AutoMoqData]
     internal void CreateFluent_CreatesFluentBuilderWithInterpolatedString_ReturnsFluentSqlBuilder(
-        [Frozen] Mock<IOptions<SimpleBuilderOptions>> optionsMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
         SimpleBuilderFactory sut,
         [NoAutoProperties] SimpleBuilderOptions options,
         int id,
@@ -98,7 +98,7 @@ public class SimpleBuilderFactoryTests
             $"{Environment.NewLine}FROM TABLE" +
             $"{Environment.NewLine}WHERE Id = {id} AND Type = @p1";
 
-        optionsMock.SetupGet(x => x.Value).Returns(options);
+        optionsMock.SetupGet(x => x.CurrentValue).Returns(options);
 
         // Act
         var result = sut.CreateFluent()
@@ -119,7 +119,7 @@ public class SimpleBuilderFactoryTests
     [Theory]
     [AutoMoqData]
     internal void CreateFluent_CreatesFluentBuilderWithAllArguments_ReturnsFluentSqlBuilder(
-    [Frozen] Mock<IOptions<SimpleBuilderOptions>> optionsMock,
+    [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
     SimpleBuilderFactory sut,
     [NoAutoProperties] SimpleBuilderOptions options,
     int id,
@@ -131,7 +131,7 @@ public class SimpleBuilderFactoryTests
             $"{Environment.NewLine}from TABLE" +
             $"{Environment.NewLine}where Id = {id} and Type = :p1";
 
-        optionsMock.SetupGet(x => x.Value).Returns(options);
+        optionsMock.SetupGet(x => x.CurrentValue).Returns(options);
 
         // Act
         var result = sut.CreateFluent(":", true, true)

@@ -866,10 +866,10 @@ You can configure the simple builder settings and the `ISimpleBuilder` instance 
 ```json
 {
   "SimpleSqlBuilder": {
-	"DatabaseParameterNameTemplate": "myParam", // Optional. Default is "p"
-	"DatabaseParameterPrefix": "@", // Optional. Default is "@"
-	"ReuseParameters": false, // Optional. Default is "false"
-	"UseLowerCaseClauses": false // Optional. Default is "false"
+	"DatabaseParameterNameTemplate": "p",
+	"DatabaseParameterPrefix": "@",
+	"ReuseParameters": false,
+	"UseLowerCaseClauses": false
   }
 }
 ```
