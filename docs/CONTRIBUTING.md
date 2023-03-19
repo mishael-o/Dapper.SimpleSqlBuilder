@@ -8,8 +8,8 @@ Please note we have a [Code of Conduct](https://github.com/mishael-o/Dapper.Simp
 
 ## Project Prerequisites
 
-- Visual Studio 2022 is preferred, however any modern .Net IDE can also be used.
-- Docker is required if you would like to run the integration tests locally.
+- JetBrains Rider or Visual Studio 2022 is preferred, however any modern .NET IDE can also be used.
+- Docker is required to run the integration tests locally.
 
 ## Change Guidelines
 
@@ -28,13 +28,13 @@ Please note we have a [Code of Conduct](https://github.com/mishael-o/Dapper.Simp
 
 ### Tests
 
-To run the tests, you can run them via Visual Studio's Test explorer or via the .NET CLI.
+To run the tests, you can run them via your IDE test explorer or via the .NET CLI.
 
 **Note**: If you don't have Docker installed, the integration tests will fail as we use [TestContainers](https://github.com/testcontainers/testcontainers-dotnet) to run them. You can either not run them or install Docker to run them locally.
 
 ## For Maintainers
 
-- All pr(s) into `develop` branch should be completed with a `squash merge`.
-- Only `develop` or a `hotfix/*` branch can merge (`merge commit`) into `main`
-- Once `develop` has reached a release milestone, create a `release` branch from `develop`, setup a pr, merge into `main`, and then delete `release` branch.
+- All pull request(s) into `develop` branch should be completed with a `squash merge`.
+- Only `release/*` or a `hotfix/*` branch should be merged (`merge commit`) into `main`
+- Once `develop` has reached a release milestone, create a `release` branch from `develop`, setup a pull request, and then merge (`merge commit`) into `main`. Finally delete `release` branch.
 - Once a stable release has been published, `main` should be merged (`merge commit`) into `develop`.
