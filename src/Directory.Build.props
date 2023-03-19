@@ -4,7 +4,7 @@
         <Configurations>Debug;Release</Configurations>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <AnalysisMode>All</AnalysisMode>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
@@ -18,5 +18,4 @@
             <_Parameter1>false</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
-    
 </Project>

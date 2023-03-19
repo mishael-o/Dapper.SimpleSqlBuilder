@@ -50,7 +50,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetsProductsWithSelectTags_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsWithSelectTag_ReturnsIEnumerableOfCustomProduct()
     {
         // Arrange
         const string tag = "select";
@@ -87,7 +87,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetsProductsByInnerJoinProductAndProductType_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsByInnerJoinOnProductAndProductType_ReturnsIEnumerableOfCustomProduct()
     {
         // Arrange
         const string tag = "selectInnerJoin";
@@ -114,7 +114,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetsProductsByLeftJoinProductAndProductType_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsByLeftJoinOnProductAndProductType_ReturnsIEnumerableOfCustomProduct()
     {
         // Arrange
         const string tag = "selectLeftJoin";
@@ -141,7 +141,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetsProductsByRightJoinProductTypeAndProduct_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsByRightJoinOnProductTypeAndProduct_ReturnsIEnumerableOfCustomProduct()
     {
         // Arrange
         const int count = 3;

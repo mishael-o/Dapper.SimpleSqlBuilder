@@ -34,7 +34,7 @@ public struct CustomId : IEquatable<CustomId>
         => Id.GetHashCode();
 
     public override bool Equals(object? obj)
-        => obj is CustomId mySqlGuidId && Equals(mySqlGuidId);
+        => obj is CustomId customId && Equals(customId);
 
     public bool Equals(CustomId other)
         => Id.Equals(other.Id);

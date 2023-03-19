@@ -171,7 +171,7 @@ You can also use it with conditional statements.
 
 ```c#
 var builder = SimpleBuilder.Create()
-    .Append($"SELECT * FROM User WHERE UserTypeId = {user.TypeId}");
+    .AppendIntact($"SELECT * FROM User WHERE UserTypeId = {user.TypeId}");
 
 if (user.Age is not null)
 {
@@ -416,7 +416,6 @@ VALUES (@p0, @p1, @p2)
 var builder = SimpleBuilder.CreateFluent()
     .InsertInto($"User")
     .Values($"{user.Id}, {user.Name}, {user.Role}, {user.Admin}");
-
 ```
 
 The generated SQL will be.
@@ -536,7 +535,7 @@ WHERE (Role = @p0 OR Role = @p1) OR (Age >= @p2 AND Age < @p3) OR UserTypeId = @
 
 ### Conditional Methods (Clauses)
 
-The fluent builder supports conditional methods (clauses). This is useful when you want to add a clause only if a condition is met. The `Set(...)`, `Where(...)`, `OrWhere(...)`, `WithFilter(...)`, `WithOrFilter(...)`, `GroupBy(...)`, `Having(...)` and `OrderBy(...)` methods all have conditional overloads.
+The fluent builder supports conditional methods (clauses). This is useful when you want to add a clause only if a condition is met. The `Set(...)`, `InnerJoin(...)`, `RightJoin(...)`, `LeftJoin(...)`, `Where(...)`, `OrWhere(...)`, `WithFilter(...)`, `WithOrFilter(...)`, `GroupBy(...)`, `Having(...)` and `OrderBy(...)` methods all have conditional overloads.
 
 #### Example 1: Conditional Methods
 
@@ -786,11 +785,13 @@ There are scenarios where you may want to pass a raw value into the interpolated
 ### Example 1: Dynamic Data Retrieval
 
 ```c#
-string tableName = "User";
-DateTime createDate = DateTime.Now;
+var tableData = GetTableData("User", DateTime.Now);
 
-var builder = SimpleBuilder.Create($"SELECT * FROM {tableName:raw} WHERE CreatedDate = {createDate}");
-var tableData = dbConnection.Query(builder.Sql, builder.Parameters);
+IEnumerable<dynamic> GetTableData(string tableName, DateTime createDate)
+{
+    var builder = SimpleBuilder.Create($"SELECT * FROM {tableName:raw} WHERE CreatedDate = {createDate}");
+    return dbConnection.Query(builder.Sql, builder.Parameters);
+}
 ```
 
 The generated SQL will be.
@@ -951,3 +952,7 @@ Refer to the [Contributing](https://github.com/mishael-o/Dapper.SimpleSqlBuilder
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/blob/main/LICENSE.md) file for details.
+
+## Acknowledgements
+
+Thanks to [JetBrians](https://www.jetbrains.com) for their open source development [support](https://jb.gg/OpenSourceSupport).

@@ -50,7 +50,7 @@ public class MSSqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetsProductsWithSelectTags_ReturnsIEnumerableOfProduct()
+    public async Task Select_GetsProductsWithSelectTag_ReturnsIEnumerableOfProduct()
     {
         // Arrange
         const string tag = "select";
@@ -87,7 +87,7 @@ public class MSSqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetsProductsByInnerJoinProductAndProductType_ReturnsIEnumerableOfProduct()
+    public async Task Select_GetsProductsByInnerJoinOnProductAndProductType_ReturnsIEnumerableOfProduct()
     {
         // Arrange
         const string tag = "selectInnerJoin";
@@ -114,7 +114,7 @@ public class MSSqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetsProductsByLeftJoinProductAndProductType_ReturnsIEnumerableOfProduct()
+    public async Task Select_GetsProductsByLeftJoinOnProductAndProductType_ReturnsIEnumerableOfProduct()
     {
         // Arrange
         const string tag = "selectLeftJoin";
@@ -141,7 +141,7 @@ public class MSSqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetsProductsByRightJoinProductTypeAndProduct_ReturnsIEnumerableOfProduct()
+    public async Task Select_GetsProductsByRightJoinOnProductTypeAndProduct_ReturnsIEnumerableOfProduct()
     {
         // Arrange
         const int count = 3;
