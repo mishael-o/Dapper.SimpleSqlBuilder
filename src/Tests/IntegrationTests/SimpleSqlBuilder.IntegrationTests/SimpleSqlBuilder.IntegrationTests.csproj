@@ -1,25 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net461;net6.0</TargetFrameworks>
+        <TargetFrameworks>net461;net6.0;net7.0</TargetFrameworks>
         <IsIntegrationTestProject>true</IsIntegrationTestProject>
         <RootNamespace>Dapper.SimpleSqlBuilder.IntegrationTests</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder.IntegrationTests</AssemblyName>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="MySql.Data" Version="8.0.32" />
-    </ItemGroup>
-
     <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
         <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
         <PackageReference Include="Npgsql" Version="6.0.8" />
         <PackageReference Include="Respawn" Version="4.0.0" />
+        <PackageReference Include="MySql.Data" Version="8.0.32.1" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' != 'net461'">
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
-        <PackageReference Include="Npgsql" Version="7.0.1" />
+        <PackageReference Include="MySql.Data" Version="8.0.33" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+        <PackageReference Include="Npgsql" Version="7.0.4" />
         <PackageReference Include="Respawn" Version="6.0.0" />
     </ItemGroup>
 
