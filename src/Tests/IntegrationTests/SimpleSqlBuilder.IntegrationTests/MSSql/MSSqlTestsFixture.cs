@@ -1,7 +1,7 @@
 ﻿using System.Data.Common;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
-using DotNet.Testcontainers.Configurations;
 using Respawn;
+using Testcontainers.MsSql;
 
 #if NET461
 
@@ -15,12 +15,10 @@ namespace Dapper.SimpleSqlBuilder.IntegrationTests.MSSql;
 
 public class MSSqlTestsFixture : IAsyncLifetime
 {
-    private const string DbUser = "sa";
-    private const string DbName = "test-db";
     private const int Port = 1433;
 
     private readonly string connectionString;
-    private readonly TestcontainersContainer container;
+    private readonly MsSqlContainer container;
 
     private DbConnection dbConnection = null!;
 
@@ -35,7 +33,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
         const string dbPassword = "Mssql!Pa55w0rD";
         SeedProductTypes = new Fixture().CreateMany<ProductType>(2).ToArray();
 
-        connectionString = $"Data Source=localhost,{Port};Initial Catalog={DbName};User ID={DbUser};Password={dbPassword};TrustServerCertificate=True";
+        connectionString = $"Data Source=localhost,{Port};Initial Catalog={MsSqlBuilder.DefaultDatabase};User ID={MsSqlBuilder.DefaultUsername};Password={dbPassword};TrustServerCertificate=True";
         container = CreateSqlServerContainer(dbPassword);
     }
 
@@ -69,19 +67,14 @@ public class MSSqlTestsFixture : IAsyncLifetime
 #endif
     }
 
-    private static TestcontainersContainer CreateSqlServerContainer(string dbPassword)
+    private static MsSqlContainer CreateSqlServerContainer(string dbPassword)
     {
-        return new TestcontainersBuilder<MsSqlTestcontainer>()
-#pragma warning disable CA2000 // Dispose objects before losing scope
-                .WithDatabase(new MsSqlTestcontainerConfiguration("mcr.microsoft.com/mssql/server:2019-latest")
-#pragma warning restore CA2000 // Dispose objects before losing scope
-                {
-                    Password = dbPassword,
-                    Database = DbName,
-                    Port = Port
-                })
-                .WithName("mssql")
-                .Build();
+        return new MsSqlBuilder()
+            .WithPassword(dbPassword)
+            .WithPortBinding(Port)
+            .WithName("mssql")
+            .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
+            .Build();
     }
 
     private async Task CreateSchemaAsync()
@@ -128,22 +121,29 @@ public class MSSqlTestsFixture : IAsyncLifetime
         await dbConnection.OpenAsync();
     }
 
-    private async Task InitialiseRespawnerAsync()
+    private Task InitialiseRespawnerAsync()
     {
 #if NET461
-        await Task.Run(() => respawner = new Checkpoint
+        respawner = new Checkpoint
         {
             SchemasToInclude = new[] { "dbo" },
             DbAdapter = DbAdapter.SqlServer,
             TablesToIgnore = new[] { nameof(ProductType) }
-        });
+        };
+
+        return Task.CompletedTask;
 #else
-        respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
+        return CreateAsync();
+
+        async Task CreateAsync()
         {
-            SchemasToInclude = new[] { "dbo" },
-            DbAdapter = DbAdapter.SqlServer,
-            TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(ProductType)) }
-        });
+            respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
+            {
+                SchemasToInclude = new[] { "dbo" },
+                DbAdapter = DbAdapter.SqlServer,
+                TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(ProductType)) }
+            });
+        }
 #endif
     }
 }
