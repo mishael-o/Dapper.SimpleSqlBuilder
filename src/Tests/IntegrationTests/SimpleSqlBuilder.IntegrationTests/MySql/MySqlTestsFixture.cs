@@ -1,9 +1,9 @@
 ﻿using System.Data.Common;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
-using DotNet.Testcontainers.Configurations;
 using MySql.Data.MySqlClient;
 using Respawn;
+using Testcontainers.MySql;
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.MySql;
 
@@ -14,7 +14,7 @@ public class MySqlTestsFixture : IAsyncLifetime
     private const int Port = 3306;
 
     private readonly string connectionString;
-    private readonly TestcontainersContainer container;
+    private readonly MySqlContainer container;
 
     private DbConnection dbConnection = null!;
 
@@ -66,20 +66,16 @@ public class MySqlTestsFixture : IAsyncLifetime
 #endif
     }
 
-    private static TestcontainersContainer CreateMySqlContainer(string dbPassword)
+    private static MySqlContainer CreateMySqlContainer(string dbPassword)
     {
-        return new TestcontainersBuilder<MySqlTestcontainer>()
-#pragma warning disable CA2000 // Dispose objects before losing scope
-                .WithDatabase(new MySqlTestcontainerConfiguration("mysql:8")
-#pragma warning restore CA2000 // Dispose objects before losing scope
-                {
-                    Database = DbName,
-                    Username = DbUser,
-                    Password = dbPassword,
-                    Port = Port
-                })
-                .WithName("mysql")
-                .Build();
+        return new MySqlBuilder()
+            .WithDatabase(DbName)
+            .WithUsername(DbUser)
+            .WithPassword(dbPassword)
+            .WithPortBinding(Port)
+            .WithName("mysql")
+            .WithImage("mysql:8")
+            .Build();
     }
 
     private async Task CreateSchemaAsync()
@@ -126,20 +122,27 @@ public class MySqlTestsFixture : IAsyncLifetime
         await dbConnection.OpenAsync();
     }
 
-    private async Task InitialiseRespawnerAsync()
+    private Task InitialiseRespawnerAsync()
     {
 #if NET461
-        await Task.Run(() => respawner = new Checkpoint
+        respawner = new Checkpoint
         {
             DbAdapter = DbAdapter.MySql,
             TablesToIgnore = new[] { nameof(CustomProductType) }
-        });
+        };
+
+        return Task.CompletedTask;
 #else
-        respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
+        return CreateAsync();
+
+        async Task CreateAsync()
         {
-            DbAdapter = DbAdapter.MySql,
-            TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(CustomProductType)) }
-        });
+            respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
+            {
+                DbAdapter = DbAdapter.MySql,
+                TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(CustomProductType)) }
+            });
+        }
 #endif
     }
 }
