@@ -1,8 +1,8 @@
 ﻿using System.Data.Common;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
-using DotNet.Testcontainers.Configurations;
 using Npgsql;
 using Respawn;
+using Testcontainers.PostgreSql;
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.PostgreSql;
 
@@ -13,7 +13,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     private const int Port = 5432;
 
     private readonly string connectionString;
-    private readonly TestcontainersContainer container;
+    private readonly PostgreSqlContainer container;
 
     private DbConnection dbConnection = null!;
 
@@ -63,20 +63,16 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 #endif
     }
 
-    private static TestcontainersContainer CreatePostgreSqlContainer(string dbPassword)
+    private static PostgreSqlContainer CreatePostgreSqlContainer(string dbPassword)
     {
-        return new TestcontainersBuilder<PostgreSqlTestcontainer>()
-#pragma warning disable CA2000 // Dispose objects before losing scope
-                .WithDatabase(new PostgreSqlTestcontainerConfiguration("postgres:14")
-#pragma warning restore CA2000 // Dispose objects before losing scope
-                {
-                    Database = DbName,
-                    Username = DbUser,
-                    Password = dbPassword,
-                    Port = Port
-                })
-                .WithName("postgresql")
-                .Build();
+        return new PostgreSqlBuilder()
+            .WithDatabase(DbName)
+            .WithUsername(DbUser)
+            .WithPassword(dbPassword)
+            .WithPortBinding(Port)
+            .WithName("postgresql")
+            .WithImage("postgres:14")
+            .Build();
     }
 
     private async Task CreateSchemaAsync()
@@ -126,22 +122,30 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
         await dbConnection.OpenAsync();
     }
 
-    private async Task InitialiseRespawnerAsync()
+    private Task InitialiseRespawnerAsync()
     {
 #if NET461
-        await Task.Run(() => respawner = new Checkpoint
+        respawner = new Checkpoint
         {
             SchemasToInclude = new[] { "public" },
             DbAdapter = DbAdapter.Postgres,
             TablesToIgnore = new[] { nameof(ProductType).ToLowerInvariant() }
-        });
+        };
+
+        return Task.CompletedTask;
 #else
-        respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
+
+        return CreateAsync();
+
+        async Task CreateAsync()
         {
-            SchemasToInclude = new[] { "public" },
-            DbAdapter = DbAdapter.Postgres,
-            TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(ProductType).ToLowerInvariant()) }
-        });
+            respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
+            {
+                SchemasToInclude = new[] { "public" },
+                DbAdapter = DbAdapter.Postgres,
+                TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(ProductType).ToLowerInvariant()) }
+            });
+        }
 #endif
     }
 }

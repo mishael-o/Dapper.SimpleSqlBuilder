@@ -15,8 +15,8 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="FluentAssertions" Version="6.10.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+        <PackageReference Include="FluentAssertions" Version="6.11.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
         <PackageReference Include="xunit" Version="2.4.2" />
         <Using Include="AutoFixture" />
         <Using Include="AutoFixture.Xunit2" />
@@ -41,7 +41,7 @@
                 </PackageReference>
 
                 <!--For unit test issues on Linux https://github.com/microsoft/vstest/issues/2469-->
-                <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.3.0" />
+                <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.6.0" />
             </ItemGroup>
         </When>
     </Choose>
@@ -54,7 +54,7 @@
     </ItemGroup>
 
     <ItemGroup Label="IntegrationTestProjectGroup" Condition="'$(IsIntegrationTestProject)' == 'true'">
-        <PackageReference Include="Testcontainers" Version="2.3.0" />
+        <PackageReference Include="Testcontainers" Version="3.1.0" />
         <Using Include="DotNet.Testcontainers.Builders" />
         <Using Include="DotNet.Testcontainers.Containers" />
     </ItemGroup>
