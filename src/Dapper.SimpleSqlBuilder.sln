@@ -89,6 +89,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3882C05C-BF9
 		version.json = version.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{72D162B8-2003-41DF-9F04-483FDF95E7C2}"
+	ProjectSection(SolutionItems) = preProject
+		..\images\icon.png = ..\images\icon.png
+		..\images\package-icon.png = ..\images\package-icon.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -151,6 +157,7 @@ Global
 		{976AF1F2-16CC-4B8B-B493-EFA5E7293389} = {97549155-3FA7-4FE5-9FEB-B6C1C324CDF4}
 		{88F2182D-44A3-4443-B0D0-0E6F9D0480F6} = {05198CB6-57D1-447B-9C62-84B3E2C645AB}
 		{3882C05C-BF92-46F0-BC11-D35AAD4FA0D8} = {05198CB6-57D1-447B-9C62-84B3E2C645AB}
+		{72D162B8-2003-41DF-9F04-483FDF95E7C2} = {05198CB6-57D1-447B-9C62-84B3E2C645AB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D09D761-CE39-4C87-866F-0079DF0D33EB}
