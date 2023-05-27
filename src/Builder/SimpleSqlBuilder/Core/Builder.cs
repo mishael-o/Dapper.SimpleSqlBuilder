@@ -49,6 +49,14 @@ public abstract class Builder : ISqlBuilder
     public abstract Builder Append([InterpolatedStringHandlerArgument("")] ref AppendInterpolatedStringHandler handler);
 
     /// <summary>
+    /// Appends a space and the interpolated string to the builder.
+    /// </summary>
+    /// <param name="condition">The value to determine whether the method should be executed.</param>
+    /// <param name="handler">The handler for the interpolated string.</param>
+    /// <returns>The <see cref="Builder"/>.</returns>
+    public abstract Builder Append(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref AppendInterpolatedStringHandler handler);
+
+    /// <summary>
     /// Appends the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
@@ -56,11 +64,27 @@ public abstract class Builder : ISqlBuilder
     public abstract Builder AppendIntact([InterpolatedStringHandlerArgument("")] ref AppendIntactInterpolatedStringHandler handler);
 
     /// <summary>
+    /// Appends the interpolated string to the builder.
+    /// </summary>
+    /// <param name="condition">The value to determine whether the method should be executed.</param>
+    /// <param name="handler">The handler for the interpolated string.</param>
+    /// <returns>The <see cref="Builder"/>.</returns>
+    public abstract Builder AppendIntact(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref AppendIntactInterpolatedStringHandler handler);
+
+    /// <summary>
     /// Appends an <see cref="Environment.NewLine"/> and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
     /// <returns>The <see cref="Builder"/>.</returns>
     public abstract Builder AppendNewLine([InterpolatedStringHandlerArgument("")] ref AppendNewLineInterpolatedStringHandler handler);
+
+    /// <summary>
+    /// Appends an <see cref="Environment.NewLine"/> and the interpolated string to the builder.
+    /// </summary>
+    /// <param name="condition">The value to determine whether the method should be executed.</param>
+    /// <param name="handler">The handler for the interpolated string.</param>
+    /// <returns>The <see cref="Builder"/>.</returns>
+    public abstract Builder AppendNewLine(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref AppendNewLineInterpolatedStringHandler handler);
 #else
 
     /// <summary>
@@ -71,6 +95,14 @@ public abstract class Builder : ISqlBuilder
     public abstract Builder Append(FormattableString formattable);
 
     /// <summary>
+    /// Appends a space and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// </summary>
+    /// <param name="condition">The value to determine whether the method should be executed.</param>
+    /// <param name="formattable">The <see cref="FormattableString"/>.</param>
+    /// <returns>The <see cref="Builder"/>.</returns>
+    public abstract Builder Append(bool condition, FormattableString formattable);
+
+    /// <summary>
     /// Appends the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
@@ -78,11 +110,27 @@ public abstract class Builder : ISqlBuilder
     public abstract Builder AppendIntact(FormattableString formattable);
 
     /// <summary>
+    /// Appends the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// </summary>
+    /// <param name="condition">The value to determine whether the method should be executed.</param>
+    /// <param name="formattable">The <see cref="FormattableString"/>.</param>
+    /// <returns>The <see cref="Builder"/>.</returns>
+    public abstract Builder AppendIntact(bool condition, FormattableString formattable);
+
+    /// <summary>
     /// Appends an <see cref="Environment.NewLine"/> and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>The <see cref="Builder"/>.</returns>
     public abstract Builder AppendNewLine(FormattableString formattable);
+
+    /// <summary>
+    /// Appends an <see cref="Environment.NewLine"/> and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// </summary>
+    /// <param name="condition">The value to determine whether the method should be executed.</param>
+    /// <param name="formattable">The <see cref="FormattableString"/>.</param>
+    /// <returns>The <see cref="Builder"/>.</returns>
+    public abstract Builder AppendNewLine(bool condition, FormattableString formattable);
 
 #endif
 

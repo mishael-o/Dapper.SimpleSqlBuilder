@@ -10,7 +10,7 @@ public class AppendInterpolatedStringHandlerTests
         Builder builder = null!;
 
         // Act
-        Action act = () => _ = new AppendInterpolatedStringHandler(0, 0, builder);
+        Action act = () => _ = new AppendInterpolatedStringHandler(0, 0, builder, out var _);
 
         // Assert
         act.Should().Throw<ArgumentException>()
@@ -23,7 +23,7 @@ public class AppendInterpolatedStringHandlerTests
     public void Constructor_BuilderDoesNotImplementIBuilderFormatter_ThrowsArgumentException(Mock<Builder> builderMock)
     {
         // Act
-        Action act = () => _ = new AppendInterpolatedStringHandler(0, 0, builderMock.Object);
+        Action act = () => _ = new AppendInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
 
         // Assert
         act.Should().Throw<ArgumentException>()
@@ -39,10 +39,25 @@ public class AppendInterpolatedStringHandlerTests
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
 
         // Act
-        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object);
+        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
 
         // Assert
         builderFormatterMock.Verify(x => x.AppendControl(ControlType.Space));
+    }
+
+    [Theory]
+    [AutoData]
+    public void Constructor_HandlerDisabledByCondition_ReturnsHandler(Mock<Builder> builderMock)
+    {
+        // Arrange
+        const bool condition = false;
+        builderMock.As<IBuilderFormatter>();
+
+        // Act
+        var sut = new AppendInterpolatedStringHandler(0, 0, condition, builderMock.Object, out var isHandlerEnabled);
+
+        // Assert
+        isHandlerEnabled.Should().BeFalse();
     }
 
     [Theory]
@@ -51,7 +66,7 @@ public class AppendInterpolatedStringHandlerTests
     {
         // Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object);
+        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
 
         // Act
         sut.AppendLiteral(value);
@@ -66,7 +81,7 @@ public class AppendInterpolatedStringHandlerTests
     {
         // Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object);
+        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
 
         // Act
         sut.AppendFormatted(value);
@@ -82,7 +97,7 @@ public class AppendInterpolatedStringHandlerTests
     {
         // Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object);
+        var sut = new AppendInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
 
         // Act
         sut.AppendFormatted(value, format);

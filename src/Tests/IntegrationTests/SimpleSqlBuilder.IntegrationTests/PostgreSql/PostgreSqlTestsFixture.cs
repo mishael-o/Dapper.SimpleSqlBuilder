@@ -71,7 +71,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
             .WithPassword(dbPassword)
             .WithPortBinding(Port)
             .WithName("postgresql")
-            .WithImage("postgres:14")
+            .WithImage("postgres:15")
             .Build();
     }
 

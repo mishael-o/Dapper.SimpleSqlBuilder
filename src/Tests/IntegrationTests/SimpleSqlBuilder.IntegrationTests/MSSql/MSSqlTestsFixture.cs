@@ -73,7 +73,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
             .WithPassword(dbPassword)
             .WithPortBinding(Port)
             .WithName("mssql")
-            .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
+            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
             .Build();
     }
 
