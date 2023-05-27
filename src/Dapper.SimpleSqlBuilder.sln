@@ -93,6 +93,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{72D162
 	ProjectSection(SolutionItems) = preProject
 		..\images\icon.png = ..\images\icon.png
 		..\images\package-icon.png = ..\images\package-icon.png
+		..\images\readme-icon.png = ..\images\readme-icon.png
 	EndProjectSection
 EndProject
 Global

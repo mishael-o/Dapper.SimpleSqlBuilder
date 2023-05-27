@@ -1,4 +1,4 @@
-# Dapper Simple SQL Builder
+# <img src="https://raw.githubusercontent.com/mishael-o/Dapper.SimpleSqlBuilder/main/images/readme-icon.png" style="padding:0 0.6em 0.1em 0;vertical-align:middle;" alt=""/>Dapper Simple SQL Builder
 
 [![Continuous integration and delivery](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml) [![Codecov](https://img.shields.io/codecov/c/gh/mishael-o/Dapper.SimpleSqlBuilder?logo=codecov)](https://codecov.io/gh/mishael-o/Dapper.SimpleSqlBuilder)
 
