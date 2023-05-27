@@ -10,7 +10,7 @@ public class AppendIntactInterpolatedStringHandlerTests
         Builder builder = null!;
 
         // Act
-        Action act = () => _ = new AppendIntactInterpolatedStringHandler(0, 0, builder);
+        Action act = () => _ = new AppendIntactInterpolatedStringHandler(0, 0, builder, out var _);
 
         // Assert
         act.Should().Throw<ArgumentException>()
@@ -23,7 +23,7 @@ public class AppendIntactInterpolatedStringHandlerTests
     public void Constructor_BuilderDoesNotImplementIBuilderFormatter_ThrowsArgumentException(Mock<Builder> builderMock)
     {
         // Act
-        Action act = () => _ = new AppendIntactInterpolatedStringHandler(0, 0, builderMock.Object);
+        Action act = () => _ = new AppendIntactInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
 
         // Assert
         act.Should().Throw<ArgumentException>()
@@ -33,11 +33,26 @@ public class AppendIntactInterpolatedStringHandlerTests
 
     [Theory]
     [AutoData]
+    public void Constructor_HandlerDisabledByCondition_ReturnsHandler(Mock<Builder> builderMock)
+    {
+        // Arrange
+        const bool condition = false;
+        builderMock.As<IBuilderFormatter>();
+
+        // Act
+        var sut = new AppendIntactInterpolatedStringHandler(0, 0, condition, builderMock.Object, out var isHandlerEnabled);
+
+        // Assert
+        isHandlerEnabled.Should().BeFalse();
+    }
+
+    [Theory]
+    [AutoData]
     public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, Mock<Builder> builderMock)
     {
         // Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendIntactInterpolatedStringHandler(0, 0, builderMock.Object);
+        var sut = new AppendIntactInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
 
         // Act
         sut.AppendLiteral(value);
@@ -52,7 +67,7 @@ public class AppendIntactInterpolatedStringHandlerTests
     {
         // Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendIntactInterpolatedStringHandler(0, 0, builderMock.Object);
+        var sut = new AppendIntactInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
 
         // Act
         sut.AppendFormatted(value);
@@ -68,7 +83,7 @@ public class AppendIntactInterpolatedStringHandlerTests
     {
         // Arrange
         var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendIntactInterpolatedStringHandler(0, 0, builderMock.Object);
+        var sut = new AppendIntactInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
 
         // Act
         sut.AppendFormatted(value, format);

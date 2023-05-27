@@ -90,8 +90,10 @@ public class BuilderTests
         // Arrange
         var expectedSql = $"SELECT * FROM TABLE WHERE ID = {id} AND WHERE NAME = @p0";
 
+        var sut = SimpleBuilder.Create();
+
         // Act
-        var sut = SimpleBuilder.Create($"SELECT * FROM TABLE WHERE ID = {id:raw} AND WHERE NAME = {name}");
+        sut.AppendIntact($"SELECT * FROM TABLE WHERE ID = {id:raw} AND WHERE NAME = {name}");
 
         // Assert
         sut.Sql.Should().Be(expectedSql);
@@ -161,19 +163,48 @@ public class BuilderTests
     }
 
     [Theory]
+    [InlineData(false, "")]
+    [InlineData(true, "SELECT * FROM TABLE WHERE ID = @p0")]
+    public void AppendIntact_AppendsInterpolatedStringWithCondition_ReturnsSqlBuilder(bool condition, string expectedSql)
+    {
+        // Act
+        var sut = SimpleBuilder.Create()
+            .AppendIntact(condition, $"SELECT * FROM TABLE WHERE ID = {1}");
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+    }
+
+    [Theory]
     [AutoData]
-    public void Append_AppendsInterpolatedString_ReturnsSqlBuilder(int id)
+    public void Append_AppendsInterpolatedString_ReturnsSqlBuilder(string tableName, int id, string typeCode, int rowNum)
     {
         // Arrange
+        string expectedSql = $" WHERE ID = @p0 AND TypeId IN (SELECT TypeId FROM {tableName} WHERE TypeCode = @p1) ROWNUM <= {rowNum}";
+        FormattableString subQuery = $"SELECT TypeId FROM {tableName:raw} WHERE TypeCode = {typeCode}";
         var sut = SimpleBuilder.Create();
 
         // Act
-        sut.Append($"WHERE ID = {id}");
+        sut.Append($"WHERE ID = {id} AND TypeId IN ({subQuery}) ROWNUM <= {rowNum:raw}");
 
         // Assert
-        sut.Sql.Should().Be(" WHERE ID = @p0");
-        sut.ParameterNames.Count().Should().Be(1);
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Count().Should().Be(2);
         sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(typeCode);
+    }
+
+    [Theory]
+    [InlineData(false, "")]
+    [InlineData(true, " WHERE ID = @p0")]
+    public void Append_AppendsInterpolatedStringWithCondition_ReturnsSqlBuilder(bool condition, string expectedSql)
+    {
+        // Act
+        var sut = SimpleBuilder.Create()
+            .Append(condition, $"WHERE ID = {1}");
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
     }
 
     [Fact]
@@ -192,22 +223,35 @@ public class BuilderTests
     }
 
     [Theory]
+    [MemberData(nameof(BuilderTestsData.AppendNewLineWithConditionData), MemberType = typeof(BuilderTestsData))]
+    public void AppendNewLine_AppendNewLineWithCondition_ReturnsSqlBuilder(bool condition, string expectedSql)
+    {
+        // Act
+        var sut = SimpleBuilder.Create()
+            .AppendNewLine(condition, $"WHERE ID = {1}");
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+    }
+
+    [Theory]
     [AutoData]
-    public void AppendNewLine_AppendsNewLineAndInterpolatedString_ReturnsSqlBuilder(int id)
+    public void AppendNewLine_AppendsNewLineAndInterpolatedString_ReturnsSqlBuilder(string tableName, int id, string typeCode, int rowNum)
     {
         // Arrange
-        var expectedSql = $"{Environment.NewLine}WHERE ID = @p0";
+        var expectedSql = $"{Environment.NewLine}WHERE ID = @p0 AND TypeId IN (SELECT TypeId FROM {tableName} WHERE TypeCode = @p1) ROWNUM <= {rowNum}";
+        FormattableString subQuery = $"SELECT TypeId FROM {tableName:raw} WHERE TypeCode = {typeCode}";
 
         var sut = SimpleBuilder.Create();
 
         // Act
-        var result = sut.AppendNewLine($"WHERE ID = {id}");
+        sut.AppendNewLine($"WHERE ID = {id} AND TypeId IN ({subQuery}) ROWNUM <= {rowNum:raw}");
 
         // Assert
-        result.Should().Be(sut);
         sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(1);
+        sut.ParameterNames.Count().Should().Be(2);
         sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(typeCode);
     }
 
     [Theory]
@@ -278,7 +322,14 @@ public class BuilderTests
     public void Creates_CreatesBuilderAndReuseParameters_ReturnsSqlBuilder()
     {
         // Arrange
-        var model = new { Id = 10, TypeId = 20, Age = default(int?), Name = "John", MiddleName = default(string) };
+        var model = new
+        {
+            Id = 10,
+            TypeId = 20,
+            Age = default(int?),
+            Name = "John",
+            MiddleName = default(string)
+        };
 
         string expectedSql = "INSERT INTO TABLE VALUES (@p0, @p1, @p2, @p3, @p4)" +
             $"{Environment.NewLine}INSERT INTO TABLE VALUES (@p0, @p1, @p5, @p3, @p6)";
@@ -297,5 +348,15 @@ public class BuilderTests
         sut.GetValue<string?>("p4").Should().Be(model.MiddleName);
         sut.GetValue<int?>("p5").Should().Be(model.Age);
         sut.GetValue<string?>("p6").Should().Be(model.MiddleName);
+    }
+
+    internal static class BuilderTestsData
+    {
+        public static IEnumerable<object[]> AppendNewLineWithConditionData
+            => new List<object[]>
+            {
+                new object[] { false, string.Empty },
+                new object[] { true, Environment.NewLine + "WHERE ID = @p0" }
+            };
     }
 }

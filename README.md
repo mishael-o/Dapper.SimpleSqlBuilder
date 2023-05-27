@@ -167,18 +167,13 @@ WHERE UserTypeId = @p0 AND Age >= @p1
 ORDER BY Name ASC
 ```
 
-You can also use it with conditional statements.
+You can also use it with conditional statements. The `Append` methods all have conditional overloads.
 
 ```c#
 var builder = SimpleBuilder.Create()
-    .AppendIntact($"SELECT * FROM User WHERE UserTypeId = {user.TypeId}");
-
-if (user.Age is not null)
-{
-    builder.Append($"AND Age >= {user.Age}");
-}
-
-builder.Append($"ORDER BY Age ASC");
+    .AppendIntact($"SELECT * FROM User WHERE UserTypeId = {user.TypeId}")
+    .Append(user.Age is not null, $"AND Age >= {user.Age}")
+    .AppendNewLine($"ORDER BY Age ASC");
 ```
 
 **Note**: The `Append(...)` method adds a space before the SQL text by default. You can use the `AppendIntact(...)` method if you don't want this behaviour.
