@@ -903,13 +903,12 @@ The benchmark below shows the performance of the `Builder` and `FluentBuilder` c
 
 ``` ini
 
-BenchmarkDotNet=v0.13.4, OS=Windows 11 (10.0.22621.1105)
+BenchmarkDotNet=v0.13.5, OS=Windows 11 (10.0.22621.1702)
 Intel Core i7-8750H CPU 2.20GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores
-.NET SDK=6.0.308
-  [Host]     : .NET 6.0.13 (6.0.1322.58009), X64 RyuJIT AVX2
-  Job-GEPLMO : .NET 6.0.13 (6.0.1322.58009), X64 RyuJIT AVX2
-  Job-FSXWVC : .NET Framework 4.8.1 (4.8.9105.0), X64 RyuJIT VectorSize=256
-
+.NET SDK=7.0.302
+  [Host]     : .NET 7.0.5 (7.0.523.17405), X64 RyuJIT AVX2
+  Job-GENUID : .NET 7.0.5 (7.0.523.17405), X64 RyuJIT AVX2
+  Job-RUVSLE : .NET Framework 4.8.1 (4.8.9139.0), X64 RyuJIT VectorSize=256
 
 ```
 
