@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net461;netstandard2.0;net6.0</TargetFrameworks>
+        <TargetFrameworks>net461;netstandard2.0;net6.0;net7.0</TargetFrameworks>
         <Description>A simple SQL builder for Dapper using string interpolation and fluent API for building dynamic SQL.</Description>
         <RootNamespace>Dapper.SimpleSqlBuilder.StrongName</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder.StrongName</AssemblyName>
@@ -25,6 +25,7 @@
 
     <ItemGroup>
         <None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\..\images\package-icon.png" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>

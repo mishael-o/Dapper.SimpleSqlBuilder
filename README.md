@@ -2,6 +2,8 @@
 
 [![Continuous integration and delivery](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml) [![Codecov](https://img.shields.io/codecov/c/gh/mishael-o/Dapper.SimpleSqlBuilder?logo=codecov)](https://codecov.io/gh/mishael-o/Dapper.SimpleSqlBuilder)
 
+![Dapper Simple SQL Builder](https://raw.githubusercontent.com/mishael-o/Dapper.SimpleSqlBuilder/main/images/readme-icon.png)
+
 A simple SQL builder for [Dapper](https://github.com/DapperLib/Dapper) using string interpolation and fluent API for building dynamic SQL.
 
 This library provides a simple and easy way to build dynamic SQL and commands, that can be executed using the Dapper library. This is achieved by leveraging [FormattableString](https://docs.microsoft.com/en-us/dotnet/api/system.formattablestring) and [interpolated string handlers](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/interpolated-string-handler) to capture parameters and produce parameterized SQL.
@@ -167,18 +169,13 @@ WHERE UserTypeId = @p0 AND Age >= @p1
 ORDER BY Name ASC
 ```
 
-You can also use it with conditional statements.
+You can also use it with conditional statements. The `Append` methods all have conditional overloads.
 
 ```c#
 var builder = SimpleBuilder.Create()
-    .AppendIntact($"SELECT * FROM User WHERE UserTypeId = {user.TypeId}");
-
-if (user.Age is not null)
-{
-    builder.Append($"AND Age >= {user.Age}");
-}
-
-builder.Append($"ORDER BY Age ASC");
+    .AppendIntact($"SELECT * FROM User WHERE UserTypeId = {user.TypeId}")
+    .Append(user.Age is not null, $"AND Age >= {user.Age}")
+    .AppendNewLine($"ORDER BY Age ASC");
 ```
 
 **Note**: The `Append(...)` method adds a space before the SQL text by default. You can use the `AppendIntact(...)` method if you don't want this behaviour.
@@ -867,10 +864,10 @@ You can configure the simple builder settings and the `ISimpleBuilder` instance 
 ```json
 {
   "SimpleSqlBuilder": {
-	"DatabaseParameterNameTemplate": "p",
-	"DatabaseParameterPrefix": "@",
-	"ReuseParameters": false,
-	"UseLowerCaseClauses": false
+    "DatabaseParameterNameTemplate": "p",
+    "DatabaseParameterPrefix": "@",
+    "ReuseParameters": false,
+    "UseLowerCaseClauses": false
   }
 }
 ```
@@ -918,30 +915,30 @@ Intel Core i7-8750H CPU 2.20GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical 
 
 |                             Method |              Runtime |   Categories |      Mean | Allocated |
 |----------------------------------- |--------------------- |------------- |----------:|----------:|
-|                SqlBuilder (Dapper) |             .NET 6.0 | Simple query |  1.922 μs |   2.91 KB |
-|                            Builder |             .NET 6.0 | Simple query |  1.647 μs |   5.05 KB |
-|                      FluentBuilder |             .NET 6.0 | Simple query |  2.017 μs |   4.57 KB |
-|         Builder (Reuse parameters) |             .NET 6.0 | Simple query |  2.356 μs |   5.38 KB |
-|   FluentBuilder (Reuse parameters) |             .NET 6.0 | Simple query |  2.727 μs |    4.9 KB |
+|                SqlBuilder (Dapper) |             .NET 7.0 | Simple query |  1.870 μs |   2.91 KB |
+|                            Builder |             .NET 7.0 | Simple query |  1.628 μs |   4.98 KB |
+|                      FluentBuilder |             .NET 7.0 | Simple query |  2.004 μs |    4.5 KB |
+|         Builder (Reuse parameters) |             .NET 7.0 | Simple query |  2.191 μs |   5.26 KB |
+|   FluentBuilder (Reuse parameters) |             .NET 7.0 | Simple query |  2.614 μs |   4.77 KB |
 |                                    |                      |              |           |           |
-|                SqlBuilder (Dapper) | .NET Framework 4.6.1 | Simple query |  3.310 μs |   3.43 KB |
-|                            Builder | .NET Framework 4.6.1 | Simple query |  4.373 μs |   5.55 KB |
-|                      FluentBuilder | .NET Framework 4.6.1 | Simple query |  4.475 μs |    5.2 KB |
-|         Builder (Reuse parameters) | .NET Framework 4.6.1 | Simple query |  5.205 μs |   6.12 KB |
-|   FluentBuilder (Reuse parameters) | .NET Framework 4.6.1 | Simple query |  5.288 μs |   5.77 KB |
+|                SqlBuilder (Dapper) | .NET Framework 4.6.1 | Simple query |  3.195 μs |   3.43 KB |
+|                            Builder | .NET Framework 4.6.1 | Simple query |  4.327 μs |   5.55 KB |
+|                      FluentBuilder | .NET Framework 4.6.1 | Simple query |  4.420 μs |    5.2 KB |
+|         Builder (Reuse parameters) | .NET Framework 4.6.1 | Simple query |  5.083 μs |   6.12 KB |
+|   FluentBuilder (Reuse parameters) | .NET Framework 4.6.1 | Simple query |  5.199 μs |   5.77 KB |
 |                                    |                      |              |           |           |
 |                                    |                      |              |           |           |
-|                SqlBuilder (Dapper) |             .NET 6.0 |  Large query | 28.648 μs |  42.19 KB |
-|                            Builder |             .NET 6.0 |  Large query | 23.737 μs |  66.15 KB |
-|                      FluentBuilder |             .NET 6.0 |  Large query | 28.695 μs |  49.73 KB |
-|         Builder (Reuse parameters) |             .NET 6.0 |  Large query | 17.750 μs |  46.76 KB |
-|   FluentBuilder (Reuse parameters) |             .NET 6.0 |  Large query | 22.434 μs |  30.34 KB |
+|                SqlBuilder (Dapper) |             .NET 7.0 |  Large query | 28.757 μs |  42.19 KB |
+|                            Builder |             .NET 7.0 |  Large query | 22.569 μs |  65.04 KB |
+|                      FluentBuilder |             .NET 7.0 |  Large query | 27.824 μs |  48.62 KB |
+|         Builder (Reuse parameters) |             .NET 7.0 |  Large query | 15.511 μs |  45.59 KB |
+|   FluentBuilder (Reuse parameters) |             .NET 7.0 |  Large query | 20.451 μs |  29.18 KB |
 |                                    |                      |              |           |           |
-|                SqlBuilder (Dapper) | .NET Framework 4.6.1 |  Large query | 44.050 μs |  53.09 KB |
-|                            Builder | .NET Framework 4.6.1 |  Large query | 62.126 μs |  74.55 KB |
-|                      FluentBuilder | .NET Framework 4.6.1 |  Large query | 65.133 μs |  68.61 KB |
-|         Builder (Reuse parameters) | .NET Framework 4.6.1 |  Large query | 48.110 μs |  49.83 KB |
-|   FluentBuilder (Reuse parameters) | .NET Framework 4.6.1 |  Large query | 50.751 μs |  43.87 KB |
+|                SqlBuilder (Dapper) | .NET Framework 4.6.1 |  Large query | 44.623 μs |  53.09 KB |
+|                            Builder | .NET Framework 4.6.1 |  Large query | 63.220 μs |  74.55 KB |
+|                      FluentBuilder | .NET Framework 4.6.1 |  Large query | 65.000 μs |  68.61 KB |
+|         Builder (Reuse parameters) | .NET Framework 4.6.1 |  Large query | 47.560 μs |  49.83 KB |
+|   FluentBuilder (Reuse parameters) | .NET Framework 4.6.1 |  Large query | 50.538 μs |  43.87 KB |
 
 Refer to the [benchmark project](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/tree/main/src/Benchmark/SimpleSqlBuilder.BenchMark) for more information.
 

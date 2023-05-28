@@ -33,10 +33,19 @@ internal sealed partial class SqlBuilder : Builder
     public override Builder Append([InterpolatedStringHandlerArgument("")] ref AppendInterpolatedStringHandler handler)
         => this;
 
+    public override Builder Append(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref AppendInterpolatedStringHandler handler)
+        => this;
+
     public override Builder AppendIntact([InterpolatedStringHandlerArgument("")] ref AppendIntactInterpolatedStringHandler handler)
         => this;
 
+    public override Builder AppendIntact(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref AppendIntactInterpolatedStringHandler handler)
+        => this;
+
     public override Builder AppendNewLine([InterpolatedStringHandlerArgument("")] ref AppendNewLineInterpolatedStringHandler handler)
+        => this;
+
+    public override Builder AppendNewLine(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref AppendNewLineInterpolatedStringHandler handler)
         => this;
 #else
 
@@ -47,10 +56,24 @@ internal sealed partial class SqlBuilder : Builder
         return this;
     }
 
+    public override Builder Append(bool condition, FormattableString formattable)
+    {
+        return condition
+            ? Append(formattable)
+            : this;
+    }
+
     public override Builder AppendIntact(FormattableString formattable)
     {
         AppendFormattable(formattable);
         return this;
+    }
+
+    public override Builder AppendIntact(bool condition, FormattableString formattable)
+    {
+        return condition
+            ? AppendIntact(formattable)
+            : this;
     }
 
     public override Builder AppendNewLine(FormattableString formattable)
@@ -58,6 +81,13 @@ internal sealed partial class SqlBuilder : Builder
         AppendNewLine();
         AppendFormattable(formattable);
         return this;
+    }
+
+    public override Builder AppendNewLine(bool condition, FormattableString formattable)
+    {
+        return condition
+            ? AppendNewLine(formattable)
+            : this;
     }
 
 #endif

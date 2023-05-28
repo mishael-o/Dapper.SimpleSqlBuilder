@@ -12,6 +12,8 @@
         <PackageReleaseNotes>https://github.com/mishael-o/Dapper.SimpleSqlBuilder/releases</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</PackageProjectUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>package-icon.png</PackageIcon>
         <PackageTags>dapper;sql;sql-builder;dapper-sql-builder;simple-sql-builder;dapper-simple-sql-builder</PackageTags>
         <RepositoryUrl>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</RepositoryUrl>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -19,7 +21,6 @@
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <IsPackable>true</IsPackable>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -28,7 +29,7 @@
 
     <ItemGroup Label="PackageItemGroup">
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-        <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.119" PrivateAssets="All" />
+        <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="All" />
     </ItemGroup>
 
     <Target Name="OverrideVersion" AfterTargets="GetBuildVersion" Condition="'$(PublicRelease)' == 'False'">
