@@ -1,14 +1,19 @@
 ﻿using System.Data.Common;
+using AutoFixture.Dsl;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.Common;
 
 internal static class ProductHelpers
 {
-    public static async Task<IEnumerable<Product>> GenerateSeedProductsAsync(DbConnection connection, int count = 5, Guid? productTypeId = null, string? tag = null, string? productDescription = null)
+    public static async Task<IEnumerable<Product>> GenerateSeedProductsAsync(
+        DbConnection connection,
+        int count = 5,
+        Guid? productTypeId = null,
+        string? tag = null,
+        string? productDescription = null)
     {
         var products = GetProductFixture(productTypeId, tag, productDescription)
-            .With(x => x.CreatedDate, DateTime.Now.Date)
             .CreateMany(count)
             .ToArray();
 
@@ -26,10 +31,14 @@ internal static class ProductHelpers
         return products;
     }
 
-    public static async Task<IEnumerable<CustomProduct>> GenerateSeedCustomProductsAsync(DbConnection connection, int count = 5, CustomId? productTypeId = null, string? tag = null, string? productDescription = null)
+    public static async Task<IEnumerable<CustomProduct>> GenerateSeedCustomProductsAsync(
+        DbConnection connection,
+        int count = 5,
+        CustomId? productTypeId = null,
+        string? tag = null,
+        string? productDescription = null)
     {
         var products = GetCustomProductFixture(productTypeId, tag, productDescription)
-            .With(x => x.CreatedDate, DateTime.Now.Date)
             .CreateMany(count)
             .ToArray();
 
@@ -47,45 +56,49 @@ internal static class ProductHelpers
         return products;
     }
 
-    public static AutoFixture.Dsl.IPostprocessComposer<Product> GetProductFixture(Guid? productTypeId = null, string? tag = null, string? productDescription = null)
+    public static IPostprocessComposer<Product> GetProductFixture(Guid? productTypeId = null, string? tag = null, string? productDescription = null)
     {
         var fixture = new Fixture()
-            .Build<Product>()
-            .With(x => x.CreatedDate, DateTime.Now.Date);
+            .Build<Product>();
 
-        fixture = productTypeId.HasValue
-            ? fixture.With(x => x.TypeId, productTypeId.Value)
-            : fixture.Without(x => x.TypeId);
+        var composer = fixture
+            .With(x => x.CreatedDate, () => fixture.Create<DateTime>().Date);
 
-        fixture = string.IsNullOrWhiteSpace(productDescription)
-            ? fixture.Without(x => x.Description)
-            : fixture.With(x => x.Description, productDescription);
+        composer = productTypeId.HasValue
+            ? composer.With(x => x.TypeId, productTypeId.Value)
+            : composer.Without(x => x.TypeId);
 
-        fixture = string.IsNullOrWhiteSpace(tag)
-            ? fixture.Without(x => x.Tag)
-            : fixture.With(x => x.Tag, tag);
+        composer = string.IsNullOrWhiteSpace(productDescription)
+            ? composer.Without(x => x.Description)
+            : composer.With(x => x.Description, productDescription);
 
-        return fixture;
+        composer = string.IsNullOrWhiteSpace(tag)
+            ? composer.Without(x => x.Tag)
+            : composer.With(x => x.Tag, tag);
+
+        return composer;
     }
 
-    public static AutoFixture.Dsl.IPostprocessComposer<CustomProduct> GetCustomProductFixture(CustomId? productTypeId = null, string? tag = null, string? productDescription = null)
+    public static IPostprocessComposer<CustomProduct> GetCustomProductFixture(CustomId? productTypeId = null, string? tag = null, string? productDescription = null)
     {
         var fixture = new Fixture()
-            .Build<CustomProduct>()
-            .With(x => x.CreatedDate, DateTime.Now.Date);
+            .Build<CustomProduct>();
 
-        fixture = productTypeId.HasValue
-            ? fixture.With(x => x.TypeId, productTypeId.Value)
-            : fixture.Without(x => x.TypeId);
+        var composer = fixture
+            .With(x => x.CreatedDate, () => fixture.Create<DateTime>().Date);
 
-        fixture = string.IsNullOrWhiteSpace(productDescription)
-            ? fixture.Without(x => x.Description)
-            : fixture.With(x => x.Description, productDescription);
+        composer = productTypeId.HasValue
+            ? composer.With(x => x.TypeId, productTypeId.Value)
+            : composer.Without(x => x.TypeId);
 
-        fixture = string.IsNullOrWhiteSpace(tag)
-            ? fixture.Without(x => x.Tag)
-            : fixture.With(x => x.Tag, tag);
+        composer = string.IsNullOrWhiteSpace(productDescription)
+            ? composer.Without(x => x.Description)
+            : composer.With(x => x.Description, productDescription);
 
-        return fixture;
+        composer = string.IsNullOrWhiteSpace(tag)
+            ? composer.Without(x => x.Tag)
+            : composer.With(x => x.Tag, tag);
+
+        return composer;
     }
 }

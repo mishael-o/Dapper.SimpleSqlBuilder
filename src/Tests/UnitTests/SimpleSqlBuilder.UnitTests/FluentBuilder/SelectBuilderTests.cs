@@ -299,6 +299,92 @@ public class SelectBuilderTests
         sut.ParameterNames.Should().HaveCount(0);
     }
 
+    [Fact]
+    public void Select_BuildSqlWithOffsetRowsMethod_ReturnsFluentSqlBuilder()
+    {
+        // Arrange
+        const int offset = 10;
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+            $"{Environment.NewLine}ORDER BY Id" +
+            $"{Environment.NewLine}OFFSET {offset} ROWS";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .OrderBy($"Id")
+                    .OffsetRows(offset);
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public void Select_BuildSqlWithFetchNextMethod_ReturnsFluentSqlBuilder()
+    {
+        // Arrange
+        const int rows = 10;
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+            $"{Environment.NewLine}ORDER BY Id" +
+            $"{Environment.NewLine}FETCH NEXT {rows} ROWS ONLY";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .OrderBy($"Id")
+                    .FetchNext(rows);
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public void Select_BuildSqlWithLimitMethod_ReturnsFluentSqlBuilder()
+    {
+        // Arrange
+        const int rows = 10;
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+            $"{Environment.NewLine}ORDER BY Id" +
+            $"{Environment.NewLine}LIMIT {rows}";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .OrderBy($"Id")
+                    .Limit(rows);
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public void Select_BuildSqlWithLimitOffsetMethods_ReturnsFluentSqlBuilder()
+    {
+        // Arrange
+        const int rows = 10;
+        const int offset = 5;
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+            $"{Environment.NewLine}ORDER BY Id" +
+            $"{Environment.NewLine}LIMIT {rows} OFFSET {offset}";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .OrderBy($"Id")
+                    .Limit(rows)
+                    .Offset(offset);
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
+    }
+
     [Theory]
     [AutoData]
     public void Select_BuildsSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, string type)
@@ -435,7 +521,7 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Select_BuildsSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type, int offset, int rows)
     {
         // Arrange
         var expectedSql = "select *" +
@@ -446,7 +532,9 @@ public class SelectBuilderTests
             $"{Environment.NewLine}where Table1.Id = @p0 or (Table1.Age = @p1 and Table1.Type = @p2)" +
             $"{Environment.NewLine}group by Table1.Id" +
             $"{Environment.NewLine}having count(Table1.Type) > 1 and count(Table1.Type) < 10" +
-            $"{Environment.NewLine}order by Table1.Type";
+            $"{Environment.NewLine}order by Table1.Type" +
+            $"{Environment.NewLine}offset {offset} rows" +
+            $"{Environment.NewLine}fetch next {rows} rows only";
 
         // Act
         var sut = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
@@ -460,7 +548,9 @@ public class SelectBuilderTests
                     .GroupBy($"Table1.Id")
                     .Having($"count(Table1.Type) > 1")
                     .Having($"count(Table1.Type) < 10")
-                    .OrderBy($"Table1.Type");
+                    .OrderBy($"Table1.Type")
+                    .OffsetRows(offset)
+                    .FetchNext(rows);
 
         // Assert
         sut.Sql.Should().Be(expectedSql);
@@ -468,6 +558,29 @@ public class SelectBuilderTests
         sut.GetValue<int>("p0").Should().Be(id);
         sut.GetValue<int>("p1").Should().Be(age);
         sut.GetValue<string>("p2").Should().Be(type);
+    }
+
+    [Fact]
+    public void Select_BuildSqlWithLimitOffsetMethodsAndUseLowerClauses_ReturnsFluentSqlBuilder()
+    {
+        // Arrange
+        const int rows = 10;
+        const int offset = 5;
+        var expectedSql = $"select *{Environment.NewLine}from Table" +
+            $"{Environment.NewLine}order by Id" +
+            $"{Environment.NewLine}limit {rows} offset {offset}";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
+                    .Select($"*")
+                    .From($"Table")
+                    .OrderBy($"Id")
+                    .Limit(rows)
+                    .Offset(offset);
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
     }
 
     [Fact]

@@ -87,6 +87,73 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task Select_GetsProductsByLimit_ReturnsIEnumerableOfProduct()
+    {
+        // Arrange
+        const int count = 10;
+        const string tag = "limit";
+        const int rows = 4;
+
+        using var connection = mySqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
+        var products = await ProductHelpers.GenerateSeedCustomProductsAsync(connection, count, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
+
+        var paginatedProducts = products
+            .OrderBy(x => x.CreatedDate)
+            .Take(rows);
+
+        var builder = SimpleBuilder.CreateFluent()
+            .Select($"*")
+            .From($"{nameof(CustomProduct):raw}")
+            .Where($"{nameof(CustomProduct.Tag):raw} = {tag}")
+            .OrderBy($"{nameof(CustomProduct.CreatedDate):raw} ASC")
+            .Limit(rows);
+
+        // Act
+        var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
+
+        // Assert
+        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+    }
+
+    [Fact]
+    public async Task Select_GetsProductsByLimitAndOffset_ReturnsIEnumerableOfProduct()
+    {
+        // Arrange
+        const int count = 30;
+        const string tag = "limit-offset";
+        const int offset = 5;
+        const int rows = 10;
+
+        using var connection = mySqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
+        var products = await ProductHelpers.GenerateSeedCustomProductsAsync(connection, count, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
+
+        var paginatedProducts = products
+            .OrderBy(x => x.CreatedDate)
+            .Skip(offset)
+            .Take(rows)
+            .ToList();
+
+        var builder = SimpleBuilder.CreateFluent()
+            .Select($"*")
+            .From($"{nameof(CustomProduct):raw}")
+            .Where($"{nameof(CustomProduct.Tag):raw} = {tag}")
+            .OrderBy($"{nameof(CustomProduct.CreatedDate):raw} ASC")
+            .OrderBy($"{nameof(CustomProduct.Id):raw} ASC")
+            .Limit(rows)
+            .Offset(offset);
+
+        // Act
+        var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
+
+        // Assert
+        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+    }
+
+    [Fact]
     public async Task Select_GetsProductsByInnerJoinOnProductAndProductType_ReturnsIEnumerableOfCustomProduct()
     {
         // Arrange

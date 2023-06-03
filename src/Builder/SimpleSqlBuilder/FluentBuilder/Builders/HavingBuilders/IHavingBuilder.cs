@@ -3,7 +3,7 @@
 /// <summary>
 /// An interface that defines the having builder type.
 /// </summary>
-public interface IHavingBuilder : IOrderByBuilder
+public interface IHavingBuilder : IOrderByBuilderEntry
 {
 #if NET6_0_OR_GREATER
     /// <summary>

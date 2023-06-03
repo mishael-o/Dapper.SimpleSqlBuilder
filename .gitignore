@@ -388,3 +388,4 @@ FodyWeavers.xsd
 *.sln.iml
 /_workspaces.db
 /src/_workspaces.db
+/.local

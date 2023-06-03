@@ -48,7 +48,12 @@ dotnet add package Dapper.SimpleSqlBuilder
 
 The library provides a static class called `SimpleBuilder` that is used to create simple builder instances. However, the library also provides an alternative to the static classes via dependency injection, which is covered in the [Dependency Injection](#dependency-injection) section.
 
-#### Create SQL query with the Builder
+The library provides two ways to build SQL queries via the:
+
+- `Builder` - A simple builder that can be used to build static and dynamic SQL queries
+- `Fluent Builder` - A fluent builder that uses fluent API to build SQL queries.
+
+#### Create SQL query with the `Builder`
 
 ```c#
 using Dapper.SimpleSqlBuilder;
@@ -77,7 +82,7 @@ var users = dbConnection.Query<User>(builder.Sql, builder.Parameters);
 
 To learn more about the builder, see the [Builder](#builder) section.
 
-#### Create SQL query with the Fluent Builder
+#### Create SQL query with the `Fluent Builder`
 
 ```c#
 using Dapper.SimpleSqlBuilder;
@@ -107,6 +112,8 @@ To learn more about the fluent builder, see the [Fluent Builder](#fluent-builder
 To learn about configuring the simple builder, see the [Configuring Simple Builder Settings](#configuring-simple-builder-settings) section.
 
 ## Builder
+
+A simple builder that can be used to build static and dynamic SQL queries, which provides a lot of flexibility.
 
 ### Static SQL
 
@@ -169,7 +176,7 @@ WHERE UserTypeId = @p0 AND Age >= @p1
 ORDER BY Name ASC
 ```
 
-You can also use it with conditional statements. The `Append` methods all have conditional overloads.
+You can also use it with conditional statements. The `Append` methods all have conditional overloads. This is useful when you want to append a statement only if a condition is met.
 
 ```c#
 var builder = SimpleBuilder.Create()
@@ -541,7 +548,7 @@ var user = new User { Id = 10, Name = "John" Role = null, UserTypeId = 123 };
 
 var builder = SimpleBuilder.CreateFluent()
     .Update($"User")
-    .Set(user.Name is not null, $"Name = {user.Name}")
+    .Set($"Name = {user.Name}")
     .Set(user.Role is not null, $"Role = {user.Role}")
     .Where($"Id = {user.Id}")
     .Where(user.Role is not null, $"Role = {user.Role}")
@@ -566,7 +573,7 @@ var builder = SimpleBuilder.CreateFluent()
     .From($"User")
     .WhereFilter()
         .WithFilter(user.Role is not null, $"Role = {user.Role}")
-        .WithFilter(user.Name is not null, $"Name = {user.Name}")
+        .WithFilter($"Name = {user.Name}")
     .OrWhereFilter()
         .WithFilter(user.Age is not null, $"Age = {user.Age}")
         .WithOrFilter(user.UserTypeId is not null, $"UserTypeId = {user.UserTypeId}");
