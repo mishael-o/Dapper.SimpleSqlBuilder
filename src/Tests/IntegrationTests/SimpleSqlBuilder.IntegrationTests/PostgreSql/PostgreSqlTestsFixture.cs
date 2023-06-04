@@ -107,12 +107,12 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
         await dbConnection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
 
         var storedProcBuilder = SimpleBuilder.Create($"""
-           CREATE PROCEDURE {StoredProcName:raw} (TypeId INT, out ProductId INT, out Result INT)
+           CREATE PROCEDURE {StoredProcName:raw} (TypeId INT, OUT ProductId INT, OUT Result INT)
            AS $$
            BEGIN
                 ProductId = NEXTVAL('{sequenceName:raw}');
                 INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
-                VALUES (ProductId, gen_random_uuid(), TypeId, 'procedure', now());
+                VALUES (ProductId, GEN_RANDOM_UUID(), TypeId, 'procedure', NOW());
                 GET DIAGNOSTICS Result = ROW_COUNT;
            END; $$
            LANGUAGE plpgsql;
