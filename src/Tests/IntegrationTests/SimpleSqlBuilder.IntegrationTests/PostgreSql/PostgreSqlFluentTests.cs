@@ -27,10 +27,10 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var builder = SimpleBuilder.CreateFluent()
             .InsertInto($"{nameof(Product):raw}")
             .Columns($"{nameof(Product.Id):raw}")
-            .Columns($"{nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}")
-            .Columns($"{nameof(Product.CreatedDate):raw}")
+            .Columns($"{nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}")
+            .Columns($"{nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw}")
             .Values($"{product.Id}")
-            .Values($"{product.TypeId.DefineParam(DbType.Guid)}")
+            .Values($"{product.GlobalId}, {product.TypeId.DefineParam(DbType.Int32)}")
             .Values($"{product.Tag}, {product.CreatedDate}");
 
         var insertCountBuilder = SimpleBuilder.CreateFluent()
@@ -54,7 +54,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
     {
         // Arrange
         const string tag = "select";
-        const string tag2 = "select2";
+        const string tag2 = $"{tag}2";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
@@ -62,15 +62,15 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var products = (await ProductHelpers.GenerateSeedProductsAsync(
             connection,
             productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id,
-            tag: tag,
-            productDescription: postgreSqlTestsFixture.SeedProductTypes[0].Description)).ToList();
+            tag: tag)).ToList();
 
         products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, tag: tag2));
 
-        FormattableString subQuery = $@"
+        FormattableString subQuery = $"""
             SELECT {nameof(ProductType.Description):raw}
             FROM {nameof(ProductType):raw}
-            WHERE {nameof(ProductType.Id):raw} = x.{nameof(Product.TypeId):raw}";
+            WHERE {nameof(ProductType.Id):raw} = x.{nameof(Product.TypeId):raw}
+            """;
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"x.*")
@@ -87,7 +87,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetsProductsByOffset_ReturnsIEnumerableOfProduct()
+    public async Task Select_GetsProductsByOffsetRows_ReturnsIEnumerableOfProduct()
     {
         // Arrange
         const int count = 10;
@@ -97,10 +97,11 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var paginatedProducts = products
             .OrderBy(x => x.CreatedDate)
+            .ThenBy(x => x.Id)
             .Skip(offset);
 
         var builder = SimpleBuilder.CreateFluent()
@@ -108,6 +109,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
             .From($"{nameof(Product):raw}")
             .Where($"{nameof(Product.Tag):raw} = {tag}")
             .OrderBy($"{nameof(Product.CreatedDate):raw} ASC")
+            .OrderBy($"{nameof(Product.Id):raw} ASC")
             .OffsetRows(offset);
 
         // Act
@@ -128,10 +130,11 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var paginatedProducts = products
             .OrderBy(x => x.CreatedDate)
+            .ThenBy(x => x.Id)
             .Take(rows);
 
         var builder = SimpleBuilder.CreateFluent()
@@ -139,6 +142,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
             .From($"{nameof(Product):raw}")
             .Where($"{nameof(Product.Tag):raw} = {tag}")
             .OrderBy($"{nameof(Product.CreatedDate):raw} ASC")
+            .OrderBy($"{nameof(Product.Id):raw} ASC")
             .Limit(rows);
 
         // Act
@@ -159,10 +163,11 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var paginatedProducts = products
             .OrderBy(x => x.CreatedDate)
+            .ThenBy(x => x.Id)
             .Take(rows);
 
         var builder = SimpleBuilder.CreateFluent()
@@ -170,6 +175,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
             .From($"{nameof(Product):raw}")
             .Where($"{nameof(Product.Tag):raw} = {tag}")
             .OrderBy($"{nameof(Product.CreatedDate):raw} ASC")
+            .OrderBy($"{nameof(Product.Id):raw} ASC")
             .FetchNext(rows);
 
         // Act
@@ -184,26 +190,27 @@ public class PostgreSqlFluentTests : IAsyncLifetime
     {
         // Arrange
         const int count = 30;
-        const string tag = "limit-offset";
+        const string tag = "limitOffset";
         const int offset = 5;
         const int rows = 10;
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var paginatedProducts = products
             .OrderBy(x => x.CreatedDate)
+            .ThenBy(x => x.Id)
             .Skip(offset)
-            .Take(rows)
-            .ToList();
+            .Take(rows);
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"*")
             .From($"{nameof(Product):raw}")
             .Where($"{nameof(Product.Tag):raw} = {tag}")
             .OrderBy($"{nameof(Product.CreatedDate):raw} ASC")
+            .OrderBy($"{nameof(Product.Id):raw} ASC")
             .Limit(rows)
             .Offset(offset);
 
@@ -226,19 +233,20 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var paginatedProducts = products
             .OrderBy(x => x.CreatedDate)
+            .ThenBy(x => x.Id)
             .Skip(offset)
-            .Take(rows)
-            .ToList();
+            .Take(rows);
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"*")
             .From($"{nameof(Product):raw}")
             .Where($"{nameof(Product.Tag):raw} = {tag}")
             .OrderBy($"{nameof(Product.CreatedDate):raw} ASC")
+            .OrderBy($"{nameof(Product.Id):raw} ASC")
             .OffsetRows(offset)
             .FetchNext(rows);
 
@@ -258,8 +266,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(
-            connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag, productDescription: postgreSqlTestsFixture.SeedProductTypes[0].Description);
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
         await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[1].Id, tag: tag);
 
         var builder = SimpleBuilder.CreateFluent()
@@ -267,7 +274,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
             .From($"{nameof(Product):raw} p")
             .InnerJoin($"{nameof(ProductType):raw} pt ON (p.{nameof(Product.TypeId):raw} = pt.{nameof(Product.Id):raw})")
             .Where($"p.{nameof(Product.Tag):raw} = {tag}")
-            .Where($"p.{nameof(Product.TypeId):raw} = {postgreSqlTestsFixture.SeedProductTypes[0].Id.DefineParam(DbType.Guid)}");
+            .Where($"p.{nameof(Product.TypeId):raw} = {postgreSqlTestsFixture.SeedProductTypes[0].Id.DefineParam(DbType.Int32)}");
 
         // Act
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
@@ -286,8 +293,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         await connection.OpenAsync();
 
         var products = (await ProductHelpers.GenerateSeedProductsAsync(connection, tag: tag)).ToList();
-        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(
-            connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag, productDescription: postgreSqlTestsFixture.SeedProductTypes[0].Description));
+        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag));
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"p.*")
@@ -315,10 +321,8 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         await connection.OpenAsync();
 
         var products = (await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag)).ToList();
-        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(
-            connection, count, postgreSqlTestsFixture.SeedProductTypes[0].Id, tag, postgreSqlTestsFixture.SeedProductTypes[0].Description));
-        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(
-            connection, count, postgreSqlTestsFixture.SeedProductTypes[1].Id, tag2, postgreSqlTestsFixture.SeedProductTypes[1].Description));
+        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, count, postgreSqlTestsFixture.SeedProductTypes[0].Id, tag));
+        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, count, postgreSqlTestsFixture.SeedProductTypes[1].Id, tag2));
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"p.*")
@@ -349,7 +353,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
 
         var builder = SimpleBuilder.CreateFluent()
             .Update($"{nameof(Product):raw}")
-            .Set(!product.TypeId.HasValue, $"{nameof(Product.TypeId):raw} = {postgreSqlTestsFixture.SeedProductTypes[0].Id}")
+            .Set($"{nameof(Product.TypeId):raw} = {postgreSqlTestsFixture.SeedProductTypes[0].Id}")
             .Set($"{nameof(Product.CreatedDate):raw} = {createdDate}")
             .WhereFilter($"{nameof(Product.Tag):raw} = {tag}").WithFilter($"{nameof(Product.TypeId):raw} IS NULL");
 

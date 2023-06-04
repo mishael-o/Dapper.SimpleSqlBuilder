@@ -21,10 +21,10 @@ public class MSSqlTests : IAsyncLifetime
         // Arrange
         const string tableName = "MyTable";
 
-        var builder = SimpleBuilder.Create($@"
+        var builder = SimpleBuilder.Create($"""
             CREATE TABLE {tableName:raw}
             (
-                Id UNIQUEIDENTIFIER PRIMARY KEY,
+                Id INT PRIMARY KEY,
                 Description VARCHAR(50)
             );
 
@@ -32,7 +32,8 @@ public class MSSqlTests : IAsyncLifetime
             CASE
                 WHEN EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = {tableName}) THEN 1
                 ELSE 0
-            END;");
+            END;
+            """);
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
@@ -57,9 +58,10 @@ public class MSSqlTests : IAsyncLifetime
 
         for (var i = 0; i < products.Length; i++)
         {
-            builder.AppendNewLine($@"
-                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
-                VALUES ({products[i].Id}, {products[i].TypeId.DefineParam(DbType.Guid)}, {products[i].Tag}, {products[i].CreatedDate});");
+            builder.AppendNewLine($"""
+                INSERT INTO {nameof(Product):raw} ({nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
+                VALUES ({products[i].GlobalId}, {products[i].TypeId.DefineParam(DbType.Int32)}, {products[i].Tag}, {products[i].CreatedDate});
+                """);
         }
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
@@ -81,21 +83,19 @@ public class MSSqlTests : IAsyncLifetime
         using var connection = mssqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(
-            connection,
-            productTypeId: mssqlTestsFixture.SeedProductTypes[0].Id,
-            tag: tag,
-            productDescription: mssqlTestsFixture.SeedProductTypes[0].Description);
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: mssqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
 
-        FormattableString subQuery = $@"
+        FormattableString subQuery = $"""
             SELECT {nameof(ProductType.Description):raw}
             FROM {nameof(ProductType):raw}
-            WHERE {nameof(ProductType.Id):raw} = x.{nameof(Product.TypeId):raw}";
+            WHERE {nameof(ProductType.Id):raw} = x.{nameof(Product.TypeId):raw}
+            """;
 
-        var builder = SimpleBuilder.Create($@"
+        var builder = SimpleBuilder.Create($"""
             SELECT x.*, ({subQuery}) AS {nameof(Product.Description):raw}
             FROM {nameof(Product):raw} x
-            WHERE {nameof(Product.Tag):raw} = {tag}");
+            WHERE {nameof(Product.Tag):raw} = {tag}
+            """);
 
         // Act
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
@@ -152,12 +152,13 @@ public class MSSqlTests : IAsyncLifetime
             .Create($"DELETE FROM {nameof(Product):raw}")
             .Append($"WHERE {nameof(Product.Tag):raw} = {tag}");
 
-        var checkDataExistsBuilder = SimpleBuilder.Create($@"
+        var checkDataExistsBuilder = SimpleBuilder.Create($"""
             SELECT
             CASE
                 WHEN EXISTS (SELECT 1 FROM {nameof(Product):raw} WHERE {nameof(Product.Tag):raw} = {tag}) THEN 1
                 ELSE 0
-            END");
+            END
+            """);
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -174,11 +175,11 @@ public class MSSqlTests : IAsyncLifetime
     {
         // Arrange
         const string resultParamName = "Result";
-        const string userIdParamName = "UserId";
+        const string productIdParamName = "ProductId";
 
         var builder = SimpleBuilder.Create($"{mssqlTestsFixture.StoredProcName:raw}")
-            .AddParameter(nameof(Product.TypeId), mssqlTestsFixture.SeedProductTypes[0].Id, dbType: DbType.Guid)
-            .AddParameter(userIdParamName, dbType: DbType.Guid, direction: ParameterDirection.Output)
+            .AddParameter(nameof(Product.TypeId), mssqlTestsFixture.SeedProductTypes[0].Id, dbType: DbType.Int32)
+            .AddParameter(productIdParamName, dbType: DbType.Int32, direction: ParameterDirection.Output)
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
@@ -188,8 +189,8 @@ public class MSSqlTests : IAsyncLifetime
         await connection.ExecuteAsync(builder.Sql, builder.Parameters, commandType: CommandType.StoredProcedure);
 
         // Assert
+        builder.GetValue<int>(productIdParamName).Should().NotBe(default);
         builder.GetValue<int>(resultParamName).Should().Be(1);
-        builder.GetValue<Guid>(userIdParamName).Should().NotBe(default(Guid));
     }
 
     public Task InitializeAsync()

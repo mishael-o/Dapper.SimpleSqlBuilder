@@ -21,10 +21,10 @@ public class MySqlTests : IAsyncLifetime
         // Arrange
         const string tableName = "MyTable";
 
-        var builder = SimpleBuilder.Create($@"
+        var builder = SimpleBuilder.Create($"""
             CREATE TABLE {tableName:raw}
             (
-                Id BINARY(16) PRIMARY KEY,
+                Id INT PRIMARY KEY,
                 Description VARCHAR(50)
             );
 
@@ -32,7 +32,8 @@ public class MySqlTests : IAsyncLifetime
             CASE
                 WHEN EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = {tableName}) THEN 1
                 ELSE 0
-            END;");
+            END;
+            """);
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
@@ -49,7 +50,7 @@ public class MySqlTests : IAsyncLifetime
     {
         // Arrange
         const string tag = "insert";
-        var products = ProductHelpers.GetCustomProductFixture(tag: tag)
+        var products = ProductHelpers.GetProductFixture(tag: tag)
             .CreateMany()
             .AsArray();
 
@@ -57,9 +58,10 @@ public class MySqlTests : IAsyncLifetime
 
         for (var i = 0; i < products.Length; i++)
         {
-            builder.AppendNewLine($@"
-                INSERT INTO {nameof(CustomProduct):raw} ({nameof(CustomProduct.Id):raw}, {nameof(CustomProduct.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(CustomProduct.CreatedDate):raw})
-                VALUES ({products[i].Id}, {products[i].TypeId},  {products[i].Tag}, {products[i].CreatedDate.DefineParam(DbType.DateTime)});");
+            builder.AppendNewLine($"""
+                INSERT INTO {nameof(Product):raw} ({nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
+                VALUES ({products[i].GlobalId}, {products[i].TypeId}, {products[i].Tag}, {products[i].CreatedDate.DefineParam(DbType.DateTime)});
+                """);
         }
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
@@ -73,7 +75,7 @@ public class MySqlTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Builder_GetsProductsWithSelectTag_ReturnsIEnumerableOfCustomProduct()
+    public async Task Builder_GetsProductsWithSelectTag_ReturnsIEnumerableOfProduct()
     {
         // Arrange
         const string tag = "select";
@@ -81,24 +83,22 @@ public class MySqlTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedCustomProductsAsync(
-            connection,
-            productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id,
-            tag: tag,
-            productDescription: mySqlTestsFixture.SeedProductTypes[0].Description);
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
 
-        FormattableString subQuery = $@"
-            SELECT {nameof(CustomProductType.Description):raw}
-            FROM {nameof(CustomProductType):raw}
-            WHERE {nameof(CustomProductType.Id):raw} = x.{nameof(CustomProduct.TypeId):raw}";
+        FormattableString subQuery = $"""
+            SELECT {nameof(ProductType.Description):raw}
+            FROM {nameof(ProductType):raw}
+            WHERE {nameof(ProductType.Id):raw} = x.{nameof(Product.TypeId):raw}
+            """;
 
-        var builder = SimpleBuilder.Create($@"
-            SELECT x.*, ({subQuery}) AS {nameof(CustomProduct.Description):raw}
-            FROM {nameof(CustomProduct):raw} x
-            WHERE {nameof(CustomProduct.Tag):raw} = {tag}");
+        var builder = SimpleBuilder.Create($"""
+            SELECT x.*, ({subQuery}) AS {nameof(Product.Description):raw}
+            FROM {nameof(Product):raw} x
+            WHERE {nameof(Product.Tag):raw} = {tag}
+            """);
 
         // Act
-        var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
+        var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
         result.Should().BeEquivalentTo(products);
@@ -115,16 +115,16 @@ public class MySqlTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await ProductHelpers.GenerateSeedCustomProductsAsync(connection, count, tag: tag);
+        await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var builder = SimpleBuilder
-            .Create($"UPDATE {nameof(CustomProduct):raw}")
-            .AppendNewLine($"SET {nameof(CustomProduct.CreatedDate):raw} = {createdDate}")
-            .AppendNewLine($"WHERE {nameof(CustomProduct.Tag):raw} = {tag}");
+            .Create($"UPDATE {nameof(Product):raw}")
+            .AppendNewLine($"SET {nameof(Product.CreatedDate):raw} = {createdDate}")
+            .AppendNewLine($"WHERE {nameof(Product.Tag):raw} = {tag}");
 
         var getUpdatedDateBuilder = SimpleBuilder
-            .Create($"SELECT {nameof(CustomProduct.CreatedDate):raw} FROM {nameof(CustomProduct):raw}")
-            .AppendNewLine($"WHERE {nameof(CustomProduct.Tag):raw} = {tag}");
+            .Create($"SELECT {nameof(Product.CreatedDate):raw} FROM {nameof(Product):raw}")
+            .AppendNewLine($"WHERE {nameof(Product.Tag):raw} = {tag}");
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -146,18 +146,19 @@ public class MySqlTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await ProductHelpers.GenerateSeedCustomProductsAsync(connection, count, tag: tag);
+        await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var builder = SimpleBuilder
-            .Create($"DELETE FROM {nameof(CustomProduct):raw}")
-            .Append($"WHERE {nameof(CustomProduct.Tag):raw} = {tag}");
+            .Create($"DELETE FROM {nameof(Product):raw}")
+            .Append($"WHERE {nameof(Product.Tag):raw} = {tag}");
 
-        var checkDataExistsBuilder = SimpleBuilder.Create($@"
+        var checkDataExistsBuilder = SimpleBuilder.Create($"""
             SELECT
             CASE
-                WHEN EXISTS (SELECT 1 FROM {nameof(CustomProduct):raw} WHERE {nameof(CustomProduct.Tag):raw} = {tag}) THEN 1
+                WHEN EXISTS (SELECT 1 FROM {nameof(Product):raw} WHERE {nameof(Product.Tag):raw} = {tag}) THEN 1
                 ELSE 0
-            END");
+            END
+            """);
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -174,11 +175,11 @@ public class MySqlTests : IAsyncLifetime
     {
         // Arrange
         const string resultParamName = "Result";
-        const string userIdParamName = "UserId";
+        const string productIdParamName = "ProductId";
 
         var builder = SimpleBuilder.Create($"{mySqlTestsFixture.StoredProcName:raw}")
-            .AddParameter(nameof(CustomProduct.TypeId), mySqlTestsFixture.SeedProductTypes[0].Id)
-            .AddParameter(userIdParamName, direction: ParameterDirection.Output)
+            .AddParameter(nameof(Product.TypeId), mySqlTestsFixture.SeedProductTypes[0].Id, dbType: DbType.Int32)
+            .AddParameter(productIdParamName, dbType: DbType.Int32, direction: ParameterDirection.Output)
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
@@ -188,7 +189,7 @@ public class MySqlTests : IAsyncLifetime
         await connection.ExecuteAsync(builder.Sql, builder.Parameters, commandType: CommandType.StoredProcedure);
 
         // Assert
-        builder.GetValue<byte[]>(userIdParamName).Should().NotBeNullOrEmpty();
+        builder.GetValue<int>(productIdParamName).Should().NotBe(default);
         builder.GetValue<int>(resultParamName).Should().Be(1);
     }
 
