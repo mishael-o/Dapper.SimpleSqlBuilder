@@ -526,8 +526,8 @@ internal sealed partial class FluentSqlBuilder
     private bool CanAppendClause(ClauseAction clauseAction)
     {
         return !clauseActions.Exists(c => c is ClauseAction.Delete or ClauseAction.Update)
-            || clauseAction is not ClauseAction.GroupBy and not ClauseAction.Having and not ClauseAction.OrderBy
-               and not ClauseAction.FetchNext and not ClauseAction.Offset and not ClauseAction.Rows and not ClauseAction.Only;
+            || clauseAction is not ClauseAction.GroupBy and not ClauseAction.Having and not ClauseAction.OrderBy and not ClauseAction.FetchNext
+               and not ClauseAction.Limit and not ClauseAction.Offset and not ClauseAction.Rows and not ClauseAction.Only;
     }
 
     private void CloseOpenParentheses()

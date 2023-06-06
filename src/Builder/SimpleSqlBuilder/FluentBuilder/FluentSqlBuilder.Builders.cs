@@ -350,18 +350,27 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
 
     public IFluentSqlBuilder FetchNext(int rows)
     {
+        if (!CanAppendClause(ClauseAction.FetchNext))
+        {
+            return this;
+        }
+
         AppendFetchNext();
         stringBuilder
             .Append(rows)
             .Append(Constants.Space);
         AppendRows();
         AppendOnly();
-
         return this;
     }
 
     public IFetchBuilder OffsetRows(int offset)
     {
+        if (!CanAppendClause(ClauseAction.Offset))
+        {
+            return this;
+        }
+
         AppendOffset();
         stringBuilder
             .Append(offset)
@@ -372,6 +381,11 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
 
     public IOffsetBuilder Limit(int rows)
     {
+        if (!CanAppendClause(ClauseAction.Limit))
+        {
+            return this;
+        }
+
         AppendLimit();
         stringBuilder.Append(rows);
         return this;
@@ -379,6 +393,11 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
 
     public IFluentSqlBuilder Offset(int offset)
     {
+        if (!CanAppendClause(ClauseAction.Offset))
+        {
+            return this;
+        }
+
         AppendOffset();
         stringBuilder.Append(offset);
         return this;
