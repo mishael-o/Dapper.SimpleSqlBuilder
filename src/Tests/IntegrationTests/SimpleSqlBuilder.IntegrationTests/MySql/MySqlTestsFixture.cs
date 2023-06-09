@@ -1,7 +1,6 @@
 ﻿using System.Data.Common;
-using Dapper.SimpleSqlBuilder.IntegrationTests.Common;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Respawn;
 using Testcontainers.MySql;
 
@@ -28,7 +27,7 @@ public class MySqlTestsFixture : IAsyncLifetime
     {
         var fixture = new Fixture();
         var dbPassword = fixture.Create<string>();
-        SeedProductTypes = fixture.CreateMany<CustomProductType>(2).ToArray();
+        SeedProductTypes = fixture.CreateMany<ProductType>(2).ToArray();
 
         connectionString = $"Server=localhost;Port={Port};Uid={DbUser};Pwd={dbPassword};Database={DbName}";
         container = CreateMySqlContainer(dbPassword);
@@ -36,12 +35,10 @@ public class MySqlTestsFixture : IAsyncLifetime
 
     public string StoredProcName { get; } = "CreateProduct";
 
-    public IReadOnlyList<CustomProductType> SeedProductTypes { get; }
+    public IReadOnlyList<ProductType> SeedProductTypes { get; }
 
     public async Task InitializeAsync()
     {
-        SqlMapper.AddTypeHandler(new CustomIdTypeHandler());
-
         await container.StartAsync();
         await InitialiseDbConnectionAsync();
         await CreateSchemaAsync();
@@ -80,38 +77,42 @@ public class MySqlTestsFixture : IAsyncLifetime
 
     private async Task CreateSchemaAsync()
     {
-        var tableBuilder = SimpleBuilder.Create($@"
-           CREATE TABLE {nameof(CustomProductType):raw}
+        var tableBuilder = SimpleBuilder.Create($"""
+           CREATE TABLE {nameof(ProductType):raw}
            (
-                {nameof(CustomProductType.Id):raw} BINARY(16) PRIMARY KEY,
-                {nameof(CustomProductType.Description):raw} VARCHAR(255)
+                {nameof(ProductType.Id):raw} INT PRIMARY KEY,
+                {nameof(ProductType.Description):raw} VARCHAR(255)
            );
 
-           INSERT INTO {nameof(CustomProductType):raw}
+           INSERT INTO {nameof(ProductType):raw}
            VALUES ({SeedProductTypes[0].Id}, {SeedProductTypes[0].Description});
 
-           INSERT INTO {nameof(CustomProductType):raw}
+           INSERT INTO {nameof(ProductType):raw}
            VALUES ({SeedProductTypes[1].Id}, {SeedProductTypes[1].Description});
 
-           CREATE TABLE {nameof(CustomProduct):raw}
+           CREATE TABLE {nameof(Product):raw}
            (
-                {nameof(CustomProduct.Id):raw} BINARY(16) PRIMARY KEY,
-                {nameof(CustomProduct.TypeId):raw} BINARY(16) NULL,
-                {nameof(CustomProduct.Tag):raw} VARCHAR(50),
-                {nameof(CustomProduct.CreatedDate):raw} DATE,
-                FOREIGN KEY ({nameof(CustomProduct.TypeId):raw}) REFERENCES {nameof(CustomProductType):raw}({nameof(CustomProductType.Id):raw})
-           );");
+                {nameof(Product.Id):raw} INT PRIMARY KEY AUTO_INCREMENT,
+                {nameof(Product.GlobalId):raw} CHAR(36) NOT NULL,
+                {nameof(Product.TypeId):raw} INT NULL,
+                {nameof(Product.Tag):raw} VARCHAR(50),
+                {nameof(Product.CreatedDate):raw} DATE,
+                FOREIGN KEY ({nameof(Product.TypeId):raw}) REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
+                UNIQUE ({nameof(Product.GlobalId):raw})
+           );
+           """);
 
         await dbConnection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
 
-        var storedProcBuilder = SimpleBuilder.Create($@"
-           CREATE PROCEDURE {StoredProcName:raw} (TypeId BINARY(16), OUT UserId BINARY(16), OUT Result INT)
+        var storedProcBuilder = SimpleBuilder.Create($"""
+           CREATE PROCEDURE {StoredProcName:raw} (TypeId INT, OUT ProductId INT, OUT Result INT)
            BEGIN
-                SET UserId = UUID_TO_BIN(UUID());
-                INSERT INTO {nameof(CustomProduct):raw}
-                VALUES (UserId, TypeId, 'procedure', CURRENT_DATE());
+                INSERT INTO {nameof(Product):raw} ({nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
+                VALUES (UUID(), TypeId, 'procedure', CURRENT_DATE());
+                SET ProductId = LAST_INSERT_ID();
                 SET Result = ROW_COUNT();
-           END");
+           END
+           """);
 
         await dbConnection.ExecuteAsync(storedProcBuilder.Sql);
     }
@@ -128,7 +129,7 @@ public class MySqlTestsFixture : IAsyncLifetime
         respawner = new Checkpoint
         {
             DbAdapter = DbAdapter.MySql,
-            TablesToIgnore = new[] { nameof(CustomProductType) }
+            TablesToIgnore = new[] { nameof(ProductType) }
         };
 
         return Task.CompletedTask;
@@ -140,7 +141,7 @@ public class MySqlTestsFixture : IAsyncLifetime
             respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
             {
                 DbAdapter = DbAdapter.MySql,
-                TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(CustomProductType)) }
+                TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(ProductType)) }
             });
         }
 #endif

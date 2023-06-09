@@ -21,22 +21,22 @@ public class MySqlFluentTests : IAsyncLifetime
         // Arrange
         const string tag = "insert";
         var product = ProductHelpers
-            .GetCustomProductFixture(tag: tag)
+            .GetProductFixture(tag: tag)
             .Create();
 
         var builder = SimpleBuilder.CreateFluent()
-            .InsertInto($"{nameof(CustomProduct):raw}")
-            .Columns($"{nameof(CustomProduct.Id):raw}")
-            .Columns($"{nameof(CustomProduct.TypeId):raw}, {nameof(CustomProduct.Tag):raw}")
-            .Columns($"{nameof(CustomProduct.CreatedDate):raw}")
+            .InsertInto($"{nameof(Product):raw}")
+            .Columns($"{nameof(Product.Id):raw}")
+            .Columns($"{nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}")
+            .Columns($"{nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw}")
             .Values($"{product.Id}")
-            .Values($"{product.TypeId}")
+            .Values($"{product.GlobalId}, {product.TypeId.DefineParam(DbType.Int32)}")
             .Values($"{product.Tag}, {product.CreatedDate.DefineParam(DbType.DateTime)}");
 
         var insertCountBuilder = SimpleBuilder.CreateFluent()
             .Select($"COUNT(*)")
-            .From($"{nameof(CustomProduct):raw}")
-            .Where($"{nameof(CustomProduct.Tag):raw} = {tag}");
+            .From($"{nameof(Product):raw}")
+            .Where($"{nameof(Product.Tag):raw} = {tag}");
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
@@ -50,7 +50,7 @@ public class MySqlFluentTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Select_GetsProductsWithSelectTag_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsWithSelectTag_ReturnsIEnumerableOfProduct()
     {
         // Arrange
         const string tag = "select";
@@ -59,35 +59,105 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = (await ProductHelpers.GenerateSeedCustomProductsAsync(
+        var products = (await ProductHelpers.GenerateSeedProductsAsync(
             connection,
             productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id,
-            tag: tag,
-            productDescription: mySqlTestsFixture.SeedProductTypes[0].Description)).ToList();
+            tag: tag)).ToList();
 
-        products.AddRange(await ProductHelpers.GenerateSeedCustomProductsAsync(connection, tag: tag2));
+        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, tag: tag2));
 
-        FormattableString subQuery = $@"
-            SELECT {nameof(CustomProductType.Description):raw}
-            FROM {nameof(CustomProductType):raw}
-            WHERE {nameof(CustomProductType.Id):raw} = x.{nameof(CustomProduct.TypeId):raw}";
+        FormattableString subQuery = $"""
+            SELECT {nameof(ProductType.Description):raw}
+            FROM {nameof(ProductType):raw}
+            WHERE {nameof(ProductType.Id):raw} = x.{nameof(Product.TypeId):raw}
+            """;
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"x.*")
-            .Select($"({subQuery}) AS {nameof(CustomProduct.Description):raw}")
-            .From($"{nameof(CustomProduct):raw} x")
-            .Where($"{nameof(CustomProduct.Tag):raw} = {tag}")
-            .OrWhere($"{nameof(CustomProduct.Tag):raw} = {tag2}");
+            .Select($"({subQuery}) AS {nameof(Product.Description):raw}")
+            .From($"{nameof(Product):raw} x")
+            .Where($"{nameof(Product.Tag):raw} = {tag}")
+            .OrWhere($"{nameof(Product.Tag):raw} = {tag2}");
 
         // Act
-        var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
+        var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
-    public async Task Select_GetsProductsByInnerJoinOnProductAndProductType_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsByLimit_ReturnsIEnumerableOfProduct()
+    {
+        // Arrange
+        const int count = 10;
+        const string tag = "limit";
+        const int rows = 4;
+
+        using var connection = mySqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
+
+        var paginatedProducts = products
+            .OrderBy(x => x.CreatedDate)
+            .ThenBy(x => x.Id)
+            .Take(rows);
+
+        var builder = SimpleBuilder.CreateFluent()
+            .Select($"*")
+            .From($"{nameof(Product):raw}")
+            .Where($"{nameof(Product.Tag):raw} = {tag}")
+            .OrderBy($"{nameof(Product.CreatedDate):raw} ASC")
+            .OrderBy($"{nameof(Product.Id):raw} ASC")
+            .Limit(rows);
+
+        // Act
+        var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
+
+        // Assert
+        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+    }
+
+    [Fact]
+    public async Task Select_GetsProductsByLimitAndOffset_ReturnsIEnumerableOfProduct()
+    {
+        // Arrange
+        const int count = 30;
+        const string tag = "limitOffset";
+        const int offset = 5;
+        const int rows = 10;
+
+        using var connection = mySqlTestsFixture.CreateDbConnection();
+        await connection.OpenAsync();
+
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
+
+        var paginatedProducts = products
+            .OrderBy(x => x.CreatedDate)
+            .ThenBy(x => x.Id)
+            .Skip(offset)
+            .Take(rows);
+
+        var builder = SimpleBuilder.CreateFluent()
+            .Select($"*")
+            .From($"{nameof(Product):raw}")
+            .Where($"{nameof(Product.Tag):raw} = {tag}")
+            .OrderBy($"{nameof(Product.CreatedDate):raw} ASC")
+            .OrderBy($"{nameof(Product.Id):raw} ASC")
+            .OrderBy($"{nameof(Product.Id):raw} ASC")
+            .Limit(rows)
+            .Offset(offset);
+
+        // Act
+        var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
+
+        // Assert
+        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+    }
+
+    [Fact]
+    public async Task Select_GetsProductsByInnerJoinOnProductAndProductType_ReturnsIEnumerableOfProduct()
     {
         // Arrange
         const string tag = "selectInnerJoin";
@@ -95,26 +165,25 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedCustomProductsAsync(
-            connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag, productDescription: mySqlTestsFixture.SeedProductTypes[0].Description);
-        await ProductHelpers.GenerateSeedCustomProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[1].Id, tag: tag);
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
+        await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[1].Id, tag: tag);
 
         var builder = SimpleBuilder.CreateFluent()
-            .Select($"p.*, pt.{nameof(CustomProductType.Description):raw}")
-            .From($"{nameof(CustomProduct):raw} p")
-            .InnerJoin($"{nameof(CustomProductType):raw} pt ON (p.{nameof(CustomProduct.TypeId):raw} = pt.{nameof(CustomProduct.Id):raw})")
-            .Where($"p.{nameof(CustomProduct.Tag):raw} = {tag.DefineParam(DbType.String)}")
-            .Where($"p.{nameof(CustomProduct.TypeId):raw} = {mySqlTestsFixture.SeedProductTypes[0].Id}");
+            .Select($"p.*, pt.{nameof(ProductType.Description):raw}")
+            .From($"{nameof(Product):raw} p")
+            .InnerJoin($"{nameof(ProductType):raw} pt ON (p.{nameof(Product.TypeId):raw} = pt.{nameof(Product.Id):raw})")
+            .Where($"p.{nameof(Product.Tag):raw} = {tag.DefineParam(DbType.String)}")
+            .Where($"p.{nameof(Product.TypeId):raw} = {mySqlTestsFixture.SeedProductTypes[0].Id}");
 
         // Act
-        var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
+        var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
-    public async Task Select_GetsProductsByLeftJoinOnProductAndProductType_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsByLeftJoinOnProductAndProductType_ReturnsIEnumerableOfProduct()
     {
         // Arrange
         const string tag = "selectLeftJoin";
@@ -122,26 +191,25 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = (await ProductHelpers.GenerateSeedCustomProductsAsync(connection, tag: tag)).ToList();
-        products.AddRange(await ProductHelpers.GenerateSeedCustomProductsAsync(
-            connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag, productDescription: mySqlTestsFixture.SeedProductTypes[0].Description));
+        var products = (await ProductHelpers.GenerateSeedProductsAsync(connection, tag: tag)).ToList();
+        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag));
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"p.*")
-            .Select($"pt.{nameof(CustomProductType.Description):raw}")
-            .From($"{nameof(CustomProduct):raw} p")
-            .LeftJoin($"{nameof(CustomProductType):raw} pt ON (p.{nameof(CustomProduct.TypeId):raw} = pt.{nameof(CustomProduct.Id):raw})")
-            .WhereFilter($"p.{nameof(CustomProduct.Tag):raw} = {tag}");
+            .Select($"pt.{nameof(ProductType.Description):raw}")
+            .From($"{nameof(Product):raw} p")
+            .LeftJoin($"{nameof(ProductType):raw} pt ON (p.{nameof(Product.TypeId):raw} = pt.{nameof(Product.Id):raw})")
+            .WhereFilter($"p.{nameof(Product.Tag):raw} = {tag}");
 
         // Act
-        var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
+        var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
         result.Should().BeEquivalentTo(products);
     }
 
     [Fact]
-    public async Task Select_GetsProductsByRightJoinOnProductTypeAndProduct_ReturnsIEnumerableOfCustomProduct()
+    public async Task Select_GetsProductsByRightJoinOnProductTypeAndProduct_ReturnsIEnumerableOfProduct()
     {
         // Arrange
         const int count = 3;
@@ -151,21 +219,19 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = (await ProductHelpers.GenerateSeedCustomProductsAsync(connection, count, tag: tag)).ToList();
-        products.AddRange(await ProductHelpers.GenerateSeedCustomProductsAsync(
-            connection, count, mySqlTestsFixture.SeedProductTypes[0].Id, tag, mySqlTestsFixture.SeedProductTypes[0].Description));
-        products.AddRange(await ProductHelpers.GenerateSeedCustomProductsAsync(
-            connection, count, mySqlTestsFixture.SeedProductTypes[1].Id, tag2, mySqlTestsFixture.SeedProductTypes[1].Description));
+        var products = (await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag)).ToList();
+        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, count, mySqlTestsFixture.SeedProductTypes[0].Id, tag));
+        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, count, mySqlTestsFixture.SeedProductTypes[1].Id, tag2));
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"p.*")
-            .Select($"pt.{nameof(CustomProductType.Description):raw}")
-            .From($"{nameof(CustomProductType):raw} pt")
-            .RightJoin($"{nameof(CustomProduct):raw} p ON (p.{nameof(CustomProduct.TypeId):raw} = pt.{nameof(CustomProduct.Id):raw})")
-            .WhereFilter().WithFilter($"p.{nameof(CustomProduct.Tag):raw} = {tag}").OrWhereFilter($"p.{nameof(CustomProduct.Tag):raw} = {tag2}");
+            .Select($"pt.{nameof(ProductType.Description):raw}")
+            .From($"{nameof(ProductType):raw} pt")
+            .RightJoin($"{nameof(Product):raw} p ON (p.{nameof(Product.TypeId):raw} = pt.{nameof(Product.Id):raw})")
+            .WhereFilter().WithFilter($"p.{nameof(Product.Tag):raw} = {tag}").OrWhereFilter($"p.{nameof(Product.Tag):raw} = {tag2}");
 
         // Act
-        var result = await connection.QueryAsync<CustomProduct>(builder.Sql, builder.Parameters);
+        var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
         result.Should().BeEquivalentTo(products);
@@ -182,18 +248,18 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var product = (await ProductHelpers.GenerateSeedCustomProductsAsync(connection, count, tag: tag)).Single();
+        var product = (await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag)).Single();
 
         var builder = SimpleBuilder.CreateFluent()
-            .Update($"{nameof(CustomProduct):raw}")
-            .Set(!product.TypeId.HasValue, $"{nameof(CustomProduct.TypeId):raw} = {mySqlTestsFixture.SeedProductTypes[0].Id}")
-            .Set($"{nameof(CustomProduct.CreatedDate):raw} = {createdDate}")
-            .WhereFilter($"{nameof(CustomProduct.Tag):raw} = {tag}").WithFilter($"{nameof(CustomProduct.TypeId):raw} IS NULL");
+            .Update($"{nameof(Product):raw}")
+            .Set($"{nameof(Product.TypeId):raw} = {mySqlTestsFixture.SeedProductTypes[0].Id}")
+            .Set($"{nameof(Product.CreatedDate):raw} = {createdDate}")
+            .WhereFilter($"{nameof(Product.Tag):raw} = {tag}").WithFilter($"{nameof(Product.TypeId):raw} IS NULL");
 
         var getUpdatedProduct = SimpleBuilder.CreateFluent()
             .Select($"*")
-            .From($"{nameof(CustomProduct):raw}")
-            .Where($"{nameof(CustomProduct.Id):raw} = {product.Id}");
+            .From($"{nameof(Product):raw}")
+            .Where($"{nameof(Product.Id):raw} = {product.Id}");
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -201,7 +267,7 @@ public class MySqlFluentTests : IAsyncLifetime
         // Assert
         result.Should().Be(count);
 
-        var updatedProduct = await connection.QuerySingleAsync<CustomProduct>(getUpdatedProduct.Sql, getUpdatedProduct.Parameters);
+        var updatedProduct = await connection.QuerySingleAsync<Product>(getUpdatedProduct.Sql, getUpdatedProduct.Parameters);
         updatedProduct.TypeId.Should().Be(mySqlTestsFixture.SeedProductTypes[0].Id);
         updatedProduct.CreatedDate.Should().Be(createdDate);
     }
@@ -216,16 +282,16 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await ProductHelpers.GenerateSeedCustomProductsAsync(connection, count, tag: tag);
+        await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var builder = SimpleBuilder.CreateFluent()
-            .DeleteFrom($"{nameof(CustomProduct):raw}")
-            .Where($"{nameof(CustomProduct.Tag):raw} = {tag}");
+            .DeleteFrom($"{nameof(Product):raw}")
+            .Where($"{nameof(Product.Tag):raw} = {tag}");
 
         var checkDataExistsBuilder = SimpleBuilder.CreateFluent()
             .Select($"COUNT(*)")
-            .From($"{nameof(CustomProduct):raw}")
-            .Where($"{nameof(CustomProduct.Tag):raw} = {tag}");
+            .From($"{nameof(Product):raw}")
+            .Where($"{nameof(Product.Tag):raw} = {tag}");
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);

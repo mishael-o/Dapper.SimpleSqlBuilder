@@ -30,11 +30,9 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     public MSSqlTestsFixture()
     {
-        const string dbPassword = "Mssql!Pa55w0rD";
         SeedProductTypes = new Fixture().CreateMany<ProductType>(2).ToArray();
-
-        connectionString = $"Data Source=localhost,{Port};Initial Catalog={MsSqlBuilder.DefaultDatabase};User ID={MsSqlBuilder.DefaultUsername};Password={dbPassword};TrustServerCertificate=True";
-        container = CreateSqlServerContainer(dbPassword);
+        connectionString = $"Data Source=localhost,{Port};Initial Catalog={MsSqlBuilder.DefaultDatabase};User ID={MsSqlBuilder.DefaultUsername};Password={MsSqlBuilder.DefaultPassword};TrustServerCertificate=True";
+        container = CreateSqlServerContainer();
     }
 
     public string StoredProcName { get; } = "CreateProduct";
@@ -67,10 +65,9 @@ public class MSSqlTestsFixture : IAsyncLifetime
 #endif
     }
 
-    private static MsSqlContainer CreateSqlServerContainer(string dbPassword)
+    private static MsSqlContainer CreateSqlServerContainer()
     {
         return new MsSqlBuilder()
-            .WithPassword(dbPassword)
             .WithPortBinding(Port)
             .WithName("mssql")
             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
@@ -79,10 +76,12 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     private async Task CreateSchemaAsync()
     {
-        var tableBuilder = SimpleBuilder.Create($@"
+        const string sequenceName = $"{nameof(Product)}_Id_Seq";
+
+        var tableBuilder = SimpleBuilder.Create($"""
            CREATE TABLE {nameof(ProductType):raw}
            (
-                {nameof(ProductType.Id):raw} UNIQUEIDENTIFIER PRIMARY KEY,
+                {nameof(ProductType.Id):raw} INT PRIMARY KEY,
                 {nameof(ProductType.Description):raw} VARCHAR(255)
            );
 
@@ -92,25 +91,30 @@ public class MSSqlTestsFixture : IAsyncLifetime
            INSERT INTO {nameof(ProductType):raw}
            VALUES ({SeedProductTypes[1].Id}, {SeedProductTypes[1].Description});
 
+           CREATE SEQUENCE {sequenceName:raw} START WITH 1 INCREMENT BY 1;
+
            CREATE TABLE {nameof(Product):raw}
            (
-                {nameof(Product.Id):raw} UNIQUEIDENTIFIER PRIMARY KEY,
-                {nameof(Product.TypeId):raw} UNIQUEIDENTIFIER NULL REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
+                {nameof(Product.Id):raw} INT PRIMARY KEY DEFAULT(NEXT VALUE FOR {sequenceName:raw}),
+                {nameof(Product.GlobalId):raw} UNIQUEIDENTIFIER UNIQUE NOT NULL,
+                {nameof(Product.TypeId):raw} INT NULL REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
                 {nameof(Product.Tag):raw} VARCHAR(50),
                 {nameof(Product.CreatedDate):raw} DATE
-           );");
+           );
+           """);
 
         await dbConnection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
 
-        var storedProcBuilder = SimpleBuilder.Create($@"
-           CREATE PROCEDURE {StoredProcName:raw} @TypeId UNIQUEIDENTIFIER, @UserId UNIQUEIDENTIFIER OUT
+        var storedProcBuilder = SimpleBuilder.Create($"""
+           CREATE PROCEDURE {StoredProcName:raw} @TypeId INT, @ProductId INT OUT
            AS
            BEGIN
-                SET @UserId = NEWID();
-                INSERT INTO {nameof(Product):raw}
-                VALUES (@UserId, @TypeId, 'procedure', GETDATE());
+                SELECT @ProductId = NEXT VALUE FOR {sequenceName:raw};
+                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
+                VALUES (@ProductId, NEWID(), @TypeId, 'procedure', GETDATE());
                 RETURN @@ROWCOUNT;
-           END");
+           END
+           """);
 
         await dbConnection.ExecuteAsync(storedProcBuilder.Sql);
     }

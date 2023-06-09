@@ -443,10 +443,92 @@ internal sealed partial class FluentSqlBuilder
             .Append(Constants.Space);
     }
 
+    private void AppendOffset()
+    {
+        if (clauseActions.Contains(ClauseAction.Offset))
+        {
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.Offset);
+
+        if (clauseActions.Contains(ClauseAction.Limit))
+        {
+            stringBuilder.Append(Constants.Space);
+        }
+        else
+        {
+            stringBuilder.AppendLine();
+        }
+
+        stringBuilder
+            .Append(useLowerCaseClauses ? ClauseConstants.Offset.Lower : ClauseConstants.Offset.Upper)
+            .Append(Constants.Space);
+    }
+
+    private void AppendLimit()
+    {
+        if (clauseActions.Contains(ClauseAction.Limit))
+        {
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.Limit);
+        stringBuilder
+            .AppendLine()
+            .Append(useLowerCaseClauses ? ClauseConstants.Limit.Lower : ClauseConstants.Limit.Upper)
+            .Append(Constants.Space);
+    }
+
+    private void AppendFetchNext()
+    {
+        if (clauseActions.Contains(ClauseAction.FetchNext))
+        {
+            return;
+        }
+
+        clauseActions.Add(ClauseAction.FetchNext);
+        stringBuilder
+            .AppendLine()
+            .Append(useLowerCaseClauses ? ClauseConstants.Fetch.NextLower : ClauseConstants.Fetch.NextUpper)
+            .Append(Constants.Space);
+    }
+
+    private void AppendRows(bool appendTrailingSpace = true)
+    {
+        if (!clauseActions.Contains(ClauseAction.Rows))
+        {
+            clauseActions.Add(ClauseAction.Rows);
+        }
+
+        stringBuilder
+            .Append(useLowerCaseClauses ? ClauseConstants.Rows.Lower : ClauseConstants.Rows.Upper);
+
+        if (!appendTrailingSpace)
+        {
+            return;
+        }
+
+        stringBuilder.Append(Constants.Space);
+    }
+
+    private void AppendOnly()
+    {
+        if (!clauseActions.Contains(ClauseAction.Only))
+        {
+            clauseActions.Add(ClauseAction.Only);
+        }
+
+        stringBuilder
+            .Append(useLowerCaseClauses ? ClauseConstants.Only.Lower : ClauseConstants.Only.Upper);
+    }
+
     private bool CanAppendClause(ClauseAction clauseAction)
     {
-        return !clauseActions.Exists(c => c is ClauseAction.Delete or ClauseAction.Update)
-            || clauseAction is not ClauseAction.GroupBy and not ClauseAction.Having and not ClauseAction.OrderBy;
+        return !clauseActions.Exists(c => c is ClauseAction.Delete or ClauseAction.Update) ||
+            clauseAction is not ClauseAction.GroupBy and not ClauseAction.Having and not ClauseAction.OrderBy
+            and not ClauseAction.FetchNext and not ClauseAction.Limit and not ClauseAction.Offset
+            and not ClauseAction.Rows and not ClauseAction.Only;
     }
 
     private void CloseOpenParentheses()
