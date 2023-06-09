@@ -1012,5 +1012,5 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
 
 ## Acknowledgements
 
-- This project was inspired by [Dapper SqlBuilder](https://github.com/DapperLib/Dapper/tree/main/Dapper.SqlBuilder), [DapperQueryBuilder](https://github.com/Drizin/DapperQueryBuilder), and other amazing open-source libraries on GitHub.
+- This project was inspired by these amazing libraries. [DapperQueryBuilder](https://github.com/Drizin/DapperQueryBuilder) and [Dapper SqlBuilder](https://github.com/DapperLib/Dapper/tree/main/Dapper.SqlBuilder).
 - Thanks to [JetBrians](https://www.jetbrains.com) for their open source development [support](https://jb.gg/OpenSourceSupport).
