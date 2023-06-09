@@ -21,14 +21,15 @@ public class PostgreSqlTests : IAsyncLifetime
         // Arrange
         const string tableName = "mytable";
 
-        var builder = SimpleBuilder.Create($@"
+        var builder = SimpleBuilder.Create($"""
             CREATE TABLE {tableName:raw}
             (
-                Id uuid PRIMARY KEY,
+                Id INT PRIMARY KEY,
                 Description VARCHAR(50)
             );
 
-            SELECT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = {tableName})");
+            SELECT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = {tableName})
+            """);
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
@@ -53,9 +54,10 @@ public class PostgreSqlTests : IAsyncLifetime
 
         for (var i = 0; i < products.Length; i++)
         {
-            builder.AppendNewLine($@"
-                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
-                VALUES ({products[i].Id}, {products[i].TypeId.DefineParam(DbType.Guid)}, {products[i].Tag}, {products[i].CreatedDate});");
+            builder.AppendIntact($"""
+                INSERT INTO {nameof(Product):raw} ({nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
+                VALUES ({products[i].GlobalId}, {products[i].TypeId.DefineParam(DbType.Int32)}, {products[i].Tag}, {products[i].CreatedDate});
+                """);
         }
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
@@ -77,21 +79,19 @@ public class PostgreSqlTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(
-            connection,
-            productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id,
-            tag: tag,
-            productDescription: postgreSqlTestsFixture.SeedProductTypes[0].Description);
+        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
 
-        FormattableString subQuery = $@"
+        FormattableString subQuery = $"""
             SELECT {nameof(ProductType.Description):raw}
             FROM {nameof(ProductType):raw}
-            WHERE {nameof(ProductType.Id):raw} = x.{nameof(Product.TypeId):raw}";
+            WHERE {nameof(ProductType.Id):raw} = x.{nameof(Product.TypeId):raw}
+            """;
 
-        var builder = SimpleBuilder.Create($@"
+        var builder = SimpleBuilder.Create($"""
             SELECT x.*, ({subQuery}) AS {nameof(Product.Description):raw}
             FROM {nameof(Product):raw} x
-            WHERE {nameof(Product.Tag):raw} = {tag}");
+            WHERE {nameof(Product.Tag):raw} = {tag}
+            """);
 
         // Act
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
@@ -148,8 +148,7 @@ public class PostgreSqlTests : IAsyncLifetime
             .Create($"DELETE FROM {nameof(Product):raw}")
             .Append($"WHERE {nameof(Product.Tag):raw} = {tag}");
 
-        var checkDataExistsBuilder = SimpleBuilder.Create($@"
-            SELECT EXISTS (SELECT 1 FROM {nameof(Product):raw} WHERE {nameof(Product.Tag):raw} = {tag})");
+        var checkDataExistsBuilder = SimpleBuilder.Create($"SELECT EXISTS (SELECT 1 FROM {nameof(Product):raw} WHERE {nameof(Product.Tag):raw} = {tag})");
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -166,11 +165,11 @@ public class PostgreSqlTests : IAsyncLifetime
     {
         // Arrange
         const string resultParamName = "Result";
-        const string userIdParamName = "UserId";
+        const string productIdParamName = "ProductId";
 
         var builder = SimpleBuilder.Create($"CALL {postgreSqlTestsFixture.StoredProcName:raw}(@{nameof(Product.TypeId):raw}, NULL, NULL)")
-            .AddParameter(nameof(Product.TypeId), postgreSqlTestsFixture.SeedProductTypes[0].Id, dbType: DbType.Guid)
-            .AddParameter(userIdParamName, dbType: DbType.Guid, direction: ParameterDirection.Output)
+            .AddParameter(nameof(Product.TypeId), postgreSqlTestsFixture.SeedProductTypes[0].Id, dbType: DbType.Int32)
+            .AddParameter(productIdParamName, dbType: DbType.Int32, direction: ParameterDirection.Output)
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
@@ -180,7 +179,7 @@ public class PostgreSqlTests : IAsyncLifetime
         await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        builder.GetValue<Guid>(userIdParamName).Should().NotBe(default(Guid));
+        builder.GetValue<int>(productIdParamName).Should().NotBe(default);
         builder.GetValue<int>(resultParamName).Should().Be(1);
     }
 

@@ -240,8 +240,8 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
     public IUpdateBuilder Update(FormattableString formattable)
         => AppendFormattable(ClauseAction.Update, formattable);
 
-    public IUpdateBuilder Set(FormattableString formattable) =>
-        AppendFormattable(ClauseAction.UpdateSet, formattable);
+    public IUpdateBuilder Set(FormattableString formattable)
+        => AppendFormattable(ClauseAction.UpdateSet, formattable);
 
     public IUpdateBuilder Set(bool condition, FormattableString formattable)
         => AppendFormattable(ClauseAction.UpdateSet, formattable, condition);
@@ -345,6 +345,61 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
     public IWhereFilterBuilderEntry OrWhereFilter()
     {
         pendingWhereFilter = ClauseAction.WhereOrFilter;
+        return this;
+    }
+
+    public IFluentSqlBuilder FetchNext(int rows)
+    {
+        if (!CanAppendClause(ClauseAction.FetchNext))
+        {
+            return this;
+        }
+
+        AppendFetchNext();
+        stringBuilder
+            .Append(rows)
+            .Append(Constants.Space);
+        AppendRows();
+        AppendOnly();
+        return this;
+    }
+
+    public IFetchBuilder OffsetRows(int offset)
+    {
+        if (!CanAppendClause(ClauseAction.Offset))
+        {
+            return this;
+        }
+
+        AppendOffset();
+        stringBuilder
+            .Append(offset)
+            .Append(Constants.Space);
+        AppendRows(false);
+        return this;
+    }
+
+    public IOffsetBuilder Limit(int rows)
+    {
+        if (!CanAppendClause(ClauseAction.Limit))
+        {
+            return this;
+        }
+
+        AppendLimit();
+        stringBuilder.Append(rows);
+        return this;
+    }
+
+    public IFluentSqlBuilder Offset(int offset)
+    {
+        if (!CanAppendClause(ClauseAction.Offset))
+        {
+            return this;
+        }
+
+        AppendOffset();
+        stringBuilder.Append(offset);
         return this;
     }
 }

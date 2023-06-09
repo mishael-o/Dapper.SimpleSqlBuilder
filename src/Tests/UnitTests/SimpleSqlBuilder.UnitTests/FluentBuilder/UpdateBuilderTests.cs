@@ -228,7 +228,9 @@ public class UpdateBuilderTests
             .Where($"Id = {id}")
             .GroupBy($"Type")
             .Having($"Id = {id}")
-            .OrderBy($"Id");
+            .OrderBy($"Id")
+            .OffsetRows(5)
+            .FetchNext(10);
 
         // Assert
         sut.Sql.Should().Be(expectedSql);

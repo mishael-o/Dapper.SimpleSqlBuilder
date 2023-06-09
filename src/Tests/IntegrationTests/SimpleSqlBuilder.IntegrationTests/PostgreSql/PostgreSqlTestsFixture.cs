@@ -77,10 +77,12 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     private async Task CreateSchemaAsync()
     {
-        var tableBuilder = SimpleBuilder.Create($@"
+        const string sequenceName = $"{nameof(Product)}_Id_Seq";
+
+        var tableBuilder = SimpleBuilder.Create($"""
            CREATE TABLE {nameof(ProductType):raw}
            (
-                {nameof(ProductType.Id):raw} uuid PRIMARY KEY,
+                {nameof(ProductType.Id):raw} INT PRIMARY KEY,
                 {nameof(ProductType.Description):raw} VARCHAR(255)
            );
 
@@ -90,28 +92,31 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
            INSERT INTO {nameof(ProductType):raw}
            VALUES ({SeedProductTypes[1].Id}, {SeedProductTypes[1].Description});
 
+           CREATE SEQUENCE {sequenceName:raw} INCREMENT 1 START 1;
+
            CREATE TABLE {nameof(Product):raw}
            (
-                {nameof(Product.Id):raw} uuid PRIMARY KEY,
-                {nameof(Product.TypeId):raw} uuid NULL REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
+                {nameof(Product.Id):raw} INT PRIMARY KEY DEFAULT NEXTVAL('{sequenceName:raw}'),
+                {nameof(Product.GlobalId):raw} UUID UNIQUE NOT NULL,
+                {nameof(Product.TypeId):raw} INT NULL REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
                 {nameof(Product.Tag):raw} VARCHAR(50),
                 {nameof(Product.CreatedDate):raw} DATE
-           );");
+           );
+           """);
 
         await dbConnection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
 
-        var storedProcBuilder = SimpleBuilder.Create($@"
-           CREATE EXTENSION IF NOT EXISTS ""uuid-ossp"";
-
-           CREATE PROCEDURE {StoredProcName:raw} (TypeId uuid, out UserId uuid, out Result int)
+        var storedProcBuilder = SimpleBuilder.Create($"""
+           CREATE PROCEDURE {StoredProcName:raw} (TypeId INT, OUT ProductId INT, OUT Result INT)
            AS $$
            BEGIN
-                UserId = gen_random_uuid();
-                INSERT INTO {nameof(Product):raw}
-                VALUES (UserId, TypeId, 'procedure', now());
+                ProductId = NEXTVAL('{sequenceName:raw}');
+                INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
+                VALUES (ProductId, GEN_RANDOM_UUID(), TypeId, 'procedure', NOW());
                 GET DIAGNOSTICS Result = ROW_COUNT;
            END; $$
-           LANGUAGE plpgsql;");
+           LANGUAGE plpgsql;
+           """);
 
         await dbConnection.ExecuteAsync(storedProcBuilder.Sql);
     }

@@ -14,6 +14,12 @@ internal static class ClauseConstants
         internal static readonly string Upper = Lower.ToUpperInvariant();
     }
 
+    internal static class Fetch
+    {
+        internal const string NextLower = "fetch next";
+        internal static readonly string NextUpper = NextLower.ToUpperInvariant();
+    }
+
     internal static class GroupBy
     {
         internal const char Separator = Comma;
@@ -48,10 +54,34 @@ internal static class ClauseConstants
         internal static readonly string RightJoinUpper = RightJoinLower.ToUpperInvariant();
     }
 
+    internal static class Limit
+    {
+        internal const string Lower = "limit";
+        internal static readonly string Upper = Lower.ToUpperInvariant();
+    }
+
+    internal static class Offset
+    {
+        internal const string Lower = "offset";
+        internal static readonly string Upper = Lower.ToUpperInvariant();
+    }
+
+    internal static class Only
+    {
+        internal const string Lower = "only";
+        internal static readonly string Upper = Lower.ToUpperInvariant();
+    }
+
     internal static class OrderBy
     {
         internal const char Separator = Comma;
         internal const string Lower = "order by";
+        internal static readonly string Upper = Lower.ToUpperInvariant();
+    }
+
+    internal static class Rows
+    {
+        internal const string Lower = "rows";
         internal static readonly string Upper = Lower.ToUpperInvariant();
     }
 
