@@ -25,7 +25,11 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Simple query")]
     public string SqlBuilder()
     {
-        const string sql = $"SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = @{nameof(Product.TypeId)} OR Description = @{nameof(Product.Description)}) FROM Product x /**where**/";
+        const string sql = $"""
+            SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = @{nameof(Product.TypeId)} OR Description = @{nameof(Product.Description)})
+            FROM Product x
+            /**where**/
+            """;
 
         var sqlBuilder = new SqlBuilder()
             .Where($"Id = @{nameof(Product.Id)}", new { product.Id })
@@ -44,8 +48,9 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Simple query")]
     public string SimpleSqlBuilder()
     {
-        var builder = SimpleBuilder.Create().Append($@"
-               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description}
+        var builder = SimpleBuilder.Create()
+            .AppendIntact($"""
+               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
                FROM Product x
                WHERE Id = {product.Id}
                AND TypeId = {product.TypeId}
@@ -53,7 +58,8 @@ public class SimpleSqlBuilderBenchmark
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
                AND IsActive = {product.IsActive}
-               AND CreateDate = {product.CreateDate}");
+               AND CreateDate = {product.CreateDate}
+               """);
 
         return builder.Sql;
     }
@@ -63,7 +69,7 @@ public class SimpleSqlBuilderBenchmark
     public string SimpleSqlFluentBuilder()
     {
         var builder = SimpleBuilder.CreateFluent()
-            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description})")
+            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})")
             .From($"Product x")
             .Where($"Id = {product.Id}")
             .Where($"TypeId = {product.TypeId}")
@@ -80,8 +86,9 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Simple query")]
     public string SimpleSqlBuilderReuseParameters()
     {
-        var builder = SimpleBuilder.Create(reuseParameters: true).Append($@"
-               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description})
+        var builder = SimpleBuilder.Create(reuseParameters: true)
+            .AppendIntact($"""
+               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
                FROM Product x
                WHERE Id = {product.Id}
                AND TypeId = {product.TypeId}
@@ -89,7 +96,8 @@ public class SimpleSqlBuilderBenchmark
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
                AND IsActive = {product.IsActive}
-               AND CreateDate = {product.CreateDate}");
+               AND CreateDate = {product.CreateDate}
+               """);
 
         return builder.Sql;
     }
@@ -99,7 +107,7 @@ public class SimpleSqlBuilderBenchmark
     public string SimpleSqlFluentBuilderReuseParameters()
     {
         var builder = SimpleBuilder.CreateFluent(reuseParameters: true)
-            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description})")
+            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})")
             .From($"Product x")
             .Where($"Id = {product.Id}")
             .Where($"TypeId = {product.TypeId}")
@@ -116,7 +124,11 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Large query")]
     public string SqlBuilderLarge()
     {
-        const string sql = $"SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = @{nameof(Product.TypeId)} OR Description = @{nameof(Product.Description)}) FROM Product x /**where**/";
+        const string sql = $"""
+            SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = @{nameof(Product.TypeId)} OR Description = @{nameof(Product.Description)})
+            FROM Product x
+            /**where**/
+            """;
 
         var sqlBuilder = new SqlBuilder();
 
@@ -141,21 +153,25 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Large query")]
     public string SimpleSqlBuilderLarge()
     {
-        var builder = SimpleBuilder.Create().Append($@"
-               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description}
-               FROM Product x");
+        var builder = SimpleBuilder.Create()
+            .AppendIntact($"""
+               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
+               FROM Product x
+               WHERE 1 = 1
+               """);
 
         // Simulating large query
         for (var i = 0; i < WhereOperationCount; i++)
         {
-            builder.Append($@"
-               WHERE Id = {product.Id}
+            builder.Append($"""
+               AND Id = {product.Id}
                AND TypeId = {product.TypeId}
                AND Description = {product.Description}
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
                AND IsActive = {product.IsActive}
-               AND CreateDate = {product.CreateDate}");
+               AND CreateDate = {product.CreateDate}
+               """);
         }
 
         return builder.Sql;
@@ -166,7 +182,7 @@ public class SimpleSqlBuilderBenchmark
     public string SimpleSqlFluentBuilderLarge()
     {
         var builder = SimpleBuilder.CreateFluent()
-            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description})")
+            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})")
             .From($"Product x");
 
         // Simulating large query
@@ -189,21 +205,25 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Large query")]
     public string SimpleSqlBuilderLargeReuseParameters()
     {
-        var builder = SimpleBuilder.Create(reuseParameters: true).Append($@"
-               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description}
-               FROM Product x");
+        var builder = SimpleBuilder.Create(reuseParameters: true)
+            .AppendIntact($"""
+               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
+               FROM Product x
+               WHERE 1 = 1
+               """);
 
         // Simulating large query
         for (var i = 0; i < WhereOperationCount; i++)
         {
-            builder.Append($@"
-               WHERE Id = {product.Id}
+            builder.Append($"""
+               AND Id = {product.Id}
                AND TypeId = {product.TypeId}
                AND Description = {product.Description}
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
                AND IsActive = {product.IsActive}
-               AND CreateDate = {product.CreateDate}");
+               AND CreateDate = {product.CreateDate}
+               """);
         }
 
         return builder.Sql;
@@ -214,7 +234,7 @@ public class SimpleSqlBuilderBenchmark
     public string SimpleSqlFluentBuilderLargeReuseParameters()
     {
         var builder = SimpleBuilder.CreateFluent(reuseParameters: true)
-            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE ID = {product.TypeId} OR Description = {product.Description})")
+            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})")
             .From($"Product x");
 
         // Simulating large query

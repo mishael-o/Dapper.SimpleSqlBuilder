@@ -30,11 +30,9 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     public MSSqlTestsFixture()
     {
-        const string dbPassword = "Mssql!Pa55w0rD";
         SeedProductTypes = new Fixture().CreateMany<ProductType>(2).ToArray();
-
-        connectionString = $"Data Source=localhost,{Port};Initial Catalog={MsSqlBuilder.DefaultDatabase};User ID={MsSqlBuilder.DefaultUsername};Password={dbPassword};TrustServerCertificate=True";
-        container = CreateSqlServerContainer(dbPassword);
+        connectionString = $"Data Source=localhost,{Port};Initial Catalog={MsSqlBuilder.DefaultDatabase};User ID={MsSqlBuilder.DefaultUsername};Password={MsSqlBuilder.DefaultPassword};TrustServerCertificate=True";
+        container = CreateSqlServerContainer();
     }
 
     public string StoredProcName { get; } = "CreateProduct";
@@ -67,10 +65,9 @@ public class MSSqlTestsFixture : IAsyncLifetime
 #endif
     }
 
-    private static MsSqlContainer CreateSqlServerContainer(string dbPassword)
+    private static MsSqlContainer CreateSqlServerContainer()
     {
         return new MsSqlBuilder()
-            .WithPassword(dbPassword)
             .WithPortBinding(Port)
             .WithName("mssql")
             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")

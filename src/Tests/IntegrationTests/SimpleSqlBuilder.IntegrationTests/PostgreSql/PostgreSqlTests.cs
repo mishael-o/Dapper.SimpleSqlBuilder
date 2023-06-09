@@ -54,7 +54,7 @@ public class PostgreSqlTests : IAsyncLifetime
 
         for (var i = 0; i < products.Length; i++)
         {
-            builder.AppendNewLine($"""
+            builder.AppendIntact($"""
                 INSERT INTO {nameof(Product):raw} ({nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
                 VALUES ({products[i].GlobalId}, {products[i].TypeId.DefineParam(DbType.Int32)}, {products[i].Tag}, {products[i].CreatedDate});
                 """);
