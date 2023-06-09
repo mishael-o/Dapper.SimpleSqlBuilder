@@ -100,7 +100,9 @@ public class DeleteBuilderTests
             .Where($"Id = {id}")
             .GroupBy($"Id")
             .Having($"Id = {id}")
-            .OrderBy($"Type");
+            .OrderBy($"Type")
+            .Limit(10)
+            .Offset(5);
 
         // Assert
         sut.Sql.Should().Be(expectedSql);
