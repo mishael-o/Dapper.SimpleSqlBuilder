@@ -119,11 +119,11 @@ public class SimpleBuilderFactoryTests
     [Theory]
     [AutoMoqData]
     internal void CreateFluent_CreatesFluentBuilderWithAllArguments_ReturnsFluentSqlBuilder(
-    [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
-    SimpleBuilderFactory sut,
-    [NoAutoProperties] SimpleBuilderOptions options,
-    int id,
-    string type)
+        [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
+        SimpleBuilderFactory sut,
+        [NoAutoProperties] SimpleBuilderOptions options,
+        int id,
+        string type)
     {
         // Arrange
         FormattableString subQuery = $"select DESC from DESC_TABLE where Id = {id} and Type = {type}";
