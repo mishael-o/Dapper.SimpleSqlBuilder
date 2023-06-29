@@ -156,7 +156,7 @@ builder += $" WHERE UserTypeId = {user.TypeId}";
 
 if (user.Age is not null)
 {
-    builder += $" AND AGE >= {user.Age}"
+    builder += $" AND AGE >= {user.Age}";
 }
 ```
 
