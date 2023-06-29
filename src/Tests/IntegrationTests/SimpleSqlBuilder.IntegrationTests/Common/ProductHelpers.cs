@@ -16,10 +16,10 @@ internal static class ProductHelpers
 
         foreach (var product in products)
         {
-            builder.AppendNewLine($"""
+            builder.AppendIntact($"""
                 INSERT INTO {nameof(Product):raw} ({nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
                 VALUES ({product.GlobalId}, {product.TypeId}, {product.Tag}, {product.CreatedDate});
-                """);
+                """).AppendNewLine();
         }
 
         var globalIds = products.Select(x => x.GlobalId).ToArray();
@@ -28,7 +28,6 @@ internal static class ProductHelpers
             : (FormattableString)$"IN {globalIds}";
 
         builder
-            .AppendNewLine()
             .AppendNewLine($"SELECT x.*")
             .AppendIntact(productTypeId.HasValue, $", (SELECT {nameof(ProductType.Description):raw} FROM {nameof(ProductType):raw} WHERE {nameof(ProductType.Id):raw} = {productTypeId}) AS {nameof(ProductType.Description):raw}")
             .AppendNewLine($"""

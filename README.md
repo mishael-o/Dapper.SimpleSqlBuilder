@@ -156,7 +156,7 @@ builder += $" WHERE UserTypeId = {user.TypeId}";
 
 if (user.Age is not null)
 {
-    builder += $" AND AGE >= {user.Age}"
+    builder += $" AND AGE >= {user.Age}";
 }
 ```
 
@@ -691,7 +691,7 @@ The generated SQL will be.
 ```sql
 SELECT x.*, (SELECT Description from UserType WHERE Id = @p0) AS Description
 FROM User x
-WHERE UserTypeId = @p1;
+WHERE UserTypeId = @p1
 ```
 
 ## Parameter Properties
@@ -726,7 +726,7 @@ The `DefineParam(...)` extension method enables you to define the `DbType`, `Siz
 As an alternative to the extension method you can manually create the parameter object.
 
 ```c#
-var idParam = new SimpleParameterInfo(dbType: DbType.Int64);
+var idParam = new SimpleParameterInfo(id, dbType: DbType.Int64);
 ```
 
 ## Configuring Simple Builder Settings
@@ -831,7 +831,7 @@ The generated SQL will be.
 SELECT x.*, (SELECT Description from UserType WHERE Id = @p0) AS Description
 FROM User x
 WHERE UserTypeId = @p0
-AND Age <= @p1"
+AND Age <= @p1
 ```
 
 ## Raw values (:raw)

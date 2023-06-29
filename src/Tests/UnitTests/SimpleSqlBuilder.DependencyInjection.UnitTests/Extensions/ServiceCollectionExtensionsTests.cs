@@ -46,7 +46,9 @@ public class ServiceCollectionExtensionsTests
     [Theory]
     [AutoData]
     public void AddSimpleSqlBuilder_AddsServicesWhenConfigurationFromConfigurationSettings_ReturnsIServiceCollection(
-        ServiceCollection sut, ConfigurationBuilder configurationBuilder, ServiceLifetime serviceLifetime)
+        ServiceCollection sut,
+        ConfigurationBuilder configurationBuilder,
+        ServiceLifetime serviceLifetime)
     {
         // Arrange
         var option = new { parameterNameTemplate = "pm", parameterPrefix = ":", reuseParameters = false, userLowerCaseClauses = true };
@@ -171,7 +173,6 @@ public class ServiceCollectionExtensionsTests
     public void AddSimpleSqlBuilder_ConfigurationSectionPathDoesNotExist_ReturnsIServiceCollection(ServiceCollection sut, ConfigurationBuilder configurationBuilder, string configSectionPath)
     {
         // Arrange
-        var configuration = configurationBuilder.Build();
         sut.AddSingleton<IConfiguration>(configurationBuilder.Build());
 
         // Act
@@ -193,7 +194,10 @@ public class ServiceCollectionExtensionsTests
     [Theory]
     [AutoData]
     public void AddSimpleSqlBuilder_AddsServicesWhenConfigurationFromConfigurationSectionPath_ReturnsIServiceCollection(
-        ServiceCollection sut, ConfigurationBuilder configurationBuilder, string configSectionPath, ServiceLifetime serviceLifetime)
+        ServiceCollection sut,
+        ConfigurationBuilder configurationBuilder,
+        string configSectionPath,
+        ServiceLifetime serviceLifetime)
     {
         // Arrange
         var option = new { parameterNameTemplate = "parm", parameterPrefix = "@", reuseParameters = true, userLowerCaseClauses = false };
@@ -205,8 +209,7 @@ public class ServiceCollectionExtensionsTests
             { $"{configSectionPath}:UseLowerCaseClauses", option.userLowerCaseClauses.ToString() }
         });
 
-        var configuration = configurationBuilder.Build();
-        sut.AddSingleton<IConfiguration>(configuration);
+        sut.AddSingleton<IConfiguration>(configurationBuilder.Build());
 
         // Act
         sut.AddSimpleSqlBuilder(configSectionPath, serviceLifetime);
