@@ -462,7 +462,7 @@ The generated SQL will be:
 SELECT Role, Age COUNT(Id) AS UserCount
 FROM User
 WHERE Role IS NOT NULL
-GROUP BY Role
+GROUP BY Role, Age
 HAVING COUNT(Id) > 1 AND Age >= @p0
 ```
 
@@ -622,7 +622,7 @@ WHERE Id = @p0
 
 ### Where Filters (Complex filter statements)
 
-The fluent builder supports complex filters; this means that you can add `WHERE`, `AND`, and `OR` clauses with complex filter statements.
+The fluent builder supports complex filters, which means you can add `WHERE`, `AND`, and `OR` clauses with complex filter statements.
 
 #### WhereFilter
 
@@ -861,26 +861,26 @@ int minAge = 20;
 int maxAge = 50;
 
 var builder = SimpleBuilder.CreateFluent()
-    .Select($"Role, UserTypeId, ut.Type, COUNT(Id) AS UserCount")
+    .Select($"u.Role, u.Age, ut.Type, COUNT(u.Id) AS UserCount")
     .From($"User u")
     .InnerJoin($"UserType ut ON u.UserTypeId = ut.Id")
-    .Where($"Role IN {roles}")
-    .OrWhere($"UserTypeId = {userTypeId}")
-    .GroupBy($"Role")
-    .Having($"Age >= {minAge}").Having($"Age < {maxAge}")
-    .OrderBy($"Role ASC");
+    .Where($"u.Role IN {roles}")
+    .OrWhere($"u.UserTypeId = {userTypeId}")
+    .GroupBy($"u.Role, u.Age, ut.Type")
+    .Having($"u.Age >= {minAge}").Having($"u.Age < {maxAge}")
+    .OrderBy($"u.Role ASC");
 ```
 
 The generated SQL will be:
 
 ```sql
-select Role, UserTypeId, ut.Type, COUNT(Id) AS UserCount
+select u.Role, u.Age, ut.Type, COUNT(u.Id) AS UserCount
 from User u
 inner join UserType ut ON u.UserTypeId = ut.Id
-where Role IN @p0 or UserTypeId = @p1
-group by Role
-having Age >= @p2 and Age < @p3
-order by Role ASC
+where u.Role IN @p0 or u.UserTypeId = @p1
+group by u.Role, u.Age, ut.Type
+having u.Age >= @p2 and u.Age < @p3
+order by u.Role ASC
 ```
 
 ## Formattable Strings
@@ -889,7 +889,7 @@ The library supports passing [formattable strings](https://docs.microsoft.com/en
 
 ```c#
 int userTypeId = 10;
-FormattableString subQuery = $"SELECT Description from UserType WHERE Id = {userTypeId}";
+FormattableString subQuery = $"SELECT Type from UserType WHERE Id = {userTypeId}";
 
 var builder = SimpleBuilder.Create($@"
 SELECT x.*, ({subQuery}) AS UserType
@@ -1041,7 +1041,7 @@ AND Age <= {maxAge}");
 The generated SQL will be:
 
 ```sql
-SELECT x.*, (SELECT Description from UserType WHERE Id = @p0) AS UserType
+SELECT x.*, (SELECT Type from UserType WHERE Id = @p0) AS UserType
 FROM User x
 WHERE UserTypeId = @p0
 AND Age <= @p1
