@@ -2,7 +2,7 @@
     
     <PropertyGroup>
         <TargetFrameworks>net461;netstandard2.0;net6.0;net7.0</TargetFrameworks>
-        <Description>A simple SQL builder for Dapper using string interpolation and fluent API for building dynamic SQL.</Description>
+        <Description>A simple SQL builder for Dapper using string interpolation and fluent API for building safe static and dynamic SQL queries.</Description>
         <RootNamespace>Dapper.SimpleSqlBuilder</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder</AssemblyName>
         <Title>Dapper SimpleSqlBuilder</Title>

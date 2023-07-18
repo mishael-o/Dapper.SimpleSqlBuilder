@@ -5,7 +5,6 @@
     <PropertyGroup>
         <IsTestProject Condition="'$(IsTestProject)' == ''">true</IsTestProject>
         <IsUnitTestProject Condition="'$(IsUnitTestProject)' == ''">false</IsUnitTestProject>
-        <IsIntegrationTestProject Condition="'$(IsIntegrationTestProject)' == ''">false</IsIntegrationTestProject>
     </PropertyGroup>
 
     <ItemGroup Label="GlobalTestsItemGroup" Condition="'$(IsTestProject)' == 'true'">
@@ -16,8 +15,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="FluentAssertions" Version="6.11.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
-        <PackageReference Include="xunit" Version="2.4.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
         <Using Include="AutoFixture" />
         <Using Include="AutoFixture.Xunit2" />
         <Using Include="FluentAssertions" />
@@ -27,7 +25,8 @@
     <Choose>
         <When Condition="'$(IsTestProject)' == 'true' And '$(TargetFramework)' != 'net461'">
             <ItemGroup>
-                <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+                <PackageReference Include="xunit" Version="2.5.0" />
+                <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
                     <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
                     <PrivateAssets>all</PrivateAssets>
                 </PackageReference>
@@ -35,13 +34,14 @@
         </When>
         <When Condition="'$(IsTestProject)' == 'true' And '$(TargetFramework)' == 'net461'">
             <ItemGroup>
+                <PackageReference Include="xunit" Version="2.4.2" />
                 <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
                     <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
                     <PrivateAssets>all</PrivateAssets>
                 </PackageReference>
 
                 <!--For unit test issues on Linux https://github.com/microsoft/vstest/issues/2469-->
-                <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.6.0" />
+                <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.6.3" />
             </ItemGroup>
         </When>
     </Choose>
@@ -51,11 +51,5 @@
         <PackageReference Include="Moq" Version="4.18.4" />
         <Using Include="AutoFixture.AutoMoq" />
         <Using Include="Moq" />
-    </ItemGroup>
-
-    <ItemGroup Label="IntegrationTestProjectGroup" Condition="'$(IsIntegrationTestProject)' == 'true'">
-        <PackageReference Include="Testcontainers" Version="3.2.0" />
-        <Using Include="DotNet.Testcontainers.Builders" />
-        <Using Include="DotNet.Testcontainers.Containers" />
     </ItemGroup>
 </Project>

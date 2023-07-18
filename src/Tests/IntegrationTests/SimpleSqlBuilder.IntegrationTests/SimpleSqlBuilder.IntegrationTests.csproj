@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <TargetFrameworks>net461;net6.0;net7.0</TargetFrameworks>
-        <IsIntegrationTestProject>true</IsIntegrationTestProject>
         <RootNamespace>Dapper.SimpleSqlBuilder.IntegrationTests</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder.IntegrationTests</AssemblyName>
     </PropertyGroup>
@@ -14,17 +13,16 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' != 'net461'">
-        <PackageReference Include="MySql.Data" Version="8.0.33" />
         <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
         <PackageReference Include="Npgsql" Version="7.0.4" />
-        <PackageReference Include="Respawn" Version="6.0.0" />
+        <PackageReference Include="Respawn" Version="6.1.0" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="MySqlConnector" Version="2.2.6" />
-        <PackageReference Include="TestContainers.MsSql" Version="3.2.0" />
-        <PackageReference Include="TestContainers.MySql" Version="3.2.0" />
-        <PackageReference Include="TestContainers.PostgreSql" Version="3.2.0" />
+        <PackageReference Include="TestContainers.MsSql" Version="3.3.0" />
+        <PackageReference Include="TestContainers.MySql" Version="3.3.0" />
+        <PackageReference Include="TestContainers.PostgreSql" Version="3.3.0" />
     </ItemGroup>
 
     <ItemGroup>
