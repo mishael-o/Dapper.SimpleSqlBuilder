@@ -452,7 +452,7 @@ var builder = SimpleBuilder.CreateFluent()
     .Select($"Role, Age, COUNT(Id) AS UserCount")
     .From($"User")
     .Where($"Role IS NOT NULL")
-    .GroupBy($"Role, Age");
+    .GroupBy($"Role, Age")
     .Having($"COUNT(Id) > 1").Having($"Age >= {minAge}");
 ```
 
@@ -811,7 +811,6 @@ The generated SQL will be:
 UPDATE User
 SET FirstName = @p0, LastName = @p1, UserTypeId = @p2
 WHERE Id = @p3
-
 ```
 
 #### Conditional methods: Example 4
