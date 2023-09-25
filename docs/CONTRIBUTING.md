@@ -36,13 +36,44 @@ To run the tests, you can run them via your IDE test explorer or via the .NET CL
 
 **Git Flow**
 
+```mermaid
+---
+title: Git Flow
+---
+gitGraph
+    commit tag: "1.0.0"
+    branch develop
+    branch feature
+    commit
+    commit
+    checkout develop
+    merge feature id: "feature merge" tag: "1.1.0-beta"
+    branch bugfix
+    commit
+    commit
+    checkout develop
+    merge bugfix id: "bugfix merge" tag: "1.1.1-beta"
+    branch release
+    commit id: "prepare release"
+    checkout main
+    merge release tag: "1.1.3"
+    checkout develop
+    merge main
+    checkout main
+    branch hotfix
+    commit
+    checkout main
+    merge hotfix tag: "1.1.4"
+    checkout develop
+    merge main
+```
+
 - New features, enhancements and bug fixes should be branched off from `develop` branch.
 - `hotfix` branches should be branched off from `main` branch.
 - All pull request(s) into `develop` branch should be completed with a `squash merge`.
-- Only `release/*` or a `hotfix/*` branch should be merged (`merge commit`) into `main`
+- Only `release/*` or a `hotfix/*` branch should be merged (`merge commit`) into `main`.
 - Once `develop` has reached a release milestone, create a `release` branch from `develop`, setup a pull request, and then merge (`merge commit`) into `main`. Finally delete `release` branch.
 - Once a stable release has been published, `main` should be merged (`merge commit`) into `develop`.
-
 
 **Important Pull Request Labels**
 
