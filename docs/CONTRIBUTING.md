@@ -36,8 +36,8 @@ To run the tests, you can run them via your IDE test explorer or via the .NET CL
 
 **Git Flow**
 
-- New features, enhancements and bug-fixes should be branched off `develop` branch.
-- `hotfix` branches should be branched off `main` branch.
+- New features, enhancements and bug fixes should be branched off from `develop` branch.
+- `hotfix` branches should be branched off from `main` branch.
 - All pull request(s) into `develop` branch should be completed with a `squash merge`.
 - Only `release/*` or a `hotfix/*` branch should be merged (`merge commit`) into `main`
 - Once `develop` has reached a release milestone, create a `release` branch from `develop`, setup a pull request, and then merge (`merge commit`) into `main`. Finally delete `release` branch.
@@ -48,13 +48,13 @@ To run the tests, you can run them via your IDE test explorer or via the .NET CL
 
 The following labels are used to categorize pull requests and define what is documented in the release. See [release.yml](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/blob/main/.github/release.yml) for release docs configuration.
 
-- `bug` - Pull request fixes a bug.
+- `hotfix` - Pull request fixes a major bug in the latest release and needs to be merged ASAP.
+- `breaking-change` - Pull request that adds a new feature, bugfix or enhancement which introduces a breaking change.
 - `feature` - Pull request adds a new feature.
-- `hotfix` - Pull request fixes a bug in `main` branch.
-- `ci-cd` - Pull request improves the CI/CD pipeline.
-- `documentation` - Pull request updates documentation.
+- `bugfix` - Pull request fixes a bug.
 - `enhancement` - Pull request improves an existing feature.
-- `minor-enhancement` - Pull request improves an existing feature but is not significant enough to be a `feature`.
+- `documentation` - Pull request updates documentation.
+- `ci-cd` - Pull request improves the CI/CD pipeline.
 - `ignore-for-release` - Pull request should not be included in the release docs.
 
 Click [here](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/labels) to view the full list of label.
