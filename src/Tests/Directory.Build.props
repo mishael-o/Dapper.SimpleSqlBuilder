@@ -48,7 +48,7 @@
 
     <ItemGroup Label="UnitTestsItemGroup" Condition="'$(IsUnitTestProject)' == 'true'">
         <PackageReference Include="AutoFixture.AutoMoq" Version="4.18.0" />
-        <PackageReference Include="Moq" Version="4.18.4" />
+        <PackageReference Include="Moq" Version="[4.18.4]" />
         <Using Include="AutoFixture.AutoMoq" />
         <Using Include="Moq" />
     </ItemGroup>
