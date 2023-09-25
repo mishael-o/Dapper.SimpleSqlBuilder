@@ -3,18 +3,21 @@
     labels:
       - ignore-for-release
   categories:
-    - title: Hot Fixes 🔥
+    - title: 🔥 Hot Fixes
       labels:
         - hotfix  
-    - title: Breaking Changes 🛠
+    - title: 💥 Breaking Changes
       labels:
         - breaking-change
-    - title: New Features ✨
+    - title: ✨ New Features
+      labels:
+        - feature
+    - title: 🐛 Bug Fixes
+      labels:
+        - bugfix
+    - title: 🛠 Enhancements
       labels:
         - enhancement
-    - title: Bug Fixes 🐛
-      labels:
-        - bug
-    - title: Other Changes
+    - title: 📦 Other Changes
       labels:
         - "*"

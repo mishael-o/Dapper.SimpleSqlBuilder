@@ -213,7 +213,7 @@ IEnumerable<User> GetUsers(int userTypeId, string role, int? minAge, bool orderB
     var builder = SimpleBuilder.Create()
         .AppendIntact($"SELECT * FROM User")
         .AppendNewLine($"WHERE UserTypeId = {userTypeId}")
-        .Append(role is not null, $"AND Role = {user.Role}")
+         .Append(role is not null, $"AND Role = {role}")
         .Append(minAge.HasValue, $"AND Age >= {minAge}")
         .AppendNewLine(orderByName, $"ORDER BY FirstName, LastName");
 
@@ -1236,5 +1236,5 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
 
 ## Acknowledgements
 
-- Thanks to [JetBrians](https://www.jetbrains.com) for their open source development [support](https://jb.gg/OpenSourceSupport).
+- Thanks to [JetBrains](https://www.jetbrains.com) for their open source development [support](https://jb.gg/OpenSourceSupport).
 - This project was inspired by these amazing libraries. [Dapper SqlBuilder](https://github.com/DapperLib/Dapper/tree/main/Dapper.SqlBuilder) and [DapperQueryBuilder](https://github.com/Drizin/DapperQueryBuilder).
