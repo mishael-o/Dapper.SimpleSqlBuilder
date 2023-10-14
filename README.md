@@ -1,6 +1,6 @@
 # Dapper Simple SQL Builder
 
-[![Continuous integration and delivery](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml) [![Codecov](https://img.shields.io/codecov/c/gh/mishael-o/Dapper.SimpleSqlBuilder?logo=codecov)](https://codecov.io/gh/mishael-o/Dapper.SimpleSqlBuilder)
+[![Continuous integration and delivery](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml) [![CodeQL](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/codeql.yml/badge.svg)](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/codeql.yml) [![Codecov](https://img.shields.io/codecov/c/gh/mishael-o/Dapper.SimpleSqlBuilder?logo=codecov)](https://codecov.io/gh/mishael-o/Dapper.SimpleSqlBuilder)
 
 ![Dapper Simple SQL Builder](https://raw.githubusercontent.com/mishael-o/Dapper.SimpleSqlBuilder/main/images/readme-icon.png)
 

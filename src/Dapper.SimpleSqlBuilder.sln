@@ -67,6 +67,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{89F49831-6016-4954-8288-5316605830C2}"
 	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\ci-cd.yml = ..\.github\workflows\ci-cd.yml
+		..\.github\workflows\codeql.yml = ..\.github\workflows\codeql.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEMPLATE", "{976AF1F2-16CC-4B8B-B493-EFA5E7293389}"
