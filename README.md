@@ -213,7 +213,7 @@ IEnumerable<User> GetUsers(int userTypeId, string role, int? minAge, bool orderB
     var builder = SimpleBuilder.Create()
         .AppendIntact($"SELECT * FROM User")
         .AppendNewLine($"WHERE UserTypeId = {userTypeId}")
-         .Append(role is not null, $"AND Role = {role}")
+        .Append(role is not null, $"AND Role = {role}")
         .Append(minAge.HasValue, $"AND Age >= {minAge}")
         .AppendNewLine(orderByName, $"ORDER BY FirstName, LastName");
 
