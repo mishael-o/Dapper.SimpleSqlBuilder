@@ -36,33 +36,23 @@ public sealed class SimpleParameterInfo : ISimpleParameterInfo
         Type = value?.GetType();
     }
 
-    /// <summary>
-    /// Gets the parameter value.
-    /// </summary>
+    /// <inheritdoc/>
     public object? Value { get; }
 
     internal string? Name { get; private set; }
 
     internal ParameterDirection Direction { get; }
 
-    /// <summary>
-    /// Gets the parameter <see cref="System.Data.DbType"/>.
-    /// </summary>
+    /// <inheritdoc/>
     public DbType? DbType { get; }
 
-    /// <summary>
-    /// Gets the parameter precision.
-    /// </summary>
+    /// <inheritdoc/>
     public byte? Precision { get; }
 
-    /// <summary>
-    /// Gets the parameter size.
-    /// </summary>
+    /// <inheritdoc/>
     public int? Size { get; }
 
-    /// <summary>
-    /// Gets the parameter scale.
-    /// </summary>
+    /// <inheritdoc/>
     public byte? Scale { get; }
 
     internal Type? Type { get; }

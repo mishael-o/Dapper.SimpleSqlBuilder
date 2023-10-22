@@ -7,19 +7,13 @@ namespace Dapper.SimpleSqlBuilder;
 /// </summary>
 public abstract class Builder : ISqlBuilder
 {
-    /// <summary>
-    /// Gets the generated the SQL.
-    /// </summary>
+    /// <inheritdoc/>
     public abstract string Sql { get; }
 
-    /// <summary>
-    /// Gets the <see cref="DynamicParameters"/> list.
-    /// </summary>
+    /// <inheritdoc/>
     public abstract object Parameters { get; }
 
-    /// <summary>
-    /// Gets the parameter names.
-    /// </summary>
+    /// <inheritdoc/>
     public abstract IEnumerable<string> ParameterNames { get; }
 
     /// <summary>
