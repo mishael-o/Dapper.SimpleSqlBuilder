@@ -118,17 +118,18 @@ public class PostgreSqlTests : IAsyncLifetime
             .AppendNewLine($"SET {nameof(Product.CreatedDate):raw} = {createdDate}")
             .AppendNewLine($"WHERE {nameof(Product.Tag):raw} = {tag}");
 
-        var getUpdatedDateBuilder = SimpleBuilder
-            .Create($"SELECT {nameof(Product.CreatedDate):raw} FROM {nameof(Product):raw}")
-            .AppendNewLine($"WHERE {nameof(Product.Tag):raw} = {tag}");
-
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
         result.Should().Be(count);
 
-        var expectedCreatedDates = await connection.QueryAsync<DateTime>(getUpdatedDateBuilder.Sql, getUpdatedDateBuilder.Parameters);
+        builder.Reset();
+        builder.AppendIntact($"""
+            SELECT {nameof(Product.CreatedDate):raw} FROM {nameof(Product):raw}
+            WHERE {nameof(Product.Tag):raw} = {tag}
+            """);
+        var expectedCreatedDates = await connection.QueryAsync<DateTime>(builder.Sql, builder.Parameters);
         expectedCreatedDates.Should().AllBeEquivalentTo(createdDate);
     }
 
@@ -148,15 +149,15 @@ public class PostgreSqlTests : IAsyncLifetime
             .Create($"DELETE FROM {nameof(Product):raw}")
             .Append($"WHERE {nameof(Product.Tag):raw} = {tag}");
 
-        var checkDataExistsBuilder = SimpleBuilder.Create($"SELECT EXISTS (SELECT 1 FROM {nameof(Product):raw} WHERE {nameof(Product.Tag):raw} = {tag})");
-
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
         result.Should().Be(count);
 
-        var dataExists = await connection.ExecuteScalarAsync<bool>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);
+        builder.Reset();
+        builder.AppendIntact($"SELECT EXISTS (SELECT 1 FROM {nameof(Product):raw} WHERE {nameof(Product.Tag):raw} = {tag})");
+        var dataExists = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
         dataExists.Should().BeFalse();
     }
 

@@ -10,13 +10,11 @@ internal sealed partial class SqlBuilder : Builder
 {
     private readonly StringBuilder stringBuilder;
     private readonly SqlFormatter sqlFormatter;
-    private readonly DynamicParameters parameters;
 
     public SqlBuilder(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, FormattableString? formattable = null)
     {
         stringBuilder = new();
-        parameters = new();
-        sqlFormatter = new(parameters, parameterNameTemplate, parameterPrefix, reuseParameters);
+        sqlFormatter = new(parameterNameTemplate, parameterPrefix, reuseParameters);
         AppendFormattable(formattable);
     }
 
@@ -24,10 +22,10 @@ internal sealed partial class SqlBuilder : Builder
         => stringBuilder.ToString();
 
     public override object Parameters
-        => parameters;
+        => sqlFormatter.Parameters;
 
     public override IEnumerable<string> ParameterNames
-        => parameters.ParameterNames;
+        => sqlFormatter.Parameters.ParameterNames;
 
 #if NET6_0_OR_GREATER
     public override Builder Append([InterpolatedStringHandlerArgument("")] ref AppendInterpolatedStringHandler handler)
@@ -100,18 +98,24 @@ internal sealed partial class SqlBuilder : Builder
 
     public override Builder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null)
     {
-        parameters.Add(name, value, dbType, direction, size, precision, scale);
+        sqlFormatter.Parameters.Add(name, value, dbType, direction, size, precision, scale);
         return this;
     }
 
     public override Builder AddDynamicParameters(object? parameter)
     {
-        parameters.AddDynamicParams(parameter);
+        sqlFormatter.Parameters.AddDynamicParams(parameter);
         return this;
     }
 
     public override T GetValue<T>(string parameterName)
-        => parameters.Get<T>(parameterName);
+        => sqlFormatter.Parameters.Get<T>(parameterName);
+
+    public override void Reset()
+    {
+        sqlFormatter.Reset();
+        stringBuilder.Clear();
+    }
 
     private void AppendFormattable(FormattableString? formattable)
     {

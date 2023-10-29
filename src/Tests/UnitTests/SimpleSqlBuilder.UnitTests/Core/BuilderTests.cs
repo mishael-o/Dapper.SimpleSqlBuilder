@@ -350,6 +350,37 @@ public class BuilderTests
         sut.GetValue<string?>("p6").Should().Be(model.MiddleName);
     }
 
+    [Fact]
+    public void Reset_ResetsBuilder_ReturnsVoid()
+    {
+        // Arrange
+        var sut = SimpleBuilder.Create($"SELECT * FROM TABLE WHERE ID = {1}");
+
+        // Act
+        sut.Reset();
+
+        // Assert
+        sut.Sql.Should().BeEmpty();
+        sut.ParameterNames.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void Reset_ResetsBuilderAndBuildNewQuery_ReturnsVoid()
+    {
+        // Arrange
+        var sut = SimpleBuilder.Create($"SELECT * FROM TABLE WHERE ID = {1}");
+        const int id = 2;
+
+        // Act
+        sut.Reset();
+        sut.AppendIntact($"DELETE FROM TABLE WHERE ID = {id}");
+
+        // Assert
+        sut.Sql.Should().Be("DELETE FROM TABLE WHERE ID = @p0");
+        sut.ParameterNames.Count().Should().Be(1);
+        sut.GetValue<int>("p0").Should().Be(id);
+    }
+
     internal static class BuilderTestsData
     {
         public static IEnumerable<object[]> AppendNewLineWithConditionData

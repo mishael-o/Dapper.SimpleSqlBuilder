@@ -78,7 +78,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
     {
         const string sequenceName = $"{nameof(Product)}_Id_Seq";
 
-        var tableBuilder = SimpleBuilder.Create($"""
+        var builder = SimpleBuilder.Create($"""
            CREATE TABLE {nameof(ProductType):raw}
            (
                 {nameof(ProductType.Id):raw} INT PRIMARY KEY,
@@ -103,9 +103,10 @@ public class MSSqlTestsFixture : IAsyncLifetime
            );
            """);
 
-        await dbConnection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
+        await dbConnection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        var storedProcBuilder = SimpleBuilder.Create($"""
+        builder.Reset();
+        builder.AppendIntact($"""
            CREATE PROCEDURE {StoredProcName:raw} @TypeId INT, @ProductId INT OUT
            AS
            BEGIN
@@ -116,7 +117,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
            END
            """);
 
-        await dbConnection.ExecuteAsync(storedProcBuilder.Sql);
+        await dbConnection.ExecuteAsync(builder.Sql);
     }
 
     private async Task InitialiseDbConnectionAsync()
