@@ -2,7 +2,6 @@
 
 internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 {
-    private readonly DynamicParameters parameters;
     private readonly string parameterNameTemplate;
     private readonly string parameterPrefix;
     private readonly bool reuseParameters;
@@ -10,13 +9,15 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
     private int paramCount;
     private Dictionary<SimpleParameterInfo, string>? parameterDictionary;
 
-    public SqlFormatter(DynamicParameters parameters, string parameterNameTemplate, string parameterPrefix, bool reuseParameters)
+    public SqlFormatter(string parameterNameTemplate, string parameterPrefix, bool reuseParameters)
     {
-        this.parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
         this.parameterNameTemplate = parameterNameTemplate;
         this.parameterPrefix = parameterPrefix;
         this.reuseParameters = reuseParameters;
+        Parameters = new();
     }
+
+    public DynamicParameters Parameters { get; private set; }
 
     public object? GetFormat(Type? formatType)
     {
@@ -51,10 +52,17 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
         return AddParameterInfoToParameters(parameterInfo);
     }
 
+    public void Reset()
+    {
+        paramCount = 0;
+        parameterDictionary?.Clear();
+        Parameters = new();
+    }
+
     private string AddValueToParameters<T>(T value)
     {
         var parameterName = GetNextParameterName();
-        parameters.Add(parameterName, value, direction: System.Data.ParameterDirection.Input);
+        Parameters.Add(parameterName, value, direction: System.Data.ParameterDirection.Input);
         return AppendParameterPrefix(parameterName);
     }
 
@@ -72,7 +80,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
             parameterInfo.SetName(GetNextParameterName());
         }
 
-        parameters.Add(parameterInfo.Name, parameterInfo.Value, parameterInfo.DbType, parameterInfo.Direction, parameterInfo.Size, parameterInfo.Precision, parameterInfo.Scale);
+        Parameters.Add(parameterInfo.Name, parameterInfo.Value, parameterInfo.DbType, parameterInfo.Direction, parameterInfo.Size, parameterInfo.Precision, parameterInfo.Scale);
 
         dbPrefixedParameterName = AppendParameterPrefix(parameterInfo.Name!);
 

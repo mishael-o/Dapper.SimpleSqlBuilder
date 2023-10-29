@@ -71,13 +71,13 @@ public class MySqlTestsFixture : IAsyncLifetime
             .WithPassword(dbPassword)
             .WithPortBinding(Port)
             .WithName("mysql")
-            .WithImage("mysql:8")
+            .WithImage("mysql:8.2")
             .Build();
     }
 
     private async Task CreateSchemaAsync()
     {
-        var tableBuilder = SimpleBuilder.Create($"""
+        var builder = SimpleBuilder.Create($"""
            CREATE TABLE {nameof(ProductType):raw}
            (
                 {nameof(ProductType.Id):raw} INT PRIMARY KEY,
@@ -102,9 +102,10 @@ public class MySqlTestsFixture : IAsyncLifetime
            );
            """);
 
-        await dbConnection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
+        await dbConnection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        var storedProcBuilder = SimpleBuilder.Create($"""
+        builder.Reset();
+        builder.AppendIntact($"""
            CREATE PROCEDURE {StoredProcName:raw} (TypeId INT, OUT ProductId INT, OUT Result INT)
            BEGIN
                 INSERT INTO {nameof(Product):raw} ({nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
@@ -114,7 +115,7 @@ public class MySqlTestsFixture : IAsyncLifetime
            END
            """);
 
-        await dbConnection.ExecuteAsync(storedProcBuilder.Sql);
+        await dbConnection.ExecuteAsync(builder.Sql);
     }
 
     private async Task InitialiseDbConnectionAsync()

@@ -71,7 +71,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
             .WithPassword(dbPassword)
             .WithPortBinding(Port)
             .WithName("postgresql")
-            .WithImage("postgres:15")
+            .WithImage("postgres:16")
             .Build();
     }
 
@@ -79,7 +79,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     {
         const string sequenceName = $"{nameof(Product)}_Id_Seq";
 
-        var tableBuilder = SimpleBuilder.Create($"""
+        var builder = SimpleBuilder.Create($"""
            CREATE TABLE {nameof(ProductType):raw}
            (
                 {nameof(ProductType.Id):raw} INT PRIMARY KEY,
@@ -104,9 +104,10 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
            );
            """);
 
-        await dbConnection.ExecuteAsync(tableBuilder.Sql, tableBuilder.Parameters);
+        await dbConnection.ExecuteAsync(builder.Sql, builder.Parameters);
 
-        var storedProcBuilder = SimpleBuilder.Create($"""
+        builder.Reset();
+        builder.AppendIntact($"""
            CREATE PROCEDURE {StoredProcName:raw} (TypeId INT, OUT ProductId INT, OUT Result INT)
            AS $$
            BEGIN
@@ -118,7 +119,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
            LANGUAGE plpgsql;
            """);
 
-        await dbConnection.ExecuteAsync(storedProcBuilder.Sql);
+        await dbConnection.ExecuteAsync(builder.Sql);
     }
 
     private async Task InitialiseDbConnectionAsync()

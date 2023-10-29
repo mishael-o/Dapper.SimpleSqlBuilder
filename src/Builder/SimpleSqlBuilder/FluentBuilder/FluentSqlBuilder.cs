@@ -9,7 +9,6 @@ internal sealed partial class FluentSqlBuilder
 {
     private readonly bool useLowerCaseClauses;
     private readonly StringBuilder stringBuilder;
-    private readonly DynamicParameters parameters;
     private readonly List<ClauseAction> clauseActions;
     private readonly SqlFormatter sqlFormatter;
 
@@ -21,9 +20,8 @@ internal sealed partial class FluentSqlBuilder
         this.useLowerCaseClauses = useLowerCaseClauses;
 
         stringBuilder = new();
-        parameters = new();
         clauseActions = new();
-        sqlFormatter = new(parameters, parameterNameTemplate, parameterPrefix, reuseParameters);
+        sqlFormatter = new(parameterNameTemplate, parameterPrefix, reuseParameters);
     }
 
     private void AppendClause(ClauseAction clauseAction)

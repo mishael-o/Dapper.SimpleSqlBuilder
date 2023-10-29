@@ -314,6 +314,27 @@ int id = builder.GetValue<int>("Id");
 int result = builder.GetValue<int>("Result");
 ```
 
+### Builder Reset
+
+There are scenarios where you may want to reuse the `Builder` without creating a new instance. This can be achieved by calling the `Reset()` method on the builder instance as seen in the example below.
+
+```c#
+int id = 1;
+var builder = SimpleBuilder.Create($"SELECT * FROM User WHERE Id = {id}");
+
+// Execute the query with Dapper
+var user = dbConnection.QuerySingle<User>(builder.Sql, builder.Parameters);
+
+// Reset the builder
+builder.Reset();
+
+// Reuse the builder
+builder.AppendIntact($"DELETE FROM User WHERE Id = {id}");
+
+// Execute the query with Dapper
+dbConnection.Execute(builder.Sql, builder.Parameters);
+```
+
 ## Fluent Builder
 
 A builder for building SQL queries using fluent API.
