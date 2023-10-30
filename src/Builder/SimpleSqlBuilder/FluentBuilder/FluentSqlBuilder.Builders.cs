@@ -11,16 +11,16 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
         => stringBuilder.ToString();
 
     public object Parameters
-        => parameters;
+        => sqlFormatter.Parameters;
 
     public IEnumerable<string> ParameterNames
-        => parameters.ParameterNames;
+        => sqlFormatter.Parameters.ParameterNames;
 
     public void AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null)
-        => parameters.Add(name, value, dbType, direction, size, precision, scale);
+        => sqlFormatter.Parameters.Add(name, value, dbType, direction, size, precision, scale);
 
     public T GetValue<T>(string parameterName)
-        => parameters.Get<T>(parameterName);
+        => sqlFormatter.Parameters.Get<T>(parameterName);
 
 #if NET6_0_OR_GREATER
     public IDeleteBuilder DeleteFrom([InterpolatedStringHandlerArgument("")] ref DeleteInterpolatedStringHandler handler)

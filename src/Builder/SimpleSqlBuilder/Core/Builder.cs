@@ -7,19 +7,13 @@ namespace Dapper.SimpleSqlBuilder;
 /// </summary>
 public abstract class Builder : ISqlBuilder
 {
-    /// <summary>
-    /// Gets the generated the SQL.
-    /// </summary>
+    /// <inheritdoc/>
     public abstract string Sql { get; }
 
-    /// <summary>
-    /// Gets the <see cref="DynamicParameters"/> list.
-    /// </summary>
+    /// <inheritdoc/>
     public abstract object Parameters { get; }
 
-    /// <summary>
-    /// Gets the parameter names.
-    /// </summary>
+    /// <inheritdoc/>
     public abstract IEnumerable<string> ParameterNames { get; }
 
     /// <summary>
@@ -174,4 +168,10 @@ public abstract class Builder : ISqlBuilder
     /// <param name="parameterName">The name of the parameter.</param>
     /// <returns>The value. Note <see cref="DBNull.Value"/> is not returned, instead the value is returned as <see langword="null"/>.</returns>
     public abstract T GetValue<T>(string parameterName);
+
+    /// <summary>
+    /// Resets the builder to its initial state.
+    /// <para>This resets the <see cref="Parameters">parameters</see> and the <see cref="Sql">SQL</see> string.</para>
+    /// </summary>
+    public abstract void Reset();
 }
