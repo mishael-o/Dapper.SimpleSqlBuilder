@@ -973,7 +973,7 @@ SimpleBuilderSettings.Configure
 (
     parameterNameTemplate: "param", // Optional. Default is "p"
     parameterPrefix: ":", // Optional. Default is "@"
-    reuseParameters: true // Optional. Default is "false"
+    reuseParameters: true, // Optional. Default is "false"
     useLowerCaseClauses: true // Optional. Default is "false". This is only applicable to the fluent builder.
 );
 ```
