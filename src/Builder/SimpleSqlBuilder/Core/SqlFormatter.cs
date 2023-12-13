@@ -80,7 +80,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
             parameterInfo.SetName(GetNextParameterName());
         }
 
-        Parameters.Add(parameterInfo.Name, parameterInfo.Value, parameterInfo.DbType, parameterInfo.Direction, parameterInfo.Size, parameterInfo.Precision, parameterInfo.Scale);
+        Parameters.Add(parameterInfo.Name!, parameterInfo.Value, parameterInfo.DbType, parameterInfo.Direction, parameterInfo.Size, parameterInfo.Precision, parameterInfo.Scale);
 
         dbPrefixedParameterName = AppendParameterPrefix(parameterInfo.Name!);
 
