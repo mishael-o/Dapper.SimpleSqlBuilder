@@ -2,12 +2,12 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>net461;net6.0;net7.0</TargetFrameworks>
+        <TargetFrameworks>net461;net6.0;net7.0;net8.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="4.18.0" />
-        <PackageReference Include="BenchmarkDotNet" Version="0.13.9" />
+        <PackageReference Include="AutoFixture" Version="4.18.1" />
+        <PackageReference Include="BenchmarkDotNet" Version="0.13.11" />
         <PackageReference Include="Dapper.SqlBuilder" Version="2.0.78" />
     </ItemGroup>
 

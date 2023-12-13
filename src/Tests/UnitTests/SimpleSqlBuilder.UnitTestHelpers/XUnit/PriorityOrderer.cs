@@ -15,8 +15,8 @@ public class PriorityOrderer : ITestCaseOrderer
         {
             int priority = testCase.TestMethod.Method
                 .GetCustomAttributes(assemblyName)
-                .FirstOrDefault()
-                ?.GetNamedArgument<int>(nameof(TestPriorityAttribute.Priority)) ?? 0;
+                .FirstOrDefault()?
+                .GetNamedArgument<int>(nameof(TestPriorityAttribute.Priority)) ?? 0;
 
             GetOrCreate(sortedMethods, priority).Add(testCase);
         }
@@ -27,7 +27,7 @@ public class PriorityOrderer : ITestCaseOrderer
         }
     }
 
-    private static TValue GetOrCreate<TKey, TValue>(IDictionary<TKey, TValue> dictionary, TKey key)
+    private static TValue GetOrCreate<TKey, TValue>(SortedDictionary<TKey, TValue> dictionary, TKey key)
         where TKey : struct
         where TValue : new()
     {
