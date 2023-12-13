@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     
     <PropertyGroup>
-        <TargetFrameworks>net461;net6.0;net7.0</TargetFrameworks>
+        <TargetFrameworks>net461;net6.0;net7.0;net8.0</TargetFrameworks>
         <IsUnitTestProject>true</IsUnitTestProject>
         <RootNamespace>Dapper.SimpleSqlBuilder.UnitTestHelpers</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder.UnitTestHelpers</AssemblyName>
