@@ -130,7 +130,7 @@ public class MySqlTestsFixture : IAsyncLifetime
         respawner = new Checkpoint
         {
             DbAdapter = DbAdapter.MySql,
-            TablesToIgnore = new[] { nameof(ProductType) }
+            TablesToIgnore = [nameof(ProductType)]
         };
 
         return Task.CompletedTask;
@@ -142,7 +142,7 @@ public class MySqlTestsFixture : IAsyncLifetime
             respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
             {
                 DbAdapter = DbAdapter.MySql,
-                TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(ProductType)) }
+                TablesToIgnore = [new Respawn.Graph.Table(nameof(ProductType))]
             });
         }
 #endif

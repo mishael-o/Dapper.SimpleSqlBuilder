@@ -46,7 +46,7 @@ public class PostgreSqlTests : IAsyncLifetime
     {
         // Arrange
         const string tag = "insert";
-        var products = ProductHelpers.GetProductFixture(tag: tag)
+        var products = ProductGenerator.GetProductFixture(tag: tag)
             .CreateMany()
             .AsArray();
 
@@ -79,7 +79,7 @@ public class PostgreSqlTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
+        var products = await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
 
         FormattableString subQuery = $"""
             SELECT {nameof(ProductType.Description):raw}
@@ -111,7 +111,7 @@ public class PostgreSqlTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
+        await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var builder = SimpleBuilder
             .Create($"UPDATE {nameof(Product):raw}")
@@ -143,7 +143,7 @@ public class PostgreSqlTests : IAsyncLifetime
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
+        await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var builder = SimpleBuilder
             .Create($"DELETE FROM {nameof(Product):raw}")
