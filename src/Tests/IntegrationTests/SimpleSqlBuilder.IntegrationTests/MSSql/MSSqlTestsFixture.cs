@@ -131,9 +131,9 @@ public class MSSqlTestsFixture : IAsyncLifetime
 #if NET461
         respawner = new Checkpoint
         {
-            SchemasToInclude = new[] { "dbo" },
+            SchemasToInclude = ["dbo"],
             DbAdapter = DbAdapter.SqlServer,
-            TablesToIgnore = new[] { nameof(ProductType) }
+            TablesToIgnore = [nameof(ProductType)]
         };
 
         return Task.CompletedTask;
@@ -144,9 +144,9 @@ public class MSSqlTestsFixture : IAsyncLifetime
         {
             respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
             {
-                SchemasToInclude = new[] { "dbo" },
+                SchemasToInclude = ["dbo"],
                 DbAdapter = DbAdapter.SqlServer,
-                TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(ProductType)) }
+                TablesToIgnore = [new Respawn.Graph.Table(nameof(ProductType))]
             });
         }
 #endif

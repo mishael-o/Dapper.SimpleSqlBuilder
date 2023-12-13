@@ -133,9 +133,9 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 #if NET461
         respawner = new Checkpoint
         {
-            SchemasToInclude = new[] { "public" },
+            SchemasToInclude = ["public"],
             DbAdapter = DbAdapter.Postgres,
-            TablesToIgnore = new[] { nameof(ProductType).ToLowerInvariant() }
+            TablesToIgnore = [nameof(ProductType).ToLowerInvariant()]
         };
 
         return Task.CompletedTask;
@@ -147,9 +147,9 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
         {
             respawner = await Respawner.CreateAsync(dbConnection, new RespawnerOptions
             {
-                SchemasToInclude = new[] { "public" },
+                SchemasToInclude = ["public"],
                 DbAdapter = DbAdapter.Postgres,
-                TablesToIgnore = new[] { new Respawn.Graph.Table(nameof(ProductType).ToLowerInvariant()) }
+                TablesToIgnore = [new Respawn.Graph.Table(nameof(ProductType).ToLowerInvariant())]
             });
         }
 #endif

@@ -20,7 +20,7 @@ public class MySqlFluentTests : IAsyncLifetime
     {
         // Arrange
         const string tag = "insert";
-        var product = ProductHelpers
+        var product = ProductGenerator
             .GetProductFixture(tag: tag)
             .Create();
 
@@ -59,12 +59,12 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = (await ProductHelpers.GenerateSeedProductsAsync(
+        var products = (await ProductGenerator.GenerateSeedProductsAsync(
             connection,
             productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id,
             tag: tag)).ToList();
 
-        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, tag: tag2));
+        products.AddRange(await ProductGenerator.GenerateSeedProductsAsync(connection, tag: tag2));
 
         FormattableString subQuery = $"""
             SELECT {nameof(ProductType.Description):raw}
@@ -97,7 +97,7 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
+        var products = await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var paginatedProducts = products
             .OrderBy(x => x.CreatedDate)
@@ -131,7 +131,7 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
+        var products = await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var paginatedProducts = products
             .OrderBy(x => x.CreatedDate)
@@ -165,8 +165,8 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
-        await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[1].Id, tag: tag);
+        var products = await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
+        await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[1].Id, tag: tag);
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"p.*, pt.{nameof(ProductType.Description):raw}")
@@ -191,8 +191,8 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = (await ProductHelpers.GenerateSeedProductsAsync(connection, tag: tag)).ToList();
-        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag));
+        var products = (await ProductGenerator.GenerateSeedProductsAsync(connection, tag: tag)).ToList();
+        products.AddRange(await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag));
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"p.*")
@@ -219,9 +219,9 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var products = (await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag)).ToList();
-        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, count, mySqlTestsFixture.SeedProductTypes[0].Id, tag));
-        products.AddRange(await ProductHelpers.GenerateSeedProductsAsync(connection, count, mySqlTestsFixture.SeedProductTypes[1].Id, tag2));
+        var products = (await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag)).ToList();
+        products.AddRange(await ProductGenerator.GenerateSeedProductsAsync(connection, count, mySqlTestsFixture.SeedProductTypes[0].Id, tag));
+        products.AddRange(await ProductGenerator.GenerateSeedProductsAsync(connection, count, mySqlTestsFixture.SeedProductTypes[1].Id, tag2));
 
         var builder = SimpleBuilder.CreateFluent()
             .Select($"p.*")
@@ -248,7 +248,7 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        var product = (await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag)).Single();
+        var product = (await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag)).Single();
 
         var builder = SimpleBuilder.CreateFluent()
             .Update($"{nameof(Product):raw}")
@@ -282,7 +282,7 @@ public class MySqlFluentTests : IAsyncLifetime
         using var connection = mySqlTestsFixture.CreateDbConnection();
         await connection.OpenAsync();
 
-        await ProductHelpers.GenerateSeedProductsAsync(connection, count, tag: tag);
+        await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var builder = SimpleBuilder.CreateFluent()
             .DeleteFrom($"{nameof(Product):raw}")

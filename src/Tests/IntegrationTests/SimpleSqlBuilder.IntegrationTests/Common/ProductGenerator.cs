@@ -4,7 +4,7 @@ using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.Common;
 
-internal static class ProductHelpers
+internal static class ProductGenerator
 {
     public static async Task<IEnumerable<Product>> GenerateSeedProductsAsync(DbConnection connection, int count = 5, int? productTypeId = null, string? tag = null)
     {
