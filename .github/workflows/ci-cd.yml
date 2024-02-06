@@ -125,8 +125,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish-docs:
-    # if: ${{ github.ref_name == 'main' && inputs.publish_docs == true }}
-    if: ${{ inputs.publish_docs == true }}
+    if: ${{ github.ref_name == 'main' && inputs.publish_docs == true }}
     name: Publish Docs
     needs: [build]
     runs-on: ubuntu-latest
