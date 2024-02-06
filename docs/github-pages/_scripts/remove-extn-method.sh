@@ -15,6 +15,4 @@ do
 
   # Use sed to remove the block of text
   sed -i "/$PATTERN/,+3d" "$file"
-
-  # echo "Removed $PATTERN from $file"
 done

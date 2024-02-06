@@ -161,21 +161,15 @@ jobs:
       - name: Install DocFx
         run: dotnet tool update -g docfx
       - name: Generate XrefMap
-        run: |
-            docfx metadata docfx-xref.json
-            docfx build docfx-xref.json
-            cp -f _xref-gen/core.xrefmap.yml xrefs
-            cp -f _xref-gen/netstd2.xrefmap.yml xrefs
-            rm -r _xref-gen
-            rm -r api-docs
+        run: _scripts/generate-xrefmap.sh
       - name: DocFx Metadata
         run: docfx metadata docfx.json
       - name: Remove Extension Methods
-        run: ./remove-ext-method.sh
+        run: _scripts/remove-extn-method.sh
       - name: DocFx Build
         run: docfx build docfx.json
       - name: Fix Xref Links
-        run: ./fix-xref-links.sh
+        run: _scripts/fix-xref-links.sh
       - name: Upload Doc Artifacts
         uses: actions/upload-pages-artifact@v3
         with:

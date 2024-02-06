@@ -14,8 +14,6 @@ replace_dir_path() {
             sed -i "s|api-docs/netcore/||g" "$file"
             sed -i "s|api-docs/netstd2/||g" "$file"
         fi
-
-        # echo "Fixed links in $file"
     done
 }
 

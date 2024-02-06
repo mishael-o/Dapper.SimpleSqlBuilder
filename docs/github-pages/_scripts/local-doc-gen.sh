@@ -1,5 +1,7 @@
 #!/bin/bash
 
+script_dir=$(dirname $0)
+
 # Remove Existing Documentation
 if [ -d "_site" ]; then
   rm -r _site
@@ -10,24 +12,19 @@ if [ -d "api-docs" ]; then
 fi
 
 # Generate Generate XrefMap
-docfx metadata docfx-xref.json
-docfx build docfx-xref.json
-cp -f _xref-gen/core.xrefmap.yml xrefs
-cp -f _xref-gen/netstd2.xrefmap.yml xrefs
-rm -r _xref-gen
-rm -r api-docs
+$script_dir/generate-xrefmap.sh
 
 # Generate Metadata
 docfx metadata docfx.json
 
 # Remove Extension Methods
-./remove-ext-method.sh
+$script_dir/remove-extn-method.sh
 
 # Build Documentation
 docfx build docfx.json
 
 # Fix Xref Links
-./fix-xref-links.sh
+$script_dir/fix-xref-links.sh
 
 # Serve Documentation
 docfx serve _site
