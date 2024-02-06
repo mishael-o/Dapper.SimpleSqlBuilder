@@ -171,11 +171,15 @@ jobs:
       - name: DocFx Metadata
         run: docfx metadata docfx.json
       - name: Remove Extension Methods
-        run: ./remove-ext-method.sh
+        run: |
+          git update-index --chmod=+x ./remove-ext-method.sh
+          ./remove-ext-method.sh
       - name: DocFx Build
         run: docfx build docfx.json
       - name: Fix Xref Links
-        run: ./fix-xref-links.sh
+        run: |
+          git update-index --chmod=+x ./fix-xref-links.sh
+          ./fix-xref-links.sh
       - name: Upload Doc Artifacts
         uses: actions/upload-pages-artifact@v3
         with:
