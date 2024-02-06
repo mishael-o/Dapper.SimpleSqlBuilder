@@ -1,0 +1,5 @@
+apiRules:
+  - exclude:
+      # inherited Object methods
+      uidRegex: ^System\.Object\..*$
+      type: Member

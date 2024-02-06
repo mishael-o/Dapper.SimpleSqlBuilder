@@ -1,0 +1,9 @@
+/* Checkout https://getbootstrap.com/docs/5.3/customize/color/ for more customization options */
+/* body {
+    --bs-link-color-rgb: 13, 110, 253 !important;
+    --bs-link-hover-color-rgb: 10, 88, 202 !important;
+  } */
+
+.nav-item.dropdown .dropdown-menu.show {
+    width: 18rem;
+}
