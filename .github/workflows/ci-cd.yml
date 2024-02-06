@@ -70,6 +70,7 @@ jobs:
         with:
           directory: ${{ env.coverageReportPath }}
           files: ${{ env.mergedCoverageReportFileName }}
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Get version
         id: getversion
         run: |
