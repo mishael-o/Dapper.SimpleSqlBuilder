@@ -14,16 +14,16 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' != 'net461'">
-        <PackageReference Include="MySqlConnector" Version="2.3.1" />
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" />
+        <PackageReference Include="MySqlConnector" Version="2.3.5" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
         <PackageReference Include="Npgsql" Version="8.0.1" />
-        <PackageReference Include="Respawn" Version="6.1.0" />
+        <PackageReference Include="Respawn" Version="6.2.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="TestContainers.MsSql" Version="3.6.0" />
-        <PackageReference Include="TestContainers.MySql" Version="3.6.0" />
-        <PackageReference Include="TestContainers.PostgreSql" Version="3.6.0" />
+        <PackageReference Include="TestContainers.MsSql" Version="3.7.0" />
+        <PackageReference Include="TestContainers.MySql" Version="3.7.0" />
+        <PackageReference Include="TestContainers.PostgreSql" Version="3.7.0" />
     </ItemGroup>
 
     <ItemGroup>
