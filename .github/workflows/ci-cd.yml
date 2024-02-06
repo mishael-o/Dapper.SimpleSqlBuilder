@@ -179,7 +179,7 @@ jobs:
       - name: Upload Doc Artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: ${{ github.workspace }}/docs/github-pages/_site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
