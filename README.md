@@ -8,7 +8,7 @@ A simple SQL builder for [Dapper](https://github.com/DapperLib/Dapper) using [st
 
 ## Getting Started
 
-Refer to the [Getting Started](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/) guide for more details.
+Refer to the [Quick Start](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/) guide for more details.
 
 ## Contributing
 
