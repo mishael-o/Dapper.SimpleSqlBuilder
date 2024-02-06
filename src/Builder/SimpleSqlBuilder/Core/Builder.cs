@@ -66,14 +66,14 @@ public abstract class Builder : ISqlBuilder
     public abstract Builder AppendIntact(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref AppendIntactInterpolatedStringHandler handler);
 
     /// <summary>
-    /// Appends an <see cref="Environment.NewLine"/> and the interpolated string to the builder.
+    /// Appends a <see cref="Environment.NewLine"/> and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
     /// <returns>The <see cref="Builder"/>.</returns>
     public abstract Builder AppendNewLine([InterpolatedStringHandlerArgument("")] ref AppendNewLineInterpolatedStringHandler handler);
 
     /// <summary>
-    /// Appends an <see cref="Environment.NewLine"/> and the interpolated string to the builder.
+    /// Appends a <see cref="Environment.NewLine"/> and the interpolated string to the builder.
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="handler">The handler for the interpolated string.</param>
@@ -112,14 +112,14 @@ public abstract class Builder : ISqlBuilder
     public abstract Builder AppendIntact(bool condition, FormattableString formattable);
 
     /// <summary>
-    /// Appends an <see cref="Environment.NewLine"/> and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// Appends a <see cref="Environment.NewLine"/> and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>The <see cref="Builder"/>.</returns>
     public abstract Builder AppendNewLine(FormattableString formattable);
 
     /// <summary>
-    /// Appends an <see cref="Environment.NewLine"/> and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// Appends a <see cref="Environment.NewLine"/> and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
@@ -129,7 +129,7 @@ public abstract class Builder : ISqlBuilder
 #endif
 
     /// <summary>
-    /// Appends an <see cref="Environment.NewLine"/> to the builder.
+    /// Appends a <see cref="Environment.NewLine"/> to the builder.
     /// </summary>
     /// <returns>The <see cref="Builder"/>.</returns>
     public abstract Builder AppendNewLine();
