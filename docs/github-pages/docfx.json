@@ -1,0 +1,89 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../../src/Builder",
+          "files": ["**/SimpleSqlBuilder/*.csproj"]
+        }
+      ],
+      "dest": "api-docs/netcore",
+      "outputFormat": "apiPage",
+      "filter": "filters/filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "src": "../../src/Builder",
+          "files": ["**/SimpleSqlBuilder/*.csproj"]
+        }
+      ],
+      "dest": "api-docs/netstd2",
+      "outputFormat": "apiPage",
+      "filter": "filters/filterConfig.yml",
+      "properties": {
+        "TargetFramework": "netstandard2.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "src": "../../src/Builder",
+          "files": ["**/SimpleSqlBuilder.DependencyInjection/*.csproj"]
+        }
+      ],
+      "dest": "api-docs/di",
+      "outputFormat": "apiPage",
+      "filter": "filters/filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "index.md",
+          "toc.yml",
+          "docs/**/*.{md,yml}",
+          "api-docs/**/*.{md,yml}"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": ["/images/**"]
+      }
+    ],
+    "xref": [
+      "xrefs/xrefmap.yml",
+      "xrefs/core.xrefmap.yml",
+      "xrefs/netstd2.xrefmap.yml",
+      "https://learn.microsoft.com/en-us/dotnet/.xrefmap.json"
+    ],
+    "output": "_site",
+    "sitemap": {
+      "baseUrl": "https://mishael-o.github.io/Dapper.SimpleSqlBuilder/",
+      "priority": 0.5,
+      "changefreq": "daily"
+    },
+    "template": ["default", "modern", "template"],
+    "globalMetadata": {
+      "_appName": "Dapper.SimpleSqlBuilder",
+      "_appTitle": "Dapper.SimpleSqlBuilder",
+      "_enableSearch": true,
+      "_appFooter": "🏗️ Made with <a href=\"https://dotnet.github.io/docfx\">Docfx</a>.</span>",
+      "_appLogoPath": "images/logo.svg",
+      "_appFaviconPath": "images/favicon.ico",
+      "_gitUrlPattern": "github",
+      "_gitContribute": {
+        "branch": "develop"
+      },
+      "pdf": false
+    }
+  }
+}

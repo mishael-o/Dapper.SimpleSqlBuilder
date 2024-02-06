@@ -11,7 +11,7 @@
         <PackageId>$(AssemblyName)</PackageId>
         <PackageReleaseNotes>https://github.com/mishael-o/Dapper.SimpleSqlBuilder/releases</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageProjectUrl>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</PackageProjectUrl>
+        <PackageProjectUrl>https://mishael-o.github.io/Dapper.SimpleSqlBuilder/</PackageProjectUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>package-icon.png</PackageIcon>
         <PackageTags>dapper;sql;sql-builder;dapper-sql-builder;simple-sql-builder;dapper-simple-sql-builder</PackageTags>

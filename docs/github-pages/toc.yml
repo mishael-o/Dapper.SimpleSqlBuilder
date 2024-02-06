@@ -1,0 +1,10 @@
+- name: Docs
+  href: docs/
+- name: API Docs
+  items:
+    - name: SimpleSqlBuilder
+      href: api-docs/netcore/
+    - name: SimpleSqlBuilder (.NET 5 and earlier)
+      href: api-docs/netstd2/
+    - name: Dependency Injection
+      href: api-docs/di/

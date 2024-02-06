@@ -1,0 +1,34 @@
+- name: Getting Started
+- href: introduction.md
+- href: ../index.md
+
+- name: Builders
+- href: builders/builder.md
+- name: Fluent Builder
+  href: builders/fluent-builder/fluent-builder.md
+  items:
+    - name: Fluent Builders
+    - href: builders/fluent-builder/select-builder.md
+    - href: builders/fluent-builder/insert-builder.md
+    - href: builders/fluent-builder/update-builder.md
+    - href: builders/fluent-builder/delete-builder.md
+    - name: Features
+    - href: builders/fluent-builder/where-filters.md
+    - href: builders/fluent-builder/conditional-methods.md
+    - href: builders/fluent-builder/lower-case-clauses.md
+- href: builders/dapper-comparison.md
+- href: builders/sql-injection.md
+
+- name: Configuration
+- href: configuration/builder-settings.md
+- href: configuration/dependency-injection.md
+
+- name: Advanced Features
+- href: advanced-features/reusing-parameters.md
+- href: advanced-features/parameter-properties.md
+- href: advanced-features/raw-values.md
+- href: advanced-features/inner-queries.md
+
+- name: Miscellaneous
+- href: miscellaneous/performance.md
+- href: miscellaneous/release-notes.md

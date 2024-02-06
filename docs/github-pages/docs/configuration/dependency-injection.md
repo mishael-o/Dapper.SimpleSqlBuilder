@@ -1,0 +1,80 @@
+# Dependency Injection
+
+An alternative to using the static classes to access the simple builder and settings is via dependency injection. Use the [Dapper.SimpleSqlBuilder.DependencyInjection](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.DependencyInjection) nuget package instead of the default package. The library supports the default dependency injection pattern in .Net Core.
+
+```csharp
+using Dapper.SimpleSqlBuilder.DependencyInjection;
+
+services.AddSimpleSqlBuilder();
+```
+
+Usage in a class.
+
+```csharp
+class MyClass
+{
+    private readonly simpleBuilder;
+
+    public MyClass(ISimpleBuilder simpleBuilder)
+    {
+        this.simpleBuilder = simpleBuilder;
+    }
+
+    public void MyMethod()
+    {
+        int id = 10;
+        var builder = simpleBuilder.Create($"SELECT * FROM User WHERE Id = {id}");
+
+        // Other code below .....
+    }
+
+    public void MyMethod2()
+    {
+        int id = 10;
+        var builder = simpleBuilder.CreateFluent()
+            .Select($"*")
+            .From($"User")
+            .Where($"Id = {id}");
+
+        // Other code below .....
+    }
+}
+```
+
+## Configuring Simple Builder Options
+
+You can configure the simple builder settings and the [`ISimpleBuilder`](../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.yml) instance service lifetime. The various methods are described below.
+
+### Configuring Simple Builder Settings via `appsettings.json`
+
+```json
+{
+  "SimpleSqlBuilder": {
+    "DatabaseParameterNameTemplate": "p",
+    "DatabaseParameterPrefix": "@",
+    "ReuseParameters": false,
+    "UseLowerCaseClauses": false
+  }
+}
+```
+
+```csharp
+services.AddSimpleSqlBuilder(
+    // Optional. Default is ServiceLifetime.Singleton
+    serviceLifeTime = ServiceLifetime.Singleton);
+```
+
+### Configuring Simple Builder Settings via code
+
+```csharp
+services.AddSimpleSqlBuilder(
+    configure =>
+    {
+        configure.DatabaseParameterNameTemplate = "param"; // Optional. Default is "p"
+        configure.DatabaseParameterPrefix = ":"; // Optional. Default is "@"
+        configure.ReuseParameters = true; // Optional. Default is "false"
+        configure.UseLowerCaseClauses = true; // Optional. Default is "false". This is only applicable to the fluent builder
+    },
+    // Optional. Default is ServiceLifetime.Singleton
+    serviceLifeTime = ServiceLifetime.Scoped);
+```

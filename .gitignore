@@ -389,3 +389,8 @@ FodyWeavers.xsd
 /_workspaces.db
 /src/_workspaces.db
 /.local
+
+# Github-Pages
+**/github-pages/_site/
+**/github-pages/_xref-gen/
+**/github-pages/api-docs/
