@@ -7,3 +7,9 @@
 .nav-item.dropdown .dropdown-menu.show {
     width: 18rem;
 }
+
+@media screen and (max-width: 768px) {
+  .nav-item.dropdown .dropdown-menu.show .nav-item {
+      margin-left: 0.5rem;
+    }
+}
