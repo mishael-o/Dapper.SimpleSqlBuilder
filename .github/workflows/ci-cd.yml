@@ -4,13 +4,18 @@ on:
   push:
     branches: ["main", "develop"]
     paths:
-        - 'src/**'
+      - "src/**"
   pull_request:
     branches: ["main", "develop"]
   workflow_dispatch:
     inputs:
-      publish_nuget:
-        description: "Publish nuget package?"
+      publish_packages:
+        description: "Publish Packages?"
+        default: false
+        required: false
+        type: boolean
+      publish_docs:
+        description: "Publish Docs?"
         default: false
         required: false
         type: boolean
@@ -33,21 +38,21 @@ jobs:
       package_version: ${{ steps.getversion.outputs.package_version }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup .NET 8
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 8.x
       - name: Setup .NET 7
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 7.x
       - name: Setup .NET 6
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 6.x
       - name: Restore dependencies
         run: dotnet restore
       - name: Build solution
@@ -59,37 +64,38 @@ jobs:
       - name: Install dotnet-coverage
         run: dotnet tool install --global dotnet-coverage
       - name: Merge coverage reports
-        run: dotnet-coverage merge ${{ env.coverageReportPath }}*.xml --recursive -f cobertura -o ${{ env.coverageReportPath }}${{ env.mergedCoverageReportFileName }}      
+        run: dotnet-coverage merge ${{ env.coverageReportPath }}*.xml --recursive -f cobertura -o ${{ env.coverageReportPath }}${{ env.mergedCoverageReportFileName }}
       - name: Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           directory: ${{ env.coverageReportPath }}
           files: ${{ env.mergedCoverageReportFileName }}
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Get version
         id: getversion
         run: |
           nugetVersion=${{ env.GitBuildVersionSimple }}
-          
+
           if ${{ github.ref_name == 'develop' }};
           then
             nugetVersion+="-beta"
           fi
-          
+
           echo "package_version=$nugetVersion" >> $GITHUB_OUTPUT
       - name: Create nuget packages
-        if: ${{ inputs.publish_nuget == true }}
-        run: dotnet pack --no-build -o $packagePath -c $configuration     
+        if: ${{ inputs.publish_packages == true }}
+        run: dotnet pack --no-build -o $packagePath -c $configuration
       - name: Upload artifacts
-        if: ${{ inputs.publish_nuget == true }}
+        if: ${{ inputs.publish_packages == true }}
         uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: ${{ env.packagePath }}
           retention-days: 7
-      
-  publish:
-    if: ${{ contains(fromJson('["main", "develop"]'), github.ref_name) && inputs.publish_nuget == true }}
-    name: Publish
+
+  publish-packages:
+    if: ${{ contains(fromJson('["main", "develop"]'), github.ref_name) && inputs.publish_packages == true }}
+    name: Publish Packages
     needs: [build]
     runs-on: ubuntu-latest
     defaults:
@@ -98,7 +104,7 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -117,3 +123,57 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-docs:
+    if: ${{ github.ref_name == 'main' && inputs.publish_docs == true }}
+    name: Publish Docs
+    needs: [build]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs/github-pages
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write
+      id-token: write
+
+    # Allow only one concurrent deployment, skipping runs queued between the run in progress and the latest queued.
+    # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+      - name: Install DocFx
+        run: dotnet tool update -g docfx
+      - name: Generate XrefMap
+        run: _scripts/generate-xrefmap.sh
+      - name: DocFx Metadata
+        run: docfx metadata docfx.json
+      - name: Remove Extension Methods
+        run: _scripts/remove-extn-method.sh
+      - name: DocFx Build
+        run: docfx build docfx.json
+      - name: Fix Xref Links
+        run: _scripts/fix-xref-links.sh
+      - name: Upload Doc Artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ github.workspace }}/docs/github-pages/_site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

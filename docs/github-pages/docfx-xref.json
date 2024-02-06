@@ -1,0 +1,68 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../../src/Builder",
+          "files": ["**/SimpleSqlBuilder/*.csproj"]
+        }
+      ],
+      "dest": "api-docs/netcore",
+      "outputFormat": "mref",
+      "filter": "filters/filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "src": "../../src/Builder",
+          "files": ["**/SimpleSqlBuilder/*.csproj"]
+        }
+      ],
+      "dest": "api-docs/netstd2",
+      "outputFormat": "mref",
+      "filter": "filters/filterConfig.yml",
+      "properties": {
+        "TargetFramework": "netstandard2.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "src": "../../src/Builder",
+          "files": ["**/SimpleSqlBuilder.DependencyInjection/*.csproj"]
+        }
+      ],
+      "dest": "api-docs/di",
+      "outputFormat": "mref",
+      "filter": "filters/filterConfig.yml",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": ["api-docs/netcore/*.yml", "api-docs/di/*.yml"],
+        "group": "core"
+      },
+      {
+        "files": ["api-docs/netstd2/*.yml"],
+        "group": "netstd2"
+      }
+    ],
+    "xref": ["xrefs/xrefmap.yml"],
+    "output": "_xref-gen",
+    "template": ["default", "modern", "template"],
+    "globalMetadata": {
+      "_appName": "Dapper.SimpleSqlBuilder",
+      "_appTitle": "Dapper.SimpleSqlBuilder",
+      "_enableSearch": true,
+      "_gitUrlPattern": "github",
+      "pdf": false
+    }
+  }
+}
