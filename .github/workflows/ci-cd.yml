@@ -38,19 +38,19 @@ jobs:
       package_version: ${{ steps.getversion.outputs.package_version }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup .NET 8
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.x
       - name: Setup .NET 7
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 7.x
       - name: Setup .NET 6
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 6.x
       - name: Restore dependencies
@@ -66,7 +66,7 @@ jobs:
       - name: Merge coverage reports
         run: dotnet-coverage merge ${{ env.coverageReportPath }}*.xml --recursive -f cobertura -o ${{ env.coverageReportPath }}${{ env.mergedCoverageReportFileName }}
       - name: Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           directory: ${{ env.coverageReportPath }}
           files: ${{ env.mergedCoverageReportFileName }}
@@ -103,7 +103,7 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -151,9 +151,11 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        
       - name: Setup .NET 8
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.x
       - name: Install DocFx
