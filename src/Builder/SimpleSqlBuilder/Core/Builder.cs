@@ -148,20 +148,21 @@ public abstract class Builder : ISqlBuilder
     public abstract Builder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null);
 
     /// <summary>
-    /// Appends a whole object full of parameters to the dynamic <see cref="Parameters">parameters</see> bag.
-    /// <para>Example 1:</para>
+    /// Appends an object containing parameters to the dynamic <see cref="Parameters">parameters</see> bag.
     /// <example>
+    /// <para>Example 1:</para>
     /// <code>
-    /// // Add property A and B to the dynamic.
+    /// // Add property A and B to the builder.
     /// AddDynamicParameters(new {A = 1, B = 2});
     /// </code>
     /// <para>Example 2:</para>
     /// <code>
-    /// // Creating a DynamicParameters object to hold the parameters.
+    /// // Create a DynamicParameters object to hold the parameters.
     /// var dynamicParameters = new DynamicParameters();
-    /// // Add parameters A and B to the dynamic <see cref="Parameters">parameters</see> bag.
+    /// // Add parameters A and B to the dynamicParameters object.
     /// dynamicParameters.Add("A", 1);
     /// dynamicParameters.Add("B", 2);
+    /// // Add the dynamicParameters object to the builder.
     /// AddDynamicParameters(dynamicParameters);
     /// </code>
     /// </example>
