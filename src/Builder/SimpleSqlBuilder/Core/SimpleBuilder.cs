@@ -3,7 +3,7 @@
 namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// A static class that enables creation of Simple Builder instances.
+/// A static class that enables creation of builder instances.
 /// </summary>
 public static class SimpleBuilder
 {
@@ -13,7 +13,7 @@ public static class SimpleBuilder
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <param name="parameterPrefix">The value to override the <see cref="SimpleBuilderSettings.DatabaseParameterPrefix"/> value.</param>
     /// <param name="reuseParameters">The value to override the <see cref="SimpleBuilderSettings.ReuseParameters"/> value.</param>
-    /// <returns>The <see cref="Builder">builder</see> instance.</returns>
+    /// <returns>A new instance of <see cref="Builder"/>.</returns>
     public static Builder Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null)
     {
         if (string.IsNullOrWhiteSpace(parameterPrefix))
@@ -36,7 +36,7 @@ public static class SimpleBuilder
     /// <param name="parameterPrefix">The value to override the <see cref="SimpleBuilderSettings.DatabaseParameterPrefix"/> value.</param>
     /// <param name="reuseParameters">The value to override the <see cref="SimpleBuilderSettings.ReuseParameters"/> value.</param>
     /// <param name="useLowerCaseClauses">The value to override the <see cref="SimpleBuilderSettings.UseLowerCaseClauses"/> value.</param>
-    /// <returns>The <see cref="ISimpleFluentBuilderEntry">fluent builder</see> instance.</returns>
+    /// <returns>A new instance of <see cref="ISimpleFluentBuilderEntry"/>.</returns>
     public static ISimpleFluentBuilderEntry CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
     {
         if (string.IsNullOrWhiteSpace(parameterPrefix))

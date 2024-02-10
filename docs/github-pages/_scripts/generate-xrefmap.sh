@@ -1,3 +1,5 @@
+#!/bin/bash
+
 docfx metadata docfx-xref.json
 docfx build docfx-xref.json
 cp -f _xref-gen/core.xrefmap.yml xrefs

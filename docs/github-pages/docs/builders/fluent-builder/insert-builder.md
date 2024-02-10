@@ -1,6 +1,6 @@
 # Insert Builder
 
-You can perform `INSERT` operations with the [`insert builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.yml) as seen in the example below.
+You can perform `INSERT` operations with the [`Insert Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.yml) as seen in the example below.
 
 ```csharp
 var user = new User { FirstName = "John", LastName = "Doe", UserTypeId = 4 };

@@ -6,9 +6,9 @@
 public interface IFetchBuilder : IFluentSqlBuilder
 {
     /// <summary>
-    /// Appends the 'fetch next' clause, the <paramref name="rows"/>, and the 'rows only' clause to the builder.
+    /// Appends the FETCH NEXT clause, the <paramref name="rows"/>, and the ROWS ONLY clause to the builder.
     /// </summary>
     /// <param name="rows">The number of rows to fetch.</param>
-    /// <returns>The <see cref="IFluentSqlBuilder"/>.</returns>
+    /// <returns>The <see cref="IFluentSqlBuilder"/> instance.</returns>
     IFluentSqlBuilder FetchNext(int rows);
 }

@@ -1,6 +1,6 @@
 # Builder
 
-The [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) is a versatile tool for constructing static, dynamic, complex SQL queries, and stored procedures.
+The [`Builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) is a versatile tool for constructing static, dynamic, complex SQL queries, and stored procedures.
 
 The `Create` method on the [`SimpleSqlBuilder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleBuilder.yml) or [`ISimpleBuilder`](../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.yml) (when using [dependency injection](../configuration/dependency-injection.md)) is used to create a new builder instance. It accepts a SQL query as as one of its parameter and returns a new builder instance.
 
@@ -205,7 +205,7 @@ int result = builder.GetValue<int>("Result");
 
 ## Builder Reset
 
-There are scenarios where you may want to reuse the `Builder` without creating a new instance. This can be achieved by calling the [`Reset`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Reset) method on the builder instance as seen in the example below.
+There are scenarios where you may want to reuse the [`Builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) without creating a new instance. This can be achieved by calling the [`Reset`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Reset) method on the builder instance as seen in the example below.
 
 ```csharp
 int id = 1;
