@@ -45,6 +45,6 @@ The library supports any database that Dapper supports. However, the library has
 ## Next Steps
 
 - [Quick Start](../index.md)
-- [Builder Settings](/docs/configuration/builder-settings.md)
-- [Dependency Injection](/docs/configuration/dependency-injection.md)
-- [Release Notes](/docs/miscellaneous/release-notes.md)
+- [Builder Settings](configuration/builder-settings.md)
+- [Dependency Injection](configuration/dependency-injection.md)
+- [Release Notes](miscellaneous/release-notes.md)

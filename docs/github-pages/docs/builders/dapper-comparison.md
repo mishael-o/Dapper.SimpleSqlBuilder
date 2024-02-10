@@ -2,6 +2,8 @@
 
 The code snippets below show how the library compares to Dapper and Dapper's SqlBuilder when writing SQL queries.
 
+The code is extracting data from a `Users` table where the `UserTypeId` is equal to a given `userTypeId` and the `Role` is equal to a given `role`.
+
 ## [Dapper](#tab/dapper)
 
 ```csharp
@@ -15,6 +17,8 @@ AND Role = @role";
 using var connection = new SqliteConnection("Data Source=database.db");
 var users = connection.Query<User>(sql, new { userTypeId, role })
 ```
+
+---
 
 ## [SqlBuilder (Dapper)](#tab/dapper-sqlbuilder)
 
@@ -31,6 +35,8 @@ using var connection = new SqliteConnection("Data Source=database.db");
 var users = connection.Query<User>(template.RawSql, template.Parameters);
 ```
 
+---
+
 ## [Builder (SimpleSqlBuilder)](#tab/builder)
 
 ```csharp
@@ -44,6 +50,8 @@ AND Role = {role}");
 using var connection = new SqliteConnection("Data Source=database.db");
 var users = connection.Query<User>(builder.Sql, builder.Parameters);
 ```
+
+---
 
 ## [Fluent Builder (SimpleSqlBuilder)](#tab/fluent-builder)
 

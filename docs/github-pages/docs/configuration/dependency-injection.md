@@ -1,6 +1,6 @@
 # Dependency Injection
 
-An alternative to using the static classes to access the simple builder and settings is via dependency injection. Use the [Dapper.SimpleSqlBuilder.DependencyInjection](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.DependencyInjection) nuget package instead of the default package. The library supports the default dependency injection pattern in .Net Core.
+An alternative to using the static classes to access the builders and settings is via dependency injection. Use the [Dapper.SimpleSqlBuilder.DependencyInjection](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.DependencyInjection) NuGet package instead of the default package. The library supports the default dependency injection pattern in .Net Core.
 
 ```csharp
 using Dapper.SimpleSqlBuilder.DependencyInjection;
@@ -41,11 +41,11 @@ class MyClass
 }
 ```
 
-## Configuring Simple Builder Options
+## Configuring Builder Options
 
-You can configure the simple builder settings and the [`ISimpleBuilder`](../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.yml) instance service lifetime. The various methods are described below.
+You can configure the builder settings and the [`ISimpleBuilder`](../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.yml) instance service lifetime via the [`SimpleBuilderOptions`](../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.SimpleBuilderOptions.yml) class. There are various ways to configure the options as shown below.
 
-### Configuring Simple Builder Settings via `appsettings.json`
+### Configuring Options via `appsettings.json`
 
 ```json
 {
@@ -64,7 +64,7 @@ services.AddSimpleSqlBuilder(
     serviceLifeTime = ServiceLifetime.Singleton);
 ```
 
-### Configuring Simple Builder Settings via code
+### Configuring Options via code
 
 ```csharp
 services.AddSimpleSqlBuilder(

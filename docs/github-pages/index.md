@@ -25,7 +25,7 @@ The library provides two builders for building SQL queries, which can be created
 - `Builder` - for building static, dynamic, and complex SQL queries.
 - `Fluent Builder` - for building SQL queries using fluent API.
 
- The library also provides an alternative to static classes via [dependency injection](docs/configuration/dependency-injection.md).
+ The library also provides an alternative to static classes via [Dependency Injection](docs/configuration/dependency-injection.md).
 
 ### Create SQL query with the `Builder`
 
@@ -48,7 +48,7 @@ SELECT * FROM User
 WHERE Id = @p0 AND Role = @p1
 ```
 
-> And All values passed into the interpolated string are taken out and replaced with parameter placeholders. The parameter values are put into Dapper's [DynamicParameters](https://github.com/DapperLib/Dapper/blob/main/Dapper/DynamicParameters.cs) collection.
+> And all values passed into the interpolated string are taken out and replaced with parameter placeholders. The parameter values are put into Dapper's <xref:Dapper.DynamicParameters> collection.
 
 To execute the query with Dapper is as simple as this:
 
@@ -56,7 +56,7 @@ To execute the query with Dapper is as simple as this:
 var users = dbConnection.Query<User>(builder.Sql, builder.Parameters);
 ```
 
-To learn more about the builder, see the [Builder](docs/builders/builder.md) section.
+See the [Builder](docs/builders/builder.md) section for more information.
 
 ### Create SQL query with the `Fluent Builder`
 
@@ -84,11 +84,11 @@ FROM User
 WHERE UserTypeId = @p0 AND Role IN @p1
 ```
 
-To learn more about the fluent builder, see the [Fluent Builder](docs/builders/fluent-builder/fluent-builder.md) section.
+See the [Fluent Builder](docs/builders/fluent-builder/fluent-builder.md) section for more information.
 
-### Simple Builder Settings
+### Builder Settings
 
-To learn about configuring the simple builder, see the [Builder Settings](docs/configuration/builder-settings.md) section.
+See the [Builder Settings](docs/configuration/builder-settings.md) section to learn about configuring the builders.
 
 ## Next Steps
 

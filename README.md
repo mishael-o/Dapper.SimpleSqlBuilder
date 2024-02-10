@@ -2,9 +2,11 @@
 
 [![Continuous integration and delivery](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/ci-cd.yml) [![CodeQL](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/codeql.yml/badge.svg)](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/actions/workflows/codeql.yml) [![Codecov](https://img.shields.io/codecov/c/gh/mishael-o/Dapper.SimpleSqlBuilder?logo=codecov)](https://codecov.io/gh/mishael-o/Dapper.SimpleSqlBuilder)
 
+[![Nuget](https://img.shields.io/nuget/v/Dapper.SimpleSqlBuilder?logo=nuget&label=Dapper.SimpleSqlBuilder)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder) [![Nuget](https://img.shields.io/nuget/v/Dapper.SimpleSqlBuilder.StrongName?logo=nuget&label=Dapper.SimpleSqlBuilder.StrongName)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.StrongName) [![Nuget](https://img.shields.io/nuget/v/Dapper.SimpleSqlBuilder.DependencyInjection?logo=nuget&label=Dapper.SimpleSqlBuilder.DependencyInjection)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder.DependencyInjection)
+
 ![Dapper Simple SQL Builder](https://raw.githubusercontent.com/mishael-o/Dapper.SimpleSqlBuilder/main/images/readme-icon.png)
 
-A simple SQL builder for [Dapper](https://github.com/DapperLib/Dapper) using [string interpolation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) and fluent APIs for building safe static and dynamic SQL queries.
+A simple SQL builder for [Dapper](https://github.com/DapperLib/Dapper) using [string interpolation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) and fluent API for building safe static and dynamic SQL queries.
 
 ## Getting Started
 

@@ -8,7 +8,7 @@ namespace Dapper.SimpleSqlBuilder.Extensions;
 public static class SimpleParameterInfoExtensions
 {
     /// <summary>
-    /// An extension method to create an <see cref="ISimpleParameterInfo"/>.
+    /// An extension method to create an instance of <see cref="ISimpleParameterInfo"/> with the specified <paramref name="dbType"/>, <paramref name="size"/>, <paramref name="precision"/>, and <paramref name="scale"/>.
     /// </summary>
     /// <typeparam name="T">The type of the parameter.</typeparam>
     /// <param name="value">The parameter value.</param>
@@ -16,7 +16,7 @@ public static class SimpleParameterInfoExtensions
     /// <param name="size">The parameter size.</param>
     /// <param name="precision">The parameter precision.</param>
     /// <param name="scale">The parameter scale.</param>
-    /// <returns><see cref="ISimpleParameterInfo"/>.</returns>
+    /// <returns>An new instance of <see cref="ISimpleParameterInfo"/>.</returns>
     /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when called on <see cref="ISimpleParameterInfo"/>.</exception>
     public static ISimpleParameterInfo DefineParam<T>(this T value, DbType? dbType = null, int? size = null, byte? precision = null, byte? scale = null)
     {

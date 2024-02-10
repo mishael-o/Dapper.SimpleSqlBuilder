@@ -6,9 +6,9 @@
 public interface ILimitBuilder : IFluentSqlBuilder
 {
     /// <summary>
-    /// Appends the 'limit' clause and the <paramref name="rows"/> to the builder.
+    /// Appends the LIMIT clause and the <paramref name="rows"/> to the builder.
     /// </summary>
     /// <param name="rows">The number of rows to fetch.</param>
-    /// <returns>The <see cref="IFetchBuilder"/>.</returns>
+    /// <returns>The <see cref="IFetchBuilder"/> instance.</returns>
     IOffsetBuilder Limit(int rows);
 }

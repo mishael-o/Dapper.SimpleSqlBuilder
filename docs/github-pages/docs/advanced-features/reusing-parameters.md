@@ -1,6 +1,6 @@
 # Reusing Parameters
 
-The library supports reusing the same parameter name for parameters with the same value, type, and properties. This is turned off by default, however can be enabled globally via the [`builder settings`](../configuration/builder-settings.md) or [`builder options`](../configuration/dependency-injection.md#configuring-simple-builder-options) (when using dependency injection). This can also configured per simple builder instance.
+The library supports reusing the same parameter name for parameters with the same value, type, and properties. This is turned off by default, however can be enabled globally via the [Builder Settings](../configuration/builder-settings.md) or [Builder Options](../configuration/dependency-injection.md#configuring-builder-options) (when using [dependency injection](../configuration/dependency-injection.md)). This can also configured per builder instance.
 
 > [!NOTE]
 > Parameter reuse does not apply to `null` values.
@@ -8,7 +8,7 @@ The library supports reusing the same parameter name for parameters with the sam
 The example below shows how.
 
 ```csharp
-// Configuring globally. Can also be configured per simple builder instance.
+// Configuring globally. Can also be configured per builder instance.
 SimpleBuilderSettings.Configure(reuseParameters: true);
 
 int maxAge = 30;

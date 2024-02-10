@@ -7,18 +7,18 @@ public interface ISelectDistinctBuilder : ISelectFromBuilderEntry
 {
 #if NET6_0_OR_GREATER
     /// <summary>
-    /// Appends the 'select distinct' clause and the interpolated string to the builder.
+    /// Appends the SELECT DISTINCT clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns>The <see cref="ISelectDistinctBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectDistinctBuilder"/> instance.</returns>
     ISelectDistinctBuilder SelectDistinct([InterpolatedStringHandlerArgument("")] ref SelectDistinctInterpolatedStringHandler handler);
 #else
 
     /// <summary>
-    /// Appends the 'select distinct' clause and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// Appends the SELECT DISTINCT clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>The <see cref="ISelectDistinctBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectDistinctBuilder"/> instance.</returns>
     ISelectDistinctBuilder SelectDistinct(FormattableString formattable);
 
 #endif
