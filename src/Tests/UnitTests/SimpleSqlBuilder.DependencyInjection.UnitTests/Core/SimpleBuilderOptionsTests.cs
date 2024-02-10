@@ -13,7 +13,7 @@ public class SimpleBuilderOptionsTests
 
         // Assert
         act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(SimpleBuilderOptions.DatabaseParameterNameTemplate)}' cannot be null, empty, or whitespace.*")
+            .WithMessage($"'{nameof(SimpleBuilderOptions.DatabaseParameterNameTemplate)}' cannot be null, empty, or white-space.*")
             .WithParameterName(nameof(SimpleBuilderOptions.DatabaseParameterNameTemplate));
     }
 
@@ -28,7 +28,7 @@ public class SimpleBuilderOptionsTests
 
         // Assert
         act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(SimpleBuilderOptions.DatabaseParameterPrefix)}' cannot be null, empty, or whitespace.*")
+            .WithMessage($"'{nameof(SimpleBuilderOptions.DatabaseParameterPrefix)}' cannot be null, empty, or white-space.*")
             .WithParameterName(nameof(SimpleBuilderOptions.DatabaseParameterPrefix));
     }
 

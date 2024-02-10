@@ -7,32 +7,32 @@ public interface ISelectBuilderEntry
 {
 #if NET6_0_OR_GREATER
     /// <summary>
-    /// Appends the 'select' clause and the interpolated string to the builder.
+    /// Appends the SELECT clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns>The <see cref="ISelectBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectBuilder"/> instance.</returns>
     ISelectBuilder Select([InterpolatedStringHandlerArgument("")] ref SelectInterpolatedStringHandler handler);
 
     /// <summary>
-    /// Appends the 'select distinct' clause and the interpolated string to the builder.
+    /// Appends the SELECT DISTINCT clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns>The <see cref="ISelectDistinctBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectDistinctBuilder"/> instance.</returns>
     ISelectDistinctBuilder SelectDistinct([InterpolatedStringHandlerArgument("")] ref SelectDistinctInterpolatedStringHandler handler);
 #else
 
     /// <summary>
-    /// Appends the 'select' clause and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// Appends the SELECT clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>The <see cref="ISelectBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectBuilder"/> instance.</returns>
     ISelectBuilder Select(FormattableString formattable);
 
     /// <summary>
-    /// Appends the 'select distinct' clause and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// Appends the SELECT DISTINCT clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>The <see cref="ISelectDistinctBuilder"/>.</returns>
+    /// <returns>The <see cref="ISelectDistinctBuilder"/> instance.</returns>
     ISelectDistinctBuilder SelectDistinct(FormattableString formattable);
 
 #endif

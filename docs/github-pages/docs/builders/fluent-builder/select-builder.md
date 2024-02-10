@@ -1,6 +1,6 @@
 # Select Builder
 
-You can perform `SELECT` operations with the [`select builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.yml) as seen in the examples below.
+You can perform `SELECT` operations with the [`Select Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.yml) as seen in the examples below.
 
 ## Select
 
@@ -171,12 +171,12 @@ ORDER BY FirstName ASC, LastName DESC
 
 ## Pagination
 
-The `select builder` supports two popular ways of performing pagination.
+The [`Select Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.yml) supports two popular ways of performing pagination.
 
 > [!NOTE]
 > You should use the methods that are supported by your database.
 
-**`Limit` and `Offset` methods:**
+### [`Limit`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_ILimitBuilder_Limit_System_Int32_) and [`Offset`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetBuilder_Offset_System_Int32_)
 
 ```csharp
 var builder = SimpleBuilder.CreateFluent()
@@ -196,7 +196,7 @@ ORDER BY Age ASC
 LIMIT 10 OFFSET 20
 ```
 
-**`OffsetRows` and `FetchNext` methods:**
+### [`OffsetRows`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetRowsBuilder_OffsetRows_System_Int32_) and [`FetchNext`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IFetchBuilder_FetchNext_System_Int32_)
 
 ```csharp
 var builder = SimpleBuilder.CreateFluent()

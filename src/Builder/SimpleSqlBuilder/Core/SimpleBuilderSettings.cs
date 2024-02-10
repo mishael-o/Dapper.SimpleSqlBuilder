@@ -1,7 +1,7 @@
 ﻿namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// Global settings for the Simple Builder.
+/// Global settings for the builders.
 /// </summary>
 public sealed class SimpleBuilderSettings
 {
@@ -25,7 +25,7 @@ public sealed class SimpleBuilderSettings
     }
 
     /// <summary>
-    /// Singleton instance to access the builder settings.
+    /// Singleton instance to access the builders settings.
     /// </summary>
     public static SimpleBuilderSettings Instance { get; } = new();
 
@@ -50,7 +50,7 @@ public sealed class SimpleBuilderSettings
     public bool UseLowerCaseClauses { get; private set; } = DefaultUseLowerCaseClauses;
 
     /// <summary>
-    /// Configures the simple builder settings. Null or empty arguments will be ignored.
+    /// Configures the builders settings. Null or empty arguments will be ignored.
     /// </summary>
     /// <param name="parameterNameTemplate">
     /// The parameter name template used to create the parameter names for the generated SQL. The default is "p" so the parameter names will be generated as p0, p1, etc.

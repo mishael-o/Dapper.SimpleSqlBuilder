@@ -1,6 +1,6 @@
 # Update Builder
 
-You can perform `UPDATE` operations with the [`update builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.yml) as seen in the example below.
+You can perform `UPDATE` operations with the [`Update Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.yml) as seen in the example below.
 
 ```csharp
 int id = 1;

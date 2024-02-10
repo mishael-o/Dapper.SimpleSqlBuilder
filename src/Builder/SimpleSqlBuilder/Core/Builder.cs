@@ -19,9 +19,9 @@ public abstract class Builder : ISqlBuilder
     /// <summary>
     /// An add operator for the builder that enables dynamic query concatenation.
     /// </summary>
-    /// <param name="builder">The <see cref="Builder"/> instance.</param>
+    /// <param name="builder">The <see cref="Builder"/> instance to perform the operation on.</param>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     /// <exception cref="ArgumentNullException">Throws an <see cref="ArgumentNullException"/> when called on a <see langword="null"/> object.</exception>
     public static Builder operator +(Builder builder, FormattableString formattable)
     {
@@ -39,7 +39,7 @@ public abstract class Builder : ISqlBuilder
     /// Appends a space and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder Append([InterpolatedStringHandlerArgument("")] ref AppendInterpolatedStringHandler handler);
 
     /// <summary>
@@ -47,14 +47,14 @@ public abstract class Builder : ISqlBuilder
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder Append(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref AppendInterpolatedStringHandler handler);
 
     /// <summary>
     /// Appends the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder AppendIntact([InterpolatedStringHandlerArgument("")] ref AppendIntactInterpolatedStringHandler handler);
 
     /// <summary>
@@ -62,14 +62,14 @@ public abstract class Builder : ISqlBuilder
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder AppendIntact(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref AppendIntactInterpolatedStringHandler handler);
 
     /// <summary>
     /// Appends a <see cref="Environment.NewLine"/> and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder AppendNewLine([InterpolatedStringHandlerArgument("")] ref AppendNewLineInterpolatedStringHandler handler);
 
     /// <summary>
@@ -77,7 +77,7 @@ public abstract class Builder : ISqlBuilder
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="handler">The handler for the interpolated string.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder AppendNewLine(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref AppendNewLineInterpolatedStringHandler handler);
 #else
 
@@ -85,7 +85,7 @@ public abstract class Builder : ISqlBuilder
     /// Appends a space and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder Append(FormattableString formattable);
 
     /// <summary>
@@ -93,14 +93,14 @@ public abstract class Builder : ISqlBuilder
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder Append(bool condition, FormattableString formattable);
 
     /// <summary>
     /// Appends the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder AppendIntact(FormattableString formattable);
 
     /// <summary>
@@ -108,14 +108,14 @@ public abstract class Builder : ISqlBuilder
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder AppendIntact(bool condition, FormattableString formattable);
 
     /// <summary>
     /// Appends a <see cref="Environment.NewLine"/> and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder AppendNewLine(FormattableString formattable);
 
     /// <summary>
@@ -123,7 +123,7 @@ public abstract class Builder : ISqlBuilder
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder AppendNewLine(bool condition, FormattableString formattable);
 
 #endif
@@ -131,7 +131,7 @@ public abstract class Builder : ISqlBuilder
     /// <summary>
     /// Appends a <see cref="Environment.NewLine"/> to the builder.
     /// </summary>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder AppendNewLine();
 
     /// <summary>
@@ -144,28 +144,31 @@ public abstract class Builder : ISqlBuilder
     /// <param name="size">The size of the parameter.</param>
     /// <param name="precision">The precision of the parameter.</param>
     /// <param name="scale">The scale of the parameter.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder AddParameter(string name, object? value = null, DbType? dbType = null, ParameterDirection? direction = null, int? size = null, byte? precision = null, byte? scale = null);
 
     /// <summary>
-    /// Appends a whole object full of parameters to the dynamic <see cref="Parameters">parameters</see> bag.
+    /// Appends an object containing parameters to the dynamic <see cref="Parameters">parameters</see> bag.
+    /// <example>
     /// <para>Example 1:</para>
     /// <code>
-    /// // Add property A and B to the dynamic.
+    /// // Add property A and B to the builder.
     /// AddDynamicParameters(new {A = 1, B = 2});
     /// </code>
     /// <para>Example 2:</para>
     /// <code>
-    /// // Creating a DynamicParameters object to hold the parameters.
+    /// // Create a DynamicParameters object to hold the parameters.
     /// var dynamicParameters = new DynamicParameters();
-    /// // Add parameters A and B to the dynamic <see cref="Parameters">parameters</see> bag.
+    /// // Add parameters A and B to the dynamicParameters object.
     /// dynamicParameters.Add("A", 1);
     /// dynamicParameters.Add("B", 2);
+    /// // Add the dynamicParameters object to the builder.
     /// AddDynamicParameters(dynamicParameters);
     /// </code>
+    /// </example>
     /// </summary>
     /// <param name="parameter">The parameter.</param>
-    /// <returns>The <see cref="Builder"/>.</returns>
+    /// <returns>The <see cref="Builder"/> instance.</returns>
     public abstract Builder AddDynamicParameters(object? parameter);
 
     /// <summary>
@@ -173,7 +176,7 @@ public abstract class Builder : ISqlBuilder
     /// </summary>
     /// <typeparam name="T">The type to cast the value to.</typeparam>
     /// <param name="parameterName">The name of the parameter.</param>
-    /// <returns>The value. Note <see cref="DBNull.Value"/> is not returned, instead the value is returned as <see langword="null"/>.</returns>
+    /// <returns>The value of the parameter. Note <see cref="DBNull.Value"/> is not returned, instead the value is returned as <see langword="null"/>.</returns>
     public abstract T GetValue<T>(string parameterName);
 
     /// <summary>

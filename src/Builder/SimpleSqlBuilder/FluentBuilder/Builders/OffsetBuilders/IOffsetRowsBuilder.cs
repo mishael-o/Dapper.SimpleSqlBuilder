@@ -6,9 +6,9 @@
 public interface IOffsetRowsBuilder : IFluentSqlBuilder
 {
     /// <summary>
-    /// Appends the 'offset' clause, the <paramref name="offset"/>, and the and 'rows' clause to the builder.
+    /// Appends the OFFSET clause, the <paramref name="offset"/>, and the ROWS clause to the builder.
     /// </summary>
     /// <param name="offset">The number of rows to skip.</param>
-    /// <returns>The <see cref="IFetchBuilder"/>.</returns>
+    /// <returns>The <see cref="IFetchBuilder"/> instance.</returns>
     IFetchBuilder OffsetRows(int offset);
 }

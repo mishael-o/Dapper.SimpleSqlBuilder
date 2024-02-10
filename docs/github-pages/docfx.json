@@ -75,14 +75,16 @@
     "globalMetadata": {
       "_appName": "Dapper.SimpleSqlBuilder",
       "_appTitle": "Dapper.SimpleSqlBuilder",
-      "_enableSearch": true,
       "_appFooter": "🏗️ Made with <a href=\"https://dotnet.github.io/docfx\">Docfx</a>.</span>",
       "_appLogoPath": "images/logo.svg",
       "_appFaviconPath": "images/favicon.ico",
+      "_enableSearch": true,
+      "_googleAnalyticsTagId": "",
       "_gitUrlPattern": "github",
       "_gitContribute": {
         "branch": "develop"
       },
+      "_lang": "en",
       "pdf": false
     }
   }

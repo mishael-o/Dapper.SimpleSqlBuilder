@@ -1,11 +1,11 @@
 # Builder Settings
 
-You can configure the simple builder settings through the [`SimpleBuilderSettings`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.yml) static class by calling the `Configure` method.
+You can configure the builder settings through the [`SimpleBuilderSettings`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.yml) static class by calling the `Configure` method.
 
 > [!NOTE]
-> If you are using the dependency injection library refer to the [dependency injection](dependency-injection.md) section on how to configure the global simple builder settings.
+> If you are using the dependency injection library refer to the [Dependency Injection](dependency-injection.md) section on how to configure the global builder settings.
 
-The code below shows how to configure the simple builder settings.
+The code below shows how to configure the builder settings.
 
 ```csharp
 SimpleBuilderSettings.Configure
@@ -33,7 +33,7 @@ The default parameter prefix is `@`, meaning when parameters are passed to the d
 SimpleBuilderSettings.Configure(parameterPrefix: ":");
 ```
 
-This can also be configured per simple builder instance if you want to override the global settings.
+This can also be configured per builder instance if you want to override the global settings.
 
 ```csharp
 // Builder
@@ -45,13 +45,13 @@ var fluentBuilder = SimpleBuilder.CreateFluent(parameterPrefix: ":");
 
 ### Configuring Parameter Reuse
 
-The library supports parameter reuse, and the default is `false`. Go to the [reusing parameters](../advanced-features/reusing-parameters.md) section to learn more. You can configure this by passing your desired argument to the `reuseParameters` parameter.
+The library supports parameter reuse, and the default is `false`. Go to the [Reusing Parameters](../advanced-features/reusing-parameters.md) section to learn more. You can configure this by passing your desired argument to the `reuseParameters` parameter.
 
 ```csharp
 SimpleBuilderSettings.Configure(reuseParameters: true);
 ```
 
-This can also be configured per simple builder instance if you want to override the global settings.
+This can also be configured per builder instance if you want to override the global settings.
 
 ```csharp
 // Builder
@@ -63,7 +63,7 @@ var fluentBuilder = SimpleBuilder.CreateFluent(reuseParameters: true);
 
 ### Configuring Fluent builder to use Lower Case Clauses
 
-The library supports using lower case clauses for the `fluent builder`, and the default is `false`. You can configure this by passing your desired argument to the `useLowerCaseClauses` parameter.
+The library supports using lower case clauses for the [Fluent Builder](../builders/fluent-builder/fluent-builder.md), and the default is `false`. You can configure this by passing your desired argument to the `useLowerCaseClauses` parameter.
 
 ```csharp
 SimpleBuilderSettings.Configure(useLowerCaseClauses: true);
