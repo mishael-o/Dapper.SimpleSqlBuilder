@@ -133,7 +133,7 @@ jobs:
       run:
         working-directory: docs/github-pages
     env:
-      docfx_version: 2.75.2
+      docfx_version: 2.76.0
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:

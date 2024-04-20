@@ -24,6 +24,6 @@ public interface IFluentSqlBuilder : ISqlBuilder, IFluentBuilder
     /// </summary>
     /// <typeparam name="T">The type to cast the value to.</typeparam>
     /// <param name="parameterName">The name of the parameter.</param>
-    /// <returns>The value of the parameter. Note <see cref="DBNull.Value"/> is not returned, instead the value is returned as <see langword="null"/>.</returns>
+    /// <returns>The value of the parameter. Note <see cref="DBNull.Value">DBNull.Value</see> is not returned, instead the value is returned as <see langword="null"/>.</returns>
     T GetValue<T>(string parameterName);
 }
