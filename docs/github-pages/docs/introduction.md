@@ -42,6 +42,10 @@ The library provides multiple packages to suit your needs.
 
 The library supports any database that Dapper supports. However, the library has been [tested](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/tree/main/src/Tests/IntegrationTests/SimpleSqlBuilder.IntegrationTests) against the latest versions of MSSQL, MySQL and PostgreSQL databases.
 
+## Share Your Feedback
+
+If you like the library, use it, share it, and give it a ⭐️ on GitHub. For any suggestions, feature requests, or issues feel free to create an [issue](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/issues) on GitHub to help improve the library.
+
 ## Next Steps
 
 - [Quick Start](../index.md)

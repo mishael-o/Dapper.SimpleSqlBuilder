@@ -3,7 +3,7 @@
 The benchmark project is mainly to help with development and code optimisations.
 
 The benchmark below shows the performance of the `Builder` and `Fluent Builder` compared to Dapper's [SqlBuilder](https://github.com/DapperLib/Dapper/tree/main/Dapper.SqlBuilder) for building queries only (**this does not benchmark SQL execution**).
-The benchmark was done with the [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet). The benchmark results may vary depending on the system configuration, OS, and other factors but the result below gives a general indication of performance.
+The benchmark was done with the [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) library. The benchmark results may vary depending on the system configuration, OS, and other factors but the result below gives a general indication of performance.
 
 To run the benchmark you will need to ensure you have the **corresponding SDKs for the frameworks** installed, then you can execute the command below in the benchmark project directory.
 

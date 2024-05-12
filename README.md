@@ -12,6 +12,10 @@ A simple SQL builder for [Dapper](https://github.com/DapperLib/Dapper) using [st
 
 Refer to the [Quick Start](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/) guide for more details.
 
+## Share Your Feedback
+
+If you like the library, use it, share it, and give it a ⭐️. For any suggestions, feature requests, or issues feel free to create an [issue](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/issues) to help improve the library.
+
 ## Contributing
 
 Refer to the [Contributing](https://github.com/mishael-o/Dapper.SimpleSqlBuilder/blob/main/docs/CONTRIBUTING.md) guide for more details.
