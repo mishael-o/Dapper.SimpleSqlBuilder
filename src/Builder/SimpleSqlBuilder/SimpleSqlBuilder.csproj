@@ -12,12 +12,9 @@
         <Using Remove="System.Net.Http"></Using>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'netstandard2.0'">
-        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
-    </ItemGroup>
-
     <ItemGroup>
-        <PackageReference Include="Dapper" Version="2.1.35" />
+        <PackageReference Include="Dapper" />
+        <PackageReference Include="Microsoft.Bcl.HashCode" Condition="'$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'netstandard2.0'"/>
     </ItemGroup>
 
     <ItemGroup>

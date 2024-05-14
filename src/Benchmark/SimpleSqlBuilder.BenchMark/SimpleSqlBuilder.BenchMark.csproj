@@ -6,9 +6,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="4.18.1" />
-        <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
-        <PackageReference Include="Dapper.SqlBuilder" Version="2.0.78" />
+        <PackageReference Include="AutoFixture" />
+        <PackageReference Include="BenchmarkDotNet" />
+        <PackageReference Include="Dapper.SqlBuilder" />
     </ItemGroup>
 
     <ItemGroup>
