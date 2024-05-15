@@ -71,7 +71,7 @@ public class MySqlTestsFixture : IAsyncLifetime
             .WithPassword(dbPassword)
             .WithPortBinding(Port)
             .WithName("mysql")
-            .WithImage("mysql:8.2")
+            .WithImage("mysql:8.4")
             .Build();
     }
 

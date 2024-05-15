@@ -88,6 +88,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3882C05C-BF9
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
 		version.json = version.json
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{72D162B8-2003-41DF-9F04-483FDF95E7C2}"

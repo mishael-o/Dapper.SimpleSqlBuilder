@@ -28,8 +28,8 @@
     </PropertyGroup>
 
     <ItemGroup Label="PackageItemGroup">
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-        <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
+        <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="All"/>
     </ItemGroup>
 
     <Target Name="OverrideVersion" AfterTargets="GetBuildVersion" Condition="'$(PublicRelease)' == 'False'">
