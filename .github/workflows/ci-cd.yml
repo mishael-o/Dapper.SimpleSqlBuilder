@@ -184,7 +184,7 @@ jobs:
         uses: actions/deploy-pages@v4
   
   create-sync-pr:
-    if: ${{ github.ref_name == 'main' && inputs.create_sync_pr  == true }}
+    if: ${{ github.ref_name == 'main' && inputs.create_sync_pr == true }}
     name: Publish Packages
     needs: [build]
     runs-on: ubuntu-latest
