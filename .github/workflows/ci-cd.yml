@@ -19,6 +19,11 @@ on:
         default: false
         required: false
         type: boolean
+      create_sync_pr:
+        description: "Create sync pull request?"
+        default: false
+        required: false
+        type: boolean
 
 env:
   configuration: release
@@ -151,7 +156,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0        
+          fetch-depth: 0
       - name: Setup .NET 8
         uses: actions/setup-dotnet@v4
         with:
@@ -177,3 +182,35 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+  
+  create-sync-pr:
+    if: ${{ github.ref_name == 'main' && inputs.create_sync_pr == true }}
+    name: Create Sync PR
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Create Sync PR
+        run: |
+          set +e
+          PR_EXISTS=$(gh pr list --base develop --head main --state open --json number --jq '.[0]')
+          echo "Existing PR number: $PR_EXISTS"
+
+          if [ -z "$PR_EXISTS" ];
+          then
+            PR_URL=$(gh pr create --base develop --head main --title "main to develop sync" --body "This is an automated PR to sync main into develop" --label "ignore-for-release" 2>&1)
+            CREATE_EXIT_CODE=$?        
+            echo "Response: $PR_URL - Exit Code: $CREATE_EXIT_CODE"
+          
+            if [[ $CREATE_EXIT_CODE -eq 0 ]];
+            then
+              echo "Created PR: $PR_URL"
+              gh pr merge --auto --merge "$PR_URL"
+            fi
+
+            exit 0;
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
