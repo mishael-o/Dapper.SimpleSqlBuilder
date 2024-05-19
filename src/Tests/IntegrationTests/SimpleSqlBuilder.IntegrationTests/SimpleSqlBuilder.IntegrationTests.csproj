@@ -1,29 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net461;net6.0;net7.0;net8.0</TargetFrameworks>
+        <TargetFrameworks>net461;net6.0;net8.0</TargetFrameworks>
         <RootNamespace>Dapper.SimpleSqlBuilder.IntegrationTests</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder.IntegrationTests</AssemblyName>
     </PropertyGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-        <PackageReference Include="MySqlConnector" Version="2.2.7" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-        <PackageReference Include="Npgsql" Version="6.0.8" />
-        <PackageReference Include="Respawn" Version="4.0.0" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' != 'net461'">
-        <PackageReference Include="MySqlConnector" Version="2.3.5" />
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
-        <PackageReference Include="Npgsql" Version="8.0.1" />
-        <PackageReference Include="Respawn" Version="6.2.1" />
-    </ItemGroup>
-
+    
     <ItemGroup>
-        <PackageReference Include="TestContainers.MsSql" Version="3.7.0" />
-        <PackageReference Include="TestContainers.MySql" Version="3.7.0" />
-        <PackageReference Include="TestContainers.PostgreSql" Version="3.7.0" />
+        <PackageReference Include="MySqlConnector" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Condition="'$(TargetFramework)' != 'net461'" />
+        <PackageReference Include="Npgsql" />
+        <PackageReference Include="Respawn" />
+        <PackageReference Include="System.Data.SqlClient" Condition="'$(TargetFramework)' == 'net461'"/>
+        <PackageReference Include="TestContainers.MsSql" />
+        <PackageReference Include="TestContainers.MySql" />
+        <PackageReference Include="TestContainers.PostgreSql" />
     </ItemGroup>
 
     <ItemGroup>

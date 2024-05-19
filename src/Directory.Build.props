@@ -10,10 +10,6 @@
     </PropertyGroup>
 
     <ItemGroup Label="GlobalItemGroup">
-        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.507">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
         <AssemblyAttribute Include="System.CLSCompliantAttribute">
             <_Parameter1>false</_Parameter1>
         </AssemblyAttribute>
