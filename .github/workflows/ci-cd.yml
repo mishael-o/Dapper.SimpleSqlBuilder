@@ -185,7 +185,7 @@ jobs:
   
   create-sync-pr:
     if: ${{ github.ref_name == 'main' && inputs.create_sync_pr == true }}
-    name: Publish Packages
+    name: Create Sync PR
     needs: [build]
     runs-on: ubuntu-latest
 
