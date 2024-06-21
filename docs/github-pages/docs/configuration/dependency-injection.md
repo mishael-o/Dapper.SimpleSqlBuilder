@@ -61,7 +61,7 @@ You can configure the builder settings and the [`ISimpleBuilder`](../../api-docs
 ```csharp
 services.AddSimpleSqlBuilder(
     // Optional. Default is ServiceLifetime.Singleton
-    serviceLifeTime = ServiceLifetime.Singleton);
+    serviceLifetime: ServiceLifetime.Singleton);
 ```
 
 ### Configuring Options via code
@@ -76,5 +76,5 @@ services.AddSimpleSqlBuilder(
         configure.UseLowerCaseClauses = true; // Optional. Default is "false". This is only applicable to the fluent builder
     },
     // Optional. Default is ServiceLifetime.Singleton
-    serviceLifeTime = ServiceLifetime.Scoped);
+    serviceLifetime: ServiceLifetime.Scoped);
 ```

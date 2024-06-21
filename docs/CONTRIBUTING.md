@@ -1,6 +1,6 @@
 # Contributing
 
-Thinking of contributing to the project? Super 😊, we are grateful and excited for the support. Give this [project](https://github.com/mishael-o/Dapper.SimpleSqlBuilder) a star ⭐️ and share it with your friends on social media.
+Thinking of contributing to the project? Super 😊, we are grateful and excited for the support.
 
 When contributing to this repository, please first discuss the change you wish to make via an issue, email, or any other method with the owners of this repository before making a change. You can also pick an existing issue.
 
