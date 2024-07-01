@@ -171,10 +171,7 @@ ORDER BY FirstName ASC, LastName DESC
 
 ## Pagination
 
-The [`Select Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.yml) supports two popular ways of performing pagination.
-
-> [!NOTE]
-> You should use the methods that are supported by your database.
+The [`Select Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.yml) supports two popular ways of performing pagination. The choice between `Limit`/`Offset` and `OffsetRows`/`FetchNext` methods may depend on your database system.
 
 ### [`Limit`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_ILimitBuilder_Limit_System_Int32_) and [`Offset`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetBuilder_Offset_System_Int32_)
 
