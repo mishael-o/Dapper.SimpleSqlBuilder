@@ -1,9 +1,9 @@
 # Raw Values
 
-There are scenarios where you may want to pass a raw value into the interpolated string and not parameterize the value. The `raw` format string is used to indicate that the value should not be parameterized.
+In certain scenarios, you might need to insert a raw value directly into your SQL query, bypassing parameterization. The `raw` format string serves this purpose, indicating that the specified value should not be converted into a parameter.
 
 > [!WARNING]
-> Do not use raw values if you don't trust the source or have not sanitized your value, as this can lead to SQL injection.
+> Only use raw values with trusted or sanitized inputs to prevent SQL injection risks.
 
 ## Column and Table names with `nameof()`
 
@@ -13,7 +13,7 @@ var builder = SimpleBuilder.CreateFluent()
     .From($"{nameof(User):raw}");
 ```
 
-The generated SQL will be:
+This approach generates the following SQL, leveraging `nameof()` to ensure accuracy and maintainability:
 
 ```sql
 SELECT Id, FirstName, LastName
@@ -22,7 +22,7 @@ FROM User
 
 ### Named Parameter
 
-This example uses T-SQL (MSSQL) syntax, however the same applies to other databases.
+This example uses T-SQL (MSSQL) syntax, but the same principles apply to other databases.
 
 ```csharp
 const string idParamName = "id";

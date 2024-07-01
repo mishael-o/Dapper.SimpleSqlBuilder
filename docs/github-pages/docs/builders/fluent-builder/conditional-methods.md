@@ -1,8 +1,6 @@
 # Conditional Methods (Clauses)
 
-The [Fluent Builder](fluent-builder.md) supports conditional methods (clauses). This is useful when you want to add a clause only if a condition is met.
-
-The `Set`, `InnerJoin`, `RightJoin`, `LeftJoin`, `Where`, `OrWhere`, `WithFilter`, `WithOrFilter`, `GroupBy`, `Having` and `OrderBy` methods all have conditional overloads.
+The [fluent builder](fluent-builder.md) supports conditional methods (clauses), allowing you to add a clause only if a specific condition is met. This feature is available for methods like `Set`, `InnerJoin`, `RightJoin`, `LeftJoin`, `Where`, `OrWhere`, `WithFilter`, `WithOrFilter`, `GroupBy`, `Having`, and `OrderBy`.
 
 ## Example 1
 

@@ -2,9 +2,9 @@
 
 The [`Builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) is a versatile tool for constructing static, dynamic, complex SQL queries, and stored procedures.
 
-The `Create` method on the [`SimpleSqlBuilder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleBuilder.yml) or [`ISimpleBuilder`](../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.yml) (when using [dependency injection](../configuration/dependency-injection.md)) is used to create a new builder instance. It accepts a SQL query as as one of its parameter and returns a new builder instance.
+The `Create` method on the [`SimpleSqlBuilder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleBuilder.yml) or [`ISimpleBuilder`](../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.yml) (when using [dependency injection](../configuration/dependency-injection.md)) creates a new [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) instance. It accepts a SQL query as one of its parameters and returns a new [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) instance.
 
-The SQL query can be a static string or an interpolated string. The builder will parse the SQL query and extract the parameters from it. The parameters can be accessed via the [`Parameters`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Parameters) property and the generated SQL query can be accessed via the [`Sql`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Sql) property.
+The SQL query can be a static string or an interpolated string. The [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) parses the SQL query and extracts the parameters from it. The parameters can be accessed via the [`Parameters`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Parameters) property, and the generated SQL query can be accessed via the [`Sql`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Sql) property.
 
 ## Static SQL
 
@@ -16,22 +16,22 @@ int age = 25;
 
 var builder = SimpleBuilder.Create($@"
 SELECT * FROM User
-WHERE UserTypeId = {userTypeId} AND AGE >= {age}");
+WHERE UserTypeId = {userTypeId} AND Age >= {age}");
 ```
 
 The generated SQL will be:
 
 ```sql
 SELECT * FROM User
-WHERE UserTypeId = @p0 AND AGE >= @p1
+WHERE UserTypeId = @p0 AND Age >= @p1
 ```
 
-For newer versions of C# you can also use [raw string literals](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/raw-string) with [string interpolation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) to build your SQL queries, instead of [verbatim string literals](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/verbatim). See the example below.
+For newer versions of C# (11 and later), you can also use [raw string literals](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/raw-string) with [string interpolation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) to build your SQL queries, instead of [verbatim string literals](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/verbatim). See the example below.
 
 ```csharp
 var builder = SimpleBuilder.Create($"""
 SELECT * FROM User
-WHERE UserTypeId = {userTypeId} AND AGE >= {age}
+WHERE UserTypeId = {userTypeId} AND Age >= {age}
 """);
 ```
 
@@ -71,7 +71,7 @@ SELECT * FROM User WHERE UserTypeId = @p0 AND Age >= @p1
 
 ### Builder Chaining
 
-If you prefer an alternative to interpolated string concatenation, you can use the [`Append`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Append_Dapper_SimpleSqlBuilder_AppendInterpolatedStringHandler__), [`AppendIntact`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_AppendIntact_Dapper_SimpleSqlBuilder_AppendIntactInterpolatedStringHandler__) and [`AppendNewLine`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_AppendNewLine_Dapper_SimpleSqlBuilder_AppendNewLineInterpolatedStringHandler__) methods, which can be chained.
+If you prefer an alternative to interpolated string concatenation, you can use the [`Append`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Append_Dapper_SimpleSqlBuilder_AppendInterpolatedStringHandler__), [`AppendIntact`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_AppendIntact_Dapper_SimpleSqlBuilder_AppendIntactInterpolatedStringHandler__), and [`AppendNewLine`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_AppendNewLine_Dapper_SimpleSqlBuilder_AppendNewLineInterpolatedStringHandler__) methods, which can be chained.
 
 ```csharp
 int userTypeId = 4;
@@ -91,7 +91,7 @@ WHERE UserTypeId = @p0 OR Role = @p1
 ORDER BY FirstName ASC
 ```
 
-You can also use it with conditional statements. The `Append`, `AppendIntact` and `AppendNewLine` methods all have conditional overloads. This is useful when you want to append a statement only if a condition is met.
+You can also use it with conditional statements. The `Append`, `AppendIntact`, and `AppendNewLine` methods all have conditional overloads. This is useful when you want to append a statement only if a condition is met.
 
 ```csharp
 var users = GetUsers(4, "Admin", null, true);
@@ -118,13 +118,13 @@ ORDER BY FirstName, LastName
 ```
 
 > [!NOTE]
-> The `Append` method adds a space before the SQL text by default. You can use the `AppendIntact` method if you don't want this behaviour.
+> The `Append` method adds a space before the SQL text by default. You can use the `AppendIntact` method if you do not want this behaviour.
 
-## INSERT, UPDATE and DELETE Statements
+## INSERT, UPDATE, and DELETE Statements
 
 ### Insert
 
-You can perform INSERT operations with the builder as seen in the example below.
+You can perform INSERT operations with the [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) as seen in the example below.
 
 ```csharp
 var user = new User { FirstName = "John", LastName = "Doe", UserTypeId = 4 };
@@ -146,7 +146,7 @@ VALUES (@p0, @p1, @p2)
 
 ### Update
 
-You can perform UPDATE operations with the builder as seen in the example below.
+You can perform UPDATE operations with the [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) as seen in the example below.
 
 ```csharp
 int id = 1;
@@ -183,7 +183,7 @@ DELETE FROM User WHERE Id = @p0
 
 ## Stored Procedures
 
-You can execute stored procedures with the builder as seen in the example below.
+You can execute stored procedures with the [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) as seen in the example below.
 
 ```csharp
 var user = new User { FirstName = "John", LastName = "Doe", UserTypeId = 4 };
@@ -205,7 +205,7 @@ int result = builder.GetValue<int>("Result");
 
 ## Builder Reset
 
-There are scenarios where you may want to reuse the [`Builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) without creating a new instance. This can be achieved by calling the [`Reset`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Reset) method on the builder instance as seen in the example below.
+There are scenarios where you may want to reuse the [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) without creating a new instance. This can be achieved by calling the [`Reset`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Reset) method on the [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) instance as seen in the example below.
 
 ```csharp
 int id = 1;

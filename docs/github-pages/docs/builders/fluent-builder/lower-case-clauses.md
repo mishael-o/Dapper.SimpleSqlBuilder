@@ -1,14 +1,15 @@
 # Lower Case Clauses
 
-The [Fluent Builder](fluent-builder.md) supports generating SQL with lower case clauses. The example below shows how to generate SQL with lower case clauses.
+The [fluent builder](fluent-builder.md) supports generating SQL with lower case clauses. This feature can be enabled globally or per instance, allowing for flexibility in how SQL queries are formatted.
 
 ```csharp
-// Configuring globally. Can also be configured per Fluent Builder instance.
+// Configuring globally for all builder instances
 SimpleBuilderSettings.Configure(useLowerCaseClauses: true);
 
 int userTypeId = 1;
 int minAge = 20;
 int maxAge = 50;
+var roles = new[] { "Admin", "User" };
 
 var builder = SimpleBuilder.CreateFluent()
     .Select($"u.Role, u.Age, ut.Type, COUNT(u.Id) AS UserCount")
@@ -20,6 +21,8 @@ var builder = SimpleBuilder.CreateFluent()
     .Having($"u.Age >= {minAge}").Having($"u.Age < {maxAge}")
     .OrderBy($"u.Role ASC");
 ```
+
+Alternatively, to configure lower case clauses for a single instance, you can pass the configuration directly to the `CreateFluent` method
 
 The generated SQL will be:
 
