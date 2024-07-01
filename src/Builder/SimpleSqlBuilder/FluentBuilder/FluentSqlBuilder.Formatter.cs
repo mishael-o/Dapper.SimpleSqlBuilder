@@ -15,7 +15,7 @@ internal sealed partial class FluentSqlBuilder : IFluentBuilderFormatter
         => CloseOpenParentheses();
 
     public bool IsClauseActionEnabled(ClauseAction clauseAction)
-        => CanAppendClause(clauseAction);
+        => IsClauseAppendable(clauseAction);
 
     public void StartClauseAction(ClauseAction clauseAction)
         => AppendClause(clauseAction);

@@ -64,6 +64,45 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
+    public void DeleteFrom_BuildsSqlWithOrWhereMethods_ReturnsFluentSqlBuilder(int id, string type)
+    {
+        // Arrange
+        var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE Id = @p0 OR Type = @p1";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .DeleteFrom($"Table")
+                    .OrWhere($"Id = {id}")
+                    .OrWhere($"Type = {type}");
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
+    }
+
+    [Theory]
+    [AutoData]
+    public void DeleteFrom_BuildsSqlWithOrWhereFilterMethods_ReturnsFluentSqlBuilder(int id, string type)
+    {
+        // Arrange
+        var expectedSql = $"DELETE FROM Table{Environment.NewLine}WHERE (Id = @p0 OR Type = @p1)";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .DeleteFrom($"Table")
+                    .OrWhereFilter($"Id = {id}").WithOrFilter($"Type = {type}");
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(2);
+        sut.GetValue<int>("p0").Should().Be(id);
+        sut.GetValue<string>("p1").Should().Be(type);
+    }
+
+    [Theory]
+    [AutoData]
     public void DeleteFrom_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         // Arrange
@@ -257,5 +296,65 @@ public class DeleteBuilderTests
         sut.GetValue<int>("p0").Should().Be(id);
         sut.GetValue<int>("p1").Should().Be(age);
         sut.GetValue<string>("p2").Should().Be(type);
+    }
+
+    [Fact]
+    public void DeleteFrom_InsertIntoMethodIsCalledAfterDeleteFrom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.DeleteFrom($"*");
+
+        // Act
+        Action act = () => sut.InsertInto($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.Insert}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
+    }
+
+    [Fact]
+    public void DeleteFrom_SelectMethodIsCalledAfterDeleteFrom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.DeleteFrom($"*");
+
+        // Act
+        Action act = () => sut.Select($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.Select}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
+    }
+
+    [Fact]
+    public void DeleteFrom_SelectDistinctMethodIsCalledAfterDeleteFrom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.DeleteFrom($"*");
+
+        // Act
+        Action act = () => sut.SelectDistinct($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.SelectDistinct}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
+    }
+
+    [Fact]
+    public void DeleteFrom_UpdateMethodIsCalledAfterDeleteFrom_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.DeleteFrom($"*");
+
+        // Act
+        Action act = () => sut.Update($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.Update}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
     }
 }

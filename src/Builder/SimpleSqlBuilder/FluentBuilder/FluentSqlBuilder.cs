@@ -13,6 +13,7 @@ internal sealed partial class FluentSqlBuilder
     private readonly SqlFormatter sqlFormatter;
 
     private bool hasOpenParentheses;
+    private ClauseAction entryClause;
     private ClauseAction pendingWhereFilter;
 
     public FluentSqlBuilder(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
@@ -20,7 +21,7 @@ internal sealed partial class FluentSqlBuilder
         this.useLowerCaseClauses = useLowerCaseClauses;
 
         stringBuilder = new();
-        clauseActions = new();
+        clauseActions = [];
         sqlFormatter = new(parameterNameTemplate, parameterPrefix, reuseParameters);
     }
 
@@ -109,12 +110,11 @@ internal sealed partial class FluentSqlBuilder
 
     private void AppendDelete()
     {
-        if (clauseActions.Contains(ClauseAction.Delete))
+        if (!SetEntryClause(ClauseAction.Delete))
         {
             return;
         }
 
-        clauseActions.Add(ClauseAction.Delete);
         stringBuilder
             .Append(useLowerCaseClauses ? ClauseConstants.Delete.Lower : ClauseConstants.Delete.Upper)
             .Append(Constants.Space);
@@ -122,12 +122,11 @@ internal sealed partial class FluentSqlBuilder
 
     private void AppendInsert()
     {
-        if (clauseActions.Contains(ClauseAction.Insert))
+        if (!SetEntryClause(ClauseAction.Insert))
         {
             return;
         }
 
-        clauseActions.Add(ClauseAction.Insert);
         stringBuilder
             .Append(useLowerCaseClauses ? ClauseConstants.Insert.Lower : ClauseConstants.Insert.Upper)
             .Append(Constants.Space);
@@ -184,7 +183,7 @@ internal sealed partial class FluentSqlBuilder
             throw new ArgumentException($"The clause action ({clauseAction}) is invalid for this method.", nameof(clauseAction));
         }
 
-        if (clauseActions.Contains(clauseAction))
+        if (!SetEntryClause(clauseAction))
         {
             stringBuilder
                 .Append(ClauseConstants.Select.Separator)
@@ -204,7 +203,6 @@ internal sealed partial class FluentSqlBuilder
                 break;
         }
 
-        clauseActions.Add(clauseAction);
         stringBuilder.Append(Constants.Space);
     }
 
@@ -224,12 +222,11 @@ internal sealed partial class FluentSqlBuilder
 
     private void AppendUpdate()
     {
-        if (clauseActions.Contains(ClauseAction.Update))
+        if (!SetEntryClause(ClauseAction.Update))
         {
             return;
         }
 
-        clauseActions.Add(ClauseAction.Update);
         stringBuilder
             .Append(useLowerCaseClauses ? ClauseConstants.Update.Lower : ClauseConstants.Update.Upper)
             .Append(Constants.Space);
@@ -441,7 +438,7 @@ internal sealed partial class FluentSqlBuilder
             .Append(Constants.Space);
     }
 
-    private void AppendOffset()
+    private void AppendOffset(int offset)
     {
         if (clauseActions.Contains(ClauseAction.Offset))
         {
@@ -449,8 +446,9 @@ internal sealed partial class FluentSqlBuilder
         }
 
         clauseActions.Add(ClauseAction.Offset);
+        var hasLimitClause = clauseActions.Contains(ClauseAction.Limit);
 
-        if (clauseActions.Contains(ClauseAction.Limit))
+        if (hasLimitClause)
         {
             stringBuilder.Append(Constants.Space);
         }
@@ -461,10 +459,18 @@ internal sealed partial class FluentSqlBuilder
 
         stringBuilder
             .Append(useLowerCaseClauses ? ClauseConstants.Offset.Lower : ClauseConstants.Offset.Upper)
-            .Append(Constants.Space);
+            .Append(Constants.Space)
+            .Append(offset);
+
+        if (hasLimitClause)
+        {
+            return;
+        }
+
+        stringBuilder.Append(Constants.Space);
     }
 
-    private void AppendLimit()
+    private void AppendLimit(int rows)
     {
         if (clauseActions.Contains(ClauseAction.Limit))
         {
@@ -475,10 +481,11 @@ internal sealed partial class FluentSqlBuilder
         stringBuilder
             .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.Limit.Lower : ClauseConstants.Limit.Upper)
-            .Append(Constants.Space);
+            .Append(Constants.Space)
+            .Append(rows);
     }
 
-    private void AppendFetchNext()
+    private void AppendFetchNext(int rows)
     {
         if (clauseActions.Contains(ClauseAction.FetchNext))
         {
@@ -489,10 +496,12 @@ internal sealed partial class FluentSqlBuilder
         stringBuilder
             .AppendLine()
             .Append(useLowerCaseClauses ? ClauseConstants.Fetch.NextLower : ClauseConstants.Fetch.NextUpper)
+            .Append(Constants.Space)
+            .Append(rows)
             .Append(Constants.Space);
     }
 
-    private void AppendRows(bool appendTrailingSpace = true)
+    private void AppendRows()
     {
         if (!clauseActions.Contains(ClauseAction.Rows))
         {
@@ -501,32 +510,57 @@ internal sealed partial class FluentSqlBuilder
 
         stringBuilder
             .Append(useLowerCaseClauses ? ClauseConstants.Rows.Lower : ClauseConstants.Rows.Upper);
-
-        if (!appendTrailingSpace)
-        {
-            return;
-        }
-
-        stringBuilder.Append(Constants.Space);
     }
 
     private void AppendOnly()
     {
-        if (!clauseActions.Contains(ClauseAction.Only))
+        if (clauseActions.Contains(ClauseAction.Only))
         {
-            clauseActions.Add(ClauseAction.Only);
+            return;
         }
 
+        clauseActions.Add(ClauseAction.Only);
         stringBuilder
+            .Append(Constants.Space)
             .Append(useLowerCaseClauses ? ClauseConstants.Only.Lower : ClauseConstants.Only.Upper);
     }
 
-    private bool CanAppendClause(ClauseAction clauseAction)
+    /// <summary>
+    /// Check whether we can append aggregate, ordering or pagination clauses to the SQL query.
+    /// </summary>
+    private bool IsClauseAppendable(ClauseAction clauseAction)
     {
         return !clauseActions.Exists(c => c is ClauseAction.Delete or ClauseAction.Update) ||
             clauseAction is not ClauseAction.GroupBy and not ClauseAction.Having and not ClauseAction.OrderBy
             and not ClauseAction.FetchNext and not ClauseAction.Limit and not ClauseAction.Offset
             and not ClauseAction.Rows and not ClauseAction.Only;
+    }
+
+    /// <summary>
+    /// Sets the initial clause for the SQL query being built, ensuring it is a valid.
+    /// </summary>
+    /// <param name="clauseAction">The clause action to set as the entry clause.</param>
+    /// <returns><see langword="true"/> if the entry clause was successfully set; otherwise, <see langword="false"/> if the <paramref name="clauseAction"/> is the same as the <see cref="entryClause"/>.</returns>
+    private bool SetEntryClause(ClauseAction clauseAction)
+    {
+        if (clauseAction is not ClauseAction.Delete and not ClauseAction.Insert and not ClauseAction.Select and not ClauseAction.SelectDistinct and not ClauseAction.Update)
+        {
+            throw new ArgumentException($"The clause action ({clauseAction}) is invalid for this method.", nameof(clauseAction));
+        }
+
+        if (clauseAction == entryClause)
+        {
+            return false;
+        }
+
+        if (entryClause is not ClauseAction.None && clauseAction != entryClause)
+        {
+            throw new InvalidOperationException($"Clause action \"{clauseAction}\" is not allowed after \"{entryClause}\" has been initiated on the same Fluent Builder.");
+        }
+
+        clauseActions.Add(clauseAction);
+        entryClause = clauseAction;
+        return true;
     }
 
     private void CloseOpenParentheses()

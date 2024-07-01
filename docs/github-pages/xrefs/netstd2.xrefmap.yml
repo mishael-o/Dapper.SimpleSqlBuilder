@@ -815,59 +815,75 @@ references:
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter
   nameWithType: IWhereBuilder.OrWhereFilter
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry
-  name: IWhereBuilderEntry
-  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html
-  commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry
-  nameWithType: IWhereBuilderEntry
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(System.Boolean,System.FormattableString)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.Boolean,System.FormattableString)
   name: Where(bool, FormattableString)
-  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_Where_System_Boolean_System_FormattableString_
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(System.Boolean,System.FormattableString)
+  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_System_Boolean_System_FormattableString_
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.Boolean,System.FormattableString)
   name.vb: Where(Boolean, FormattableString)
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(bool, System.FormattableString)
-  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(Boolean, System.FormattableString)
-  nameWithType: IWhereBuilderEntry.Where(bool, FormattableString)
-  nameWithType.vb: IWhereBuilderEntry.Where(Boolean, FormattableString)
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(System.FormattableString)
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(bool, System.FormattableString)
+  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(Boolean, System.FormattableString)
+  nameWithType: IWhereBuilder.Where(bool, FormattableString)
+  nameWithType.vb: IWhereBuilder.Where(Boolean, FormattableString)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.FormattableString)
   name: Where(FormattableString)
-  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_Where_System_FormattableString_
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(System.FormattableString)
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(System.FormattableString)
-  nameWithType: IWhereBuilderEntry.Where(FormattableString)
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where*
+  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_System_FormattableString_
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.FormattableString)
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.FormattableString)
+  nameWithType: IWhereBuilder.Where(FormattableString)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where*
   name: Where
-  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_Where_
-  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where
+  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_
+  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where
   isSpec: "True"
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where
-  nameWithType: IWhereBuilderEntry.Where
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where
+  nameWithType: IWhereBuilder.Where
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
   name: WhereFilter()
-  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_WhereFilter
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter()
-  nameWithType: IWhereBuilderEntry.WhereFilter()
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter(System.FormattableString)
+  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter()
+  nameWithType: IWhereBuilder.WhereFilter()
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter(System.FormattableString)
   name: WhereFilter(FormattableString)
-  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_WhereFilter_System_FormattableString_
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter(System.FormattableString)
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter(System.FormattableString)
-  nameWithType: IWhereBuilderEntry.WhereFilter(FormattableString)
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter*
+  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter_System_FormattableString_
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter(System.FormattableString)
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter(System.FormattableString)
+  nameWithType: IWhereBuilder.WhereFilter(FormattableString)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter*
   name: WhereFilter
-  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_WhereFilter_
-  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter
+  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter_
+  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
   isSpec: "True"
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter
-  nameWithType: IWhereBuilderEntry.WhereFilter
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
+  nameWithType: IWhereBuilder.WhereFilter
 - uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder
   name: IWhereFilterBuilder
   href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder
   nameWithType: IWhereFilterBuilder
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.Boolean,System.FormattableString)
+  name: WithFilter(bool, FormattableString)
+  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_System_Boolean_System_FormattableString_
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.Boolean,System.FormattableString)
+  name.vb: WithFilter(Boolean, FormattableString)
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(bool, System.FormattableString)
+  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(Boolean, System.FormattableString)
+  nameWithType: IWhereFilterBuilder.WithFilter(bool, FormattableString)
+  nameWithType.vb: IWhereFilterBuilder.WithFilter(Boolean, FormattableString)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.FormattableString)
+  name: WithFilter(FormattableString)
+  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_System_FormattableString_
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.FormattableString)
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.FormattableString)
+  nameWithType: IWhereFilterBuilder.WithFilter(FormattableString)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter*
+  name: WithFilter
+  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_
+  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter
+  isSpec: "True"
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter
+  nameWithType: IWhereFilterBuilder.WithFilter
 - uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter(System.Boolean,System.FormattableString)
   name: WithOrFilter(bool, FormattableString)
   href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithOrFilter_System_Boolean_System_FormattableString_
@@ -890,34 +906,6 @@ references:
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter
   nameWithType: IWhereFilterBuilder.WithOrFilter
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry
-  name: IWhereFilterBuilderEntry
-  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.html
-  commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry
-  nameWithType: IWhereFilterBuilderEntry
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(System.Boolean,System.FormattableString)
-  name: WithFilter(bool, FormattableString)
-  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilderEntry_WithFilter_System_Boolean_System_FormattableString_
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(System.Boolean,System.FormattableString)
-  name.vb: WithFilter(Boolean, FormattableString)
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(bool, System.FormattableString)
-  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(Boolean, System.FormattableString)
-  nameWithType: IWhereFilterBuilderEntry.WithFilter(bool, FormattableString)
-  nameWithType.vb: IWhereFilterBuilderEntry.WithFilter(Boolean, FormattableString)
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(System.FormattableString)
-  name: WithFilter(FormattableString)
-  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilderEntry_WithFilter_System_FormattableString_
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(System.FormattableString)
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(System.FormattableString)
-  nameWithType: IWhereFilterBuilderEntry.WithFilter(FormattableString)
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter*
-  name: WithFilter
-  href: api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilderEntry_WithFilter_
-  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter
-  isSpec: "True"
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter
-  nameWithType: IWhereFilterBuilderEntry.WithFilter
 - uid: Dapper.SimpleSqlBuilder.ISimpleParameterInfo
   name: ISimpleParameterInfo
   href: api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html
