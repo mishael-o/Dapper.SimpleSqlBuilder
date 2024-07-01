@@ -99,6 +99,49 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
+    public void Update_BuildsSqlWithOrWhereMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    {
+        // Arrange
+        var expectedSql = $"UPDATE Table{Environment.NewLine}SET Age = @p0{Environment.NewLine}WHERE Id = @p1 OR Type = @p2";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Update($"Table")
+                    .Set($"Age = {age}")
+                    .OrWhere($"Id = {id}")
+                    .OrWhere($"Type = {type}");
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(3);
+        sut.GetValue<int>("p0").Should().Be(age);
+        sut.GetValue<int>("p1").Should().Be(id);
+        sut.GetValue<string>("p2").Should().Be(type);
+    }
+
+    [Theory]
+    [AutoData]
+    public void Update_BuildsSqlWithOrWhereFilterMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    {
+        // Arrange
+        var expectedSql = $"UPDATE Table{Environment.NewLine}SET Age = @p0{Environment.NewLine}WHERE (Id = @p1 OR Type = @p2)";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Update($"Table")
+                    .Set($"Age = {age}")
+                    .OrWhereFilter($"Id = {id}").WithOrFilter($"Type = {type}");
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(3);
+        sut.GetValue<int>("p0").Should().Be(age);
+        sut.GetValue<int>("p1").Should().Be(id);
+        sut.GetValue<string>("p2").Should().Be(type);
+    }
+
+    [Theory]
+    [AutoData]
     public void Update_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         // Arrange
@@ -305,5 +348,65 @@ public class UpdateBuilderTests
         sut.GetValue<int>("p2").Should().Be(id);
         sut.GetValue<string>("p3").Should().Be(type);
         sut.GetValue<int>("p4").Should().Be(age);
+    }
+
+    [Fact]
+    public void Update_DeleteFromMethodIsCalledAfterUpdate_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.Update($"*");
+
+        // Act
+        Action act = () => sut.DeleteFrom($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.Delete}\" is not allowed after \"{ClauseAction.Update}\" has been initiated on the same Fluent Builder.");
+    }
+
+    [Fact]
+    public void Update_InsertIntoMethodIsCalledAfterUpdate_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.Update($"*");
+
+        // Act
+        Action act = () => sut.InsertInto($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.Insert}\" is not allowed after \"{ClauseAction.Update}\" has been initiated on the same Fluent Builder.");
+    }
+
+    [Fact]
+    public void Update_SelectMethodIsCalledAfterUpdate_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.Update($"*");
+
+        // Act
+        Action act = () => sut.Select($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.Select}\" is not allowed after \"{ClauseAction.Update}\" has been initiated on the same Fluent Builder.");
+    }
+
+    [Fact]
+    public void Update_SelectDistinctMethodIsCalledAfterUpdate_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.Update($"*");
+
+        // Act
+        Action act = () => sut.SelectDistinct($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.SelectDistinct}\" is not allowed after \"{ClauseAction.Update}\" has been initiated on the same Fluent Builder.");
     }
 }

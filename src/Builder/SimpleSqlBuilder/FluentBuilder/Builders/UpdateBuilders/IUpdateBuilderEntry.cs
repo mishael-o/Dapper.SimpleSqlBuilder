@@ -7,7 +7,7 @@ public interface IUpdateBuilderEntry
 {
 #if NET6_0_OR_GREATER
     /// <summary>
-    /// Appends the UPDATE clause and the interpolated string to the builder.
+    /// Appends the <c>UPDATE</c> clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
     /// <returns>The <see cref="IUpdateBuilder"/> instance.</returns>
@@ -15,7 +15,7 @@ public interface IUpdateBuilderEntry
 #else
 
     /// <summary>
-    /// Appends the UPDATE clause and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// Appends the <c>UPDATE</c> clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>The <see cref="IUpdateBuilder"/> instance.</returns>

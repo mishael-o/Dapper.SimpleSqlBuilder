@@ -3,18 +3,18 @@
 /// <summary>
 /// An interface that defines the update builder type.
 /// </summary>
-public interface IUpdateBuilder : IWhereBuilderEntry
+public interface IUpdateBuilder : IWhereBuilder
 {
 #if NET6_0_OR_GREATER
     /// <summary>
-    /// Appends the SET clause and the interpolated string to the builder.
+    /// Appends the <c>SET</c> clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
     /// <returns>The <see cref="IUpdateBuilder"/> instance.</returns>
     IUpdateBuilder Set([InterpolatedStringHandlerArgument("")] ref UpdateSetInterpolatedStringHandler handler);
 
     /// <summary>
-    /// Appends the SET clause and the interpolated string to the builder.
+    /// Appends the <c>SET</c> clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="handler">The handler for the interpolated string.</param>
@@ -23,14 +23,14 @@ public interface IUpdateBuilder : IWhereBuilderEntry
 #else
 
     /// <summary>
-    /// Appends the SET clause and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// Appends the <c>SET</c> clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>The <see cref="IUpdateBuilder"/> instance.</returns>
     IUpdateBuilder Set(FormattableString formattable);
 
     /// <summary>
-    /// Appends the SET clause and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// Appends the <c>SET</c> clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="condition">The value to determine whether the method should be executed.</param>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>

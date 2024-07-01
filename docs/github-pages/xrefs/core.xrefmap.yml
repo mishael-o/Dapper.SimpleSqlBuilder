@@ -1467,65 +1467,84 @@ references:
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter
   nameWithType: IWhereBuilder.OrWhereFilter
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry
-  name: IWhereBuilderEntry
-  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html
-  commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry
-  nameWithType: IWhereBuilderEntry
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler@)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler@)
   name: Where(ref WhereInterpolatedStringHandler)
-  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_Where_Dapper_SimpleSqlBuilder_FluentBuilder_WhereInterpolatedStringHandler__
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler@)
+  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_Dapper_SimpleSqlBuilder_FluentBuilder_WhereInterpolatedStringHandler__
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler@)
   name.vb: Where(WhereInterpolatedStringHandler)
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(ref Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler)
-  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler)
-  nameWithType: IWhereBuilderEntry.Where(ref WhereInterpolatedStringHandler)
-  nameWithType.vb: IWhereBuilderEntry.Where(WhereInterpolatedStringHandler)
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(System.Boolean,Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler@)
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(ref Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler)
+  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler)
+  nameWithType: IWhereBuilder.Where(ref WhereInterpolatedStringHandler)
+  nameWithType.vb: IWhereBuilder.Where(WhereInterpolatedStringHandler)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.Boolean,Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler@)
   name: Where(bool, ref WhereInterpolatedStringHandler)
-  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_Where_System_Boolean_Dapper_SimpleSqlBuilder_FluentBuilder_WhereInterpolatedStringHandler__
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(System.Boolean,Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler@)
+  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_System_Boolean_Dapper_SimpleSqlBuilder_FluentBuilder_WhereInterpolatedStringHandler__
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.Boolean,Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler@)
   name.vb: Where(Boolean, WhereInterpolatedStringHandler)
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(bool, ref Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler)
-  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where(Boolean, Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler)
-  nameWithType: IWhereBuilderEntry.Where(bool, ref WhereInterpolatedStringHandler)
-  nameWithType.vb: IWhereBuilderEntry.Where(Boolean, WhereInterpolatedStringHandler)
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where*
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(bool, ref Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler)
+  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(Boolean, Dapper.SimpleSqlBuilder.FluentBuilder.WhereInterpolatedStringHandler)
+  nameWithType: IWhereBuilder.Where(bool, ref WhereInterpolatedStringHandler)
+  nameWithType.vb: IWhereBuilder.Where(Boolean, WhereInterpolatedStringHandler)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where*
   name: Where
-  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_Where_
-  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where
+  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_
+  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where
   isSpec: "True"
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.Where
-  nameWithType: IWhereBuilderEntry.Where
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where
+  nameWithType: IWhereBuilder.Where
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
   name: WhereFilter()
-  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_WhereFilter
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter()
-  nameWithType: IWhereBuilderEntry.WhereFilter()
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereFilterInterpolatedStringHandler@)
+  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter()
+  nameWithType: IWhereBuilder.WhereFilter()
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereFilterInterpolatedStringHandler@)
   name: WhereFilter(ref WhereFilterInterpolatedStringHandler)
-  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_WhereFilter_Dapper_SimpleSqlBuilder_FluentBuilder_WhereFilterInterpolatedStringHandler__
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereFilterInterpolatedStringHandler@)
+  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter_Dapper_SimpleSqlBuilder_FluentBuilder_WhereFilterInterpolatedStringHandler__
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereFilterInterpolatedStringHandler@)
   name.vb: WhereFilter(WhereFilterInterpolatedStringHandler)
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter(ref Dapper.SimpleSqlBuilder.FluentBuilder.WhereFilterInterpolatedStringHandler)
-  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereFilterInterpolatedStringHandler)
-  nameWithType: IWhereBuilderEntry.WhereFilter(ref WhereFilterInterpolatedStringHandler)
-  nameWithType.vb: IWhereBuilderEntry.WhereFilter(WhereFilterInterpolatedStringHandler)
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter*
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter(ref Dapper.SimpleSqlBuilder.FluentBuilder.WhereFilterInterpolatedStringHandler)
+  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereFilterInterpolatedStringHandler)
+  nameWithType: IWhereBuilder.WhereFilter(ref WhereFilterInterpolatedStringHandler)
+  nameWithType.vb: IWhereBuilder.WhereFilter(WhereFilterInterpolatedStringHandler)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter*
   name: WhereFilter
-  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilderEntry_WhereFilter_
-  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter
+  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter_
+  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
   isSpec: "True"
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilderEntry.WhereFilter
-  nameWithType: IWhereBuilderEntry.WhereFilter
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
+  nameWithType: IWhereBuilder.WhereFilter
 - uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder
   name: IWhereFilterBuilder
   href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder
   nameWithType: IWhereFilterBuilder
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler@)
+  name: WithFilter(ref WhereWithFilterInterpolatedStringHandler)
+  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_Dapper_SimpleSqlBuilder_FluentBuilder_WhereWithFilterInterpolatedStringHandler__
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler@)
+  name.vb: WithFilter(WhereWithFilterInterpolatedStringHandler)
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(ref Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler)
+  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler)
+  nameWithType: IWhereFilterBuilder.WithFilter(ref WhereWithFilterInterpolatedStringHandler)
+  nameWithType.vb: IWhereFilterBuilder.WithFilter(WhereWithFilterInterpolatedStringHandler)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.Boolean,Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler@)
+  name: WithFilter(bool, ref WhereWithFilterInterpolatedStringHandler)
+  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_System_Boolean_Dapper_SimpleSqlBuilder_FluentBuilder_WhereWithFilterInterpolatedStringHandler__
+  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.Boolean,Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler@)
+  name.vb: WithFilter(Boolean, WhereWithFilterInterpolatedStringHandler)
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(bool, ref Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler)
+  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(Boolean, Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler)
+  nameWithType: IWhereFilterBuilder.WithFilter(bool, ref WhereWithFilterInterpolatedStringHandler)
+  nameWithType.vb: IWhereFilterBuilder.WithFilter(Boolean, WhereWithFilterInterpolatedStringHandler)
+- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter*
+  name: WithFilter
+  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_
+  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter
+  isSpec: "True"
+  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter
+  nameWithType: IWhereFilterBuilder.WithFilter
 - uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithOrFilterInterpolatedStringHandler@)
   name: WithOrFilter(ref WhereWithOrFilterInterpolatedStringHandler)
   href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithOrFilter_Dapper_SimpleSqlBuilder_FluentBuilder_WhereWithOrFilterInterpolatedStringHandler__
@@ -1551,37 +1570,6 @@ references:
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter
   nameWithType: IWhereFilterBuilder.WithOrFilter
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry
-  name: IWhereFilterBuilderEntry
-  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.html
-  commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry
-  nameWithType: IWhereFilterBuilderEntry
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler@)
-  name: WithFilter(ref WhereWithFilterInterpolatedStringHandler)
-  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilderEntry_WithFilter_Dapper_SimpleSqlBuilder_FluentBuilder_WhereWithFilterInterpolatedStringHandler__
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler@)
-  name.vb: WithFilter(WhereWithFilterInterpolatedStringHandler)
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(ref Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler)
-  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler)
-  nameWithType: IWhereFilterBuilderEntry.WithFilter(ref WhereWithFilterInterpolatedStringHandler)
-  nameWithType.vb: IWhereFilterBuilderEntry.WithFilter(WhereWithFilterInterpolatedStringHandler)
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(System.Boolean,Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler@)
-  name: WithFilter(bool, ref WhereWithFilterInterpolatedStringHandler)
-  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilderEntry_WithFilter_System_Boolean_Dapper_SimpleSqlBuilder_FluentBuilder_WhereWithFilterInterpolatedStringHandler__
-  commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(System.Boolean,Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler@)
-  name.vb: WithFilter(Boolean, WhereWithFilterInterpolatedStringHandler)
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(bool, ref Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler)
-  fullName.vb: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter(Boolean, Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler)
-  nameWithType: IWhereFilterBuilderEntry.WithFilter(bool, ref WhereWithFilterInterpolatedStringHandler)
-  nameWithType.vb: IWhereFilterBuilderEntry.WithFilter(Boolean, WhereWithFilterInterpolatedStringHandler)
-- uid: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter*
-  name: WithFilter
-  href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilderEntry_WithFilter_
-  commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter
-  isSpec: "True"
-  fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilderEntry.WithFilter
-  nameWithType: IWhereFilterBuilderEntry.WithFilter
 - uid: Dapper.SimpleSqlBuilder.FluentBuilder.InnerJoinInterpolatedStringHandler
   name: InnerJoinInterpolatedStringHandler
   href: api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.InnerJoinInterpolatedStringHandler.html

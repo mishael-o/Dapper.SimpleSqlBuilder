@@ -7,7 +7,7 @@ public interface ISelectFromBuilderEntry : IFluentSqlBuilder
 {
 #if NET6_0_OR_GREATER
     /// <summary>
-    /// Appends the FROM clause and the interpolated string to the builder.
+    /// Appends the <c>FROM</c> clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
     /// <returns>The <see cref="ISelectFromBuilder"/> instance.</returns>
@@ -15,7 +15,7 @@ public interface ISelectFromBuilderEntry : IFluentSqlBuilder
 #else
 
     /// <summary>
-    /// Appends the FROM clause and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// Appends the <c>FROM</c> clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>The <see cref="ISelectFromBuilder"/> instance.</returns>

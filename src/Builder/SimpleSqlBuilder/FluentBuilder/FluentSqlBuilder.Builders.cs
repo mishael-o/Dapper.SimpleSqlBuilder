@@ -314,7 +314,7 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
 
     private ISimpleFluentBuilder AppendFormattable(ClauseAction clauseAction, FormattableString formattable, bool condition = true)
     {
-        if (!condition || !CanAppendClause(clauseAction))
+        if (!(condition && IsClauseAppendable(clauseAction)))
         {
             return this;
         }
@@ -336,13 +336,13 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
 
 #endif
 
-    public IWhereFilterBuilderEntry WhereFilter()
+    public IWhereFilterBuilder WhereFilter()
     {
         pendingWhereFilter = ClauseAction.WhereFilter;
         return this;
     }
 
-    public IWhereFilterBuilderEntry OrWhereFilter()
+    public IWhereFilterBuilder OrWhereFilter()
     {
         pendingWhereFilter = ClauseAction.WhereOrFilter;
         return this;
@@ -350,15 +350,12 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
 
     public IFluentSqlBuilder FetchNext(int rows)
     {
-        if (!CanAppendClause(ClauseAction.FetchNext))
+        if (!IsClauseAppendable(ClauseAction.FetchNext))
         {
             return this;
         }
 
-        AppendFetchNext();
-        stringBuilder
-            .Append(rows)
-            .Append(Constants.Space);
+        AppendFetchNext(rows);
         AppendRows();
         AppendOnly();
         return this;
@@ -366,40 +363,35 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
 
     public IFetchBuilder OffsetRows(int offset)
     {
-        if (!CanAppendClause(ClauseAction.Offset))
+        if (!IsClauseAppendable(ClauseAction.Offset))
         {
             return this;
         }
 
-        AppendOffset();
-        stringBuilder
-            .Append(offset)
-            .Append(Constants.Space);
-        AppendRows(false);
+        AppendOffset(offset);
+        AppendRows();
         return this;
     }
 
     public IOffsetBuilder Limit(int rows)
     {
-        if (!CanAppendClause(ClauseAction.Limit))
+        if (!IsClauseAppendable(ClauseAction.Limit))
         {
             return this;
         }
 
-        AppendLimit();
-        stringBuilder.Append(rows);
+        AppendLimit(rows);
         return this;
     }
 
     public IFluentSqlBuilder Offset(int offset)
     {
-        if (!CanAppendClause(ClauseAction.Offset))
+        if (!IsClauseAppendable(ClauseAction.Offset))
         {
             return this;
         }
 
-        AppendOffset();
-        stringBuilder.Append(offset);
+        AppendOffset(offset);
         return this;
     }
 }

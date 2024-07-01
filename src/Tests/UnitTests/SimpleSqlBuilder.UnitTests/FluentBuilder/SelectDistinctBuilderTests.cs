@@ -2,18 +2,17 @@
 using Dapper.SimpleSqlBuilder.FluentBuilder;
 
 namespace Dapper.SimpleSqlBuilder.UnitTests.FluentBuilder;
-
-public class SelectBuilderTests
+public class SelectDistinctBuilderTests
 {
     [Fact]
-    public void Select_BuildsSql_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSql_ReturnsFluentSqlBuilder()
     {
         // Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table";
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table");
 
         // Assert
@@ -24,10 +23,10 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithJoinMethods_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithJoinMethods_ReturnsFluentSqlBuilder()
     {
         // Arrange
-        var expectedSql = "SELECT *" +
+        var expectedSql = "SELECT DISTINCT Table1.*, Table2.*, Table3.*, Table4.*" +
             $"{Environment.NewLine}FROM Table1" +
             $"{Environment.NewLine}INNER JOIN Table2 ON Table1.Id = Table2.Id" +
             $"{Environment.NewLine}LEFT JOIN Table3 ON Table1.Id = Table3.Id" +
@@ -35,7 +34,7 @@ public class SelectBuilderTests
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"Table1.*, Table2.*, Table3.*, Table4.*")
                     .From($"Table1")
                     .InnerJoin($"Table2 ON Table1.Id = Table2.Id")
                     .LeftJoin($"Table3 ON Table1.Id = Table3.Id")
@@ -47,10 +46,10 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithJoinConditionalMethods_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithJoinConditionalMethods_ReturnsFluentSqlBuilder()
     {
         // Arrange
-        var expectedSql = "SELECT *" +
+        var expectedSql = "SELECT DISTINCT *" +
             $"{Environment.NewLine}FROM Table1" +
             $"{Environment.NewLine}LEFT JOIN Table2 ON Table1.Id = Table2.Id" +
             $"{Environment.NewLine}INNER JOIN Table5 ON Table1.Id = Table5.Id" +
@@ -58,7 +57,7 @@ public class SelectBuilderTests
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table1")
                     .LeftJoin(true, $"Table2 ON Table1.Id = Table2.Id")
                     .LeftJoin(false, $"Table3 ON Table1.Id = Table3.Id")
@@ -74,15 +73,15 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlWithWhereMethods_ReturnsFluentSqlBuilder(int id, string type)
+    public void SelectDistinct_BuildsSqlWithWhereMethods_ReturnsFluentSqlBuilder(int id, string type)
     {
         // Arrange
-        var expectedSql = $"SELECT Id, Type{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 OR Type = @p1";
+        var expectedSql = $"SELECT DISTINCT Id, Type{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 OR Type = @p1";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"Id")
-                    .Select($"Type")
+                    .SelectDistinct($"Id")
+                    .SelectDistinct($"Type")
                     .From($"Table")
                     .Where($"Id = {id}")
                     .OrWhere($"Type = {type}");
@@ -96,14 +95,14 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlWithOrWhereMethods_ReturnsFluentSqlBuilder(int id, string type)
+    public void SelectDistinct_BuildsSqlWithOrWhereMethods_ReturnsFluentSqlBuilder(int id, string type)
     {
         // Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 OR Type = @p1";
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 OR Type = @p1";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .OrWhere($"Id = {id}")
                     .OrWhere($"Type = {type}");
@@ -117,14 +116,14 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlWithOrWhereFilterMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void SelectDistinct_BuildsSqlWithOrWhereFilterMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         // Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE (Id = @p0 OR Age > @p1 OR Type = @p2)";
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE (Id = @p0 OR Age > @p1 OR Type = @p2)";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .OrWhereFilter($"Id = {id}")
                         .WithOrFilter($"Age > {age}")
@@ -140,14 +139,14 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlWithWhereFilterMethods_ReturnsFluentSqlBuilder(int id, string type)
+    public void SelectDistinct_BuildsSqlWithWhereFilterMethods_ReturnsFluentSqlBuilder(int id, string type)
     {
         // Arrange
-        var expectedSql = $"SELECT Id, Type{Environment.NewLine}FROM Table{Environment.NewLine}WHERE (Id = @p0) OR (Type = @p1)";
+        var expectedSql = $"SELECT DISTINCT Id, Type{Environment.NewLine}FROM Table{Environment.NewLine}WHERE (Id = @p0) OR (Type = @p1)";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"Id, Type")
+                    .SelectDistinct($"Id, Type")
                     .From($"Table")
                     .WhereFilter($"Id = {id}")
                     .OrWhereFilter($"Type = {type}");
@@ -161,15 +160,15 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void SelectDistinct_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         // Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}" +
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}" +
             "WHERE (Age < 100 OR Age = @p0 OR Age IN (1, 2, 3)) AND Type LIKE '%Type' AND (Age > 10 AND Type = @p1) OR Id NOT IN (1, 2, 3)";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .Where(false, $"Id = {id}")
                     .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(false, $"Age > {age}")
@@ -186,15 +185,15 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithGroupByMethods_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithGroupByMethods_ReturnsFluentSqlBuilder()
     {
         // Arrange
         const string typeColumn = "Type";
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}GROUP BY Id, {typeColumn}";
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}GROUP BY Id, {typeColumn}";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .GroupBy($"Id")
                     .GroupBy($"{typeColumn:raw}");
@@ -205,14 +204,14 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithGroupByConditionalMethods_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithGroupByConditionalMethods_ReturnsFluentSqlBuilder()
     {
         // Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}GROUP BY Age, Type";
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}GROUP BY Age, Type";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .GroupBy(false, $"Id")
                     .GroupBy(true, $"Age")
@@ -224,18 +223,18 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithHavingMethods_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithHavingMethods_ReturnsFluentSqlBuilder()
     {
         // Arrange
         const string typeColumn = "Type";
-        var expectedSql = "SELECT Id, COUNT(Type) AS TypeCount" +
+        var expectedSql = "SELECT DISTINCT Id, COUNT(Type) AS TypeCount" +
             $"{Environment.NewLine}FROM Table" +
             $"{Environment.NewLine}HAVING COUNT(Type) > 1 AND COUNT({typeColumn}) < 100";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"Id")
-                    .Select($"COUNT(Type) AS TypeCount")
+                    .SelectDistinct($"Id")
+                    .SelectDistinct($"COUNT(Type) AS TypeCount")
                     .From($"Table")
                     .Having($"COUNT(Type) > 1")
                     .Having($"COUNT({typeColumn:raw}) < 100");
@@ -246,17 +245,17 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithHavingConditionalMethods_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithHavingConditionalMethods_ReturnsFluentSqlBuilder()
     {
         // Arrange
-        var expectedSql = "SELECT Id, COUNT(Type) AS TypeCount" +
+        var expectedSql = "SELECT DISTINCT Id, COUNT(Type) AS TypeCount" +
             $"{Environment.NewLine}FROM Table" +
             $"{Environment.NewLine}HAVING COUNT(Type) > 1 AND COUNT(Type) < 100";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"Id")
-                    .Select($"COUNT(Type) AS TypeCount")
+                    .SelectDistinct($"Id")
+                    .SelectDistinct($"COUNT(Type) AS TypeCount")
                     .From($"Table")
                     .Having(true, $"COUNT(Type) > 1")
                     .Having(false, $"COUNT(Type) >= 50")
@@ -268,15 +267,15 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithOrderByMethods_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithOrderByMethods_ReturnsFluentSqlBuilder()
     {
         // Arrange
         const string typeColumn = "Type";
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}ORDER BY Id, {typeColumn}";
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}ORDER BY Id, {typeColumn}";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .OrderBy($"Id")
                     .OrderBy($"{typeColumn:raw}");
@@ -287,14 +286,14 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithOrderByConditionalMethods_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithOrderByConditionalMethods_ReturnsFluentSqlBuilder()
     {
         // Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}ORDER BY Id, Type";
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}ORDER BY Id, Type";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .OrderBy(true, $"Id")
                     .OrderBy(false, $"Age")
@@ -306,17 +305,17 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithOffsetRowsMethod_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithOffsetRowsMethod_ReturnsFluentSqlBuilder()
     {
         // Arrange
         const int offset = 10;
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table" +
             $"{Environment.NewLine}ORDER BY Id" +
             $"{Environment.NewLine}OFFSET {offset} ROWS";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .OrderBy($"Id")
                     .OffsetRows(offset);
@@ -327,17 +326,17 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithFetchNextMethod_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithFetchNextMethod_ReturnsFluentSqlBuilder()
     {
         // Arrange
         const int rows = 10;
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table" +
             $"{Environment.NewLine}ORDER BY Id" +
             $"{Environment.NewLine}FETCH NEXT {rows} ROWS ONLY";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .OrderBy($"Id")
                     .FetchNext(rows);
@@ -348,17 +347,17 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithLimitMethod_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithLimitMethod_ReturnsFluentSqlBuilder()
     {
         // Arrange
         const int rows = 10;
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table" +
             $"{Environment.NewLine}ORDER BY Id" +
             $"{Environment.NewLine}LIMIT {rows}";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .OrderBy($"Id")
                     .Limit(rows);
@@ -369,18 +368,18 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithLimitOffsetMethods_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithLimitOffsetMethods_ReturnsFluentSqlBuilder()
     {
         // Arrange
         const int rows = 10;
         const int offset = 5;
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table" +
             $"{Environment.NewLine}ORDER BY Id" +
             $"{Environment.NewLine}LIMIT {rows} OFFSET {offset}";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .OrderBy($"Id")
                     .Limit(rows)
@@ -393,15 +392,15 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, string type)
+    public void SelectDistinct_BuildsSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, string type)
     {
         // Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 AND TypeId IN (SELECT TypeId WHERE Type = @p1)";
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 AND TypeId IN (SELECT TypeId WHERE Type = @p1)";
         FormattableString subQuery = $"SELECT TypeId WHERE Type = {type}";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .Where($"Id = {id}")
                     .Where($"TypeId IN ({subQuery})");
@@ -415,15 +414,15 @@ public class SelectBuilderTests
 
     [Theory]
     [InlineAutoData(null)]
-    public void Select_BuildsSqlWithRawValues_ReturnsFluentSqlBuilder(int? groupId, string tableName, int typeId, string type)
+    public void SelectDistinct_BuildsSqlWithRawValues_ReturnsFluentSqlBuilder(int? groupId, string tableName, int typeId, string type)
     {
         // Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM {tableName}{Environment.NewLine}WHERE Type = @p0 AND GroupId = '' AND TypeGroup IN (SELECT TypeGroup WHERE TypeId = {typeId})";
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM {tableName}{Environment.NewLine}WHERE Type = @p0 AND GroupId = '' AND TypeGroup IN (SELECT TypeGroup WHERE TypeId = {typeId})";
         FormattableString subQuery = $"SELECT TypeGroup WHERE TypeId = {typeId:raw}";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"{tableName:raw}")
                     .Where($"Type = {type}")
                     .Where($"GroupId = '{groupId:raw}'")
@@ -437,16 +436,16 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlWithSimpleParameterInfoValues_ReturnsFluentSqlBuilder(int id, string type)
+    public void SelectDistinct_BuildsSqlWithSimpleParameterInfoValues_ReturnsFluentSqlBuilder(int id, string type)
     {
         // Arrange
         var idParam = id.DefineParam();
         var typeParam = type.DefineParam(System.Data.DbType.String, 1, 1, 1);
-        string expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 AND Type = @p1 OR (Id = @p0 AND Type = @p1)";
+        string expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 AND Type = @p1 OR (Id = @p0 AND Type = @p1)";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .Where($"Id = {idParam}")
                     .Where($"Type = {typeParam}")
@@ -461,13 +460,13 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlAndAddParameter_ReturnsFluentSqlBuilder(int id)
+    public void SelectDistinct_BuildsSqlAndAddParameter_ReturnsFluentSqlBuilder(int id)
     {
         // Arrange
-        string expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @{nameof(id)}";
+        string expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @{nameof(id)}";
 
         var sut = SimpleBuilder.CreateFluent()
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .Where($"Id = @{nameof(id):raw}");
 
@@ -482,14 +481,14 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlWithCustomParameterPrefix_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void SelectDistinct_BuildsSqlWithCustomParameterPrefix_ReturnsFluentSqlBuilder(int id, int age, string type)
     {
         // Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = :p0 OR Age = :p1 AND Type = :p2";
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = :p0 OR Age = :p1 AND Type = :p2";
 
         // Act
         var sut = SimpleBuilder.CreateFluent(parameterPrefix: ":")
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .Where($"Id = {id}")
                     .OrWhere($"Age = {age}")
@@ -505,14 +504,14 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlAndReuseParameters_ReturnsFluentSqlBuilder(int id, string type)
+    public void SelectDistinct_BuildsSqlAndReuseParameters_ReturnsFluentSqlBuilder(int id, string type)
     {
         // Arrange
-        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE (Id = @p0 AND Type = @p1) OR Id = @p0 OR Type = @p1";
+        var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE (Id = @p0 AND Type = @p1) OR Id = @p0 OR Type = @p1";
 
         // Act
         var sut = SimpleBuilder.CreateFluent(reuseParameters: true)
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .WhereFilter($"Id = {id}").WithFilter($"Type = {type}")
                     .OrWhere($"Id = {id}")
@@ -527,10 +526,10 @@ public class SelectBuilderTests
 
     [Theory]
     [AutoData]
-    public void Select_BuildsSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type, int offset, int rows)
+    public void SelectDistinct_BuildsSqlAndUseLowerCaseClauses_ReturnsFluentSqlBuilder(int id, int age, string type, int offset, int rows)
     {
         // Arrange
-        var expectedSql = "select *" +
+        var expectedSql = "select distinct *" +
             $"{Environment.NewLine}from Table1" +
             $"{Environment.NewLine}inner join Table2 on Table1.Id = Table2.Id" +
             $"{Environment.NewLine}left join Table3 on Table1.Id = Table3.Id" +
@@ -544,7 +543,7 @@ public class SelectBuilderTests
 
         // Act
         var sut = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table1")
                     .InnerJoin($"Table2 on Table1.Id = Table2.Id")
                     .LeftJoin($"Table3 on Table1.Id = Table3.Id")
@@ -567,18 +566,18 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_BuildsSqlWithLimitOffsetMethodsAndUseLowerClauses_ReturnsFluentSqlBuilder()
+    public void SelectDistinct_BuildsSqlWithLimitOffsetMethodsAndUseLowerClauses_ReturnsFluentSqlBuilder()
     {
         // Arrange
         const int rows = 10;
         const int offset = 5;
-        var expectedSql = $"select *{Environment.NewLine}from Table" +
+        var expectedSql = $"select distinct *{Environment.NewLine}from Table" +
             $"{Environment.NewLine}order by Id" +
             $"{Environment.NewLine}limit {rows} offset {offset}";
 
         // Act
         var sut = SimpleBuilder.CreateFluent(useLowerCaseClauses: true)
-                    .Select($"*")
+                    .SelectDistinct($"*")
                     .From($"Table")
                     .OrderBy($"Id")
                     .Limit(rows)
@@ -590,62 +589,62 @@ public class SelectBuilderTests
     }
 
     [Fact]
-    public void Select_DeleteFromMethodIsCalledAfterSelect_ThrowsInvalidOperationException()
+    public void SelectDistinct_DeleteFromMethodIsCalledAfterSelectDistinct_ThrowsInvalidOperationException()
     {
         // Arrange
         var sut = SimpleBuilder.CreateFluent();
-        sut.Select($"*");
+        sut.SelectDistinct($"*");
 
         // Act
         Action act = () => sut.DeleteFrom($"*");
 
         // Assert
         act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.Delete}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
+            .WithMessage($"Clause action \"{ClauseAction.Delete}\" is not allowed after \"{ClauseAction.SelectDistinct}\" has been initiated on the same Fluent Builder.");
     }
 
     [Fact]
-    public void Select_InsertIntoMethodIsCalledAfterSelect_ThrowsInvalidOperationException()
+    public void SelectDistinct_InsertIntoMethodIsCalledAfterSelectDistinct_ThrowsInvalidOperationException()
     {
         // Arrange
         var sut = SimpleBuilder.CreateFluent();
-        sut.Select($"*");
+        sut.SelectDistinct($"*");
 
         // Act
         Action act = () => sut.InsertInto($"*");
 
         // Assert
         act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.Insert}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
+            .WithMessage($"Clause action \"{ClauseAction.Insert}\" is not allowed after \"{ClauseAction.SelectDistinct}\" has been initiated on the same Fluent Builder.");
     }
 
     [Fact]
-    public void Select_SelectDistinctMethodIsCalledAfterSelect_ThrowsInvalidOperationException()
+    public void SelectDistinct_SelectMethodIsCalledAfterSelectDistinct_ThrowsInvalidOperationException()
     {
         // Arrange
         var sut = SimpleBuilder.CreateFluent();
-        sut.Select($"*");
+        sut.SelectDistinct($"*");
 
         // Act
-        Action act = () => sut.SelectDistinct($"*");
+        Action act = () => sut.Select($"*");
 
         // Assert
         act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.SelectDistinct}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
+            .WithMessage($"Clause action \"{ClauseAction.Select}\" is not allowed after \"{ClauseAction.SelectDistinct}\" has been initiated on the same Fluent Builder.");
     }
 
     [Fact]
-    public void Select_UpdateMethodIsCalledAfterSelect_ThrowsInvalidOperationException()
+    public void SelectDistinct_UpdateMethodIsCalledAfterSelectDistinct_ThrowsInvalidOperationException()
     {
         // Arrange
         var sut = SimpleBuilder.CreateFluent();
-        sut.Select($"*");
+        sut.SelectDistinct($"*");
 
         // Act
         Action act = () => sut.Update($"*");
 
         // Assert
         act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.Update}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
+            .WithMessage($"Clause action \"{ClauseAction.Update}\" is not allowed after \"{ClauseAction.SelectDistinct}\" has been initiated on the same Fluent Builder.");
     }
 }
