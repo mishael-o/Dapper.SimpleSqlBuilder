@@ -10,6 +10,7 @@
 - [ ] 🔥 Hotfix (a major bugfix that has to be merged asap)
 - [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] ✨ New feature (non-breaking change which adds functionality)
+- [ ] 🛠 Enhancements (improvements to existing features)
 - [ ] 🐛 Bugfix (non-breaking change which fixes an issue)
 - [ ] 📦 Other change
 
