@@ -16,7 +16,7 @@ public ref struct AppendIntactInterpolatedStringHandler
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
     /// <param name="builder">The builder associated with the handler.</param>
     /// <param name="isHandlerEnabled">The value that indicates whether the handler is enabled or disabled.</param>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IBuilderFormatter"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IBuilderFormatter"/>.</exception>
     public AppendIntactInterpolatedStringHandler(int literalLength, int formattedCount, Builder builder, out bool isHandlerEnabled)
         : this(literalLength, formattedCount, true, builder, out isHandlerEnabled)
     {
@@ -30,7 +30,7 @@ public ref struct AppendIntactInterpolatedStringHandler
     /// <param name="condition">The value to determine whether the handler should be enabled or disabled.</param>
     /// <param name="builder">The builder associated with the handler.</param>
     /// <param name="isHandlerEnabled">The value that indicates whether the handler is enabled or disabled.</param>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IBuilderFormatter"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IBuilderFormatter"/>.</exception>
     public AppendIntactInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, Builder builder, out bool isHandlerEnabled)
     {
         if (!condition)

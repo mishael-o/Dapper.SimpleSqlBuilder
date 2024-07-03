@@ -16,7 +16,7 @@ public ref struct InsertValueInterpolatedStringHandler
     /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
     /// <param name="builder">The fluent builder associated with the handler.</param>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IFluentBuilderFormatter"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IFluentBuilderFormatter"/>.</exception>
     public InsertValueInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
     {
         formatter = builder as IFluentBuilderFormatter

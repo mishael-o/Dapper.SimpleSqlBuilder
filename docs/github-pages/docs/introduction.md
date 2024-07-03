@@ -17,13 +17,13 @@
 The library provides two builders for building SQL queries:
 
 - [Builder](builders/builder.md) - for building static, dynamic and complex SQL queries.
-- [Fluent Builder](builders/fluent-builder/fluent-builder.md) - for building dynamic SQL queries using fluent API.
+- [Fluent Builder](builders/fluent-builder/fluent-builder.md) - for building dynamic SQL queries using a fluent API.
 
 ## Packages
 
 The library provides multiple packages to suit your needs.
 
-[Dapper.SimpleSqlBuilder](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder): A simple SQL builder for Dapper using string interpolation and fluent API for building safe static and dynamic SQL queries.
+[Dapper.SimpleSqlBuilder](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder): A simple SQL builder for Dapper, using string interpolation and a fluent API to build safe, static, and dynamic SQL queries.
 
 [![Nuget](https://img.shields.io/nuget/v/Dapper.SimpleSqlBuilder?logo=nuget)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder) [![Nuget](https://img.shields.io/nuget/dt/Dapper.SimpleSqlBuilder?logo=nuget)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder)
 

@@ -1,8 +1,8 @@
 # Comparison to Dapper
 
-The code snippets below show how the library compares to Dapper and Dapper's SqlBuilder when writing SQL queries. For performance comparisons, see the [Performance](../miscellaneous/performance.md) section.
+The code snippets below illustrate how this library compares to Dapper and Dapper's SqlBuilder in building SQL queries. For performance comparisons, refer to the [Performance](../miscellaneous/performance.md) section.
 
-The code is extracting data from a `Users` table where the `UserTypeId` is equal to a given `userTypeId` and the `Role` is equal to a given `role`.
+The examples demonstrate extracting data from a `Users` table where `UserTypeId` equals a specified `userTypeId` and `Role` matches a specified `role`.
 
 ## [Dapper](#tab/dapper)
 

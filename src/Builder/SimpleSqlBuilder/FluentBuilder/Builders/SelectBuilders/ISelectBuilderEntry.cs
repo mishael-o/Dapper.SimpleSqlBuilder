@@ -11,6 +11,7 @@ public interface ISelectBuilderEntry
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
     /// <returns>The <see cref="ISelectBuilder"/> instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when two entry clauses are called on the same instance, e.g., calling <c>Select</c> and <c>SelectDistinct</c> on the same builder instance.</exception>
     ISelectBuilder Select([InterpolatedStringHandlerArgument("")] ref SelectInterpolatedStringHandler handler);
 
     /// <summary>
@@ -18,6 +19,7 @@ public interface ISelectBuilderEntry
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
     /// <returns>The <see cref="ISelectDistinctBuilder"/> instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when two entry clauses are called on the same instance, e.g., calling <c>SelectDistinct</c> and <c>Select</c> on the same builder instance.</exception>
     ISelectDistinctBuilder SelectDistinct([InterpolatedStringHandlerArgument("")] ref SelectDistinctInterpolatedStringHandler handler);
 #else
 
@@ -26,6 +28,7 @@ public interface ISelectBuilderEntry
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>The <see cref="ISelectBuilder"/> instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when two entry clauses are called on the same instance, e.g., calling <c>Select</c> and <c>SelectDistinct</c> on the same builder instance.</exception>
     ISelectBuilder Select(FormattableString formattable);
 
     /// <summary>
@@ -33,6 +36,7 @@ public interface ISelectBuilderEntry
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>The <see cref="ISelectDistinctBuilder"/> instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when two entry clauses are called on the same instance, e.g., calling <c>SelectDistinct</c> and <c>Select</c> on the same builder instance.</exception>
     ISelectDistinctBuilder SelectDistinct(FormattableString formattable);
 
 #endif

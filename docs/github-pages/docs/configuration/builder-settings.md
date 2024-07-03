@@ -72,5 +72,5 @@ SimpleBuilderSettings.Configure(useLowerCaseClauses: true);
 This can also be configured per fluent builder instance if you want to override the global settings.
 
 ```csharp
-var builder = SimpleBuilder.CreateFluent(useLowerCaseClauses: true);
+var fluentBuilder = SimpleBuilder.CreateFluent(useLowerCaseClauses: true);
 ```

@@ -31,7 +31,7 @@ class MyClass
     public void MyMethod2()
     {
         int id = 10;
-        var builder = simpleBuilder.CreateFluent()
+        var fluentBuilder = simpleBuilder.CreateFluent()
             .Select($"*")
             .From($"User")
             .Where($"Id = {id}");
