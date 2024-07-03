@@ -1,6 +1,6 @@
 # Quick Start
 
-A simple SQL builder for [Dapper](https://github.com/DapperLib/Dapper) using [string interpolation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) and fluent API for building safe static and dynamic SQL queries.
+A simple SQL builder for [Dapper](https://github.com/DapperLib/Dapper), using [string interpolation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) and a fluent API to build safe, static, and dynamic SQL queries.
 
 ## Installation
 
@@ -23,7 +23,7 @@ dotnet add package Dapper.SimpleSqlBuilder
 The library provides two builders for building SQL queries, which can be created via the static `SimpleBuilder` class.
 
 - `Builder` - for building static, dynamic, and complex SQL queries.
-- `Fluent Builder` - for building SQL queries using fluent API.
+- `Fluent Builder` - for building SQL queries using a fluent API.
 
  The library also provides an alternative to static classes via [Dependency Injection](docs/configuration/dependency-injection.md).
 

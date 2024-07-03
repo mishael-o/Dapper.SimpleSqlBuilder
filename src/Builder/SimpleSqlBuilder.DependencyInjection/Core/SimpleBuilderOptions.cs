@@ -14,10 +14,10 @@ public sealed class SimpleBuilderOptions
     private string databaseParameterPrefix = SimpleBuilderSettings.DefaultDatabaseParameterPrefix;
 
     /// <summary>
-    /// Gets or sets the parameter name template used to create the parameter names for the generated SQL. The default is "p" so the parameter names will be generated as p0, p1, etc.
-    /// <para>Example: If you set the template to "param" it will generate param0, param1, etc.</para>
+    /// Gets or sets the parameter name template used to create the parameter names for the generated SQL. The default is <c>p</c>, so the parameter names will be generated as <c>p0</c>, <c>p1</c>, etc.
+    /// <para>Example: If you set the template to <c>param</c>, it will generate <c>param0</c>, <c>param1</c>, etc.</para>
     /// </summary>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when new value is <see langword="null"/>, <see cref="string.Empty"/>, or contains only white-space.</exception>
+    /// <exception cref="ArgumentException">Thrown when new value is <see langword="null"/>, <see cref="string.Empty"/>, or contains only white-space.</exception>
     public string DatabaseParameterNameTemplate
     {
         get => databaseParameterNameTemplate;
@@ -33,10 +33,10 @@ public sealed class SimpleBuilderOptions
     }
 
     /// <summary>
-    /// Gets or sets the parameter prefix used in the rendered SQL. The default is "@", so you will get @p0, @p1, etc.
-    /// <para>Example: If you set the parameter prefix to ":" it will generate :p0, :p1, etc.</para>
+    /// Gets or sets the parameter prefix used in the rendered SQL. The default is <c>@</c>, so you will get <c>@p0</c>, <c>@p1</c>, etc.
+    /// <para>Example: If you set the parameter prefix to <c>:</c>, it will generate <c>:p0</c>, <c>:p1</c>, etc.</para>
     /// </summary>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when new value is <see langword="null"/>, <see cref="string.Empty"/>, or contains only white-space.</exception>
+    /// <exception cref="ArgumentException">Thrown when new value is <see langword="null"/>, <see cref="string.Empty"/>, or contains only white-space.</exception>
     public string DatabaseParameterPrefix
     {
         get => databaseParameterPrefix;
@@ -58,8 +58,8 @@ public sealed class SimpleBuilderOptions
     public bool ReuseParameters { get; set; } = SimpleBuilderSettings.DefaultReuseParameters;
 
     /// <summary>
-    /// Get the value indicating whether SQL clauses should be in upper case or lower case. The default value is <see langword="false"/> meaning SQL clauses will be in upper cases. i.e. SELECT, UPDATE, etc.
-    /// <para>Example: If set to <see langword="true"/>, SQL clauses will be in lower cases i.e. select, update, etc.</para>
+    /// Get the value indicating whether SQL clauses should be in upper case or lower case. The default value is <see langword="false"/> meaning SQL clauses will be in upper cases. i.e. <c>SELECT</c>, <c>UPDATE</c>, etc.
+    /// <para>Example: If set to <see langword="true"/>, SQL clauses will be in lower cases i.e. <c>select</c>, <c>update</c>, etc.</para>
     /// </summary>
     public bool UseLowerCaseClauses { get; set; } = SimpleBuilderSettings.DefaultUseLowerCaseClauses;
 }

@@ -11,6 +11,7 @@ public interface IUpdateBuilderEntry
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
     /// <returns>The <see cref="IUpdateBuilder"/> instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when two entry clauses are called on the same instance, e.g., calling <c>Update</c> and <c>InsertInto</c> on the same builder instance.</exception>
     IUpdateBuilder Update([InterpolatedStringHandlerArgument("")] ref UpdateInterpolatedStringHandler handler);
 #else
 
@@ -19,6 +20,7 @@ public interface IUpdateBuilderEntry
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>The <see cref="IUpdateBuilder"/> instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when two entry clauses are called on the same instance, e.g., calling <c>Update</c> and <c>InsertInto</c> on the same builder instance.</exception>
     IUpdateBuilder Update(FormattableString formattable);
 
 #endif

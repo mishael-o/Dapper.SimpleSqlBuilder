@@ -11,6 +11,7 @@ public interface IDeleteBuilderEntry
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
     /// <returns>The <see cref="IDeleteBuilder"/> instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when two entry clauses are called on the same instance, e.g., calling <c>DeleteFrom</c> and <c>Select</c> on the same builder instance.</exception>
     IDeleteBuilder DeleteFrom([InterpolatedStringHandlerArgument("")] ref DeleteInterpolatedStringHandler handler);
 #else
 
@@ -19,6 +20,7 @@ public interface IDeleteBuilderEntry
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>The <see cref="IDeleteBuilder"/> instance.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when two entry clauses are called on the same instance, e.g., calling <c>DeleteFrom</c> and <c>Select</c> on the same builder instance.</exception>
     IDeleteBuilder DeleteFrom(FormattableString formattable);
 
 #endif

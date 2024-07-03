@@ -23,11 +23,11 @@ AND Age <= {maxAge}");
 // OR
 
 // Configuring per-builder instance
-var secondBuilder = SimpleBuilder.Create($@"
-SELECT x.*, (SELECT Type FROM UserType WHERE Id = @p0) AS UserType
+builder = SimpleBuilder.Create($@"
+SELECT x.*, (SELECT Type FROM UserType WHERE Id = {userTypeId}) AS UserType
 FROM User x
-WHERE UserTypeId = @p0
-AND Age <= @p1",
+WHERE UserTypeId = {userTypeId}
+AND Age <= {maxAge}",
 reuseParameters: true);
 ```
 

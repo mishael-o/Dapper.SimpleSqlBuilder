@@ -22,7 +22,7 @@ public abstract class Builder : ISqlBuilder
     /// <param name="builder">The <see cref="Builder"/> instance to perform the operation on.</param>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>The <see cref="Builder"/> instance.</returns>
-    /// <exception cref="ArgumentNullException">Throws an <see cref="ArgumentNullException"/> when called on a <see langword="null"/> object.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when called on a <see langword="null"/> object.</exception>
     public static Builder operator +(Builder builder, FormattableString formattable)
     {
         return builder is null

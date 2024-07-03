@@ -17,6 +17,7 @@ public ref struct UpdateSetInterpolatedStringHandler
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
     /// <param name="builder">The fluent builder associated with the handler.</param>
     /// <param name="isHandlerEnabled">The value that indicates whether the handler is enabled or disabled.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IFluentBuilderFormatter"/>.</exception>
     public UpdateSetInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder, out bool isHandlerEnabled)
         : this(literalLength, formattedCount, true, builder, out isHandlerEnabled)
     {
@@ -30,7 +31,7 @@ public ref struct UpdateSetInterpolatedStringHandler
     /// <param name="condition">The value to determine whether the handler should be enabled or disabled.</param>
     /// <param name="builder">The fluent builder associated with the handler.</param>
     /// <param name="isHandlerEnabled">The value that indicates whether the handler is enabled or disabled.</param>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IFluentBuilderFormatter"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IFluentBuilderFormatter"/>.</exception>
     public UpdateSetInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, IFluentBuilder builder, out bool isHandlerEnabled)
     {
         if (!condition)

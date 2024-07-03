@@ -53,20 +53,20 @@ public sealed class SimpleBuilderSettings
     /// Configures the builders settings. Null or empty arguments will be ignored.
     /// </summary>
     /// <param name="parameterNameTemplate">
-    /// The parameter name template used to create the parameter names for the generated SQL. The default is "p" so the parameter names will be generated as p0, p1, etc.
-    /// <para>Example: If you set the template to "param" it will generate param0, param1, etc.</para>
+    /// The parameter name template used to create the parameter names for the generated SQL. The default is <c>p</c>, so the parameter names will be generated as <c>p0</c> , <c>p1</c>, etc.
+    /// <para>Example: If you set the template to <c>param</c>, it will generate <c>param0</c>, <c>param1</c>, etc.</para>
     /// </param>
     /// <param name="parameterPrefix">
-    /// The parameter prefix used in the rendered SQL. The default is "@", so you will get @p0, @p1, etc.
-    /// <para>Example: If you set the parameter prefix to ":" it will generate :p0, :p1, etc.</para>
+    /// The parameter prefix used in the rendered SQL. The default is <c>@</c>, so you will get <c>@p0</c>, <c>@p1</c>, etc.
+    /// <para>Example: If you set the parameter prefix to <c>:</c>, it will generate <c>:p0</c>, <c>:p1</c>, etc.</para>
     /// </param>
     /// <param name="reuseParameters">
     /// The value indicating whether to reuse parameters or not. The default value is <see langword="false"/>.
     /// <para>Example: If set to <see langword="true"/> parameters are reused and if set <see langword="false"/> to they are not.</para>
     /// </param>
     /// <param name="useLowerCaseClauses">
-    /// The value indicating whether to use lower case clauses for the fluent builder. The default value is <see langword="false"/> meaning SQL clauses will be in upper cases. i.e. SELECT, UPDATE, etc.
-    /// <para>Example: If set to <see langword="true"/>, SQL clauses will be in lower cases i.e. select, update, etc.</para>
+    /// The value indicating whether to use lower case clauses for the fluent builder. The default value is <see langword="false"/> meaning SQL clauses will be in upper cases. i.e. <c>SELECT</c>, <c>UPDATE</c>, etc.
+    /// <para>Example: If set to <see langword="true"/>, SQL clauses will be in lower cases i.e. <c>select</c>, <c>update</c>, etc.</para>
     /// <para>The <paramref name="useLowerCaseClauses"/> is only applicable to the fluent builder.</para>
     /// </param>
     public static void Configure(string? parameterNameTemplate = null, string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)

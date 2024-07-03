@@ -17,7 +17,7 @@ public static class SimpleParameterInfoExtensions
     /// <param name="precision">The parameter precision.</param>
     /// <param name="scale">The parameter scale.</param>
     /// <returns>An new instance of <see cref="ISimpleParameterInfo"/>.</returns>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when called on <see cref="ISimpleParameterInfo"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown when called on <see cref="ISimpleParameterInfo"/>.</exception>
     public static ISimpleParameterInfo DefineParam<T>(this T value, DbType? dbType = null, int? size = null, byte? precision = null, byte? scale = null)
     {
         return value is ISimpleParameterInfo
