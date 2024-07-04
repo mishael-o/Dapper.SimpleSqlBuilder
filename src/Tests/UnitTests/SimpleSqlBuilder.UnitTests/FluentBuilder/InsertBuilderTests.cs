@@ -202,4 +202,64 @@ public class InsertBuilderTests
         sut.GetValue<int>("p1").Should().Be(age);
         sut.GetValue<string>("p2").Should().Be(type);
     }
+
+    [Fact]
+    public void InsertInto_DeleteFromMethodIsCalledAfterInsertInto_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.InsertInto($"*");
+
+        // Act
+        Action act = () => sut.DeleteFrom($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.Delete}\" is not allowed after \"{ClauseAction.Insert}\" has been initiated on the same Fluent Builder.");
+    }
+
+    [Fact]
+    public void InsertInto_SelectMethodIsCalledAfterInsertInto_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.InsertInto($"*");
+
+        // Act
+        Action act = () => sut.Select($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.Select}\" is not allowed after \"{ClauseAction.Insert}\" has been initiated on the same Fluent Builder.");
+    }
+
+    [Fact]
+    public void InsertInto_SelectDistinctMethodIsCalledAfterInsertInto_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.InsertInto($"*");
+
+        // Act
+        Action act = () => sut.SelectDistinct($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.SelectDistinct}\" is not allowed after \"{ClauseAction.Insert}\" has been initiated on the same Fluent Builder.");
+    }
+
+    [Fact]
+    public void InsertInto_UpdateMethodIsCalledAfterInsertInto_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = SimpleBuilder.CreateFluent();
+        sut.InsertInto($"*");
+
+        // Act
+        Action act = () => sut.Update($"*");
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"Clause action \"{ClauseAction.Update}\" is not allowed after \"{ClauseAction.Insert}\" has been initiated on the same Fluent Builder.");
+    }
 }

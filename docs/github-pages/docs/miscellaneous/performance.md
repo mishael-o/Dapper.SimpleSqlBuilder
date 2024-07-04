@@ -1,8 +1,11 @@
 # Performance
 
-Performance is always relative and depends on the scenario and other factors (e.g., hardware, OS, etc), however, the results below give a good indication of how the library performs.
+Performance is always relative, depending on the scenario and other factors such as hardware, operating system, etc. However, the results below give a good indication of how the library performs.
 
-The benchmark below shows the performance of the [Builder](../builders/builder.md) and [Fluent Builder](../builders/fluent-builder/fluent-builder.md) compared to Dapper's [SqlBuilder](https://github.com/DapperLib/Dapper/tree/main/Dapper.SqlBuilder) for building queries only (**this does not benchmark SQL execution**).
+The benchmark below compares the performance of building SQL queries using the [Builder](../builders/builder.md), [Fluent Builder](../builders/fluent-builder/fluent-builder.md), and Dapper's [SqlBuilder](https://github.com/DapperLib/Dapper/tree/main/Dapper.SqlBuilder).
+
+> [!NOTE]
+> This benchmark does not measure SQL execution times.
 
 ``` ini
 

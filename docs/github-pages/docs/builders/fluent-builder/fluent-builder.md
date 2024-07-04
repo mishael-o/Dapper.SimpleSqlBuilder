@@ -1,10 +1,10 @@
 # Fluent Builder
 
-The [`Fluent Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder.yml) enables you to build dynamic SQL queries using fluent APIs.
+The [`Fluent Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder.yml) enables you to build dynamic SQL queries using fluent APIs, offering a more intuitive and readable way to construct complex SQL statements.
 
-The `CreateFluent` method on the [`SimpleSqlBuilder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleBuilder.yml) or [`ISimpleBuilder`](../../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.yml) (when using [dependency injection](../../configuration/dependency-injection.md)) is used to create a new [`Fluent Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder.yml) instance.
+The `CreateFluent` method on the [`SimpleSqlBuilder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleBuilder.yml) or [`ISimpleBuilder`](../../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.yml) (when using [dependency injection](../../configuration/dependency-injection.md)) creates a new [`fluent builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder.yml) instance.
 
-Using fluent APIs you can build `SELECT`, `INSERT`, `UPDATE` and `DELETE` queries. The [`Fluent Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder.yml) will parse the SQL query and extract the parameters from it. The parameters can be accessed via the [`Parameters`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Parameters) property and the generated SQL query can be accessed via the [`Sql`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Sql) property.
+Using fluent APIs, you can build `SELECT`, `INSERT`, `UPDATE`, and `DELETE` queries. The [`fluent builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder.yml) parses the SQL query and extracts parameters from it. These parameters can be accessed via the [`Parameters`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Parameters) property, and the generated SQL query is available through the [`Sql`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Sql) property.
 
 ## Fluent Builders
 

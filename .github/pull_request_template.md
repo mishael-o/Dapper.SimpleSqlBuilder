@@ -1,4 +1,4 @@
-<!--Provide a concise title to the pull request as it will be used for the release documentation.-->
+﻿<!--Provide a concise title to the pull request as it will be used for the release documentation.-->
 
 ## Description
 
@@ -7,11 +7,12 @@
 
 ## Type of change
 <!-- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Bugfix (non-breaking change which fixes an issue)
-- [ ] Hotfix (a major bugfix that has to be merged asap)
-- [ ] Other change
+- [ ] 🔥 Hotfix (a major bugfix that has to be merged asap)
+- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] ✨ New feature (non-breaking change which adds functionality)
+- [ ] 🛠 Enhancements (improvements to existing features)
+- [ ] 🐛 Bugfix (non-breaking change which fixes an issue)
+- [ ] 📦 Other change
 
 ## Checklist
 <!-- Ensure you have completed the checklist-->

@@ -7,7 +7,7 @@ public interface IInsertValueBuilder : IFluentSqlBuilder
 {
 #if NET6_0_OR_GREATER
     /// <summary>
-    /// Appends the VALUES clause and the interpolated string to the builder.
+    /// Appends the <c>VALUES</c> clause and the interpolated string to the builder.
     /// </summary>
     /// <param name="handler">The handler for the interpolated string.</param>
     /// <returns>The <see cref="IInsertValueBuilder"/> instance.</returns>
@@ -15,7 +15,7 @@ public interface IInsertValueBuilder : IFluentSqlBuilder
 #else
 
     /// <summary>
-    /// Appends the VALUES clause and the interpolated string or <see cref="FormattableString"/> to the builder.
+    /// Appends the <c>VALUES</c> clause and the interpolated string or <see cref="FormattableString"/> to the builder.
     /// </summary>
     /// <param name="formattable">The <see cref="FormattableString"/>.</param>
     /// <returns>The <see cref="IInsertValueBuilder"/> instance.</returns>

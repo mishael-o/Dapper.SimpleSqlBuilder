@@ -10,7 +10,7 @@ var builder = SimpleBuilder.CreateFluent()
     .Columns($"FirstName, LastName, UserTypeId")
     .Values($"{user.FirstName}, {user.LastName}, {user.UserTypeId}");
 
-// The query can also be written as this
+// The query can also be written as this for adding columns and values one by one
 builder = SimpleBuilder.CreateFluent()
    .InsertInto($"User")
    .Columns($"FirstName").Columns($"LastName").Columns($"UserTypeId")

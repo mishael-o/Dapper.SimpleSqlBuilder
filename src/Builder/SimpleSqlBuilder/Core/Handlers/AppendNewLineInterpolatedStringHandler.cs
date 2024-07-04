@@ -1,5 +1,4 @@
 ﻿#if NET6_0_OR_GREATER
-
 namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
@@ -17,7 +16,7 @@ public ref struct AppendNewLineInterpolatedStringHandler
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
     /// <param name="builder">The builder associated with the handler.</param>
     /// <param name="isHandlerEnabled">The value that indicates whether the handler is enabled or disabled.</param>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IBuilderFormatter"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IBuilderFormatter"/>.</exception>
     public AppendNewLineInterpolatedStringHandler(int literalLength, int formattedCount, Builder builder, out bool isHandlerEnabled)
         : this(literalLength, formattedCount, true, builder, out isHandlerEnabled)
     {
@@ -31,7 +30,7 @@ public ref struct AppendNewLineInterpolatedStringHandler
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
     /// <param name="builder">The builder associated with the handler.</param>
     /// <param name="isHandlerEnabled">The value that indicates whether the handler is enabled or disabled.</param>
-    /// <exception cref="ArgumentException">Throws an <see cref="ArgumentException"/> when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IBuilderFormatter"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IBuilderFormatter"/>.</exception>
     public AppendNewLineInterpolatedStringHandler(int literalLength, int formattedCount, bool condition, Builder builder, out bool isHandlerEnabled)
     {
         if (!condition)
