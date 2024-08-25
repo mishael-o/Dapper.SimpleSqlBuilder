@@ -1,10 +1,10 @@
 # Builder
 
-The [`Builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) is a versatile tool for constructing static, dynamic, complex SQL queries, and stored procedures.
+The [`Builder`](xref:Dapper.SimpleSqlBuilder.Builder) is a versatile tool for constructing static, dynamic, complex SQL queries, and stored procedures.
 
-The `Create` method on the [`SimpleSqlBuilder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleBuilder.yml) or [`ISimpleBuilder`](../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.yml) (when using [dependency injection](../configuration/dependency-injection.md)) creates a new [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) instance. It accepts a SQL query as one of its parameters and returns a new [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) instance.
+The `Create` method on the [`SimpleSqlBuilder`](xref:Dapper.SimpleSqlBuilder.SimpleBuilder.Create(System.FormattableString,System.String,System.Nullable{System.Boolean})) or [`ISimpleBuilder`](xref:Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.Create(System.FormattableString,System.String,System.Nullable{System.Boolean})) (when using [dependency injection](../configuration/dependency-injection.md)) creates a new [`Builder`](xref:Dapper.SimpleSqlBuilder.Builder) instance. It accepts a SQL query as one of its parameters and returns a new [`Builder`](xref:Dapper.SimpleSqlBuilder.Builder) instance.
 
-The SQL query can be a static string or an interpolated string. The [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) parses the SQL query and extracts the parameters from it. The parameters can be accessed via the [`Parameters`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Parameters) property, and the generated SQL query can be accessed via the [`Sql`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Sql) property.
+The SQL query can be a static string or an interpolated string. The [`Builder`](xref:Dapper.SimpleSqlBuilder.Builder) parses the SQL query and extracts the parameters from it. The parameters can be accessed via the [`Parameters`](xref:Dapper.SimpleSqlBuilder.Builder.Parameters) property, and the generated SQL query can be accessed via the [`Sql`](xref:Dapper.SimpleSqlBuilder.Builder.Sql) property.
 
 ## Static SQL
 
@@ -71,7 +71,7 @@ SELECT * FROM User WHERE UserTypeId = @p0 AND Age >= @p1
 
 ### Builder Chaining
 
-If you prefer an alternative to interpolated string concatenation, you can use the [`Append`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Append_Dapper_SimpleSqlBuilder_AppendInterpolatedStringHandler__), [`AppendIntact`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_AppendIntact_Dapper_SimpleSqlBuilder_AppendIntactInterpolatedStringHandler__), and [`AppendNewLine`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_AppendNewLine_Dapper_SimpleSqlBuilder_AppendNewLineInterpolatedStringHandler__) methods, which can be chained.
+If you prefer an alternative to interpolated string concatenation, you can use the [`Append`](xref:Dapper.SimpleSqlBuilder.Builder.Append(Dapper.SimpleSqlBuilder.AppendInterpolatedStringHandler@)), [`AppendIntact`](xref:Dapper.SimpleSqlBuilder.Builder.AppendIntact(Dapper.SimpleSqlBuilder.AppendIntactInterpolatedStringHandler@)), and [`AppendNewLine`](xref:Dapper.SimpleSqlBuilder.Builder.AppendNewLine(Dapper.SimpleSqlBuilder.AppendNewLineInterpolatedStringHandler@)) methods, which can be chained.
 
 ```csharp
 int userTypeId = 4;
@@ -124,7 +124,7 @@ ORDER BY FirstName, LastName
 
 ### Insert
 
-You can perform INSERT operations with the [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) as seen in the example below.
+You can perform INSERT operations with the [`Builder`](xref:Dapper.SimpleSqlBuilder.Builder) as seen in the example below.
 
 ```csharp
 var user = new User { FirstName = "John", LastName = "Doe", UserTypeId = 4 };
@@ -146,7 +146,7 @@ VALUES (@p0, @p1, @p2)
 
 ### Update
 
-You can perform UPDATE operations with the [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) as seen in the example below.
+You can perform UPDATE operations with the [`Builder`](xref:Dapper.SimpleSqlBuilder.Builder) as seen in the example below.
 
 ```csharp
 int id = 1;
@@ -183,7 +183,7 @@ DELETE FROM User WHERE Id = @p0
 
 ## Stored Procedures
 
-You can execute stored procedures with the [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) as seen in the example below.
+You can execute stored procedures with the [`Builder`](xref:Dapper.SimpleSqlBuilder.Builder) as seen in the example below.
 
 ```csharp
 var user = new User { FirstName = "John", LastName = "Doe", UserTypeId = 4 };
@@ -205,7 +205,7 @@ int result = builder.GetValue<int>("Result");
 
 ## Builder Reset
 
-There are scenarios where you may want to reuse the [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) without creating a new instance. This can be achieved by calling the [`Reset`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml#Dapper_SimpleSqlBuilder_Builder_Reset) method on the [`builder`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.Builder.yml) instance as seen in the example below.
+There are scenarios where you may want to reuse the [`Builder`](xref:Dapper.SimpleSqlBuilder.Builder) without creating a new instance. This can be achieved by calling the [`Reset`](xref:Dapper.SimpleSqlBuilder.Builder.Reset) method on the [`Builder`](xref:Dapper.SimpleSqlBuilder.Builder) instance as seen in the example below.
 
 ```csharp
 int id = 1;

@@ -46,4 +46,7 @@ If you like the library, use it, share it, and give it a ⭐️ on GitHub. For a
 ## Next Steps
 
 - [Quick Start](../index.md)
+- [Builder](builders/builder.md)
+- [Fluent Builder](builders/fluent-builder/fluent-builder.md)
+- [Performance](miscellaneous/performance.md)
 - [Release Notes](miscellaneous/release-notes.md)

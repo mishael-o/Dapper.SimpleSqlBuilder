@@ -56,7 +56,8 @@
     ],
     "resource": [
       {
-        "files": ["/images/**"]
+        "files": ["/images/**"],
+        "exclude": ["_site/**", "obj/**"]
       }
     ],
     "xref": [

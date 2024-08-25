@@ -1,6 +1,6 @@
 # Delete Builder
 
-You can perform `DELETE` operations with the [`Delete Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.yml) as seen in the example below.
+You can perform `DELETE` operations with the [`Delete Builder`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry) as seen in the example below.
 
 ```csharp
 int id = 10;

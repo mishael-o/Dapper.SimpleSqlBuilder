@@ -43,7 +43,7 @@ class MyClass
 
 ## Configuring Builder Options
 
-You can configure the builder settings and the [`ISimpleBuilder`](../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.yml) instance service lifetime via the [`SimpleBuilderOptions`](../../api-docs/di/Dapper.SimpleSqlBuilder.DependencyInjection.SimpleBuilderOptions.yml) class. There are various ways to configure the options as shown below.
+You can configure the builder settings and the [`ISimpleBuilder`](xref:Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder) instance service lifetime via the [`SimpleBuilderOptions`](xref:Dapper.SimpleSqlBuilder.DependencyInjection.SimpleBuilderOptions) class. There are various ways to configure the options as shown below.
 
 ### Configuring Options via `appsettings.json`
 
