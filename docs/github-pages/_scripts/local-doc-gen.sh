@@ -30,7 +30,7 @@ fi
 $script_dir/generate-xrefmap.sh $base_url
 
 # Generate Metadata
-$script_dir/generate_metadata.sh
+$script_dir/generate-metadata.sh
 
 # Build Documentation
 docfx build docfx.json
