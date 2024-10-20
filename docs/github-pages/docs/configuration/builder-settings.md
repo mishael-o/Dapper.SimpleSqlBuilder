@@ -1,6 +1,6 @@
 # Builder Settings
 
-You can configure the builder settings through the [`SimpleBuilderSettings`](../../api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.yml) static class by calling the `Configure` method.
+You can configure the builder settings through the [`SimpleBuilderSettings`](xref:Dapper.SimpleSqlBuilder.SimpleBuilderSettings) static class by calling the `Configure` method.
 
 > [!NOTE]
 > If you are using the dependency injection library, refer to the [Dependency Injection](dependency-injection.md) section on how to configure the global builder settings.

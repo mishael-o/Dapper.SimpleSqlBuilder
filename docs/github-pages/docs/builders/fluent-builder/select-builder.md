@@ -1,6 +1,6 @@
 # Select Builder
 
-You can perform `SELECT` operations with the [`Select Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.yml) as seen in the examples below.
+You can perform `SELECT` operations with the [`Select Builder`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry) as seen in the examples below.
 
 ## Select
 
@@ -171,9 +171,9 @@ ORDER BY FirstName ASC, LastName DESC
 
 ## Pagination
 
-The [`Select Builder`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.yml) supports two popular ways of performing pagination. The choice between `Limit`/`Offset` and `OffsetRows`/`FetchNext` methods may depend on your database system.
+The [`Select Builder`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry) supports two popular ways of performing pagination. The choice between `Limit`/`Offset` and `OffsetRows`/`FetchNext` methods may depend on your database system.
 
-### [`Limit`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_ILimitBuilder_Limit_System_Int32_) and [`Offset`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetBuilder_Offset_System_Int32_)
+### [`Limit`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.Limit(System.Int32)) and [`Offset`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.Offset(System.Int32))
 
 ```csharp
 var builder = SimpleBuilder.CreateFluent()
@@ -193,7 +193,7 @@ ORDER BY Age ASC
 LIMIT 10 OFFSET 20
 ```
 
-### [`OffsetRows`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetRowsBuilder_OffsetRows_System_Int32_) and [`FetchNext`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IFetchBuilder_FetchNext_System_Int32_)
+### [`OffsetRows`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.OffsetRows(System.Int32)) and [`FetchNext`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.FetchNext(System.Int32))
 
 ```csharp
 var builder = SimpleBuilder.CreateFluent()
