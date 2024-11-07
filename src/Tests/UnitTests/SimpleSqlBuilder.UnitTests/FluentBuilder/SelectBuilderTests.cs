@@ -391,6 +391,29 @@ public class SelectBuilderTests
         sut.ParameterNames.Should().HaveCount(0);
     }
 
+    [Fact]
+    public void Select_BuildsSqlWithMultipleInnerJoins_ReturnsFluentSqlBuilder()
+    {
+        // Arrange
+        var expectedSql = "SELECT *" +
+            $"{Environment.NewLine}FROM Table1" +
+            $"{Environment.NewLine}INNER JOIN Table2 ON Table1.Id = Table2.Id" +
+            $"{Environment.NewLine}INNER JOIN Table3 ON Table2.Id = Table3.Id" +
+            $"{Environment.NewLine}INNER JOIN Table4 ON Table3.Id = Table4.Id";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table1")
+                    .InnerJoin($"Table2 ON Table1.Id = Table2.Id")
+                    .InnerJoin($"Table3 ON Table2.Id = Table3.Id")
+                    .InnerJoin($"Table4 ON Table3.Id = Table4.Id");
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Should().HaveCount(0);
+    }
+
     [Theory]
     [AutoData]
     public void Select_BuildsSqlWithInnerFormattableString_ReturnsFluentSqlBuilder(int id, string type)
