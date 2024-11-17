@@ -1,27 +1,24 @@
 ﻿#if NET6_0_OR_GREATER
-
-namespace Dapper.SimpleSqlBuilder.FluentBuilder;
+namespace Dapper.SimpleSqlBuilder;
 
 /// <summary>
-/// A handler used by the language compiler to append interpolated strings into <see cref="IFluentBuilder"/> instances.
+/// A handler used by the language compiler to create the <see cref="Builder"/> and append interpolated strings into <see cref="Builder"/> instances.
 /// </summary>
 [InterpolatedStringHandler]
-public ref struct WhereFilterInterpolatedStringHandler
+public ref struct BuilderInterpolatedStringHandler
 {
-    private readonly IFluentBuilderFormatter? formatter;
+    private readonly IBuilderFormatter? formatter;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WhereFilterInterpolatedStringHandler"/> struct.
+    /// Initializes a new instance of the <see cref="BuilderInterpolatedStringHandler"/> struct.
     /// </summary>
     /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
-    /// <param name="builder">The fluent builder associated with the handler.</param>
-    /// <exception cref="ArgumentException">Thrown when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IFluentBuilderFormatter"/>.</exception>
-    public WhereFilterInterpolatedStringHandler(int literalLength, int formattedCount, IFluentBuilder builder)
+    /// <exception cref="InvalidOperationException">Thrown when created builder does not implement <see cref="IBuilderFormatter"/>.</exception>
+    public BuilderInterpolatedStringHandler(int literalLength, int formattedCount)
     {
-        formatter = builder as IFluentBuilderFormatter
-            ?? throw new ArgumentException($"The {nameof(builder)} must implement {nameof(IFluentBuilderFormatter)}.", nameof(builder));
-        formatter.StartClauseAction(ClauseAction.WhereFilter);
+        formatter = SimpleBuilder.Create() as IBuilderFormatter
+            ?? throw new InvalidOperationException($"{nameof(SimpleBuilder)}.{nameof(SimpleBuilder.Create)} does not return a builder that implements {nameof(IBuilderFormatter)}.");
     }
 
     /// <summary>
@@ -48,8 +45,11 @@ public ref struct WhereFilterInterpolatedStringHandler
     public void AppendFormatted<T>(T value, string? format)
         => formatter?.AppendFormatted(value, format);
 
-    internal void Close()
-        => formatter?.EndClauseAction();
+    internal Builder GetBuilder()
+    {
+        return formatter is null
+            ? throw new InvalidOperationException($"The {nameof(formatter)} is null. Ensure {nameof(BuilderInterpolatedStringHandler)} is properly initialized.")
+            : (Builder)formatter;
+    }
 }
-
 #endif
