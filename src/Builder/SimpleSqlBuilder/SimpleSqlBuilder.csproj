@@ -14,7 +14,7 @@
 
     <ItemGroup>
         <PackageReference Include="Dapper" />
-        <PackageReference Include="Microsoft.Bcl.HashCode" Condition="'$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'netstandard2.0'"/>
+        <PackageReference Include="Microsoft.Bcl.HashCode" Condition="'$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'netstandard2.0'" />
     </ItemGroup>
 
     <ItemGroup>

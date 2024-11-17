@@ -1,5 +1,5 @@
 ﻿#if NET6_0_OR_GREATER
-namespace Dapper.SimpleSqlBuilder.UnitTests.Handlers;
+namespace Dapper.SimpleSqlBuilder.UnitTests.Core.Handlers;
 
 public class AppendInterpolatedStringHandlerTests
 {

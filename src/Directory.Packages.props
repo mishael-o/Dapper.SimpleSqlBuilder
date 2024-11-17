@@ -2,14 +2,12 @@
     <PropertyGroup>
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
-
     <ItemGroup Label="GlobalPackages">
         <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </GlobalPackageReference>
     </ItemGroup>
-
     <ItemGroup Label="BuilderPackages">
         <PackageVersion Include="Dapper" Version="2.1.35" />
         <PackageVersion Include="Dapper.StrongName" Version="2.1.35" />
@@ -18,7 +16,6 @@
         <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
         <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.141" />
     </ItemGroup>
-
     <ItemGroup Label="TestPackages">
         <PackageVersion Include="AutoFixture" Version="4.18.1" />
         <PackageVersion Include="AutoFixture.Xunit2" Version="4.18.1" />
@@ -32,32 +29,27 @@
         <!--For unit test issues on Linux https://github.com/microsoft/vstest/issues/2469-->
         <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.11.1" />
     </ItemGroup>
-
     <ItemGroup Label="IntegrationTestPackages">
         <PackageVersion Include="Microsoft.Data.SqlClient" Version="5.2.2" />
         <PackageVersion Include="System.Data.SqlClient" Version="4.8.6" />
-        <PackageVersion Include="TestContainers.MsSql" Version="3.10.0" />
-        <PackageVersion Include="TestContainers.MySql" Version="3.10.0" />
-        <PackageVersion Include="TestContainers.PostgreSql" Version="3.10.0" />
+        <PackageVersion Include="TestContainers.MsSql" Version="4.0.0" />
+        <PackageVersion Include="TestContainers.MySql" Version="4.0.0" />
+        <PackageVersion Include="TestContainers.PostgreSql" Version="4.0.0" />
     </ItemGroup>
-
     <ItemGroup Label="BenchmarkPackages">
         <PackageVersion Include="Dapper.SqlBuilder" Version="2.0.78" />
     </ItemGroup>
-
     <Choose>
         <When Condition="'$(TargetFramework)' == 'net461'">
             <ItemGroup Label="TestPackagesNET461">
                 <PackageVersion Include="xunit" Version="2.4.2" />
                 <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.3" />
             </ItemGroup>
-
             <ItemGroup Label="IntegrationTestPackagesNET461">
                 <PackageVersion Include="MySqlConnector" Version="2.2.7" />
                 <PackageVersion Include="Npgsql" Version="6.0.11" />
                 <PackageVersion Include="Respawn" Version="4.0.0" />
             </ItemGroup>
-
             <ItemGroup Label="BenchmarkPackagesNET461">
                 <PackageVersion Include="BenchmarkDotNet" Version="0.13.12" />
             </ItemGroup>
@@ -67,13 +59,11 @@
                 <PackageVersion Include="xunit" Version="2.9.2" />
                 <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
             </ItemGroup>
-
             <ItemGroup Label="IntegrationTestPackagesNETCore">
                 <PackageVersion Include="MySqlConnector" Version="2.3.7" />
                 <PackageVersion Include="Npgsql" Version="8.0.5" />
                 <PackageVersion Include="Respawn" Version="6.2.1" />
             </ItemGroup>
-
             <ItemGroup Label="BenchmarkPackagesNetCore">
                 <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
             </ItemGroup>

@@ -24,6 +24,11 @@ internal sealed class SimpleBuilderFactory : ISimpleBuilder
         return new SqlBuilder(options.CurrentValue.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, formattable);
     }
 
+#if NET6_0_OR_GREATER
+    public Builder Create([System.Runtime.CompilerServices.InterpolatedStringHandlerArgument("")] ref BuilderFactoryInterpolatedStringHandler handler)
+        => handler.GetBuilder();
+#endif
+
     public ISimpleFluentBuilderEntry CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
     {
         if (string.IsNullOrWhiteSpace(parameterPrefix))
