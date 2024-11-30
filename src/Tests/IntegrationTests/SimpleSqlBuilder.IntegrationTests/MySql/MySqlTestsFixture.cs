@@ -17,7 +17,7 @@ public class MySqlTestsFixture : IAsyncLifetime
 
     private DbConnection dbConnection = null!;
 
-#if NET461
+#if NET462
     private Checkpoint respawner = null!;
 #else
     private Respawner respawner = null!;
@@ -56,7 +56,7 @@ public class MySqlTestsFixture : IAsyncLifetime
 
     public async Task ResetDatabaseAsync()
     {
-#if NET461
+#if NET462
         await respawner.Reset(dbConnection);
 #else
         await respawner.ResetAsync(dbConnection);
@@ -126,7 +126,7 @@ public class MySqlTestsFixture : IAsyncLifetime
 
     private Task InitialiseRespawnerAsync()
     {
-#if NET461
+#if NET462
         respawner = new Checkpoint
         {
             DbAdapter = DbAdapter.MySql,

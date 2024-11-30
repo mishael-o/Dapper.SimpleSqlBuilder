@@ -1,6 +1,6 @@
 ﻿namespace SimpleSqlBuilder.BenchMark.Benchmarks;
 
-public record Product
+internal sealed record Product
 {
     public Guid Id { get; set; }
     public int TypeId { get; set; }

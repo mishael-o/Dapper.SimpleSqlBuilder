@@ -1,6 +1,7 @@
 <Project>
     <PropertyGroup>
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
     </PropertyGroup>
     <ItemGroup Label="GlobalPackages">
         <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
@@ -11,61 +12,54 @@
     <ItemGroup Label="BuilderPackages">
         <PackageVersion Include="Dapper" Version="2.1.35" />
         <PackageVersion Include="Dapper.StrongName" Version="2.1.35" />
-        <PackageVersion Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
-        <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+        <PackageVersion Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
+        <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.0" />
         <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
-        <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.141" />
+        <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.146" />
     </ItemGroup>
     <ItemGroup Label="TestPackages">
         <PackageVersion Include="AutoFixture" Version="4.18.1" />
         <PackageVersion Include="AutoFixture.Xunit2" Version="4.18.1" />
         <PackageVersion Include="AutoFixture.AutoMoq" Version="4.18.1" />
         <PackageVersion Include="coverlet.collector" Version="6.0.2" />
-        <PackageVersion Include="FluentAssertions" Version="6.12.1" />
-        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+        <PackageVersion Include="FluentAssertions" Version="6.12.2" />
+        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
         <PackageVersion Include="Moq" Version="[4.18.4]" />
         <!--For unit test issues on Linux https://github.com/microsoft/vstest/issues/2469-->
-        <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.11.1" />
+        <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.12.0" />
+        <PackageVersion Include="xunit" Version="2.9.2" />
+        <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
     </ItemGroup>
     <ItemGroup Label="IntegrationTestPackages">
         <PackageVersion Include="Microsoft.Data.SqlClient" Version="5.2.2" />
-        <PackageVersion Include="System.Data.SqlClient" Version="4.8.6" />
+        <PackageVersion Include="MySqlConnector" Version="2.4.0" />
         <PackageVersion Include="TestContainers.MsSql" Version="4.0.0" />
         <PackageVersion Include="TestContainers.MySql" Version="4.0.0" />
         <PackageVersion Include="TestContainers.PostgreSql" Version="4.0.0" />
     </ItemGroup>
     <ItemGroup Label="BenchmarkPackages">
         <PackageVersion Include="Dapper.SqlBuilder" Version="2.0.78" />
+        <PackageVersion Include="BenchmarkDotNet" Version="0.13.12" />
+    </ItemGroup>
+    <!--This is to upgrade any venerable transitive package to the latest one-->
+    <ItemGroup Label="TransitivePackages">
+        <PackageVersion Include="System.Net.Http" Version="4.3.4" />
+        <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.1" />
+        <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
     </ItemGroup>
     <Choose>
-        <When Condition="'$(TargetFramework)' == 'net461'">
-            <ItemGroup Label="TestPackagesNET461">
-                <PackageVersion Include="xunit" Version="2.4.2" />
-                <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.3" />
-            </ItemGroup>
-            <ItemGroup Label="IntegrationTestPackagesNET461">
-                <PackageVersion Include="MySqlConnector" Version="2.2.7" />
-                <PackageVersion Include="Npgsql" Version="6.0.11" />
+        <When Condition="'$(TargetFramework)' == 'net462'">
+            <ItemGroup Label="IntegrationTestPackagesNET462">
+                <PackageVersion Include="Npgsql" Version="8.0.6" />
                 <PackageVersion Include="Respawn" Version="4.0.0" />
-            </ItemGroup>
-            <ItemGroup Label="BenchmarkPackagesNET461">
-                <PackageVersion Include="BenchmarkDotNet" Version="0.13.12" />
             </ItemGroup>
         </When>
         <Otherwise>
-            <ItemGroup Label="TestPackagesNETCore">
-                <PackageVersion Include="xunit" Version="2.9.2" />
-                <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
-            </ItemGroup>
             <ItemGroup Label="IntegrationTestPackagesNETCore">
-                <PackageVersion Include="MySqlConnector" Version="2.3.7" />
-                <PackageVersion Include="Npgsql" Version="8.0.5" />
+                <PackageVersion Include="Npgsql" Version="9.0.1" />
                 <PackageVersion Include="Respawn" Version="6.2.1" />
-            </ItemGroup>
-            <ItemGroup Label="BenchmarkPackagesNetCore">
-                <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
             </ItemGroup>
         </Otherwise>
     </Choose>

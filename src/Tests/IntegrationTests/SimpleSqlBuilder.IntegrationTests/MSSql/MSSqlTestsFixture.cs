@@ -1,15 +1,8 @@
 ﻿using System.Data.Common;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
+using Microsoft.Data.SqlClient;
 using Respawn;
 using Testcontainers.MsSql;
-
-#if NET461
-
-using System.Data.SqlClient;
-
-#else
-using Microsoft.Data.SqlClient;
-#endif
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.MSSql;
 
@@ -22,7 +15,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     private DbConnection dbConnection = null!;
 
-#if NET461
+#if NET462
     private Checkpoint respawner = null!;
 #else
     private Respawner respawner = null!;
@@ -58,7 +51,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     public async Task ResetDatabaseAsync()
     {
-#if NET461
+#if NET462
         await respawner.Reset(dbConnection);
 #else
         await respawner.ResetAsync(dbConnection);
@@ -128,7 +121,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     private Task InitialiseRespawnerAsync()
     {
-#if NET461
+#if NET462
         respawner = new Checkpoint
         {
             SchemasToInclude = ["dbo"],

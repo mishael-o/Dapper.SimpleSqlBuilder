@@ -10,7 +10,11 @@ public sealed class SimpleBuilderSettings
     internal const bool DefaultReuseParameters = false;
     internal const bool DefaultUseLowerCaseClauses = false;
 
+#if NET9_0_OR_GREATER
+    private static readonly Lock LockObject = new();
+#else
     private static readonly object LockObject = new();
+#endif
 
     /// <summary>
     /// Initializes static members of the <see cref="SimpleBuilderSettings"/> class.

@@ -3,19 +3,19 @@ sorted: true
 references:
 - uid: netstd2.Dapper.SimpleSqlBuilder
   name: Dapper.SimpleSqlBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.html
   commentId: N:Dapper.SimpleSqlBuilder
   fullName: Dapper.SimpleSqlBuilder
   nameWithType: Dapper.SimpleSqlBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder
   name: Builder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html
   commentId: T:Dapper.SimpleSqlBuilder.Builder
   fullName: Dapper.SimpleSqlBuilder.Builder
   nameWithType: Builder
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.AddDynamicParameters(System.Object)
   name: AddDynamicParameters(object?)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AddDynamicParameters_System_Object_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AddDynamicParameters_System_Object_
   commentId: M:Dapper.SimpleSqlBuilder.Builder.AddDynamicParameters(System.Object)
   name.vb: AddDynamicParameters(Object)
   fullName: Dapper.SimpleSqlBuilder.Builder.AddDynamicParameters(object?)
@@ -24,14 +24,14 @@ references:
   nameWithType.vb: Builder.AddDynamicParameters(Object)
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.AddDynamicParameters*
   name: AddDynamicParameters
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AddDynamicParameters_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AddDynamicParameters_
   commentId: Overload:Dapper.SimpleSqlBuilder.Builder.AddDynamicParameters
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Builder.AddDynamicParameters
   nameWithType: Builder.AddDynamicParameters
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.AddParameter(System.String,System.Object,System.Nullable{System.Data.DbType},System.Nullable{System.Data.ParameterDirection},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
   name: AddParameter(string, object?, DbType?, ParameterDirection?, int?, byte?, byte?)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AddParameter_System_String_System_Object_System_Nullable_System_Data_DbType__System_Nullable_System_Data_ParameterDirection__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AddParameter_System_String_System_Object_System_Nullable_System_Data_DbType__System_Nullable_System_Data_ParameterDirection__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__
   commentId: M:Dapper.SimpleSqlBuilder.Builder.AddParameter(System.String,System.Object,System.Nullable{System.Data.DbType},System.Nullable{System.Data.ParameterDirection},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
   name.vb: AddParameter(String, Object, DbType?, ParameterDirection?, Integer?, Byte?, Byte?)
   fullName: Dapper.SimpleSqlBuilder.Builder.AddParameter(string, object?, System.Data.DbType?, System.Data.ParameterDirection?, int?, byte?, byte?)
@@ -40,14 +40,14 @@ references:
   nameWithType.vb: Builder.AddParameter(String, Object, DbType?, ParameterDirection?, Integer?, Byte?, Byte?)
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.AddParameter*
   name: AddParameter
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AddParameter_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AddParameter_
   commentId: Overload:Dapper.SimpleSqlBuilder.Builder.AddParameter
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Builder.AddParameter
   nameWithType: Builder.AddParameter
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.Append(System.Boolean,System.FormattableString)
   name: Append(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Append_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Append_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.Builder.Append(System.Boolean,System.FormattableString)
   name.vb: Append(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.Builder.Append(bool, System.FormattableString)
@@ -56,20 +56,20 @@ references:
   nameWithType.vb: Builder.Append(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.Append(System.FormattableString)
   name: Append(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Append_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Append_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.Builder.Append(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.Builder.Append(System.FormattableString)
   nameWithType: Builder.Append(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.Append*
   name: Append
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Append_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Append_
   commentId: Overload:Dapper.SimpleSqlBuilder.Builder.Append
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Builder.Append
   nameWithType: Builder.Append
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.AppendIntact(System.Boolean,System.FormattableString)
   name: AppendIntact(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendIntact_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendIntact_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.Builder.AppendIntact(System.Boolean,System.FormattableString)
   name.vb: AppendIntact(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.Builder.AppendIntact(bool, System.FormattableString)
@@ -78,26 +78,26 @@ references:
   nameWithType.vb: Builder.AppendIntact(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.AppendIntact(System.FormattableString)
   name: AppendIntact(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendIntact_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendIntact_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.Builder.AppendIntact(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.Builder.AppendIntact(System.FormattableString)
   nameWithType: Builder.AppendIntact(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.AppendIntact*
   name: AppendIntact
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendIntact_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendIntact_
   commentId: Overload:Dapper.SimpleSqlBuilder.Builder.AppendIntact
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Builder.AppendIntact
   nameWithType: Builder.AppendIntact
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.AppendNewLine
   name: AppendNewLine()
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendNewLine
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendNewLine
   commentId: M:Dapper.SimpleSqlBuilder.Builder.AppendNewLine
   fullName: Dapper.SimpleSqlBuilder.Builder.AppendNewLine()
   nameWithType: Builder.AppendNewLine()
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.AppendNewLine(System.Boolean,System.FormattableString)
   name: AppendNewLine(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendNewLine_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendNewLine_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.Builder.AppendNewLine(System.Boolean,System.FormattableString)
   name.vb: AppendNewLine(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.Builder.AppendNewLine(bool, System.FormattableString)
@@ -106,27 +106,27 @@ references:
   nameWithType.vb: Builder.AppendNewLine(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.AppendNewLine(System.FormattableString)
   name: AppendNewLine(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendNewLine_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendNewLine_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.Builder.AppendNewLine(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.Builder.AppendNewLine(System.FormattableString)
   nameWithType: Builder.AppendNewLine(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.AppendNewLine*
   name: AppendNewLine
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendNewLine_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_AppendNewLine_
   commentId: Overload:Dapper.SimpleSqlBuilder.Builder.AppendNewLine
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Builder.AppendNewLine
   nameWithType: Builder.AppendNewLine
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.GetValue*
   name: GetValue
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_GetValue_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_GetValue_
   commentId: Overload:Dapper.SimpleSqlBuilder.Builder.GetValue
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Builder.GetValue
   nameWithType: Builder.GetValue
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.GetValue``1(System.String)
   name: GetValue<T>(string)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_GetValue__1_System_String_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_GetValue__1_System_String_
   commentId: M:Dapper.SimpleSqlBuilder.Builder.GetValue``1(System.String)
   name.vb: GetValue(Of T)(String)
   fullName: Dapper.SimpleSqlBuilder.Builder.GetValue<T>(string)
@@ -135,59 +135,59 @@ references:
   nameWithType.vb: Builder.GetValue(Of T)(String)
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.ParameterNames
   name: ParameterNames
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_ParameterNames
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_ParameterNames
   commentId: P:Dapper.SimpleSqlBuilder.Builder.ParameterNames
   fullName: Dapper.SimpleSqlBuilder.Builder.ParameterNames
   nameWithType: Builder.ParameterNames
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.ParameterNames*
   name: ParameterNames
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_ParameterNames_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_ParameterNames_
   commentId: Overload:Dapper.SimpleSqlBuilder.Builder.ParameterNames
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Builder.ParameterNames
   nameWithType: Builder.ParameterNames
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.Parameters
   name: Parameters
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Parameters
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Parameters
   commentId: P:Dapper.SimpleSqlBuilder.Builder.Parameters
   fullName: Dapper.SimpleSqlBuilder.Builder.Parameters
   nameWithType: Builder.Parameters
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.Parameters*
   name: Parameters
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Parameters_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Parameters_
   commentId: Overload:Dapper.SimpleSqlBuilder.Builder.Parameters
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Builder.Parameters
   nameWithType: Builder.Parameters
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.Reset
   name: Reset()
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Reset
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Reset
   commentId: M:Dapper.SimpleSqlBuilder.Builder.Reset
   fullName: Dapper.SimpleSqlBuilder.Builder.Reset()
   nameWithType: Builder.Reset()
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.Reset*
   name: Reset
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Reset_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Reset_
   commentId: Overload:Dapper.SimpleSqlBuilder.Builder.Reset
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Builder.Reset
   nameWithType: Builder.Reset
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.Sql
   name: Sql
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Sql
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Sql
   commentId: P:Dapper.SimpleSqlBuilder.Builder.Sql
   fullName: Dapper.SimpleSqlBuilder.Builder.Sql
   nameWithType: Builder.Sql
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.Sql*
   name: Sql
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Sql_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_Sql_
   commentId: Overload:Dapper.SimpleSqlBuilder.Builder.Sql
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Builder.Sql
   nameWithType: Builder.Sql
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.op_Addition(Dapper.SimpleSqlBuilder.Builder,System.FormattableString)
   name: operator +(Builder, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_op_Addition_Dapper_SimpleSqlBuilder_Builder_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_op_Addition_Dapper_SimpleSqlBuilder_Builder_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.Builder.op_Addition(Dapper.SimpleSqlBuilder.Builder,System.FormattableString)
   name.vb: +(Builder, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.Builder.operator +(Dapper.SimpleSqlBuilder.Builder, System.FormattableString)
@@ -196,7 +196,7 @@ references:
   nameWithType.vb: Builder.+(Builder, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.Builder.op_Addition*
   name: operator +
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_op_Addition_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Builder.html#Dapper_SimpleSqlBuilder_Builder_op_Addition_
   commentId: Overload:Dapper.SimpleSqlBuilder.Builder.op_Addition
   isSpec: "True"
   name.vb: +
@@ -206,26 +206,26 @@ references:
   nameWithType.vb: Builder.+
 - uid: netstd2.Dapper.SimpleSqlBuilder.Extensions
   name: Dapper.SimpleSqlBuilder.Extensions
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Extensions.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Extensions.html
   commentId: N:Dapper.SimpleSqlBuilder.Extensions
   fullName: Dapper.SimpleSqlBuilder.Extensions
   nameWithType: Dapper.SimpleSqlBuilder.Extensions
 - uid: netstd2.Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions
   name: SimpleParameterInfoExtensions
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.html
   commentId: T:Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions
   fullName: Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions
   nameWithType: SimpleParameterInfoExtensions
 - uid: netstd2.Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam*
   name: DefineParam
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.html#Dapper_SimpleSqlBuilder_Extensions_SimpleParameterInfoExtensions_DefineParam_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.html#Dapper_SimpleSqlBuilder_Extensions_SimpleParameterInfoExtensions_DefineParam_
   commentId: Overload:Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam
   nameWithType: SimpleParameterInfoExtensions.DefineParam
 - uid: netstd2.Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam``1(``0,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
   name: DefineParam<T>(T, DbType?, int?, byte?, byte?)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.html#Dapper_SimpleSqlBuilder_Extensions_SimpleParameterInfoExtensions_DefineParam__1___0_System_Nullable_System_Data_DbType__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.html#Dapper_SimpleSqlBuilder_Extensions_SimpleParameterInfoExtensions_DefineParam__1___0_System_Nullable_System_Data_DbType__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__
   commentId: M:Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam``1(``0,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
   name.vb: DefineParam(Of T)(T, DbType?, Integer?, Byte?, Byte?)
   fullName: Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam<T>(T, System.Data.DbType?, int?, byte?, byte?)
@@ -234,44 +234,44 @@ references:
   nameWithType.vb: SimpleParameterInfoExtensions.DefineParam(Of T)(T, DbType?, Integer?, Byte?, Byte?)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder
   name: Dapper.SimpleSqlBuilder.FluentBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.html
   commentId: N:Dapper.SimpleSqlBuilder.FluentBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder
   nameWithType: Dapper.SimpleSqlBuilder.FluentBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilder
   name: IDeleteBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilder
   nameWithType: IDeleteBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry
   name: IDeleteBuilderEntry
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry
   nameWithType: IDeleteBuilderEntry
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.DeleteFrom(System.FormattableString)
   name: DeleteFrom(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IDeleteBuilderEntry_DeleteFrom_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IDeleteBuilderEntry_DeleteFrom_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.DeleteFrom(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.DeleteFrom(System.FormattableString)
   nameWithType: IDeleteBuilderEntry.DeleteFrom(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.DeleteFrom*
   name: DeleteFrom
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IDeleteBuilderEntry_DeleteFrom_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IDeleteBuilderEntry_DeleteFrom_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.DeleteFrom
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IDeleteBuilderEntry.DeleteFrom
   nameWithType: IDeleteBuilderEntry.DeleteFrom
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder
   name: IFetchBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder
   nameWithType: IFetchBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.FetchNext(System.Int32)
   name: FetchNext(int)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFetchBuilder_FetchNext_System_Int32_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFetchBuilder_FetchNext_System_Int32_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.FetchNext(System.Int32)
   name.vb: FetchNext(Integer)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.FetchNext(int)
@@ -280,26 +280,26 @@ references:
   nameWithType.vb: IFetchBuilder.FetchNext(Integer)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.FetchNext*
   name: FetchNext
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFetchBuilder_FetchNext_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFetchBuilder_FetchNext_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.FetchNext
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IFetchBuilder.FetchNext
   nameWithType: IFetchBuilder.FetchNext
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IFluentBuilder
   name: IFluentBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IFluentBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IFluentBuilder
   nameWithType: IFluentBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder
   name: IFluentSqlBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder
   nameWithType: IFluentSqlBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.AddParameter(System.String,System.Object,System.Nullable{System.Data.DbType},System.Nullable{System.Data.ParameterDirection},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
   name: AddParameter(string, object?, DbType?, ParameterDirection?, int?, byte?, byte?)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFluentSqlBuilder_AddParameter_System_String_System_Object_System_Nullable_System_Data_DbType__System_Nullable_System_Data_ParameterDirection__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFluentSqlBuilder_AddParameter_System_String_System_Object_System_Nullable_System_Data_DbType__System_Nullable_System_Data_ParameterDirection__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.AddParameter(System.String,System.Object,System.Nullable{System.Data.DbType},System.Nullable{System.Data.ParameterDirection},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
   name.vb: AddParameter(String, Object, DbType?, ParameterDirection?, Integer?, Byte?, Byte?)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.AddParameter(string, object?, System.Data.DbType?, System.Data.ParameterDirection?, int?, byte?, byte?)
@@ -308,21 +308,21 @@ references:
   nameWithType.vb: IFluentSqlBuilder.AddParameter(String, Object, DbType?, ParameterDirection?, Integer?, Byte?, Byte?)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.AddParameter*
   name: AddParameter
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFluentSqlBuilder_AddParameter_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFluentSqlBuilder_AddParameter_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.AddParameter
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.AddParameter
   nameWithType: IFluentSqlBuilder.AddParameter
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.GetValue*
   name: GetValue
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFluentSqlBuilder_GetValue_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFluentSqlBuilder_GetValue_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.GetValue
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.GetValue
   nameWithType: IFluentSqlBuilder.GetValue
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.GetValue``1(System.String)
   name: GetValue<T>(string)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFluentSqlBuilder_GetValue__1_System_String_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IFluentSqlBuilder_GetValue__1_System_String_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.GetValue``1(System.String)
   name.vb: GetValue(Of T)(String)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IFluentSqlBuilder.GetValue<T>(string)
@@ -331,13 +331,13 @@ references:
   nameWithType.vb: IFluentSqlBuilder.GetValue(Of T)(String)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder
   name: IGroupByBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder
   nameWithType: IGroupByBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.GroupBy(System.Boolean,System.FormattableString)
   name: GroupBy(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IGroupByBuilder_GroupBy_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IGroupByBuilder_GroupBy_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.GroupBy(System.Boolean,System.FormattableString)
   name.vb: GroupBy(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.GroupBy(bool, System.FormattableString)
@@ -346,26 +346,26 @@ references:
   nameWithType.vb: IGroupByBuilder.GroupBy(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.GroupBy(System.FormattableString)
   name: GroupBy(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IGroupByBuilder_GroupBy_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IGroupByBuilder_GroupBy_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.GroupBy(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.GroupBy(System.FormattableString)
   nameWithType: IGroupByBuilder.GroupBy(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.GroupBy*
   name: GroupBy
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IGroupByBuilder_GroupBy_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IGroupByBuilder_GroupBy_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.GroupBy
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IGroupByBuilder.GroupBy
   nameWithType: IGroupByBuilder.GroupBy
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder
   name: IHavingBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder
   nameWithType: IHavingBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.Having(System.Boolean,System.FormattableString)
   name: Having(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IHavingBuilder_Having_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IHavingBuilder_Having_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.Having(System.Boolean,System.FormattableString)
   name.vb: Having(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.Having(bool, System.FormattableString)
@@ -374,83 +374,83 @@ references:
   nameWithType.vb: IHavingBuilder.Having(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.Having(System.FormattableString)
   name: Having(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IHavingBuilder_Having_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IHavingBuilder_Having_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.Having(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.Having(System.FormattableString)
   nameWithType: IHavingBuilder.Having(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.Having*
   name: Having
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IHavingBuilder_Having_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IHavingBuilder_Having_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.Having
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IHavingBuilder.Having
   nameWithType: IHavingBuilder.Having
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder
   name: IInsertBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder
   nameWithType: IInsertBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.Columns(System.FormattableString)
   name: Columns(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertBuilder_Columns_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertBuilder_Columns_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.Columns(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.Columns(System.FormattableString)
   nameWithType: IInsertBuilder.Columns(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.Columns*
   name: Columns
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertBuilder_Columns_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertBuilder_Columns_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.Columns
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilder.Columns
   nameWithType: IInsertBuilder.Columns
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry
   name: IInsertBuilderEntry
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry
   nameWithType: IInsertBuilderEntry
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.InsertInto(System.FormattableString)
   name: InsertInto(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertBuilderEntry_InsertInto_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertBuilderEntry_InsertInto_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.InsertInto(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.InsertInto(System.FormattableString)
   nameWithType: IInsertBuilderEntry.InsertInto(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.InsertInto*
   name: InsertInto
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertBuilderEntry_InsertInto_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertBuilderEntry_InsertInto_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.InsertInto
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IInsertBuilderEntry.InsertInto
   nameWithType: IInsertBuilderEntry.InsertInto
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder
   name: IInsertValueBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder
   nameWithType: IInsertValueBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.Values(System.FormattableString)
   name: Values(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertValueBuilder_Values_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertValueBuilder_Values_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.Values(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.Values(System.FormattableString)
   nameWithType: IInsertValueBuilder.Values(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.Values*
   name: Values
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertValueBuilder_Values_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IInsertValueBuilder_Values_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.Values
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IInsertValueBuilder.Values
   nameWithType: IInsertValueBuilder.Values
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder
   name: IJoinBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder
   nameWithType: IJoinBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.InnerJoin(System.Boolean,System.FormattableString)
   name: InnerJoin(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_InnerJoin_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_InnerJoin_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.InnerJoin(System.Boolean,System.FormattableString)
   name.vb: InnerJoin(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.InnerJoin(bool, System.FormattableString)
@@ -459,20 +459,20 @@ references:
   nameWithType.vb: IJoinBuilder.InnerJoin(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.InnerJoin(System.FormattableString)
   name: InnerJoin(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_InnerJoin_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_InnerJoin_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.InnerJoin(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.InnerJoin(System.FormattableString)
   nameWithType: IJoinBuilder.InnerJoin(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.InnerJoin*
   name: InnerJoin
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_InnerJoin_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_InnerJoin_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.InnerJoin
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.InnerJoin
   nameWithType: IJoinBuilder.InnerJoin
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.LeftJoin(System.Boolean,System.FormattableString)
   name: LeftJoin(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_LeftJoin_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_LeftJoin_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.LeftJoin(System.Boolean,System.FormattableString)
   name.vb: LeftJoin(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.LeftJoin(bool, System.FormattableString)
@@ -481,20 +481,20 @@ references:
   nameWithType.vb: IJoinBuilder.LeftJoin(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.LeftJoin(System.FormattableString)
   name: LeftJoin(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_LeftJoin_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_LeftJoin_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.LeftJoin(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.LeftJoin(System.FormattableString)
   nameWithType: IJoinBuilder.LeftJoin(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.LeftJoin*
   name: LeftJoin
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_LeftJoin_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_LeftJoin_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.LeftJoin
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.LeftJoin
   nameWithType: IJoinBuilder.LeftJoin
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.RightJoin(System.Boolean,System.FormattableString)
   name: RightJoin(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_RightJoin_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_RightJoin_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.RightJoin(System.Boolean,System.FormattableString)
   name.vb: RightJoin(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.RightJoin(bool, System.FormattableString)
@@ -503,26 +503,26 @@ references:
   nameWithType.vb: IJoinBuilder.RightJoin(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.RightJoin(System.FormattableString)
   name: RightJoin(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_RightJoin_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_RightJoin_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.RightJoin(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.RightJoin(System.FormattableString)
   nameWithType: IJoinBuilder.RightJoin(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.RightJoin*
   name: RightJoin
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_RightJoin_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IJoinBuilder_RightJoin_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.RightJoin
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IJoinBuilder.RightJoin
   nameWithType: IJoinBuilder.RightJoin
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder
   name: ILimitBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder
   nameWithType: ILimitBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.Limit(System.Int32)
   name: Limit(int)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ILimitBuilder_Limit_System_Int32_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ILimitBuilder_Limit_System_Int32_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.Limit(System.Int32)
   name.vb: Limit(Integer)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.Limit(int)
@@ -531,20 +531,20 @@ references:
   nameWithType.vb: ILimitBuilder.Limit(Integer)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.Limit*
   name: Limit
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ILimitBuilder_Limit_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ILimitBuilder_Limit_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.Limit
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ILimitBuilder.Limit
   nameWithType: ILimitBuilder.Limit
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder
   name: IOffsetBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder
   nameWithType: IOffsetBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.Offset(System.Int32)
   name: Offset(int)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetBuilder_Offset_System_Int32_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetBuilder_Offset_System_Int32_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.Offset(System.Int32)
   name.vb: Offset(Integer)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.Offset(int)
@@ -553,20 +553,20 @@ references:
   nameWithType.vb: IOffsetBuilder.Offset(Integer)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.Offset*
   name: Offset
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetBuilder_Offset_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetBuilder_Offset_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.Offset
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetBuilder.Offset
   nameWithType: IOffsetBuilder.Offset
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder
   name: IOffsetRowsBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder
   nameWithType: IOffsetRowsBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.OffsetRows(System.Int32)
   name: OffsetRows(int)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetRowsBuilder_OffsetRows_System_Int32_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetRowsBuilder_OffsetRows_System_Int32_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.OffsetRows(System.Int32)
   name.vb: OffsetRows(Integer)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.OffsetRows(int)
@@ -575,26 +575,26 @@ references:
   nameWithType.vb: IOffsetRowsBuilder.OffsetRows(Integer)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.OffsetRows*
   name: OffsetRows
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetRowsBuilder_OffsetRows_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOffsetRowsBuilder_OffsetRows_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.OffsetRows
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IOffsetRowsBuilder.OffsetRows
   nameWithType: IOffsetRowsBuilder.OffsetRows
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilder
   name: IOrderByBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilder
   nameWithType: IOrderByBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry
   name: IOrderByBuilderEntry
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry
   nameWithType: IOrderByBuilderEntry
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.OrderBy(System.Boolean,System.FormattableString)
   name: OrderBy(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOrderByBuilderEntry_OrderBy_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOrderByBuilderEntry_OrderBy_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.OrderBy(System.Boolean,System.FormattableString)
   name.vb: OrderBy(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.OrderBy(bool, System.FormattableString)
@@ -603,133 +603,133 @@ references:
   nameWithType.vb: IOrderByBuilderEntry.OrderBy(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.OrderBy(System.FormattableString)
   name: OrderBy(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOrderByBuilderEntry_OrderBy_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOrderByBuilderEntry_OrderBy_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.OrderBy(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.OrderBy(System.FormattableString)
   nameWithType: IOrderByBuilderEntry.OrderBy(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.OrderBy*
   name: OrderBy
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOrderByBuilderEntry_OrderBy_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IOrderByBuilderEntry_OrderBy_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.OrderBy
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IOrderByBuilderEntry.OrderBy
   nameWithType: IOrderByBuilderEntry.OrderBy
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder
   name: ISelectBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder
   nameWithType: ISelectBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.Select(System.FormattableString)
   name: Select(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilder_Select_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilder_Select_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.Select(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.Select(System.FormattableString)
   nameWithType: ISelectBuilder.Select(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.Select*
   name: Select
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilder_Select_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilder_Select_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.Select
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilder.Select
   nameWithType: ISelectBuilder.Select
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry
   name: ISelectBuilderEntry
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry
   nameWithType: ISelectBuilderEntry
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.Select(System.FormattableString)
   name: Select(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilderEntry_Select_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilderEntry_Select_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.Select(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.Select(System.FormattableString)
   nameWithType: ISelectBuilderEntry.Select(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.Select*
   name: Select
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilderEntry_Select_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilderEntry_Select_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.Select
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.Select
   nameWithType: ISelectBuilderEntry.Select
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.SelectDistinct(System.FormattableString)
   name: SelectDistinct(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilderEntry_SelectDistinct_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilderEntry_SelectDistinct_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.SelectDistinct(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.SelectDistinct(System.FormattableString)
   nameWithType: ISelectBuilderEntry.SelectDistinct(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.SelectDistinct*
   name: SelectDistinct
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilderEntry_SelectDistinct_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectBuilderEntry_SelectDistinct_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.SelectDistinct
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry.SelectDistinct
   nameWithType: ISelectBuilderEntry.SelectDistinct
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder
   name: ISelectDistinctBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder
   nameWithType: ISelectDistinctBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.SelectDistinct(System.FormattableString)
   name: SelectDistinct(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectDistinctBuilder_SelectDistinct_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectDistinctBuilder_SelectDistinct_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.SelectDistinct(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.SelectDistinct(System.FormattableString)
   nameWithType: ISelectDistinctBuilder.SelectDistinct(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.SelectDistinct*
   name: SelectDistinct
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectDistinctBuilder_SelectDistinct_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectDistinctBuilder_SelectDistinct_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.SelectDistinct
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectDistinctBuilder.SelectDistinct
   nameWithType: ISelectDistinctBuilder.SelectDistinct
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilder
   name: ISelectFromBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilder
   nameWithType: ISelectFromBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry
   name: ISelectFromBuilderEntry
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry
   nameWithType: ISelectFromBuilderEntry
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.From(System.FormattableString)
   name: From(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectFromBuilderEntry_From_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectFromBuilderEntry_From_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.From(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.From(System.FormattableString)
   nameWithType: ISelectFromBuilderEntry.From(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.From*
   name: From
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectFromBuilderEntry_From_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_ISelectFromBuilderEntry_From_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.From
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISelectFromBuilderEntry.From
   nameWithType: ISelectFromBuilderEntry.From
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder
   name: ISimpleFluentBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder
   nameWithType: ISimpleFluentBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilderEntry
   name: ISimpleFluentBuilderEntry
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilderEntry.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilderEntry.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilderEntry
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilderEntry
   nameWithType: ISimpleFluentBuilderEntry
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder
   name: IUpdateBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder
   nameWithType: IUpdateBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.Set(System.Boolean,System.FormattableString)
   name: Set(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IUpdateBuilder_Set_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IUpdateBuilder_Set_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.Set(System.Boolean,System.FormattableString)
   name.vb: Set(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.Set(bool, System.FormattableString)
@@ -738,45 +738,45 @@ references:
   nameWithType.vb: IUpdateBuilder.Set(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.Set(System.FormattableString)
   name: Set(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IUpdateBuilder_Set_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IUpdateBuilder_Set_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.Set(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.Set(System.FormattableString)
   nameWithType: IUpdateBuilder.Set(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.Set*
   name: Set
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IUpdateBuilder_Set_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IUpdateBuilder_Set_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.Set
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder.Set
   nameWithType: IUpdateBuilder.Set
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry
   name: IUpdateBuilderEntry
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry
   nameWithType: IUpdateBuilderEntry
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.Update(System.FormattableString)
   name: Update(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IUpdateBuilderEntry_Update_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IUpdateBuilderEntry_Update_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.Update(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.Update(System.FormattableString)
   nameWithType: IUpdateBuilderEntry.Update(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.Update*
   name: Update
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IUpdateBuilderEntry_Update_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.html#Dapper_SimpleSqlBuilder_FluentBuilder_IUpdateBuilderEntry_Update_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.Update
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilderEntry.Update
   nameWithType: IUpdateBuilderEntry.Update
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder
   name: IWhereBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder
   nameWithType: IWhereBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhere(System.Boolean,System.FormattableString)
   name: OrWhere(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhere_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhere_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhere(System.Boolean,System.FormattableString)
   name.vb: OrWhere(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhere(bool, System.FormattableString)
@@ -785,39 +785,39 @@ references:
   nameWithType.vb: IWhereBuilder.OrWhere(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhere(System.FormattableString)
   name: OrWhere(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhere_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhere_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhere(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhere(System.FormattableString)
   nameWithType: IWhereBuilder.OrWhere(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhere*
   name: OrWhere
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhere_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhere_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhere
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhere
   nameWithType: IWhereBuilder.OrWhere
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter
   name: OrWhereFilter()
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhereFilter
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhereFilter
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter()
   nameWithType: IWhereBuilder.OrWhereFilter()
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter(System.FormattableString)
   name: OrWhereFilter(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhereFilter_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhereFilter_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter(System.FormattableString)
   nameWithType: IWhereBuilder.OrWhereFilter(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter*
   name: OrWhereFilter
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhereFilter_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhereFilter_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter
   nameWithType: IWhereBuilder.OrWhereFilter
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.Boolean,System.FormattableString)
   name: Where(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.Boolean,System.FormattableString)
   name.vb: Where(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(bool, System.FormattableString)
@@ -826,45 +826,45 @@ references:
   nameWithType.vb: IWhereBuilder.Where(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.FormattableString)
   name: Where(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where(System.FormattableString)
   nameWithType: IWhereBuilder.Where(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where*
   name: Where
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_Where_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.Where
   nameWithType: IWhereBuilder.Where
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
   name: WhereFilter()
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter()
   nameWithType: IWhereBuilder.WhereFilter()
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter(System.FormattableString)
   name: WhereFilter(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter(System.FormattableString)
   nameWithType: IWhereBuilder.WhereFilter(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter*
   name: WhereFilter
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter
   nameWithType: IWhereBuilder.WhereFilter
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder
   name: IWhereFilterBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder
   nameWithType: IWhereFilterBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.Boolean,System.FormattableString)
   name: WithFilter(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.Boolean,System.FormattableString)
   name.vb: WithFilter(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(bool, System.FormattableString)
@@ -873,20 +873,20 @@ references:
   nameWithType.vb: IWhereFilterBuilder.WithFilter(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.FormattableString)
   name: WithFilter(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(System.FormattableString)
   nameWithType: IWhereFilterBuilder.WithFilter(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter*
   name: WithFilter
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter
   nameWithType: IWhereFilterBuilder.WithFilter
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter(System.Boolean,System.FormattableString)
   name: WithOrFilter(bool, FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithOrFilter_System_Boolean_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithOrFilter_System_Boolean_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter(System.Boolean,System.FormattableString)
   name.vb: WithOrFilter(Boolean, FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter(bool, System.FormattableString)
@@ -895,142 +895,142 @@ references:
   nameWithType.vb: IWhereFilterBuilder.WithOrFilter(Boolean, FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter(System.FormattableString)
   name: WithOrFilter(FormattableString)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithOrFilter_System_FormattableString_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithOrFilter_System_FormattableString_
   commentId: M:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter(System.FormattableString)
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter(System.FormattableString)
   nameWithType: IWhereFilterBuilder.WithOrFilter(FormattableString)
 - uid: netstd2.Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter*
   name: WithOrFilter
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithOrFilter_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.html#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithOrFilter_
   commentId: Overload:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter
   nameWithType: IWhereFilterBuilder.WithOrFilter
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISimpleParameterInfo
   name: ISimpleParameterInfo
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html
   commentId: T:Dapper.SimpleSqlBuilder.ISimpleParameterInfo
   fullName: Dapper.SimpleSqlBuilder.ISimpleParameterInfo
   nameWithType: ISimpleParameterInfo
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISimpleParameterInfo.DbType
   name: DbType
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_DbType
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_DbType
   commentId: P:Dapper.SimpleSqlBuilder.ISimpleParameterInfo.DbType
   fullName: Dapper.SimpleSqlBuilder.ISimpleParameterInfo.DbType
   nameWithType: ISimpleParameterInfo.DbType
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISimpleParameterInfo.DbType*
   name: DbType
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_DbType_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_DbType_
   commentId: Overload:Dapper.SimpleSqlBuilder.ISimpleParameterInfo.DbType
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.ISimpleParameterInfo.DbType
   nameWithType: ISimpleParameterInfo.DbType
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Precision
   name: Precision
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Precision
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Precision
   commentId: P:Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Precision
   fullName: Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Precision
   nameWithType: ISimpleParameterInfo.Precision
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Precision*
   name: Precision
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Precision_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Precision_
   commentId: Overload:Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Precision
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Precision
   nameWithType: ISimpleParameterInfo.Precision
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Scale
   name: Scale
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Scale
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Scale
   commentId: P:Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Scale
   fullName: Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Scale
   nameWithType: ISimpleParameterInfo.Scale
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Scale*
   name: Scale
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Scale_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Scale_
   commentId: Overload:Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Scale
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Scale
   nameWithType: ISimpleParameterInfo.Scale
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Size
   name: Size
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Size
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Size
   commentId: P:Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Size
   fullName: Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Size
   nameWithType: ISimpleParameterInfo.Size
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Size*
   name: Size
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Size_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Size_
   commentId: Overload:Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Size
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Size
   nameWithType: ISimpleParameterInfo.Size
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Value
   name: Value
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Value
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Value
   commentId: P:Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Value
   fullName: Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Value
   nameWithType: ISimpleParameterInfo.Value
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Value*
   name: Value
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Value_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISimpleParameterInfo.html#Dapper_SimpleSqlBuilder_ISimpleParameterInfo_Value_
   commentId: Overload:Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Value
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.ISimpleParameterInfo.Value
   nameWithType: ISimpleParameterInfo.Value
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISqlBuilder
   name: ISqlBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.ISqlBuilder
   fullName: Dapper.SimpleSqlBuilder.ISqlBuilder
   nameWithType: ISqlBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISqlBuilder.ParameterNames
   name: ParameterNames
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_ParameterNames
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_ParameterNames
   commentId: P:Dapper.SimpleSqlBuilder.ISqlBuilder.ParameterNames
   fullName: Dapper.SimpleSqlBuilder.ISqlBuilder.ParameterNames
   nameWithType: ISqlBuilder.ParameterNames
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISqlBuilder.ParameterNames*
   name: ParameterNames
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_ParameterNames_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_ParameterNames_
   commentId: Overload:Dapper.SimpleSqlBuilder.ISqlBuilder.ParameterNames
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.ISqlBuilder.ParameterNames
   nameWithType: ISqlBuilder.ParameterNames
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISqlBuilder.Parameters
   name: Parameters
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_Parameters
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_Parameters
   commentId: P:Dapper.SimpleSqlBuilder.ISqlBuilder.Parameters
   fullName: Dapper.SimpleSqlBuilder.ISqlBuilder.Parameters
   nameWithType: ISqlBuilder.Parameters
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISqlBuilder.Parameters*
   name: Parameters
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_Parameters_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_Parameters_
   commentId: Overload:Dapper.SimpleSqlBuilder.ISqlBuilder.Parameters
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.ISqlBuilder.Parameters
   nameWithType: ISqlBuilder.Parameters
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISqlBuilder.Sql
   name: Sql
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_Sql
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_Sql
   commentId: P:Dapper.SimpleSqlBuilder.ISqlBuilder.Sql
   fullName: Dapper.SimpleSqlBuilder.ISqlBuilder.Sql
   nameWithType: ISqlBuilder.Sql
 - uid: netstd2.Dapper.SimpleSqlBuilder.ISqlBuilder.Sql*
   name: Sql
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_Sql_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.ISqlBuilder.html#Dapper_SimpleSqlBuilder_ISqlBuilder_Sql_
   commentId: Overload:Dapper.SimpleSqlBuilder.ISqlBuilder.Sql
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.ISqlBuilder.Sql
   nameWithType: ISqlBuilder.Sql
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilder
   name: SimpleBuilder
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilder.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilder.html
   commentId: T:Dapper.SimpleSqlBuilder.SimpleBuilder
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilder
   nameWithType: SimpleBuilder
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilder.Create(System.FormattableString,System.String,System.Nullable{System.Boolean})
   name: Create(FormattableString?, string?, bool?)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilder.html#Dapper_SimpleSqlBuilder_SimpleBuilder_Create_System_FormattableString_System_String_System_Nullable_System_Boolean__
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilder.html#Dapper_SimpleSqlBuilder_SimpleBuilder_Create_System_FormattableString_System_String_System_Nullable_System_Boolean__
   commentId: M:Dapper.SimpleSqlBuilder.SimpleBuilder.Create(System.FormattableString,System.String,System.Nullable{System.Boolean})
   name.vb: Create(FormattableString, String, Boolean?)
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilder.Create(System.FormattableString?, string?, bool?)
@@ -1039,14 +1039,14 @@ references:
   nameWithType.vb: SimpleBuilder.Create(FormattableString, String, Boolean?)
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilder.Create*
   name: Create
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilder.html#Dapper_SimpleSqlBuilder_SimpleBuilder_Create_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilder.html#Dapper_SimpleSqlBuilder_SimpleBuilder_Create_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleBuilder.Create
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilder.Create
   nameWithType: SimpleBuilder.Create
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilder.CreateFluent(System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})
   name: CreateFluent(string?, bool?, bool?)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilder.html#Dapper_SimpleSqlBuilder_SimpleBuilder_CreateFluent_System_String_System_Nullable_System_Boolean__System_Nullable_System_Boolean__
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilder.html#Dapper_SimpleSqlBuilder_SimpleBuilder_CreateFluent_System_String_System_Nullable_System_Boolean__System_Nullable_System_Boolean__
   commentId: M:Dapper.SimpleSqlBuilder.SimpleBuilder.CreateFluent(System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})
   name.vb: CreateFluent(String, Boolean?, Boolean?)
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilder.CreateFluent(string?, bool?, bool?)
@@ -1055,20 +1055,20 @@ references:
   nameWithType.vb: SimpleBuilder.CreateFluent(String, Boolean?, Boolean?)
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilder.CreateFluent*
   name: CreateFluent
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilder.html#Dapper_SimpleSqlBuilder_SimpleBuilder_CreateFluent_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilder.html#Dapper_SimpleSqlBuilder_SimpleBuilder_CreateFluent_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleBuilder.CreateFluent
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilder.CreateFluent
   nameWithType: SimpleBuilder.CreateFluent
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings
   name: SimpleBuilderSettings
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html
   commentId: T:Dapper.SimpleSqlBuilder.SimpleBuilderSettings
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings
   nameWithType: SimpleBuilderSettings
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure(System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})
   name: Configure(string?, string?, bool?, bool?)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_Configure_System_String_System_String_System_Nullable_System_Boolean__System_Nullable_System_Boolean__
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_Configure_System_String_System_String_System_Nullable_System_Boolean__System_Nullable_System_Boolean__
   commentId: M:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure(System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})
   name.vb: Configure(String, String, Boolean?, Boolean?)
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure(string?, string?, bool?, bool?)
@@ -1077,85 +1077,85 @@ references:
   nameWithType.vb: SimpleBuilderSettings.Configure(String, String, Boolean?, Boolean?)
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure*
   name: Configure
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_Configure_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_Configure_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure
   nameWithType: SimpleBuilderSettings.Configure
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterNameTemplate
   name: DatabaseParameterNameTemplate
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_DatabaseParameterNameTemplate
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_DatabaseParameterNameTemplate
   commentId: P:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterNameTemplate
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterNameTemplate
   nameWithType: SimpleBuilderSettings.DatabaseParameterNameTemplate
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterNameTemplate*
   name: DatabaseParameterNameTemplate
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_DatabaseParameterNameTemplate_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_DatabaseParameterNameTemplate_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterNameTemplate
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterNameTemplate
   nameWithType: SimpleBuilderSettings.DatabaseParameterNameTemplate
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterPrefix
   name: DatabaseParameterPrefix
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_DatabaseParameterPrefix
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_DatabaseParameterPrefix
   commentId: P:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterPrefix
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterPrefix
   nameWithType: SimpleBuilderSettings.DatabaseParameterPrefix
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterPrefix*
   name: DatabaseParameterPrefix
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_DatabaseParameterPrefix_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_DatabaseParameterPrefix_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterPrefix
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.DatabaseParameterPrefix
   nameWithType: SimpleBuilderSettings.DatabaseParameterPrefix
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Instance
   name: Instance
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_Instance
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_Instance
   commentId: P:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Instance
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Instance
   nameWithType: SimpleBuilderSettings.Instance
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Instance*
   name: Instance
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_Instance_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_Instance_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Instance
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Instance
   nameWithType: SimpleBuilderSettings.Instance
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.ReuseParameters
   name: ReuseParameters
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_ReuseParameters
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_ReuseParameters
   commentId: P:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.ReuseParameters
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.ReuseParameters
   nameWithType: SimpleBuilderSettings.ReuseParameters
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.ReuseParameters*
   name: ReuseParameters
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_ReuseParameters_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_ReuseParameters_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.ReuseParameters
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.ReuseParameters
   nameWithType: SimpleBuilderSettings.ReuseParameters
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.UseLowerCaseClauses
   name: UseLowerCaseClauses
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_UseLowerCaseClauses
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_UseLowerCaseClauses
   commentId: P:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.UseLowerCaseClauses
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.UseLowerCaseClauses
   nameWithType: SimpleBuilderSettings.UseLowerCaseClauses
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.UseLowerCaseClauses*
   name: UseLowerCaseClauses
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_UseLowerCaseClauses_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_UseLowerCaseClauses_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.UseLowerCaseClauses
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.UseLowerCaseClauses
   nameWithType: SimpleBuilderSettings.UseLowerCaseClauses
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo
   name: SimpleParameterInfo
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html
   commentId: T:Dapper.SimpleSqlBuilder.SimpleParameterInfo
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo
   nameWithType: SimpleParameterInfo
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.#ctor(System.Object,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
   name: SimpleParameterInfo(object?, DbType?, int?, byte?, byte?)
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo__ctor_System_Object_System_Nullable_System_Data_DbType__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo__ctor_System_Object_System_Nullable_System_Data_DbType__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__
   commentId: M:Dapper.SimpleSqlBuilder.SimpleParameterInfo.#ctor(System.Object,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
   name.vb: New(Object, DbType?, Integer?, Byte?, Byte?)
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.SimpleParameterInfo(object?, System.Data.DbType?, int?, byte?, byte?)
@@ -1164,7 +1164,7 @@ references:
   nameWithType.vb: SimpleParameterInfo.New(Object, DbType?, Integer?, Byte?, Byte?)
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.#ctor*
   name: SimpleParameterInfo
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo__ctor_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo__ctor_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleParameterInfo.#ctor
   isSpec: "True"
   name.vb: New
@@ -1174,65 +1174,65 @@ references:
   nameWithType.vb: SimpleParameterInfo.New
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.DbType
   name: DbType
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_DbType
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_DbType
   commentId: P:Dapper.SimpleSqlBuilder.SimpleParameterInfo.DbType
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.DbType
   nameWithType: SimpleParameterInfo.DbType
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.DbType*
   name: DbType
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_DbType_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_DbType_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleParameterInfo.DbType
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.DbType
   nameWithType: SimpleParameterInfo.DbType
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.Precision
   name: Precision
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Precision
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Precision
   commentId: P:Dapper.SimpleSqlBuilder.SimpleParameterInfo.Precision
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.Precision
   nameWithType: SimpleParameterInfo.Precision
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.Precision*
   name: Precision
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Precision_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Precision_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleParameterInfo.Precision
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.Precision
   nameWithType: SimpleParameterInfo.Precision
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.Scale
   name: Scale
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Scale
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Scale
   commentId: P:Dapper.SimpleSqlBuilder.SimpleParameterInfo.Scale
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.Scale
   nameWithType: SimpleParameterInfo.Scale
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.Scale*
   name: Scale
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Scale_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Scale_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleParameterInfo.Scale
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.Scale
   nameWithType: SimpleParameterInfo.Scale
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.Size
   name: Size
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Size
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Size
   commentId: P:Dapper.SimpleSqlBuilder.SimpleParameterInfo.Size
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.Size
   nameWithType: SimpleParameterInfo.Size
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.Size*
   name: Size
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Size_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Size_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleParameterInfo.Size
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.Size
   nameWithType: SimpleParameterInfo.Size
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.Value
   name: Value
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Value
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Value
   commentId: P:Dapper.SimpleSqlBuilder.SimpleParameterInfo.Value
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.Value
   nameWithType: SimpleParameterInfo.Value
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleParameterInfo.Value*
   name: Value
-  href: http://localhost:8080/api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Value_
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo_Value_
   commentId: Overload:Dapper.SimpleSqlBuilder.SimpleParameterInfo.Value
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.Value

@@ -57,7 +57,7 @@ public class WhereWithFilterInterpolatedStringHandlerTests
         fluentBuilderMock.As<IFluentBuilderFormatter>();
 
         // Act
-        var sut = new WhereWithFilterInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
+        _ = new WhereWithFilterInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
 
         // Assert
         isHandlerEnabled.Should().BeFalse();

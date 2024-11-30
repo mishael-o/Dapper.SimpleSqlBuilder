@@ -17,7 +17,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     private DbConnection dbConnection = null!;
 
-#if NET461
+#if NET462
     private Checkpoint respawner = null!;
 #else
     private Respawner respawner = null!;
@@ -56,7 +56,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     public async Task ResetDatabaseAsync()
     {
-#if NET461
+#if NET462
         await respawner.Reset(dbConnection);
 #else
         await respawner.ResetAsync(dbConnection);
@@ -71,7 +71,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
             .WithPassword(dbPassword)
             .WithPortBinding(Port)
             .WithName("postgresql")
-            .WithImage("postgres:16")
+            .WithImage("postgres:17")
             .Build();
     }
 
@@ -130,7 +130,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     private Task InitialiseRespawnerAsync()
     {
-#if NET461
+#if NET462
         respawner = new Checkpoint
         {
             SchemasToInclude = ["public"],

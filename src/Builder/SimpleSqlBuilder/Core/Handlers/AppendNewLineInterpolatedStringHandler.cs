@@ -26,8 +26,8 @@ public ref struct AppendNewLineInterpolatedStringHandler
     /// Initializes a new instance of the <see cref="AppendNewLineInterpolatedStringHandler"/> struct.
     /// </summary>
     /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
-    /// <param name="condition">The value to determine whether the handler should be enabled or disabled.</param>
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
+    /// <param name="condition">The value to determine whether the handler should be enabled or disabled.</param>
     /// <param name="builder">The builder associated with the handler.</param>
     /// <param name="isHandlerEnabled">The value that indicates whether the handler is enabled or disabled.</param>
     /// <exception cref="ArgumentException">Thrown when <paramref name="builder"/> is <see langword="null"/> or doesn't implement <see cref="IBuilderFormatter"/>.</exception>
@@ -59,7 +59,7 @@ public ref struct AppendNewLineInterpolatedStringHandler
     /// <typeparam name="T">The type of the value.</typeparam>
     /// <param name="value">The value to append.</param>
     public void AppendFormatted<T>(T value)
-        => AppendFormatted(value, null);
+        => formatter?.AppendFormatted(value);
 
     /// <summary>
     /// Appends a value to the builder.

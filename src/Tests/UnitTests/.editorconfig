@@ -11,3 +11,7 @@ dotnet_diagnostic.CA1305.severity = silent
 
 # CA1062: Validate arguments of public methods
 dotnet_diagnostic.CA1062.severity = silent
+
+# IDE0005: Using directive is unnecessary
+# This is to suppress GenerateDocumentationFile warning
+dotnet_diagnostic.IDE0005.severity = suggestion

@@ -17,9 +17,7 @@ public class SimpleSqlBuilderBenchmark
 
     [GlobalSetup]
     public void GlobalSetUp()
-    {
-        product = new Fixture().Create<Product>();
-    }
+        => product = new Fixture().Create<Product>();
 
     [Benchmark(Description = "SqlBuilder (Dapper)", Baseline = true)]
     [BenchmarkCategory("Simple query")]
