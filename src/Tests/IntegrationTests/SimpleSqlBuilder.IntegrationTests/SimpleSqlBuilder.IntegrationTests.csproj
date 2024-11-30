@@ -1,17 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net461;net6.0;net8.0</TargetFrameworks>
+        <TargetFrameworks>net462;net8.0;net9.0</TargetFrameworks>
         <RootNamespace>Dapper.SimpleSqlBuilder.IntegrationTests</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder.IntegrationTests</AssemblyName>
+        <!--
+            Disable running TFM tests in parallel
+            https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-test#description;
+            https://github.com/dotnet/sdk/issues/39470
+        -->
+        <TestTfmsInParallel>false</TestTfmsInParallel>
     </PropertyGroup>
     
     <ItemGroup>
         <PackageReference Include="MySqlConnector" />
-        <PackageReference Include="Microsoft.Data.SqlClient" Condition="'$(TargetFramework)' != 'net461'" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Condition="'$(TargetFramework)' != 'net462'" />
         <PackageReference Include="Npgsql" />
         <PackageReference Include="Respawn" />
-        <PackageReference Include="System.Data.SqlClient" Condition="'$(TargetFramework)' == 'net461'"/>
+        <PackageReference Include="System.Data.SqlClient" Condition="'$(TargetFramework)' == 'net462'" />
         <PackageReference Include="TestContainers.MsSql" />
         <PackageReference Include="TestContainers.MySql" />
         <PackageReference Include="TestContainers.PostgreSql" />

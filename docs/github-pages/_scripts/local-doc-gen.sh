@@ -14,9 +14,6 @@ if ! [[ $port =~ ^[0-9]+$ ]] ; then
    exit 1
 fi
 
-readonly base_url="http://localhost:$port"
-echo "Base URL: $base_url"
-
 # Remove Existing Documentation
 if [ -d "_site" ]; then
   rm -r _site
@@ -27,7 +24,7 @@ if [ -d "api-docs" ]; then
 fi
 
 # Generate Xrefmap
-$script_dir/generate-xrefmap.sh $base_url
+$script_dir/generate-xrefmap.sh
 
 # Generate Metadata
 $script_dir/generate-metadata.sh

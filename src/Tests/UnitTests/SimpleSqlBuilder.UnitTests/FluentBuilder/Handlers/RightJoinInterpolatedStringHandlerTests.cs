@@ -57,7 +57,7 @@ public class RightJoinInterpolatedStringHandlerTests
         fluentBuilderMock.As<IFluentBuilderFormatter>();
 
         // Act
-        var sut = new RightJoinInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
+        _ = new RightJoinInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
 
         // Assert
         isHandlerEnabled.Should().BeFalse();

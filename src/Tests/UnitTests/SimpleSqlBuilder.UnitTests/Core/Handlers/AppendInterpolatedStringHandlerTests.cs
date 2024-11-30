@@ -54,7 +54,7 @@ public class AppendInterpolatedStringHandlerTests
         builderMock.As<IBuilderFormatter>();
 
         // Act
-        var sut = new AppendInterpolatedStringHandler(0, 0, condition, builderMock.Object, out var isHandlerEnabled);
+        _ = new AppendInterpolatedStringHandler(0, 0, condition, builderMock.Object, out var isHandlerEnabled);
 
         // Assert
         isHandlerEnabled.Should().BeFalse();

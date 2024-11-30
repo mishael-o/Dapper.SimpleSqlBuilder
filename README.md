@@ -26,5 +26,4 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
 
 ## Acknowledgements
 
-- Thanks to [JetBrains](https://www.jetbrains.com) for their open source development [support](https://jb.gg/OpenSourceSupport).
-- This project was inspired by these amazing libraries. [Dapper SqlBuilder](https://github.com/DapperLib/Dapper/tree/main/Dapper.SqlBuilder) and [DapperQueryBuilder](https://github.com/Drizin/DapperQueryBuilder).
+Refer to the [Acknowledgements](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/miscellaneous/acknowledgements) page for more details.

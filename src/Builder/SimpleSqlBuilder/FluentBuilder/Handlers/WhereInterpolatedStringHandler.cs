@@ -60,7 +60,7 @@ public ref struct WhereInterpolatedStringHandler
     /// <typeparam name="T">The type of the value.</typeparam>
     /// <param name="value">The value to append.</param>
     public void AppendFormatted<T>(T value)
-        => AppendFormatted(value, null);
+        => formatter?.AppendFormatted(value);
 
     /// <summary>
     /// Appends a value to the builder.

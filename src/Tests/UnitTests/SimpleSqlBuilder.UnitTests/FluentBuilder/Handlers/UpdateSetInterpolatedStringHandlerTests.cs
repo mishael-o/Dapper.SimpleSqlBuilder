@@ -57,7 +57,7 @@ public class UpdateSetInterpolatedStringHandlerTests
         fluentBuilderMock.As<IFluentBuilderFormatter>();
 
         // Act
-        var sut = new UpdateSetInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
+        _ = new UpdateSetInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
 
         // Assert
         isHandlerEnabled.Should().BeFalse();
