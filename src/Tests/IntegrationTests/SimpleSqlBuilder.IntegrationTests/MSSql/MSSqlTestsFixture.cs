@@ -1,8 +1,15 @@
 ﻿using System.Data.Common;
 using Dapper.SimpleSqlBuilder.IntegrationTests.Models;
-using Microsoft.Data.SqlClient;
 using Respawn;
 using Testcontainers.MsSql;
+
+#if NET462
+
+using System.Data.SqlClient;
+
+#else
+using Microsoft.Data.SqlClient;
+#endif
 
 namespace Dapper.SimpleSqlBuilder.IntegrationTests.MSSql;
 

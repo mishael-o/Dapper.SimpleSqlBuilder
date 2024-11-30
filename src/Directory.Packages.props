@@ -34,6 +34,7 @@
     </ItemGroup>
     <ItemGroup Label="IntegrationTestPackages">
         <PackageVersion Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+        <PackageVersion Include="System.Data.SqlClient" Version="4.9.0" />
         <PackageVersion Include="MySqlConnector" Version="2.4.0" />
         <PackageVersion Include="TestContainers.MsSql" Version="4.0.0" />
         <PackageVersion Include="TestContainers.MySql" Version="4.0.0" />
