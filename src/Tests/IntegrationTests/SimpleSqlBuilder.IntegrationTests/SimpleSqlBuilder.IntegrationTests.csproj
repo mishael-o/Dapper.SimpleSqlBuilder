@@ -4,6 +4,12 @@
         <TargetFrameworks>net462;net8.0;net9.0</TargetFrameworks>
         <RootNamespace>Dapper.SimpleSqlBuilder.IntegrationTests</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder.IntegrationTests</AssemblyName>
+        <!--
+            Disable running TFM tests in parallel
+            https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-test#description;
+            https://github.com/dotnet/sdk/issues/39470
+        -->
+        <TestTfmsInParallel>false</TestTfmsInParallel>
     </PropertyGroup>
     
     <ItemGroup>
