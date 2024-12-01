@@ -6,7 +6,7 @@
 
 ![Dapper Simple SQL Builder](https://raw.githubusercontent.com/mishael-o/Dapper.SimpleSqlBuilder/main/images/readme-icon.png)
 
-A simple SQL builder for [Dapper](https://github.com/DapperLib/Dapper), using [string interpolation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) and a fluent API to build safe, static, and dynamic SQL queries.
+A simple and [performant](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/miscellaneous/performance) SQL builder for [Dapper](https://github.com/DapperLib/Dapper), using [string interpolation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) and a fluent API to build safe, static, and dynamic SQL queries.
 
 ## Getting Started
 

@@ -23,7 +23,7 @@ The library provides two builders for building SQL queries:
 
 The library provides multiple packages to suit your needs.
 
-[Dapper.SimpleSqlBuilder](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder): A simple SQL builder for Dapper, using string interpolation and a fluent API to build safe, static, and dynamic SQL queries.
+[Dapper.SimpleSqlBuilder](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder): A simple and performant SQL builder for Dapper, using string interpolation and a fluent API to build safe, static, and dynamic SQL queries.
 
 [![Nuget](https://img.shields.io/nuget/v/Dapper.SimpleSqlBuilder?logo=nuget)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder) [![Nuget](https://img.shields.io/nuget/dt/Dapper.SimpleSqlBuilder?logo=nuget)](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder)
 
