@@ -14,7 +14,7 @@
         <PackageProjectUrl>https://mishael-o.github.io/Dapper.SimpleSqlBuilder/</PackageProjectUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>package-icon.png</PackageIcon>
-        <PackageTags>dapper;sql;sql-builder;sql-query;sql-query-builder;dapper-sql-builder;simple-sql-builder;dapper-simple-sql-builder</PackageTags>
+        <PackageTags>dapper;sql;orm;sql-builder;sql-query;sql-query-builder;dapper-sql-builder</PackageTags>
         <RepositoryUrl>https://github.com/mishael-o/Dapper.SimpleSqlBuilder</RepositoryUrl>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
