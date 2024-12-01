@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net461;netstandard2.0;net6.0;net8.0</TargetFrameworks>
-        <Description>A simple SQL builder for Dapper, using string interpolation and a fluent API to build safe, static, and dynamic SQL queries.</Description>
+        <TargetFrameworks>net462;netstandard2.0;net8.0;net9.0</TargetFrameworks>
+        <Description>A simple and performant SQL builder for Dapper, using string interpolation and a fluent API to build safe, static, and dynamic SQL queries.</Description>
         <RootNamespace>Dapper.SimpleSqlBuilder.StrongName</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder.StrongName</AssemblyName>
         <Title>Dapper SimpleSqlBuilder StrongName</Title>
@@ -11,13 +11,13 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
         <Using Remove="System.Net.Http"></Using>
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Dapper.StrongName" />
-      <PackageReference Include="Microsoft.Bcl.HashCode" Condition="'$(TargetFramework)' == 'net461' Or '$(TargetFramework)' == 'netstandard2.0'"/>
+      <PackageReference Include="Microsoft.Bcl.HashCode" Condition="'$(TargetFramework)' == 'net462' Or '$(TargetFramework)' == 'netstandard2.0'"/>
     </ItemGroup>
 
     <ItemGroup>

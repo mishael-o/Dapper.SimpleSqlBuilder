@@ -57,7 +57,7 @@ public class InnerJoinInterpolatedStringHandlerTests
         fluentBuilderMock.As<IFluentBuilderFormatter>();
 
         // Act
-        var sut = new InnerJoinInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
+        _ = new InnerJoinInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
 
         // Assert
         isHandlerEnabled.Should().BeFalse();

@@ -1,5 +1,5 @@
 ﻿#if NET6_0_OR_GREATER
-namespace Dapper.SimpleSqlBuilder.UnitTests.Handlers;
+namespace Dapper.SimpleSqlBuilder.UnitTests.Core.Handlers;
 
 public class AppendIntactInterpolatedStringHandlerTests
 {
@@ -40,7 +40,7 @@ public class AppendIntactInterpolatedStringHandlerTests
         builderMock.As<IBuilderFormatter>();
 
         // Act
-        var sut = new AppendIntactInterpolatedStringHandler(0, 0, condition, builderMock.Object, out var isHandlerEnabled);
+        _ = new AppendIntactInterpolatedStringHandler(0, 0, condition, builderMock.Object, out var isHandlerEnabled);
 
         // Assert
         isHandlerEnabled.Should().BeFalse();

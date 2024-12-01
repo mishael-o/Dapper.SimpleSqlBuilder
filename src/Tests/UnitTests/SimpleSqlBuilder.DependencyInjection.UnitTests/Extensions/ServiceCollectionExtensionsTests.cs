@@ -35,7 +35,7 @@ public class ServiceCollectionExtensionsTests
         var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
         var configuredOptions = provider.GetRequiredService<IOptionsMonitor<SimpleBuilderOptions>>();
 
-        serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
+        serviceDescriptor.ImplementationType.Should().Be<SimpleBuilderFactory>();
         serviceDescriptor.Lifetime.Should().Be(ServiceLifetime.Singleton);
         configuredOptions.CurrentValue.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
         configuredOptions.CurrentValue.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
@@ -70,7 +70,7 @@ public class ServiceCollectionExtensionsTests
         var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
         var configuredOptions = provider.GetRequiredService<IOptionsMonitor<SimpleBuilderOptions>>();
 
-        serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
+        serviceDescriptor.ImplementationType.Should().Be<SimpleBuilderFactory>();
         serviceDescriptor.Lifetime.Should().Be(serviceLifetime);
         configuredOptions.CurrentValue.DatabaseParameterNameTemplate.Should().Be(option.parameterNameTemplate);
         configuredOptions.CurrentValue.DatabaseParameterPrefix.Should().Be(option.parameterPrefix);
@@ -131,7 +131,7 @@ public class ServiceCollectionExtensionsTests
         var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
         var configuredOptions = provider.GetRequiredService<IOptionsMonitor<SimpleBuilderOptions>>();
 
-        serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
+        serviceDescriptor.ImplementationType.Should().Be<SimpleBuilderFactory>();
         serviceDescriptor.Lifetime.Should().Be(serviceLifetime);
         configuredOptions.CurrentValue.DatabaseParameterNameTemplate.Should().Be(option.DatabaseParameterNameTemplate);
         configuredOptions.CurrentValue.DatabaseParameterPrefix.Should().Be(option.DatabaseParameterPrefix);
@@ -183,7 +183,7 @@ public class ServiceCollectionExtensionsTests
         var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
         var configuredOptions = provider.GetRequiredService<IOptionsMonitor<SimpleBuilderOptions>>();
 
-        serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
+        serviceDescriptor.ImplementationType.Should().Be<SimpleBuilderFactory>();
         serviceDescriptor.Lifetime.Should().Be(ServiceLifetime.Singleton);
         configuredOptions.CurrentValue.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
         configuredOptions.CurrentValue.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
@@ -219,7 +219,7 @@ public class ServiceCollectionExtensionsTests
         var serviceDescriptor = sut.First(x => x.ServiceType == typeof(ISimpleBuilder));
         var configuredOptions = provider.GetRequiredService<IOptionsMonitor<SimpleBuilderOptions>>();
 
-        serviceDescriptor.ImplementationType.Should().Be(typeof(SimpleBuilderFactory));
+        serviceDescriptor.ImplementationType.Should().Be<SimpleBuilderFactory>();
         serviceDescriptor.Lifetime.Should().Be(serviceLifetime);
         configuredOptions.CurrentValue.DatabaseParameterNameTemplate.Should().Be(option.parameterNameTemplate);
         configuredOptions.CurrentValue.DatabaseParameterPrefix.Should().Be(option.parameterPrefix);

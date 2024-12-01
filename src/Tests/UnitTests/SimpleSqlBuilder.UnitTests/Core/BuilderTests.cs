@@ -274,14 +274,14 @@ public class BuilderTests
     public void AddDynamicParameter_AddsDynamicParameters_ReturnsVoid(string param1Name, int param1Value, string param2Name, string param2Value)
     {
         // Arrange
-        var dynamicParamters = new DynamicParameters();
-        dynamicParamters.Add(param1Name, param1Value);
-        dynamicParamters.Add(param2Name, param2Value);
+        var dynamicParameters = new DynamicParameters();
+        dynamicParameters.Add(param1Name, param1Value);
+        dynamicParameters.Add(param2Name, param2Value);
 
         var sut = SimpleBuilder.Create();
 
         // Act
-        var result = sut.AddDynamicParameters(dynamicParamters);
+        var result = sut.AddDynamicParameters(dynamicParameters);
 
         // Assert
         result.Should().Be(sut);
@@ -306,7 +306,7 @@ public class BuilderTests
     }
 
     [Fact]
-    public void AddOpertator_BuilderIsNull_ThrowsArgumentNullException()
+    public void AddOperator_BuilderIsNull_ThrowsArgumentNullException()
     {
         // Arrange
         Builder sut = null!;
@@ -383,11 +383,11 @@ public class BuilderTests
 
     internal static class BuilderTestsData
     {
-        public static IEnumerable<object[]> AppendNewLineWithConditionData
-            => new List<object[]>
+        public static TheoryData<bool, string> AppendNewLineWithConditionData
+            => new()
             {
-                new object[] { false, string.Empty },
-                new object[] { true, Environment.NewLine + "WHERE ID = @p0" }
+                { false, string.Empty },
+                { true, Environment.NewLine + "WHERE ID = @p0" }
             };
     }
 }

@@ -69,3 +69,7 @@ var users = connection.Query<User>(fluentBuilder.Sql, fluentBuilder.Parameters);
 ```
 
 ---
+
+## Next Steps
+
+- [Performance](../miscellaneous/performance.md)

@@ -50,8 +50,8 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
+            9.x
             8.x
-            6.x
       - name: Restore dependencies
         run: dotnet restore
       - name: Build solution
@@ -132,7 +132,7 @@ jobs:
       run:
         working-directory: docs/github-pages
     env:
-      docfx_version: 2.76.0
+      docfx_version: 2.78.2
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
@@ -158,21 +158,17 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.x
+          dotnet-version: 9.x
       - name: Install DocFx
         run: dotnet tool update -g docfx --version ${{ env.docfx_version }}
-      - name: Generate XrefMap
+      - name: Generate Xrefmap
         run: _scripts/generate-xrefmap.sh
       - name: Set Google Analytics Id
         run: jq --arg gaId "${{ vars.GA_TAG_ID }}" '.build.globalMetadata._googleAnalyticsTagId = $gaId' docfx.json > temp.json && mv temp.json docfx.json
-      - name: DocFx Metadata
-        run: docfx metadata docfx.json
-      - name: Remove Extension Methods
-        run: _scripts/remove-extn-method.sh
+      - name: Generate Metadata
+        run: _scripts/generate-metadata.sh
       - name: DocFx Build
         run: docfx build docfx.json
-      - name: Fix Xref Links
-        run: _scripts/fix-xref-links.sh
       - name: Upload Doc Artifacts
         uses: actions/upload-pages-artifact@v3
         with:

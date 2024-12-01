@@ -1,6 +1,6 @@
 # Quick Start
 
-A simple SQL builder for [Dapper](https://github.com/DapperLib/Dapper), using [string interpolation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) and a fluent API to build safe, static, and dynamic SQL queries.
+A simple and [performant](docs/miscellaneous/performance.md) SQL builder for [Dapper](https://github.com/DapperLib/Dapper), using [string interpolation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) and a fluent API to build safe, static, and dynamic SQL queries.
 
 ## Installation
 
@@ -93,3 +93,7 @@ See the [Builder Settings](docs/configuration/builder-settings.md) section to le
 ## Next Steps
 
 - [Introduction](docs/introduction.md)
+- [Builder](docs/builders/builder.md)
+- [Fluent Builder](docs/builders/fluent-builder/fluent-builder.md)
+- [Performance](docs/miscellaneous/performance.md)
+- [Release Notes](docs/miscellaneous/release-notes.md)

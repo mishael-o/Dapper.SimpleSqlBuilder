@@ -17,9 +17,7 @@ public class SimpleSqlBuilderBenchmark
 
     [GlobalSetup]
     public void GlobalSetUp()
-    {
-        product = new Fixture().Create<Product>();
-    }
+        => product = new Fixture().Create<Product>();
 
     [Benchmark(Description = "SqlBuilder (Dapper)", Baseline = true)]
     [BenchmarkCategory("Simple query")]
@@ -48,8 +46,8 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Simple query")]
     public string SimpleSqlBuilder()
     {
-        var builder = SimpleBuilder.Create()
-            .AppendIntact($"""
+        var builder = SimpleBuilder.Create(
+            $"""
                SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
                FROM Product x
                WHERE Id = {product.Id}
@@ -153,8 +151,8 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Large query")]
     public string SimpleSqlBuilderLarge()
     {
-        var builder = SimpleBuilder.Create()
-            .AppendIntact($"""
+        var builder = SimpleBuilder.Create(
+            $"""
                SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
                FROM Product x
                WHERE 1 = 1

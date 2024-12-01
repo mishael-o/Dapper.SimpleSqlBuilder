@@ -30,6 +30,16 @@ public static class SimpleBuilder
             formattable);
     }
 
+#if NET6_0_OR_GREATER
+    /// <summary>
+    /// A static method to create a builder instance.
+    /// </summary>
+    /// <param name="handler">The <see cref="BuilderInterpolatedStringHandler"/> to use for creating the builder.</param>
+    /// <returns>A new instance of <see cref="Builder"/>.</returns>
+    public static Builder Create(ref BuilderInterpolatedStringHandler handler)
+        => handler.GetBuilder();
+#endif
+
     /// <summary>
     /// A static method to create a fluent builder instance.
     /// </summary>

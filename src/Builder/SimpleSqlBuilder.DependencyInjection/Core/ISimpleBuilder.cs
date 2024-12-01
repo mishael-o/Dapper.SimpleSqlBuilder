@@ -16,6 +16,15 @@ public interface ISimpleBuilder
     /// <returns>A new instance of <see cref="Builder"/>.</returns>
     Builder Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null);
 
+#if NET6_0_OR_GREATER
+    /// <summary>
+    /// A method to create a builder instance.
+    /// </summary>
+    /// <param name="handler">The <see cref="BuilderFactoryInterpolatedStringHandler"/> to use for creating the builder.</param>
+    /// <returns>A new instance of <see cref="Builder"/>.</returns>
+    Builder Create([System.Runtime.CompilerServices.InterpolatedStringHandlerArgument("")] ref BuilderFactoryInterpolatedStringHandler handler);
+#endif
+
     /// <summary>
     /// A method to create a fluent builder instance.
     /// </summary>

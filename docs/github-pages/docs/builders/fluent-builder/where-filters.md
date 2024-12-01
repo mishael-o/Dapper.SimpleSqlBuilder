@@ -4,9 +4,9 @@ The [fluent builder](fluent-builder.md) supports complex filters, allowing the a
 
 ## WhereFilter
 
-The [`WhereFilter`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_WhereFilter_Dapper_SimpleSqlBuilder_FluentBuilder_WhereFilterInterpolatedStringHandler__) method adds a `WHERE` filter statement enclosed in parentheses to the query. Subsequent `WhereFilter` method calls add an `AND` filter statement to the query.
+The [`WhereFilter`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.WhereFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereFilterInterpolatedStringHandler@)) method adds a `WHERE` filter statement enclosed in parentheses to the query. Subsequent `WhereFilter` method calls add an `AND` filter statement to the query.
 
-The `WhereFilter` method can be combined with the [`WithFilter`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_Dapper_SimpleSqlBuilder_FluentBuilder_WhereWithFilterInterpolatedStringHandler__) and [`WithOrFilter`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithOrFilter_Dapper_SimpleSqlBuilder_FluentBuilder_WhereWithOrFilterInterpolatedStringHandler__) methods to add `AND` and `OR` filters respectively within the filter statement.
+The `WhereFilter` method can be combined with the [`WithFilter`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler@)) and [`WithOrFilter`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithOrFilterInterpolatedStringHandler@)) methods to add `AND` and `OR` filters respectively within the filter statement.
 
 ```csharp
 int minAge = 20;
@@ -53,9 +53,9 @@ WHERE (Age >= @p0 AND Age < @p1) AND (Role = @p2 OR Role = @p3 OR Role IS NULL)
 
 ## OrWhereFilter
 
-The [`OrWhereFilter`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereBuilder_OrWhereFilter_Dapper_SimpleSqlBuilder_FluentBuilder_WhereOrFilterInterpolatedStringHandler__) method adds an `OR` filter statement enclosed in parentheses to the query.
+The [`OrWhereFilter`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereBuilder.OrWhereFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereOrFilterInterpolatedStringHandler@)) method adds an `OR` filter statement enclosed in parentheses to the query.
 
-The `OrWhereFilter` method can be combined with the [`WithFilter`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithFilter_Dapper_SimpleSqlBuilder_FluentBuilder_WhereWithFilterInterpolatedStringHandler__) and [`WithOrFilter`](../../../api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.yml#Dapper_SimpleSqlBuilder_FluentBuilder_IWhereFilterBuilder_WithOrFilter_Dapper_SimpleSqlBuilder_FluentBuilder_WhereWithOrFilterInterpolatedStringHandler__) methods to add `AND` and `OR` filters respectively within the filter statement.
+The `OrWhereFilter` method can be combined with the [`WithFilter`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler@)) and [`WithOrFilter`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.IWhereFilterBuilder.WithOrFilter(Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithOrFilterInterpolatedStringHandler@)) methods to add `AND` and `OR` filters respectively within the filter statement.
 
 ```csharp
 int userTypeId = 4;

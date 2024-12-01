@@ -10,6 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.FluentBuilder.ISelectBuilderEntry")]
 [assembly: SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.FluentBuilder.IUpdateBuilder")]
 [assembly: SuppressMessage("Design", "CA1040:Avoid empty interfaces", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.FluentBuilder.IFluentBuilder")]
+[assembly: SuppressMessage("Style", "IDE0130:Namespace does not match folder structure", Justification = "A flattened namespace is used for all types for improved DX for consumers.", Scope = "namespaceanddescendants", Target = "~N:Dapper.SimpleSqlBuilder")]
 #if NET6_0_OR_GREATER
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.AppendInterpolatedStringHandler")]
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.AppendIntactInterpolatedStringHandler")]
@@ -35,4 +36,5 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.FluentBuilder.WhereOrFilterInterpolatedStringHandler")]
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithFilterInterpolatedStringHandler")]
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.FluentBuilder.WhereWithOrFilterInterpolatedStringHandler")]
+[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Reviewed", Scope = "type", Target = "~T:Dapper.SimpleSqlBuilder.BuilderInterpolatedStringHandler")]
 #endif

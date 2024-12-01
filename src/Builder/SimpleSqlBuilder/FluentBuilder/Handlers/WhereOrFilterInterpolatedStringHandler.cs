@@ -8,7 +8,7 @@ namespace Dapper.SimpleSqlBuilder.FluentBuilder;
 [InterpolatedStringHandler]
 public ref struct WhereOrFilterInterpolatedStringHandler
 {
-    private readonly IFluentBuilderFormatter formatter;
+    private readonly IFluentBuilderFormatter? formatter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WhereOrFilterInterpolatedStringHandler"/> struct.
@@ -29,7 +29,7 @@ public ref struct WhereOrFilterInterpolatedStringHandler
     /// </summary>
     /// <param name="value">The string to append.</param>
     public void AppendLiteral(string value)
-        => formatter.AppendLiteral(value);
+        => formatter?.AppendLiteral(value);
 
     /// <summary>
     /// Appends a value to the builder.
@@ -37,7 +37,7 @@ public ref struct WhereOrFilterInterpolatedStringHandler
     /// <typeparam name="T">The type of the value.</typeparam>
     /// <param name="value">The value to append.</param>
     public void AppendFormatted<T>(T value)
-        => AppendFormatted(value, null);
+        => formatter?.AppendFormatted(value);
 
     /// <summary>
     /// Appends a value to the builder.
@@ -46,10 +46,10 @@ public ref struct WhereOrFilterInterpolatedStringHandler
     /// <param name="value">The value to append.</param>
     /// <param name="format">The format string for the value.</param>
     public void AppendFormatted<T>(T value, string? format)
-        => formatter.AppendFormatted(value, format);
+        => formatter?.AppendFormatted(value, format);
 
     internal void Close()
-        => formatter.EndClauseAction();
+        => formatter?.EndClauseAction();
 }
 
 #endif

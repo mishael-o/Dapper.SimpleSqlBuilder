@@ -14,3 +14,7 @@ dotnet_diagnostic.CA1001.severity = silent
 
 # CA1308: Normalize strings to uppercase
 dotnet_diagnostic.CA1308.severity = silent
+
+# IDE0005: Using directive is unnecessary
+# This is to suppress GenerateDocumentationFile warning
+dotnet_diagnostic.IDE0005.severity = suggestion
