@@ -103,27 +103,29 @@ public class DeleteBuilderTests
 
     [Theory]
     [AutoData]
-    public void DeleteFrom_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void DeleteFrom_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type, int[] ages)
     {
         // Arrange
         var expectedSql = $"DELETE FROM Table{Environment.NewLine}" +
-            "WHERE (Age < 100 OR Age = @p0 OR Age IN (1, 2, 3)) AND Type LIKE '%Type' AND (Age > 10 AND Type = @p1) OR Id NOT IN (1, 2, 3)";
+            "WHERE (Age < 100 OR Age = @p0 OR Age IN @pc1_) AND Type LIKE '%Type' AND (Age > 10 AND Type = @p2) OR Id NOT IN @pc3_";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
             .DeleteFrom($"Table")
             .Where(false, $"Id = {id}")
             .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(false, $"Age > {age}")
-            .OrWhereFilter().WithFilter(true, $"Age < 100").WithOrFilter($"Age = {age}").WithOrFilter($"Age IN (1, 2, 3)")
+            .OrWhereFilter().WithFilter(true, $"Age < 100").WithOrFilter($"Age = {age}").WithOrFilter($"Age IN {ages}")
             .Where($"Type LIKE '%Type'")
             .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(true, $"Age > 10").WithFilter($"Type = {type}")
-            .OrWhere(true, $"Id NOT IN (1, 2, 3)");
+            .OrWhere(true, $"Id NOT IN {ages}");
 
         // Assert
         sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
+        sut.ParameterNames.Should().HaveCount(4);
         sut.GetValue<int>("p0").Should().Be(age);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.GetValue<int[]>("pc1_").Should().BeEquivalentTo(ages);
+        sut.GetValue<string>("p2").Should().Be(type);
+        sut.GetValue<int[]>("pc3_").Should().BeEquivalentTo(ages);
     }
 
     [Theory]

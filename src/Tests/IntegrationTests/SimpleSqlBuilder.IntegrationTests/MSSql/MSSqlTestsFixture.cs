@@ -15,9 +15,6 @@ namespace Dapper.SimpleSqlBuilder.IntegrationTests.MSSql;
 
 public class MSSqlTestsFixture : IAsyncLifetime
 {
-    private const int Port = 1433;
-
-    private readonly string connectionString;
     private readonly MsSqlContainer container;
 
     private DbConnection dbConnection = null!;
@@ -31,7 +28,6 @@ public class MSSqlTestsFixture : IAsyncLifetime
     public MSSqlTestsFixture()
     {
         SeedProductTypes = new Fixture().CreateMany<ProductType>(2).ToArray();
-        connectionString = $"Data Source=localhost,{Port};Initial Catalog={MsSqlBuilder.DefaultDatabase};User ID={MsSqlBuilder.DefaultUsername};Password={MsSqlBuilder.DefaultPassword};TrustServerCertificate=True";
         container = CreateSqlServerContainer();
     }
 
@@ -54,7 +50,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
     }
 
     public DbConnection CreateDbConnection()
-        => new SqlConnection(connectionString);
+        => new SqlConnection(container.GetConnectionString());
 
     public async Task ResetDatabaseAsync()
     {
@@ -68,7 +64,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
     private static MsSqlContainer CreateSqlServerContainer()
     {
         return new MsSqlBuilder()
-            .WithPortBinding(Port)
+            .WithPortBinding(MsSqlBuilder.MsSqlPort, true)
             .WithName("mssql")
             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
             .Build();

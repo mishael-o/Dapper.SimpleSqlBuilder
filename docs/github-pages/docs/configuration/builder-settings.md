@@ -12,6 +12,7 @@ SimpleBuilderSettings.Configure
 (
     parameterNameTemplate: "param", // Optional. The default is "p"
     parameterPrefix: ":", // Optional. The default is "@"
+    collectionParameterTemplateFormat: "col{0}_", // Optional. The default is "c{0}_"
     reuseParameters: true, // Optional. The default is false
     useLowerCaseClauses: true // Optional. The default is false. This is only applicable to the fluent builder.
 );
@@ -43,7 +44,19 @@ var builder = SimpleBuilder.Create(parameterPrefix: ":");
 var fluentBuilder = SimpleBuilder.CreateFluent(parameterPrefix: ":");
 ```
 
-### Configuring Parameter Reuse
+## Configure Collection Parameter Template
+
+When working with collections, the builder generates unique parameter names using a template format. By default, the format is `c{0}_`, where `{0}` is replaced with an index.
+
+For example, if the `parameterNameTemplate` is configured as `p`, the generated collection parameters will be named `pc0_`, `pc1_`, `pc2_`, etc. When expanded into multiple parameters by Dapper, `pc0_` will be expanded to `pc0_1`, `pc0_2`, etc.
+
+You can customize this format by passing your desired value to the `collectionParameterTemplateFormat` parameter:
+
+```csharp
+SimpleBuilderSettings.Configure(collectionParameterTemplateFormat: "col{0}_");
+```
+
+## Configuring Parameter Reuse
 
 The library supports parameter reuse, and the default is `false`. Go to the [Reusing Parameters](../advanced-features/reusing-parameters.md) section to learn more. You can configure this by passing your desired argument to the `reuseParameters` parameter.
 
@@ -61,7 +74,7 @@ var builder = SimpleBuilder.Create(reuseParameters: true);
 var fluentBuilder = SimpleBuilder.CreateFluent(reuseParameters: true);
 ```
 
-### Configuring Fluent builder to use Lower Case Clauses
+## Configuring Fluent builder to use Lower Case Clauses
 
 The library supports using lower case clauses for the [fluent builder](../builders/fluent-builder/fluent-builder.md), and the default is `false`. You can configure this by passing your desired argument to the `useLowerCaseClauses` parameter.
 

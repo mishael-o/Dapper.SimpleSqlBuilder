@@ -8,11 +8,6 @@ namespace Dapper.SimpleSqlBuilder.IntegrationTests.MySql;
 
 public class MySqlTestsFixture : IAsyncLifetime
 {
-    private const string DbUser = "dbUser";
-    private const string DbName = "test-db";
-    private const int Port = 3306;
-
-    private readonly string connectionString;
     private readonly MySqlContainer container;
 
     private DbConnection dbConnection = null!;
@@ -26,11 +21,8 @@ public class MySqlTestsFixture : IAsyncLifetime
     public MySqlTestsFixture()
     {
         var fixture = new Fixture();
-        var dbPassword = fixture.Create<string>();
         SeedProductTypes = fixture.CreateMany<ProductType>(2).ToArray();
-
-        connectionString = $"Server=localhost;Port={Port};Uid={DbUser};Pwd={dbPassword};Database={DbName}";
-        container = CreateMySqlContainer(dbPassword);
+        container = CreateMySqlContainer();
     }
 
     public string StoredProcName { get; } = "CreateProduct";
@@ -52,7 +44,7 @@ public class MySqlTestsFixture : IAsyncLifetime
     }
 
     public DbConnection CreateDbConnection()
-        => new MySqlConnection(connectionString);
+        => new MySqlConnection(container.GetConnectionString());
 
     public async Task ResetDatabaseAsync()
     {
@@ -63,13 +55,10 @@ public class MySqlTestsFixture : IAsyncLifetime
 #endif
     }
 
-    private static MySqlContainer CreateMySqlContainer(string dbPassword)
+    private static MySqlContainer CreateMySqlContainer()
     {
         return new MySqlBuilder()
-            .WithDatabase(DbName)
-            .WithUsername(DbUser)
-            .WithPassword(dbPassword)
-            .WithPortBinding(Port)
+            .WithPortBinding(MySqlBuilder.MySqlPort, true)
             .WithName("mysql")
             .WithImage("mysql:9")
             .Build();

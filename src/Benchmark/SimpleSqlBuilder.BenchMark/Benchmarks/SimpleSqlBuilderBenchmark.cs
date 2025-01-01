@@ -12,6 +12,7 @@ namespace SimpleSqlBuilder.BenchMark.Benchmarks;
 public class SimpleSqlBuilderBenchmark
 {
     private const int WhereOperationCount = 20;
+    private static readonly int[] TypeIds = [1, 2, 3, 4, 5];
 
     private Product product = default!;
 
@@ -31,7 +32,7 @@ public class SimpleSqlBuilderBenchmark
 
         var sqlBuilder = new SqlBuilder()
             .Where($"Id = @{nameof(Product.Id)}", new { product.Id })
-            .Where($"TypeId = @{nameof(Product.TypeId)}", new { product.TypeId })
+            .Where($"TypeId IN @{nameof(TypeIds)}", TypeIds)
             .Where($"RecommendedPrice = @{nameof(Product.RecommendedPrice)}", new { product.RecommendedPrice })
             .Where($"Description = @{nameof(Product.Description)}", new { product.Description })
             .Where($"SellingPrice = @{nameof(Product.SellingPrice)}", new { product.SellingPrice })
@@ -51,7 +52,7 @@ public class SimpleSqlBuilderBenchmark
                SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
                FROM Product x
                WHERE Id = {product.Id}
-               AND TypeId = {product.TypeId}
+               AND TypeId IN {TypeIds}
                AND Description = {product.Description}
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
@@ -70,7 +71,7 @@ public class SimpleSqlBuilderBenchmark
             .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})")
             .From($"Product x")
             .Where($"Id = {product.Id}")
-            .Where($"TypeId = {product.TypeId}")
+            .Where($"TypeId IN {TypeIds}")
             .Where($"Description = {product.Description}")
             .Where($"RecommendedPrice = {product.RecommendedPrice}")
             .Where($"SellingPrice = {product.SellingPrice}")
@@ -89,7 +90,7 @@ public class SimpleSqlBuilderBenchmark
                SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
                FROM Product x
                WHERE Id = {product.Id}
-               AND TypeId = {product.TypeId}
+               AND TypeId IN {TypeIds}
                AND Description = {product.Description}
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
@@ -108,7 +109,7 @@ public class SimpleSqlBuilderBenchmark
             .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})")
             .From($"Product x")
             .Where($"Id = {product.Id}")
-            .Where($"TypeId = {product.TypeId}")
+            .Where($"TypeId IN {TypeIds}")
             .Where($"Description = {product.Description}")
             .Where($"RecommendedPrice = {product.RecommendedPrice}")
             .Where($"SellingPrice = {product.SellingPrice}")
@@ -135,7 +136,7 @@ public class SimpleSqlBuilderBenchmark
         {
             sqlBuilder
                 .Where($"Id = @{nameof(Product.Id)}", new { product.Id })
-                .Where($"TypeId = @{nameof(Product.TypeId)}", new { product.TypeId })
+                .Where($"TypeId IN @{nameof(TypeIds)}", TypeIds)
                 .Where($"Description = @{nameof(Product.Description)}", new { product.Description })
                 .Where($"RecommendedPrice = @{nameof(Product.RecommendedPrice)}", new { product.RecommendedPrice })
                 .Where($"SellingPrice = @{nameof(Product.SellingPrice)}", new { product.SellingPrice })
@@ -163,7 +164,7 @@ public class SimpleSqlBuilderBenchmark
         {
             builder.Append($"""
                AND Id = {product.Id}
-               AND TypeId = {product.TypeId}
+               AND TypeId IN {TypeIds}
                AND Description = {product.Description}
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
@@ -188,7 +189,7 @@ public class SimpleSqlBuilderBenchmark
         {
             builder
                 .Where($"Id = {product.Id}")
-                .Where($"TypeId = {product.TypeId}")
+                .Where($"TypeId IN {TypeIds}")
                 .Where($"Description = {product.Description}")
                 .Where($"RecommendedPrice = {product.RecommendedPrice}")
                 .Where($"SellingPrice = {product.SellingPrice}")
@@ -215,7 +216,7 @@ public class SimpleSqlBuilderBenchmark
         {
             builder.Append($"""
                AND Id = {product.Id}
-               AND TypeId = {product.TypeId}
+               AND TypeId IN {TypeIds}
                AND Description = {product.Description}
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
@@ -240,7 +241,7 @@ public class SimpleSqlBuilderBenchmark
         {
             builder
                 .Where($"Id = {product.Id}")
-                .Where($"TypeId = {product.TypeId}")
+                .Where($"TypeId IN {TypeIds}")
                 .Where($"Description = {product.Description}")
                 .Where($"RecommendedPrice = {product.RecommendedPrice}")
                 .Where($"SellingPrice = {product.SellingPrice}")

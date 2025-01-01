@@ -37,21 +37,21 @@ public class SqlFormatterTests
     public void Format_FormatsFormattableString_ReturnsString()
     {
         // Arrange
-        var model = new { Id = 10, TypeId = 20 };
+        var model = new { Id = 10, TypeIds = new int[] { 1, 2, 3, 4 } };
 
-        FormattableString innerFormattableString1 = $"SELECT Description FROM TYPE_TABLE WHERE Id = {model.TypeId}";
+        FormattableString innerFormattableString1 = $"SELECT Description FROM TYPE_TABLE WHERE Id IN {model.TypeIds}";
         FormattableString innerFormattableString2 = $"SELECT Id FROM TYPE_TABLE WHERE EXPIRED_DATE IS NULL";
         FormattableString formattableString = $@"
             SELECT *, ({innerFormattableString1})
             FROM TABLE x WHERE Id = {model.Id}
-            AND TypeId = {model.TypeId}
-            AND TypeId NOT IN {innerFormattableString2}";
+            AND TypeId IN {model.TypeIds}
+            AND TypeId NOT IN ({innerFormattableString2})";
 
         var expectedResult = $@"
-            SELECT *, (SELECT Description FROM TYPE_TABLE WHERE Id = @p0)
+            SELECT *, (SELECT Description FROM TYPE_TABLE WHERE Id IN @pc0_)
             FROM TABLE x WHERE Id = @p1
-            AND TypeId = @p2
-            AND TypeId NOT IN {innerFormattableString2.Format}";
+            AND TypeId IN @pc2_
+            AND TypeId NOT IN ({innerFormattableString2.Format})";
 
         var sut = CreateSqlFormatter();
 
@@ -61,9 +61,9 @@ public class SqlFormatterTests
         // Assert
         result.Should().Be(expectedResult);
         sut.Parameters.ParameterNames.Should().HaveCount(3);
-        sut.Parameters.Get<int>("p0").Should().Be(model.TypeId);
+        sut.Parameters.Get<int[]>("pc0_").Should().BeEquivalentTo(model.TypeIds);
         sut.Parameters.Get<int>("p1").Should().Be(model.Id);
-        sut.Parameters.Get<int>("p2").Should().Be(model.TypeId);
+        sut.Parameters.Get<int[]>("pc2_").Should().BeEquivalentTo(model.TypeIds);
     }
 
     [Theory]
@@ -176,9 +176,12 @@ public class SqlFormatterTests
 
     private static SqlFormatter CreateSqlFormatter(bool reuseParameters = false)
     {
-        return new SqlFormatter(
+        var parameterOptions = new ParameterOptions(
             SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate,
             SimpleBuilderSettings.Instance.DatabaseParameterPrefix,
+            SimpleBuilderSettings.Instance.CollectionParameterFormat,
             reuseParameters);
+
+        return new SqlFormatter(parameterOptions);
     }
 }

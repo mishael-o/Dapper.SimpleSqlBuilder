@@ -11,10 +11,10 @@ internal sealed partial class SqlBuilder : Builder
     private readonly StringBuilder stringBuilder;
     private readonly SqlFormatter sqlFormatter;
 
-    public SqlBuilder(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, FormattableString? formattable = null)
+    public SqlBuilder(ParameterOptions parameterOptions, FormattableString? formattable = null)
     {
         stringBuilder = new();
-        sqlFormatter = new(parameterNameTemplate, parameterPrefix, reuseParameters);
+        sqlFormatter = new(parameterOptions);
         AppendFormattable(formattable);
     }
 

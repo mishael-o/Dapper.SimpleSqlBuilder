@@ -2,6 +2,7 @@
 using Dapper.SimpleSqlBuilder.FluentBuilder;
 
 namespace Dapper.SimpleSqlBuilder.UnitTests.FluentBuilder;
+
 public class SelectDistinctBuilderTests
 {
     [Fact]
@@ -160,11 +161,11 @@ public class SelectDistinctBuilderTests
 
     [Theory]
     [AutoData]
-    public void SelectDistinct_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void SelectDistinct_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type, int[] ages)
     {
         // Arrange
         var expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}" +
-            "WHERE (Age < 100 OR Age = @p0 OR Age IN (1, 2, 3)) AND Type LIKE '%Type' AND (Age > 10 AND Type = @p1) OR Id NOT IN (1, 2, 3)";
+            "WHERE (Age < 100 OR Age = @p0 OR Age IN @pc1_) AND Type LIKE '%Type' AND (Age > 10 AND Type = @p2) OR Id NOT IN (1, 2, 3)";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
@@ -172,16 +173,17 @@ public class SelectDistinctBuilderTests
                     .From($"Table")
                     .Where(false, $"Id = {id}")
                     .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(false, $"Age > {age}")
-                    .OrWhereFilter().WithFilter(true, $"Age < 100").WithOrFilter($"Age = {age}").WithOrFilter($"Age IN (1, 2, 3)")
+                    .OrWhereFilter().WithFilter(true, $"Age < 100").WithOrFilter($"Age = {age}").WithOrFilter($"Age IN {ages}")
                     .Where($"Type LIKE '%Type'")
                     .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(true, $"Age > 10").WithFilter($"Type = {type}")
                     .OrWhere(true, $"Id NOT IN (1, 2, 3)");
 
         // Assert
         sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
+        sut.ParameterNames.Should().HaveCount(3);
         sut.GetValue<int>("p0").Should().Be(age);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.GetValue<int[]>("pc1_").Should().BeEquivalentTo(ages);
+        sut.GetValue<string>("p2").Should().Be(type);
     }
 
     [Fact]
