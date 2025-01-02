@@ -8,7 +8,7 @@ The benchmark was done with the [BenchmarkDotNet](https://github.com/dotnet/Benc
 To run the benchmark you will need to ensure you have the **corresponding SDKs for the frameworks** installed, then you can execute the command below in the benchmark project directory.
 
 ```cli
-dotnet run -c release -f net9.0 -- --filter * --runtimes net9.0 net462
+dotnet run -c release -f net9.0 -- --filter * --runtimes net9.0
 ```
 
 You can also run the benchmark only for a specific runtime by specifying the runtime in the `--runtimes` argument.
