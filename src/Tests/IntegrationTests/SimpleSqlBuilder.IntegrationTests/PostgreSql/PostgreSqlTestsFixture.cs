@@ -8,11 +8,6 @@ namespace Dapper.SimpleSqlBuilder.IntegrationTests.PostgreSql;
 
 public class PostgreSqlTestsFixture : IAsyncLifetime
 {
-    private const string DbUser = "dbUser";
-    private const string DbName = "test-db";
-    private const int Port = 5432;
-
-    private readonly string connectionString;
     private readonly PostgreSqlContainer container;
 
     private DbConnection dbConnection = null!;
@@ -26,11 +21,8 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     public PostgreSqlTestsFixture()
     {
         var fixture = new Fixture();
-        var dbPassword = fixture.Create<string>();
         SeedProductTypes = fixture.CreateMany<ProductType>(2).ToArray();
-
-        connectionString = $"Host=localhost;Port={Port};Username={DbUser};Password={dbPassword};Database={DbName}";
-        container = CreatePostgreSqlContainer(dbPassword);
+        container = CreatePostgreSqlContainer();
     }
 
     public string StoredProcName { get; } = "createProduct";
@@ -52,7 +44,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     }
 
     public DbConnection CreateDbConnection()
-        => new NpgsqlConnection(connectionString);
+        => new NpgsqlConnection(container.GetConnectionString());
 
     public async Task ResetDatabaseAsync()
     {
@@ -63,13 +55,10 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 #endif
     }
 
-    private static PostgreSqlContainer CreatePostgreSqlContainer(string dbPassword)
+    private static PostgreSqlContainer CreatePostgreSqlContainer()
     {
         return new PostgreSqlBuilder()
-            .WithDatabase(DbName)
-            .WithUsername(DbUser)
-            .WithPassword(dbPassword)
-            .WithPortBinding(Port)
+            .WithPortBinding(PostgreSqlBuilder.PostgreSqlPort, true)
             .WithName("postgresql")
             .WithImage("postgres:17")
             .Build();

@@ -100,5 +100,5 @@ The generated SQL will be:
 ```sql
 SELECT FirstName, LastName, Age, Role
 FROM User
-WHERE (Role IN @p0 OR Role IS NULL) OR (Age >= @p1 AND Age < @p2) OR UserTypeId = @p3
+WHERE (Role IN @pc0_ OR Role IS NULL) OR (Age >= @p1 AND Age < @p2) OR UserTypeId = @p3
 ```

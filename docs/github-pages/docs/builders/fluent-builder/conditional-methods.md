@@ -54,7 +54,7 @@ The generated SQL will be:
 ```sql
 SELECT *
 FROM User
-WHERE Role IN @p0 OR Role IS NULL
+WHERE Role IN @pc0_ OR Role IS NULL
 ```
 
 ## Example 3
@@ -113,5 +113,5 @@ The generated SQL will be:
 ```sql
 SELECT *
 FROM User
-WHERE (Role IN @p0) OR (UserTypeId IN @p1)
+WHERE (Role IN @pc0_) OR (UserTypeId IN @pc1_)
 ```

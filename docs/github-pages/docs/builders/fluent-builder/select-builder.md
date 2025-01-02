@@ -119,7 +119,7 @@ The generated SQL will be:
 ```sql
 SELECT Role, UserTypeId, COUNT(Id) AS UserCount
 FROM User
-WHERE Role NOT IN @p0 AND Role IS NOT NULL
+WHERE Role NOT IN @pc0_ AND Role IS NOT NULL
 GROUP BY Role, UserTypeId
 ```
 

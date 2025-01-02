@@ -14,14 +14,8 @@ internal sealed class SimpleBuilderFactory : ISimpleBuilder
 
     public Builder Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null)
     {
-        if (string.IsNullOrWhiteSpace(parameterPrefix))
-        {
-            parameterPrefix = options.CurrentValue.DatabaseParameterPrefix;
-        }
-
-        reuseParameters ??= options.CurrentValue.ReuseParameters;
-
-        return new SqlBuilder(options.CurrentValue.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, formattable);
+        var parameterSettings = CreateParameterOptions(options.CurrentValue, parameterPrefix, reuseParameters);
+        return new SqlBuilder(parameterSettings, formattable);
     }
 
 #if NET6_0_OR_GREATER
@@ -31,14 +25,23 @@ internal sealed class SimpleBuilderFactory : ISimpleBuilder
 
     public ISimpleFluentBuilderEntry CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
     {
+        var parameterSettings = CreateParameterOptions(options.CurrentValue, parameterPrefix, reuseParameters);
+        return new FluentSqlBuilder(
+            parameterSettings,
+            useLowerCaseClauses ?? options.CurrentValue.UseLowerCaseClauses);
+    }
+
+    private static ParameterOptions CreateParameterOptions(SimpleBuilderOptions options, string? parameterPrefix, bool? reuseParameters)
+    {
         if (string.IsNullOrWhiteSpace(parameterPrefix))
         {
-            parameterPrefix = options.CurrentValue.DatabaseParameterPrefix;
+            parameterPrefix = options.DatabaseParameterPrefix;
         }
 
-        reuseParameters ??= options.CurrentValue.ReuseParameters;
-        useLowerCaseClauses ??= options.CurrentValue.UseLowerCaseClauses;
-
-        return new FluentSqlBuilder(options.CurrentValue.DatabaseParameterNameTemplate, parameterPrefix, reuseParameters.Value, useLowerCaseClauses.Value);
+        return new(
+            options.DatabaseParameterNameTemplate,
+            parameterPrefix!,
+            options.CollectionParameterFormat,
+            reuseParameters ?? options.ReuseParameters);
     }
 }

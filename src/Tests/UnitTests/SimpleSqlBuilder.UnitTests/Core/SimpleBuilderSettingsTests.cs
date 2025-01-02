@@ -10,12 +10,21 @@ public class SimpleBuilderSettingsTests
     [TestPriority(1)]
     public void Configure_ConfiguresDefaultSettings_ReturnsVoid()
     {
+        // Arrange
+        const string expectedCollectionParameterFormat = SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate + SimpleBuilderSettings.DefaultCollectionParameterTemplateFormat;
+
         // Act
         SimpleBuilderSettings.Configure();
 
         // Assert
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
+        SimpleBuilderSettings.Instance.CollectionParameterTemplateFormat.Should().Be(SimpleBuilderSettings.DefaultCollectionParameterTemplateFormat);
+#if NET8_0_OR_GREATER
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.Format.Should().Be(expectedCollectionParameterFormat);
+#else
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.Should().Be(expectedCollectionParameterFormat);
+#endif
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(SimpleBuilderSettings.DefaultReuseParameters);
         SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(SimpleBuilderSettings.DefaultUseLowerCaseClauses);
     }
@@ -61,45 +70,84 @@ public class SimpleBuilderSettingsTests
 
     [Theory]
     [TestPriority(4)]
-    [InlineData("param", ":", true, true)]
-    public void Configure_ConfiguresAllSettings_ReturnsVoid(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
+    [InlineData("param", ":", "List{0}", true, true)]
+    public void Configure_ConfiguresAllSettings_ReturnsVoid(
+        string parameterNameTemplate,
+        string parameterPrefix,
+        string collectionParameterTemplateFormat,
+        bool reuseParameters,
+        bool useLowerCaseClauses)
     {
+        // Arrange
+        var expectedCollectionParameterFormat = parameterPrefix + collectionParameterTemplateFormat;
+
         // Act
-        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters, useLowerCaseClauses);
+        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, collectionParameterTemplateFormat, reuseParameters, useLowerCaseClauses);
 
         // Assert
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(parameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(parameterPrefix);
+        SimpleBuilderSettings.Instance.CollectionParameterTemplateFormat.Should().Be(collectionParameterTemplateFormat);
+#if NET8_0_OR_GREATER
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.Format.Should().Be(expectedCollectionParameterFormat);
+#else
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.Should().Be(expectedCollectionParameterFormat);
+#endif
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(reuseParameters);
         SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(useLowerCaseClauses);
     }
 
     [Theory]
     [TestPriority(5)]
-    [InlineData("myParam", null, null, null, "myParam", "@", false, false)]
-    [InlineData("", ":", null, null, "prm", ":", false, false)]
-    [InlineData(null, null, true, null, "prm", "@", true, false)]
-    [InlineData(null, null, null, true, "prm", "@", false, true)]
-    public void Configure_ConfiguresIndividualSettings_ReturnsVoid(
+    [InlineData(null, null, null, null, null)]
+    [InlineData("", "", "", null, null)]
+    [InlineData(" ", " ", " ", null, null)]
+    [InlineData("   ", "    ", "    ", null, null)]
+    public void Configure_ConfiguresSettingsWithNullAndEmptyValues_ReturnsVoid(
         string? parameterNameTemplate,
         string? parameterPrefix,
+        string? collectionParameterTemplateFormat,
         bool? reuseParameters,
-        bool? useLowerCaseClauses,
-        string expectedParameterNameTemplate,
-        string expectedParameterPrefix,
-        bool expectedReuseParameters,
-        bool expectedUseLowerCaseClauses)
+        bool? useLowerCaseClauses)
     {
         // Arrange
-        SimpleBuilderSettings.Configure("prm", "@", false, false);
+        const string expectedParameterNameTemplate = "prm";
+        const string expectedParameterPrefix = "@";
+        const string expectedCollectionParameterTemplateFormat = "cl{0}";
+        const bool expectedReuseParameters = false;
+        const bool expectedUseLowerCaseClauses = false;
+
+        SimpleBuilderSettings.Configure(
+            expectedParameterNameTemplate,
+            expectedParameterPrefix,
+            expectedCollectionParameterTemplateFormat,
+            expectedReuseParameters,
+            expectedUseLowerCaseClauses);
 
         // Act
-        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, reuseParameters, useLowerCaseClauses);
+        SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, collectionParameterTemplateFormat, reuseParameters, useLowerCaseClauses);
 
         // Assert
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(expectedParameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(expectedParameterPrefix);
+        SimpleBuilderSettings.Instance.CollectionParameterTemplateFormat.Should().Be(expectedCollectionParameterTemplateFormat);
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(expectedReuseParameters);
         SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(expectedUseLowerCaseClauses);
+    }
+
+    [Theory]
+    [InlineAutoData("{1}")]
+    [InlineAutoData("{0:C}")]
+    [InlineAutoData("{}")]
+    [InlineAutoData("{2}")]
+    public void Configure_CollectionParameterTemplateFormatIsNotValidFormat_ThrowsArgumentException(string collectionParameterTemplateFormat)
+    {
+        // Act
+        var act = () => SimpleBuilderSettings.Configure(collectionParameterTemplateFormat: collectionParameterTemplateFormat);
+
+        // Assert
+        act.Should().Throw<ArgumentException>()
+            .WithMessage($"'{nameof(collectionParameterTemplateFormat)}' must contain a format placeholder '{{0}}' for the index.*")
+            .WithParameterName(nameof(collectionParameterTemplateFormat));
     }
 }

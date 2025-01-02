@@ -52,6 +52,8 @@ jobs:
           dotnet-version: |
             9.x
             8.x
+      - name: Install Mono
+        run: sudo apt-get install -y mono-complete
       - name: Restore dependencies
         run: dotnet restore
       - name: Build solution

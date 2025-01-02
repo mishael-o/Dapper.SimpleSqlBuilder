@@ -81,8 +81,11 @@ The generated SQL will be:
 ```sql
 SELECT *
 FROM User
-WHERE UserTypeId = @p0 AND Role IN @p1
+WHERE UserTypeId = @p0 AND Role IN @pc1_
 ```
+
+> [!NOTE]
+> When the query is executed, Dapper will expand the parameter `pc1_` into individual parameters (`pc1_1`, `pc1_2`, etc.) for each value in the collection.
 
 See the [Fluent Builder](docs/builders/fluent-builder/fluent-builder.md) section for more information.
 
