@@ -35,10 +35,12 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: src
+        # working-directory: src
+        working-directory: docs/github-pages
     env:
       coverageReportPath: ${{ github.workspace }}/coverage-reports/
       mergedCoverageReportFileName: merged-coverage.xml
+      docfx_version: 2.78.2    
     outputs:
       package_version: ${{ steps.getversion.outputs.package_version }}
 
