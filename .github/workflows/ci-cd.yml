@@ -35,8 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        # working-directory: src
-        working-directory: docs/github-pages
+        working-directory: src
+        # working-directory: docs/github-pages
     env:
       coverageReportPath: ${{ github.workspace }}/coverage-reports/
       mergedCoverageReportFileName: merged-coverage.xml
