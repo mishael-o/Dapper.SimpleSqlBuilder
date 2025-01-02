@@ -66,10 +66,11 @@ jobs:
       # - name: DocFx Build
       #   run: docfx build docfx.json
             
-      # - name: Setup Mono
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y mono-complete     
+      - name: Setup Mono
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mono-complete
+          mono --version    
       # - name: Verify Mono installation
       #   run: mono --version    
       
