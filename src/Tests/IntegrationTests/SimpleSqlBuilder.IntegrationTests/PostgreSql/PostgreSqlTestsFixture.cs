@@ -12,7 +12,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     private DbConnection dbConnection = null!;
 
-#if NET462
+#if NETFRAMEWORK
     private Checkpoint respawner = null!;
 #else
     private Respawner respawner = null!;
@@ -48,7 +48,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     public async Task ResetDatabaseAsync()
     {
-#if NET462
+#if NETFRAMEWORK
         await respawner.Reset(dbConnection);
 #else
         await respawner.ResetAsync(dbConnection);
@@ -119,7 +119,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     private Task InitialiseRespawnerAsync()
     {
-#if NET462
+#if NETFRAMEWORK
         respawner = new Checkpoint
         {
             SchemasToInclude = ["public"],

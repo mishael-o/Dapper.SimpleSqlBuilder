@@ -21,16 +21,22 @@
         <PackageVersion Include="AutoFixture" Version="4.18.1" />
         <PackageVersion Include="AutoFixture.Xunit2" Version="4.18.1" />
         <PackageVersion Include="AutoFixture.AutoMoq" Version="4.18.1" />
-        <PackageVersion Include="coverlet.collector" Version="6.0.2" />
+        <PackageVersion Include="coverlet.collector" Version="6.0.3">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageVersion>
         <PackageVersion Include="FluentAssertions" Version="7.0.0" />
         <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
         <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
         <PackageVersion Include="Moq" Version="[4.18.4]" />
         <!--For unit test issues on Linux https://github.com/microsoft/vstest/issues/2469-->
-        <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.12.0" />
+        <!--<PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.12.0" />-->
         <PackageVersion Include="xunit" Version="2.9.2" />
-        <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+        <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageVersion>
     </ItemGroup>
     <ItemGroup Label="IntegrationTestPackages">
         <PackageVersion Include="Microsoft.Data.SqlClient" Version="5.2.2" />
@@ -42,7 +48,7 @@
     </ItemGroup>
     <ItemGroup Label="BenchmarkPackages">
         <PackageVersion Include="Dapper.SqlBuilder" Version="2.0.78" />
-        <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
+        <PackageVersion Include="BenchmarkDotNet" Version="0.13.12" />
     </ItemGroup>
     <!--This is to upgrade any venerable transitive package to the latest one-->
     <ItemGroup Label="TransitivePackages">
@@ -51,8 +57,8 @@
         <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
     </ItemGroup>
     <Choose>
-        <When Condition="'$(TargetFramework)' == 'net462'">
-            <ItemGroup Label="IntegrationTestPackagesNET462">
+        <When Condition="'$(TargetFramework)' == 'net48'">
+            <ItemGroup Label="IntegrationTestPackagesNET48">
                 <PackageVersion Include="Npgsql" Version="8.0.6" />
                 <PackageVersion Include="Respawn" Version="4.0.0" />
             </ItemGroup>

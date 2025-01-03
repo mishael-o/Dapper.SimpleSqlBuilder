@@ -26,14 +26,14 @@ public class SimpleParameterInfoTests
 
     [Theory]
     [AutoData]
-    public void InternalConstructor_InitialisesSimpleParameterInfo_ReturnsSimpleParameterInfo(string name, object value, DbType dbType, ParameterDirection direction, int size, byte precision, byte scale)
+    public void InternalConstructor_InitialisesSimpleParameterInfo_ReturnsSimpleParameterInfo(string name, object value, DbType dbType, int size, byte precision, byte scale)
     {
         // Act
-        var sut = new SimpleParameterInfo(name, value, dbType, direction, size, precision, scale);
+        var sut = new SimpleParameterInfo(name, value, dbType, size, precision, scale);
 
         // Assert
         sut.Value.Should().Be(value);
-        sut.Direction.Should().Be(direction);
+        sut.Direction.Should().Be(ParameterDirection.Input);
         sut.DbType.Should().Be(dbType);
         sut.Size.Should().Be(size);
         sut.Precision.Should().Be(precision);
