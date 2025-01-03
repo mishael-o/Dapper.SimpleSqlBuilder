@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net462;net8.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>net48;net8.0;net9.0</TargetFrameworks>
         <IsUnitTestProject>true</IsUnitTestProject>
         <RootNamespace>Dapper.SimpleSqlBuilder.UnitTests</RootNamespace>
         <AssemblyName>Dapper.SimpleSqlBuilder.UnitTests</AssemblyName>
@@ -11,5 +11,4 @@
         <ProjectReference Include="..\..\..\Builder\SimpleSqlBuilder\SimpleSqlBuilder.csproj" />
         <ProjectReference Include="..\SimpleSqlBuilder.UnitTestHelpers\SimpleSqlBuilder.UnitTestHelpers.csproj" />
     </ItemGroup>
-
 </Project>

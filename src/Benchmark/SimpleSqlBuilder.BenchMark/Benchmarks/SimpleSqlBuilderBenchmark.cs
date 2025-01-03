@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using Dapper;
 using Dapper.SimpleSqlBuilder;
@@ -12,29 +11,39 @@ namespace SimpleSqlBuilder.BenchMark.Benchmarks;
 public class SimpleSqlBuilderBenchmark
 {
     private const int WhereOperationCount = 20;
-    private static readonly int[] TypeIds = [1, 2, 3, 4, 5];
 
     private Product product = default!;
+    private int[] typeIds = default!;
 
     [GlobalSetup]
     public void GlobalSetUp()
-        => product = new Fixture().Create<Product>();
+    {
+        product = new()
+        {
+            Id = Guid.NewGuid(),
+            ProductCode = "Product Code",
+            RecommendedPrice = 100.00,
+            SellingPrice = 99.99m
+        };
+
+        typeIds = [.. Enumerable.Range(1, 10)];
+    }
 
     [Benchmark(Description = "SqlBuilder (Dapper)", Baseline = true)]
     [BenchmarkCategory("Simple query")]
     public string SqlBuilder()
     {
         const string sql = $"""
-            SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = @{nameof(Product.TypeId)} OR Description = @{nameof(Product.Description)})
+            SELECT x.*, (SELECT Description FROM ProductDetail WHERE Id = @{nameof(Product.Id)} OR ProductCode = @{nameof(Product.ProductCode)})
             FROM Product x
             /**where**/
             """;
 
         var sqlBuilder = new SqlBuilder()
             .Where($"Id = @{nameof(Product.Id)}", new { product.Id })
-            .Where($"TypeId IN @{nameof(TypeIds)}", TypeIds)
+            .Where($"ProductCode = @{nameof(Product.ProductCode)}", new { product.ProductCode })
+            .Where($"TypeId IN @{nameof(typeIds)}", new { typeIds })
             .Where($"RecommendedPrice = @{nameof(Product.RecommendedPrice)}", new { product.RecommendedPrice })
-            .Where($"Description = @{nameof(Product.Description)}", new { product.Description })
             .Where($"SellingPrice = @{nameof(Product.SellingPrice)}", new { product.SellingPrice })
             .Where($"IsActive = @{nameof(Product.IsActive)}", new { product.IsActive })
             .Where($"CreateDate = @{nameof(Product.CreateDate)}", new { product.CreateDate });
@@ -49,11 +58,11 @@ public class SimpleSqlBuilderBenchmark
     {
         var builder = SimpleBuilder.Create(
             $"""
-               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
+               SELECT x.*, (SELECT Description FROM ProductDetail WHERE Id = {product.Id} OR ProductCode = {product.ProductCode})
                FROM Product x
                WHERE Id = {product.Id}
-               AND TypeId IN {TypeIds}
-               AND Description = {product.Description}
+               AND ProductCode = {product.ProductCode}
+               AND TypeId IN {typeIds}
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
                AND IsActive = {product.IsActive}
@@ -68,11 +77,11 @@ public class SimpleSqlBuilderBenchmark
     public string SimpleSqlFluentBuilder()
     {
         var builder = SimpleBuilder.CreateFluent()
-            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})")
+            .Select($"x.*, (SELECT Description FROM ProductDetail WHERE Id = {product.Id} OR ProductCode = {product.ProductCode})")
             .From($"Product x")
             .Where($"Id = {product.Id}")
-            .Where($"TypeId IN {TypeIds}")
-            .Where($"Description = {product.Description}")
+            .Where($"ProductCode = {product.ProductCode}")
+            .Where($"TypeId IN {typeIds}")
             .Where($"RecommendedPrice = {product.RecommendedPrice}")
             .Where($"SellingPrice = {product.SellingPrice}")
             .Where($"IsActive = {product.IsActive}")
@@ -85,13 +94,15 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Simple query")]
     public string SimpleSqlBuilderReuseParameters()
     {
+        ////AND Name = { product.Name }
+
         var builder = SimpleBuilder.Create(reuseParameters: true)
             .AppendIntact($"""
-               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
+               SELECT x.*, (SELECT Description FROM ProductDetail WHERE Id = {product.Id} OR ProductCode = {product.ProductCode})
                FROM Product x
                WHERE Id = {product.Id}
-               AND TypeId IN {TypeIds}
-               AND Description = {product.Description}
+               AND ProductCode = {product.ProductCode}
+               AND TypeId IN {typeIds}
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
                AND IsActive = {product.IsActive}
@@ -106,11 +117,11 @@ public class SimpleSqlBuilderBenchmark
     public string SimpleSqlFluentBuilderReuseParameters()
     {
         var builder = SimpleBuilder.CreateFluent(reuseParameters: true)
-            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})")
+            .Select($"x.*, (SELECT Description FROM ProductDetail WHERE Id = {product.Id} OR ProductCode = {product.ProductCode})")
             .From($"Product x")
             .Where($"Id = {product.Id}")
-            .Where($"TypeId IN {TypeIds}")
-            .Where($"Description = {product.Description}")
+            .Where($"ProductCode = {product.ProductCode}")
+            .Where($"TypeId IN {typeIds}")
             .Where($"RecommendedPrice = {product.RecommendedPrice}")
             .Where($"SellingPrice = {product.SellingPrice}")
             .Where($"IsActive = {product.IsActive}")
@@ -124,7 +135,7 @@ public class SimpleSqlBuilderBenchmark
     public string SqlBuilderLarge()
     {
         const string sql = $"""
-            SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = @{nameof(Product.TypeId)} OR Description = @{nameof(Product.Description)})
+            SELECT x.*, (SELECT Description FROM ProductDetail WHERE Id = @{nameof(Product.Id)} OR ProductCode = @{nameof(Product.ProductCode)})
             FROM Product x
             /**where**/
             """;
@@ -136,8 +147,8 @@ public class SimpleSqlBuilderBenchmark
         {
             sqlBuilder
                 .Where($"Id = @{nameof(Product.Id)}", new { product.Id })
-                .Where($"TypeId IN @{nameof(TypeIds)}", TypeIds)
-                .Where($"Description = @{nameof(Product.Description)}", new { product.Description })
+                .Where($"ProductCode = @{nameof(Product.ProductCode)}", new { product.ProductCode })
+                .Where($"TypeId IN @{nameof(typeIds)}", new { typeIds })
                 .Where($"RecommendedPrice = @{nameof(Product.RecommendedPrice)}", new { product.RecommendedPrice })
                 .Where($"SellingPrice = @{nameof(Product.SellingPrice)}", new { product.SellingPrice })
                 .Where($"IsActive = @{nameof(Product.IsActive)}", new { product.IsActive })
@@ -154,7 +165,7 @@ public class SimpleSqlBuilderBenchmark
     {
         var builder = SimpleBuilder.Create(
             $"""
-               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
+               SELECT x.*, (SELECT Description FROM ProductDetail WHERE Id = {product.Id} OR ProductCode = {product.ProductCode})
                FROM Product x
                WHERE 1 = 1
                """);
@@ -164,8 +175,8 @@ public class SimpleSqlBuilderBenchmark
         {
             builder.Append($"""
                AND Id = {product.Id}
-               AND TypeId IN {TypeIds}
-               AND Description = {product.Description}
+               AND ProductCode = {product.ProductCode}
+               AND TypeId IN {typeIds}
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
                AND IsActive = {product.IsActive}
@@ -181,7 +192,7 @@ public class SimpleSqlBuilderBenchmark
     public string SimpleSqlFluentBuilderLarge()
     {
         var builder = SimpleBuilder.CreateFluent()
-            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})")
+            .Select($"x.*, (SELECT Description FROM ProductDetail WHERE Id = {product.Id} OR ProductCode = {product.ProductCode})")
             .From($"Product x");
 
         // Simulating large query
@@ -189,8 +200,8 @@ public class SimpleSqlBuilderBenchmark
         {
             builder
                 .Where($"Id = {product.Id}")
-                .Where($"TypeId IN {TypeIds}")
-                .Where($"Description = {product.Description}")
+                .Where($"ProductCode = {product.ProductCode}")
+                .Where($"TypeId IN {typeIds}")
                 .Where($"RecommendedPrice = {product.RecommendedPrice}")
                 .Where($"SellingPrice = {product.SellingPrice}")
                 .Where($"IsActive = {product.IsActive}")
@@ -206,7 +217,7 @@ public class SimpleSqlBuilderBenchmark
     {
         var builder = SimpleBuilder.Create(reuseParameters: true)
             .AppendIntact($"""
-               SELECT x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})
+               SELECT x.*, (SELECT Description FROM ProductDetail WHERE Id = {product.Id} OR ProductCode = {product.ProductCode})
                FROM Product x
                WHERE 1 = 1
                """);
@@ -216,8 +227,8 @@ public class SimpleSqlBuilderBenchmark
         {
             builder.Append($"""
                AND Id = {product.Id}
-               AND TypeId IN {TypeIds}
-               AND Description = {product.Description}
+               AND ProductCode = {product.ProductCode}
+               AND TypeId IN {typeIds}
                AND RecommendedPrice = {product.RecommendedPrice}
                AND SellingPrice = {product.SellingPrice}
                AND IsActive = {product.IsActive}
@@ -233,7 +244,7 @@ public class SimpleSqlBuilderBenchmark
     public string SimpleSqlFluentBuilderLargeReuseParameters()
     {
         var builder = SimpleBuilder.CreateFluent(reuseParameters: true)
-            .Select($"x.*, (SELECT TypeSource FROM ProductType WHERE Id = {product.TypeId} OR Description = {product.Description})")
+            .Select($"x.*, (SELECT Description FROM ProductDetail WHERE Id = {product.Id} OR ProductCode = {product.ProductCode})")
             .From($"Product x");
 
         // Simulating large query
@@ -241,8 +252,8 @@ public class SimpleSqlBuilderBenchmark
         {
             builder
                 .Where($"Id = {product.Id}")
-                .Where($"TypeId IN {TypeIds}")
-                .Where($"Description = {product.Description}")
+                .Where($"ProductCode =  {product.ProductCode}")
+                .Where($"TypeId IN {typeIds}")
                 .Where($"RecommendedPrice = {product.RecommendedPrice}")
                 .Where($"SellingPrice = {product.SellingPrice}")
                 .Where($"IsActive = {product.IsActive}")
