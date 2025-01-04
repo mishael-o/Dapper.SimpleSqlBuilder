@@ -86,9 +86,9 @@ public class SimpleBuilderOptionsTests
         sut.DatabaseParameterNameTemplate.Should().Be(parameterNameTemplate);
         sut.DatabaseParameterPrefix.Should().Be(parameterPrefix);
 #if NET8_0_OR_GREATER
-        sut.CollectionParameterFormat.Format.Should().Be(parameterPrefix + collectionParameterTemplateFormat);
+        sut.CollectionParameterFormat.Format.Should().Be(parameterNameTemplate + collectionParameterTemplateFormat);
 #else
-        sut.CollectionParameterFormat.Should().Be(parameterPrefix + collectionParameterTemplateFormat);
+        sut.CollectionParameterFormat.Should().Be(parameterNameTemplate + collectionParameterTemplateFormat);
 #endif
         sut.ReuseParameters.Should().Be(reuseParameters);
         sut.UseLowerCaseClauses.Should().Be(useLowerCaseClauses);

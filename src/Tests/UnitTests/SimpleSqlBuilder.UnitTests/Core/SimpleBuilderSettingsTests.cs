@@ -79,7 +79,7 @@ public class SimpleBuilderSettingsTests
         bool useLowerCaseClauses)
     {
         // Arrange
-        var expectedCollectionParameterFormat = parameterPrefix + collectionParameterTemplateFormat;
+        var expectedCollectionParameterFormat = parameterNameTemplate + collectionParameterTemplateFormat;
 
         // Act
         SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, collectionParameterTemplateFormat, reuseParameters, useLowerCaseClauses);
@@ -114,6 +114,7 @@ public class SimpleBuilderSettingsTests
         const string expectedParameterNameTemplate = "prm";
         const string expectedParameterPrefix = "@";
         const string expectedCollectionParameterTemplateFormat = "cl{0}";
+        const string expectedCollectionParameterFormat = expectedParameterNameTemplate + expectedCollectionParameterTemplateFormat;
         const bool expectedReuseParameters = false;
         const bool expectedUseLowerCaseClauses = false;
 
@@ -131,6 +132,11 @@ public class SimpleBuilderSettingsTests
         SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(expectedParameterNameTemplate);
         SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(expectedParameterPrefix);
         SimpleBuilderSettings.Instance.CollectionParameterTemplateFormat.Should().Be(expectedCollectionParameterTemplateFormat);
+#if NET8_0_OR_GREATER
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.Format.Should().Be(expectedCollectionParameterFormat);
+#else
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.Should().Be(expectedCollectionParameterFormat);
+#endif
         SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(expectedReuseParameters);
         SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(expectedUseLowerCaseClauses);
     }
