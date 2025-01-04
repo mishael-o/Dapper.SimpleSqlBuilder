@@ -4,7 +4,7 @@
   items:
     - name: SimpleSqlBuilder
       href: api-docs/netcore/
-    - name: SimpleSqlBuilder (.NET 5 and earlier)
+    - name: SimpleSqlBuilder (.NET Standard 2.0)
       href: api-docs/netstd2/
     - name: Dependency Injection
       href: api-docs/di/

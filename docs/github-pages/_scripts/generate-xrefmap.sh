@@ -34,5 +34,5 @@ copy_and_update_xrefmap_files() {
 docfx metadata docfx-xref.json
 docfx build docfx-xref.json
 copy_and_update_xrefmap_files
-rm -r $gen_folder
 rm -r api-docs
+rm -r $gen_folder
