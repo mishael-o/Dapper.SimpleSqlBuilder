@@ -16,18 +16,8 @@ public static class SimpleBuilder
     /// <returns>A new instance of <see cref="Builder"/>.</returns>
     public static Builder Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null)
     {
-        if (string.IsNullOrWhiteSpace(parameterPrefix))
-        {
-            parameterPrefix = SimpleBuilderSettings.Instance.DatabaseParameterPrefix;
-        }
-
-        reuseParameters ??= SimpleBuilderSettings.Instance.ReuseParameters;
-
-        return new SqlBuilder(
-            SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate,
-            parameterPrefix!,
-            reuseParameters.Value,
-            formattable);
+        var parameterOptions = CreateParameterOptions(parameterPrefix, reuseParameters);
+        return new SqlBuilder(parameterOptions, formattable);
     }
 
 #if NET6_0_OR_GREATER
@@ -49,18 +39,23 @@ public static class SimpleBuilder
     /// <returns>A new instance of <see cref="ISimpleFluentBuilderEntry"/>.</returns>
     public static ISimpleFluentBuilderEntry CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
     {
+        var parameterOptions = CreateParameterOptions(parameterPrefix, reuseParameters);
+        return new FluentSqlBuilder(
+            parameterOptions,
+            useLowerCaseClauses ?? SimpleBuilderSettings.Instance.UseLowerCaseClauses);
+    }
+
+    private static ParameterOptions CreateParameterOptions(string? parameterPrefix, bool? reuseParameters)
+    {
         if (string.IsNullOrWhiteSpace(parameterPrefix))
         {
             parameterPrefix = SimpleBuilderSettings.Instance.DatabaseParameterPrefix;
         }
 
-        reuseParameters ??= SimpleBuilderSettings.Instance.ReuseParameters;
-        useLowerCaseClauses ??= SimpleBuilderSettings.Instance.UseLowerCaseClauses;
-
-        return new FluentSqlBuilder(
+        return new(
             SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate,
             parameterPrefix!,
-            reuseParameters.Value,
-            useLowerCaseClauses.Value);
+            SimpleBuilderSettings.Instance.CollectionParameterFormat,
+            reuseParameters ?? SimpleBuilderSettings.Instance.ReuseParameters);
     }
 }

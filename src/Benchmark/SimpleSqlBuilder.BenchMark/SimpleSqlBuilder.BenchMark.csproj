@@ -2,12 +2,11 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>net462;net8.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>net48;net8.0;net9.0</TargetFrameworks>
         <NoWarn>IDE0005</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoFixture" />
         <PackageReference Include="BenchmarkDotNet" />
         <PackageReference Include="Dapper.SqlBuilder" />
     </ItemGroup>

@@ -33,18 +33,19 @@ public class BuilderTests
 
     [Theory]
     [AutoData]
-    public void Create_CreatesBuilderWithInterpolatedStringAndRawValue_ReturnsSqlBuilder(int id, string name)
+    public void Create_CreatesBuilderWithInterpolatedStringAndRawValue_ReturnsSqlBuilder(int id, string name, IEnumerable<int> ages)
     {
         // Arrange
-        var expectedSql = $"SELECT * FROM TABLE WHERE ID = {id} AND WHERE NAME = @p0";
+        var expectedSql = $"SELECT * FROM TABLE WHERE ID = {id} AND WHERE NAME = @p0 AND Age IN @pc1_";
 
         // Act
-        var sut = SimpleBuilder.Create($"SELECT * FROM TABLE WHERE ID = {id:raw} AND WHERE NAME = {name}");
+        var sut = SimpleBuilder.Create($"SELECT * FROM TABLE WHERE ID = {id:raw} AND WHERE NAME = {name} AND Age IN {ages}");
 
         // Assert
         sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(1);
+        sut.ParameterNames.Count().Should().Be(2);
         sut.GetValue<string>("p0").Should().Be(name);
+        sut.GetValue<IEnumerable<int>>("pc1_").Should().BeEquivalentTo(ages);
     }
 
 #if !NET6_0_OR_GREATER
@@ -85,39 +86,41 @@ public class BuilderTests
 
     [Theory]
     [AutoData]
-    public void AppendIntact_AppendsInterpolatedStringWithRawValue_ReturnsSqlBuilder(int id, string name)
+    public void AppendIntact_AppendsInterpolatedStringWithRawValue_ReturnsSqlBuilder(int id, string name, int[] ages)
     {
         // Arrange
-        var expectedSql = $"SELECT * FROM TABLE WHERE ID = {id} AND WHERE NAME = @p0";
+        var expectedSql = $"SELECT * FROM TABLE WHERE ID = {id} AND WHERE NAME = @p0 AND Age IN @pc1_";
 
         var sut = SimpleBuilder.Create();
 
         // Act
-        sut.AppendIntact($"SELECT * FROM TABLE WHERE ID = {id:raw} AND WHERE NAME = {name}");
-
-        // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(1);
-        sut.GetValue<string>("p0").Should().Be(name);
-    }
-
-    [Theory]
-    [AutoData]
-    public void AppendIntact_AppendsInterpolatedStringWithArguments_ReturnsSqlBuilder(int id, string name)
-    {
-        // Arrange
-        const string expectedSql = "SELECT * FROM TABLE WHERE ID = @p0 AND NAME = @p1";
-
-        var sut = SimpleBuilder.Create();
-
-        // Act
-        sut.AppendIntact($"SELECT * FROM TABLE WHERE ID = {id} AND NAME = {name}");
+        sut.AppendIntact($"SELECT * FROM TABLE WHERE ID = {id:raw} AND WHERE NAME = {name} AND Age IN {ages}");
 
         // Assert
         sut.Sql.Should().Be(expectedSql);
         sut.ParameterNames.Count().Should().Be(2);
+        sut.GetValue<string>("p0").Should().Be(name);
+        sut.GetValue<int[]>("pc1_").Should().BeEquivalentTo(ages);
+    }
+
+    [Theory]
+    [AutoData]
+    public void AppendIntact_AppendsInterpolatedStringWithArguments_ReturnsSqlBuilder(int id, string name, int[] ages)
+    {
+        // Arrange
+        const string expectedSql = "SELECT * FROM TABLE WHERE ID = @p0 AND NAME = @p1 AND Age IN @pc2_";
+
+        var sut = SimpleBuilder.Create();
+
+        // Act
+        sut.AppendIntact($"SELECT * FROM TABLE WHERE ID = {id} AND NAME = {name} AND Age IN {ages}");
+
+        // Assert
+        sut.Sql.Should().Be(expectedSql);
+        sut.ParameterNames.Count().Should().Be(3);
         sut.GetValue<int>("p0").Should().Be(id);
         sut.GetValue<string>("p1").Should().Be(name);
+        sut.GetValue<int[]>("pc2_").Should().BeEquivalentTo(ages);
     }
 
     [Theory]
@@ -141,13 +144,13 @@ public class BuilderTests
 
     [Theory]
     [AutoData]
-    public void AppendIntact_AppendsInterpolatedStringWithinFormattableString_ReturnsSqlBuilder(int id, string name, int rowNum)
+    public void AppendIntact_AppendsInterpolatedStringWithinFormattableString_ReturnsSqlBuilder(int id, string name, int rowNum, ICollection<int> ages)
     {
         // Arrange
-        const string expectedSql = "SELECT * FROM (SELECT m.*, (SELECT DESCRIPTION FROM TABLE2 WHERE ID = @p0) DESCRIPTION FROM TABLE m WHERE NAME = @p1) WHERE ROWNUM > @p2";
+        const string expectedSql = "SELECT * FROM (SELECT m.*, (SELECT DESCRIPTION FROM TABLE2 WHERE ID = @p0) DESCRIPTION FROM TABLE m WHERE NAME = @p1 AND Age IN @pc2_) WHERE ROWNUM > @p3";
 
         FormattableString subQuery = $"SELECT DESCRIPTION FROM TABLE2 WHERE ID = {id}";
-        FormattableString innerQuery = $"SELECT m.*, ({subQuery}) DESCRIPTION FROM TABLE m WHERE NAME = {name}";
+        FormattableString innerQuery = $"SELECT m.*, ({subQuery}) DESCRIPTION FROM TABLE m WHERE NAME = {name} AND Age IN {ages}";
 
         var sut = SimpleBuilder.Create();
 
@@ -156,10 +159,11 @@ public class BuilderTests
 
         // Assert
         sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(3);
+        sut.ParameterNames.Count().Should().Be(4);
         sut.GetValue<int>("p0").Should().Be(id);
         sut.GetValue<string>("p1").Should().Be(name);
-        sut.GetValue<int>("p2").Should().Be(rowNum);
+        sut.GetValue<ICollection<int>>("pc2_").Should().BeEquivalentTo(ages);
+        sut.GetValue<int>("p3").Should().Be(rowNum);
     }
 
     [Theory]
@@ -177,11 +181,11 @@ public class BuilderTests
 
     [Theory]
     [AutoData]
-    public void Append_AppendsInterpolatedString_ReturnsSqlBuilder(string tableName, int id, string typeCode, int rowNum)
+    public void Append_AppendsInterpolatedString_ReturnsSqlBuilder(string tableName, int id, string typeCode, int rowNum, HashSet<string> codes)
     {
         // Arrange
-        string expectedSql = $" WHERE ID = @p0 AND TypeId IN (SELECT TypeId FROM {tableName} WHERE TypeCode = @p1) ROWNUM <= {rowNum}";
-        FormattableString subQuery = $"SELECT TypeId FROM {tableName:raw} WHERE TypeCode = {typeCode}";
+        string expectedSql = $" WHERE ID = @p0 AND TypeId IN (SELECT TypeId FROM {tableName} WHERE TypeCode = @p1 AND Codes IN @pc2_) ROWNUM <= {rowNum}";
+        FormattableString subQuery = $"SELECT TypeId FROM {tableName:raw} WHERE TypeCode = {typeCode} AND Codes IN {codes}";
         var sut = SimpleBuilder.Create();
 
         // Act
@@ -189,9 +193,10 @@ public class BuilderTests
 
         // Assert
         sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(2);
+        sut.ParameterNames.Count().Should().Be(3);
         sut.GetValue<int>("p0").Should().Be(id);
         sut.GetValue<string>("p1").Should().Be(typeCode);
+        sut.GetValue<HashSet<string>>("pc2_").Should().BeEquivalentTo(codes);
     }
 
     [Theory]

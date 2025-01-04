@@ -30,7 +30,7 @@ The generated SQL will be:
 select u.Role, u.Age, ut.Type, COUNT(u.Id) AS UserCount
 from User u
 inner join UserType ut ON u.UserTypeId = ut.Id
-where u.Role IN @p0 or u.UserTypeId = @p1
+where u.Role IN @pc0_ or u.UserTypeId = @p1
 group by u.Role, u.Age, ut.Type
 having u.Age >= @p2 and u.Age < @p3
 order by u.Role ASC

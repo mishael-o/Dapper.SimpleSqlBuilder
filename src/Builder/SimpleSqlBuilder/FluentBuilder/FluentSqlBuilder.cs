@@ -16,13 +16,13 @@ internal sealed partial class FluentSqlBuilder
     private ClauseAction entryClause;
     private ClauseAction pendingWhereFilter;
 
-    public FluentSqlBuilder(string parameterNameTemplate, string parameterPrefix, bool reuseParameters, bool useLowerCaseClauses)
+    public FluentSqlBuilder(ParameterOptions parameterOptions, bool useLowerCaseClauses)
     {
         this.useLowerCaseClauses = useLowerCaseClauses;
 
         stringBuilder = new();
         clauseActions = [];
-        sqlFormatter = new(parameterNameTemplate, parameterPrefix, reuseParameters);
+        sqlFormatter = new(parameterOptions);
     }
 
     private void AppendClause(ClauseAction clauseAction)

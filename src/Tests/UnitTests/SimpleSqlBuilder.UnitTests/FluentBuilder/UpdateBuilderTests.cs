@@ -142,11 +142,11 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
-    public void Update_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type)
+    public void Update_BuildsSqlWithWhereConditionalMethods_ReturnsFluentSqlBuilder(int id, int age, string type, int[] ages)
     {
         // Arrange
         var expectedSql = $"UPDATE Table{Environment.NewLine}SET Age = @p0{Environment.NewLine}" +
-            "WHERE (Age = @p1 OR Type = @p2 AND Age IN (1, 2, 3)) AND Type LIKE '%Type' OR (Age > 10 AND Type = @p3) OR Id NOT IN (1, 2, 3)";
+            "WHERE (Age = @p1 OR Type = @p2 AND Age IN @pc3_) AND Type LIKE '%Type' OR (Age > 10 AND Type = @p4) OR Id = @p5";
 
         // Act
         var sut = SimpleBuilder.CreateFluent()
@@ -154,18 +154,20 @@ public class UpdateBuilderTests
             .Set($"Age = {age}")
             .Where(false, $"Id = {id}")
             .WhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(false, $"Age > {age}")
-            .OrWhereFilter().WithFilter(true, $"Age = {age}").WithOrFilter($"Type = {type}").WithFilter($"Age IN (1, 2, 3)")
+            .OrWhereFilter().WithFilter(true, $"Age = {age}").WithOrFilter($"Type = {type}").WithFilter($"Age IN {ages}")
             .Where($"Type LIKE '%Type'")
             .OrWhereFilter().WithFilter(false, $"Id = {id}").WithOrFilter(true, $"Age > 10").WithFilter($"Type = {type}")
-            .OrWhere(true, $"Id NOT IN (1, 2, 3)");
+            .OrWhere(true, $"Id = {id}");
 
         // Assert
         sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(4);
+        sut.ParameterNames.Should().HaveCount(6);
         sut.GetValue<int>("p0").Should().Be(age);
         sut.GetValue<int>("p1").Should().Be(age);
         sut.GetValue<string>("p2").Should().Be(type);
-        sut.GetValue<string>("p3").Should().Be(type);
+        sut.GetValue<int[]>("pc3_").Should().BeEquivalentTo(ages);
+        sut.GetValue<string>("p4").Should().Be(type);
+        sut.GetValue<int>("p5").Should().Be(id);
     }
 
     [Theory]

@@ -1,19 +1,17 @@
-﻿namespace Dapper.SimpleSqlBuilder;
+﻿using System.Collections;
+
+namespace Dapper.SimpleSqlBuilder;
 
 internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 {
-    private readonly string parameterNameTemplate;
-    private readonly string parameterPrefix;
-    private readonly bool reuseParameters;
+    private readonly ParameterOptions parameterOptions;
 
     private int paramCount;
     private Dictionary<SimpleParameterInfo, string>? parameterDictionary;
 
-    public SqlFormatter(string parameterNameTemplate, string parameterPrefix, bool reuseParameters)
+    public SqlFormatter(ParameterOptions parameterOptions)
     {
-        this.parameterNameTemplate = parameterNameTemplate;
-        this.parameterPrefix = parameterPrefix;
-        this.reuseParameters = reuseParameters;
+        this.parameterOptions = parameterOptions;
         Parameters = new();
     }
 
@@ -43,7 +41,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
             return value?.ToString() ?? string.Empty;
         }
 
-        if ((value is null or not SimpleParameterInfo) && !reuseParameters)
+        if ((value is null or not SimpleParameterInfo) && !parameterOptions.ReuseParameters)
         {
             return AddValueToParameters(value);
         }
@@ -59,9 +57,12 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
         Parameters = new();
     }
 
+    private static bool IsEnumerableParameter<T>(T? value)
+        => value is IEnumerable and not string;
+
     private string AddValueToParameters<T>(T value)
     {
-        var parameterName = GetNextParameterName();
+        var parameterName = GetNextParameterName(IsEnumerableParameter(value));
         Parameters.Add(parameterName, value, direction: System.Data.ParameterDirection.Input);
         return AppendParameterPrefix(parameterName);
     }
@@ -77,7 +78,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
 
         if (!parameterInfo.HasName)
         {
-            parameterInfo.SetName(GetNextParameterName());
+            parameterInfo.SetName(GetNextParameterName(IsEnumerableParameter(parameterInfo.Value)));
         }
 
         Parameters.Add(parameterInfo.Name!, parameterInfo.Value, parameterInfo.DbType, parameterInfo.Direction, parameterInfo.Size, parameterInfo.Precision, parameterInfo.Scale);
@@ -92,9 +93,13 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
         return dbPrefixedParameterName;
     }
 
-    private string GetNextParameterName()
-        => $"{parameterNameTemplate}{paramCount++}";
+    private string GetNextParameterName(bool isEnumerable)
+    {
+        return isEnumerable
+            ? string.Format(System.Globalization.CultureInfo.InvariantCulture, parameterOptions.CollectionParameterFormat, paramCount++)
+            : $"{parameterOptions.ParameterNameTemplate}{paramCount++}";
+    }
 
     private string AppendParameterPrefix(string parameterName)
-        => parameterPrefix + parameterName;
+        => parameterOptions.ParameterPrefix + parameterName;
 }

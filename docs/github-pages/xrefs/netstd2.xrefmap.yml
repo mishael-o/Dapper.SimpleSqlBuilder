@@ -1066,15 +1066,28 @@ references:
   commentId: T:Dapper.SimpleSqlBuilder.SimpleBuilderSettings
   fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings
   nameWithType: SimpleBuilderSettings
-- uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure(System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})
-  name: Configure(string?, string?, bool?, bool?)
-  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_Configure_System_String_System_String_System_Nullable_System_Boolean__System_Nullable_System_Boolean__
-  commentId: M:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure(System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})
-  name.vb: Configure(String, String, Boolean?, Boolean?)
-  fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure(string?, string?, bool?, bool?)
-  fullName.vb: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure(String, String, Boolean?, Boolean?)
-  nameWithType: SimpleBuilderSettings.Configure(string?, string?, bool?, bool?)
-  nameWithType.vb: SimpleBuilderSettings.Configure(String, String, Boolean?, Boolean?)
+- uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.CollectionParameterTemplateFormat
+  name: CollectionParameterTemplateFormat
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_CollectionParameterTemplateFormat
+  commentId: P:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.CollectionParameterTemplateFormat
+  fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.CollectionParameterTemplateFormat
+  nameWithType: SimpleBuilderSettings.CollectionParameterTemplateFormat
+- uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.CollectionParameterTemplateFormat*
+  name: CollectionParameterTemplateFormat
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_CollectionParameterTemplateFormat_
+  commentId: Overload:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.CollectionParameterTemplateFormat
+  isSpec: "True"
+  fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.CollectionParameterTemplateFormat
+  nameWithType: SimpleBuilderSettings.CollectionParameterTemplateFormat
+- uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure(System.String,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})
+  name: Configure(string?, string?, string?, bool?, bool?)
+  href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_Configure_System_String_System_String_System_String_System_Nullable_System_Boolean__System_Nullable_System_Boolean__
+  commentId: M:Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure(System.String,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})
+  name.vb: Configure(String, String, String, Boolean?, Boolean?)
+  fullName: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure(string?, string?, string?, bool?, bool?)
+  fullName.vb: Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure(String, String, String, Boolean?, Boolean?)
+  nameWithType: SimpleBuilderSettings.Configure(string?, string?, string?, bool?, bool?)
+  nameWithType.vb: SimpleBuilderSettings.Configure(String, String, String, Boolean?, Boolean?)
 - uid: netstd2.Dapper.SimpleSqlBuilder.SimpleBuilderSettings.Configure*
   name: Configure
   href: /api-docs/netstd2/Dapper.SimpleSqlBuilder.SimpleBuilderSettings.html#Dapper_SimpleSqlBuilder_SimpleBuilderSettings_Configure_

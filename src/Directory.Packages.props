@@ -15,30 +15,34 @@
         <PackageVersion Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
         <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.0" />
         <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
-        <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.146" />
+        <PackageVersion Include="Nerdbank.GitVersioning" Version="3.7.112" />
     </ItemGroup>
     <ItemGroup Label="TestPackages">
         <PackageVersion Include="AutoFixture" Version="4.18.1" />
         <PackageVersion Include="AutoFixture.Xunit2" Version="4.18.1" />
         <PackageVersion Include="AutoFixture.AutoMoq" Version="4.18.1" />
-        <PackageVersion Include="coverlet.collector" Version="6.0.2" />
-        <PackageVersion Include="FluentAssertions" Version="6.12.2" />
+        <PackageVersion Include="coverlet.collector" Version="6.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageVersion>
+        <PackageVersion Include="FluentAssertions" Version="7.0.0" />
         <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
         <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
         <PackageVersion Include="Moq" Version="[4.18.4]" />
-        <!--For unit test issues on Linux https://github.com/microsoft/vstest/issues/2469-->
-        <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="17.12.0" />
         <PackageVersion Include="xunit" Version="2.9.2" />
-        <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+        <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageVersion>
     </ItemGroup>
     <ItemGroup Label="IntegrationTestPackages">
         <PackageVersion Include="Microsoft.Data.SqlClient" Version="5.2.2" />
         <PackageVersion Include="System.Data.SqlClient" Version="4.9.0" />
         <PackageVersion Include="MySqlConnector" Version="2.4.0" />
-        <PackageVersion Include="TestContainers.MsSql" Version="4.0.0" />
-        <PackageVersion Include="TestContainers.MySql" Version="4.0.0" />
-        <PackageVersion Include="TestContainers.PostgreSql" Version="4.0.0" />
+        <PackageVersion Include="TestContainers.MsSql" Version="4.1.0" />
+        <PackageVersion Include="TestContainers.MySql" Version="4.1.0" />
+        <PackageVersion Include="TestContainers.PostgreSql" Version="4.1.0" />
     </ItemGroup>
     <ItemGroup Label="BenchmarkPackages">
         <PackageVersion Include="Dapper.SqlBuilder" Version="2.0.78" />
@@ -51,15 +55,15 @@
         <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
     </ItemGroup>
     <Choose>
-        <When Condition="'$(TargetFramework)' == 'net462'">
-            <ItemGroup Label="IntegrationTestPackagesNET462">
+        <When Condition="'$(TargetFramework)' == 'net48'">
+            <ItemGroup Label="IntegrationTestPackagesNET48">
                 <PackageVersion Include="Npgsql" Version="8.0.6" />
                 <PackageVersion Include="Respawn" Version="4.0.0" />
             </ItemGroup>
         </When>
         <Otherwise>
             <ItemGroup Label="IntegrationTestPackagesNETCore">
-                <PackageVersion Include="Npgsql" Version="9.0.1" />
+                <PackageVersion Include="Npgsql" Version="9.0.2" />
                 <PackageVersion Include="Respawn" Version="6.2.1" />
             </ItemGroup>
         </Otherwise>

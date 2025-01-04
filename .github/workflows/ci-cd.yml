@@ -52,12 +52,14 @@ jobs:
           dotnet-version: |
             9.x
             8.x
+      - name: Install Mono
+        run: sudo apt-get install -y mono-complete
       - name: Restore dependencies
         run: dotnet restore
       - name: Build solution
         run: dotnet build --no-restore -c $configuration
       - name: Run unit tests
-        run: dotnet test --no-build -c $configuration --collect:"XPlat Code Coverage" --filter "FullyQualifiedName~UnitTests" --results-directory ${{ env.coverageReportPath }} -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[*]Dapper.SimpleSqlBuilder.UnitTestHelpers*"
+        run: dotnet test --no-build -c $configuration --collect:"XPlat Code Coverage;Format=cobertura" --filter "FullyQualifiedName~UnitTests" --results-directory ${{ env.coverageReportPath }} -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[*]Dapper.SimpleSqlBuilder.UnitTestHelpers*"
       - name: Run integration tests
         run: dotnet test --no-build -c $configuration --filter "FullyQualifiedName~IntegrationTests"
       - name: Install dotnet-coverage

@@ -52,6 +52,7 @@ You can configure the builder settings and the [`ISimpleBuilder`](xref:Dapper.Si
   "SimpleSqlBuilder": {
     "DatabaseParameterNameTemplate": "p",
     "DatabaseParameterPrefix": "@",
+    "CollectionParameterTemplateFormat": "c{0}_",
     "ReuseParameters": false,
     "UseLowerCaseClauses": false
   }
@@ -72,6 +73,7 @@ services.AddSimpleSqlBuilder(
     {
         configure.DatabaseParameterNameTemplate = "param"; // Optional. The default is "p"
         configure.DatabaseParameterPrefix = ":"; // Optional. The default is "@"
+        configure.CollectionParameterTemplateFormat = "col{0}_"; // Optional. The default is "c{0}_"
         configure.ReuseParameters = true; // Optional. The default is false
         configure.UseLowerCaseClauses = true; // Optional. The default is false. This is only applicable to the fluent builder
     },

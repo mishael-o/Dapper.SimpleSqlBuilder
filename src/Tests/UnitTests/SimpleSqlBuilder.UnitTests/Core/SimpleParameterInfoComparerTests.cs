@@ -82,7 +82,6 @@ public class SimpleParameterInfoComparerTests
                 yield return new object[] { new SimpleParameterInfo(values[i].Value, values[i].DbType, size), new SimpleParameterInfo(values[i].Value, values[i].DbType, size) };
                 yield return new object[] { new SimpleParameterInfo(values[i].Value, values[i].DbType, size, precision), new SimpleParameterInfo(values[i].Value, values[i].DbType, size, precision) };
                 yield return new object[] { new SimpleParameterInfo(values[i].Value, values[i].DbType, size, precision, scale), new SimpleParameterInfo(values[i].Value, values[i].DbType, size, precision, scale) };
-                yield return new object[] { new SimpleParameterInfo(null, values[i].Value, values[i].DbType, ParameterDirection.Input, size, precision, scale), new SimpleParameterInfo(null, values[i].Value, values[i].DbType, ParameterDirection.Input, size, precision, scale) };
             }
         }
     }
