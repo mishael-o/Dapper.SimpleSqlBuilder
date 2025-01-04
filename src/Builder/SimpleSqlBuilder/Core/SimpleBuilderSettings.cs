@@ -157,9 +157,9 @@ public sealed class SimpleBuilderSettings
     private static void UpdateCollectionParameterFormat()
     {
 #if NET8_0_OR_GREATER
-        Instance.CollectionParameterFormat = System.Text.CompositeFormat.Parse(Instance.DatabaseParameterPrefix + Instance.CollectionParameterTemplateFormat);
+        Instance.CollectionParameterFormat = System.Text.CompositeFormat.Parse(Instance.DatabaseParameterNameTemplate + Instance.CollectionParameterTemplateFormat);
 #else
-        Instance.CollectionParameterFormat = Instance.DatabaseParameterPrefix + Instance.CollectionParameterTemplateFormat;
+        Instance.CollectionParameterFormat = Instance.DatabaseParameterNameTemplate + Instance.CollectionParameterTemplateFormat;
 #endif
     }
 }
