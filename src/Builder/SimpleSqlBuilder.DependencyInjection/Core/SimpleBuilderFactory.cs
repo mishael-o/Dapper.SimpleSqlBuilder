@@ -14,8 +14,8 @@ internal sealed class SimpleBuilderFactory : ISimpleBuilder
 
     public Builder Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null)
     {
-        var parameterSettings = CreateParameterOptions(options.CurrentValue, parameterPrefix, reuseParameters);
-        return new SqlBuilder(parameterSettings, formattable);
+        var parameterOptions = CreateParameterOptions(options.CurrentValue, parameterPrefix, reuseParameters);
+        return new SqlBuilder(parameterOptions, formattable);
     }
 
 #if NET6_0_OR_GREATER
@@ -25,9 +25,9 @@ internal sealed class SimpleBuilderFactory : ISimpleBuilder
 
     public ISimpleFluentBuilderEntry CreateFluent(string? parameterPrefix = null, bool? reuseParameters = null, bool? useLowerCaseClauses = null)
     {
-        var parameterSettings = CreateParameterOptions(options.CurrentValue, parameterPrefix, reuseParameters);
+        var parameterOptions = CreateParameterOptions(options.CurrentValue, parameterPrefix, reuseParameters);
         return new FluentSqlBuilder(
-            parameterSettings,
+            parameterOptions,
             useLowerCaseClauses ?? options.CurrentValue.UseLowerCaseClauses);
     }
 
