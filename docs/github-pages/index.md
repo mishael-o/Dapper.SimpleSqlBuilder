@@ -6,16 +6,16 @@ A simple and [performant](docs/miscellaneous/performance.md) SQL builder for [Da
 
 The example below shows how to install the [Dapper.SimpleSqlBuilder](https://www.nuget.org/packages/Dapper.SimpleSqlBuilder) package. To install other packages, see the [Packages](docs/introduction.md#packages) section.
 
-Install via the NuGet Package Manager Console
-
-```powershell
-Install-Package Dapper.SimpleSqlBuilder
-```
-
-Or via the .NET Core command line interface
+Install via the .NET Core command line interface
 
 ```bash
 dotnet add package Dapper.SimpleSqlBuilder
+```
+
+Or via the NuGet Package Manager Console
+
+```powershell
+Install-Package Dapper.SimpleSqlBuilder
 ```
 
 ## Usage
@@ -45,7 +45,7 @@ WHERE UserTypeId = {userTypeId} AND Role = {role}");
 
 ```sql
 SELECT * FROM User
-WHERE Id = @p0 AND Role = @p1
+WHERE UserTypeId = @p0 AND Role = @p1
 ```
 
 > And all values passed into the interpolated string are taken out and replaced with parameter placeholders. The parameter values are put into Dapper's <xref:Dapper.DynamicParameters> collection.

@@ -44,7 +44,7 @@ var builder = SimpleBuilder.Create(parameterPrefix: ":");
 var fluentBuilder = SimpleBuilder.CreateFluent(parameterPrefix: ":");
 ```
 
-## Configure Collection Parameter Template
+## Configuring Collection Parameter Template
 
 When working with collections, the builder generates unique parameter names using a template format. By default, the format is `c{0}_`, where `{0}` is replaced with an index.
 

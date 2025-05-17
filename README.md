@@ -10,7 +10,94 @@ A simple and [performant](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/do
 
 ## Getting Started
 
-Refer to the [Quick Start](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/) guide for more details.
+Install via the .NET Core command line interface
+
+```bash
+dotnet add package Dapper.SimpleSqlBuilder
+```
+
+Or via the NuGet Package Manager Console
+
+```powershell
+Install-Package Dapper.SimpleSqlBuilder
+```
+
+For information on installing other available packages, refer to the [Packages](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/introduction.html#packages) section in the documentation.
+
+### Usage
+
+The library provides two builders for building SQL queries, which can be created via the static `SimpleBuilder` class.
+
+- `Builder` - for building static, dynamic, and complex SQL queries.
+- `Fluent Builder` - for building SQL queries using a fluent API.
+
+ The library also provides an alternative to static classes via [Dependency Injection](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/configuration/dependency-injection.html).
+
+#### Create SQL query with the `Builder`
+
+```csharp
+using Dapper.SimpleSqlBuilder;
+
+var userTypeId = 4;
+var role = "Admin";
+
+var builder = SimpleBuilder.Create($@"
+SELECT * FROM User
+WHERE UserTypeId = {userTypeId} AND Role = {role}");
+```
+
+> [!NOTE]
+> The concern you might have here is the issue of SQL injection, however this is mitigated by the library as the SQL statement is converted to this.
+
+```sql
+SELECT * FROM User
+WHERE UserTypeId = @p0 AND Role = @p1
+```
+
+> And all values passed into the interpolated string are taken out and replaced with parameter placeholders. The parameter values are put into Dapper's [DynamicParameters](https://github.com/DapperLib/Dapper/blob/main/Dapper/DynamicParameters.cs) collection.
+
+To execute the query with Dapper is as simple as this:
+
+```csharp
+var users = dbConnection.Query<User>(builder.Sql, builder.Parameters);
+```
+
+To learn more about the `Builder`, refer to the [Builder](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/builders/builder.html) section in the documentation.
+
+#### Create SQL query with the `Fluent Builder`
+
+```csharp
+using Dapper.SimpleSqlBuilder;
+
+var userTypeId = 4;
+var roles = new[] { "Admin", "User" };
+
+var builder = SimpleBuilder.CreateFluent()
+    .Select($"*")
+    .From($"User")
+    .Where($"UserTypeId = {userTypeId}")
+    .Where($"Role IN {roles}");
+
+// Execute the query with Dapper
+var users = dbConnection.Query<User>(builder.Sql, builder.Parameters);
+```
+
+The generated SQL will be:
+
+```sql
+SELECT *
+FROM User
+WHERE UserTypeId = @p0 AND Role IN @pc1_
+```
+
+> [!NOTE]
+> When the query is executed, Dapper will expand the parameter `pc1_` into individual parameters (`pc1_1`, `pc1_2`, etc.) for each value in the collection.
+
+To learn more about the `Fluent Builder`, refer to the [Fluent Builder](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/builders/fluent-builder/fluent-builder.html) section in the documentation.
+
+### The Docs 📚
+
+To customize builder behaviour, such as parameter names and prefixes, and more, see the [Builder Settings](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/configuration/builder-settings.html) documentation. For complete guidance on using the library, refer to the [Documentation](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/introduction.html) site.
 
 ## Share Your Feedback
 
@@ -26,4 +113,5 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
 
 ## Acknowledgements
 
-Refer to the [Acknowledgements](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/miscellaneous/acknowledgements) page for more details.
+- Thanks to [JetBrains](https://www.jetbrains.com) for their open source development [support](https://jb.gg/OpenSourceSupport).
+- This project was inspired by these amazing libraries. [Dapper SqlBuilder](https://github.com/DapperLib/Dapper/tree/main/Dapper.SqlBuilder) and [DapperQueryBuilder](https://github.com/Drizin/DapperQueryBuilder).

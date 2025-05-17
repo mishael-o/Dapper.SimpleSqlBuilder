@@ -94,8 +94,6 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Simple query")]
     public string SimpleSqlBuilderReuseParameters()
     {
-        ////AND Name = { product.Name }
-
         var builder = SimpleBuilder.Create(reuseParameters: true)
             .AppendIntact($"""
                SELECT x.*, (SELECT Description FROM ProductDetail WHERE Id = {product.Id} OR ProductCode = {product.ProductCode})

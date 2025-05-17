@@ -27,7 +27,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
     public string Format(string? format, object? arg, IFormatProvider? formatProvider)
         => Format(arg, format);
 
-    public string Format<T>(T value, string? format = null)
+    public string Format<T>(T? value, string? format = null)
     {
         if (value is FormattableString formattableString)
         {
@@ -60,7 +60,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
     private static bool IsEnumerableParameter<T>(T? value)
         => value is IEnumerable and not string;
 
-    private string AddValueToParameters<T>(T value)
+    private string AddValueToParameters<T>(T? value)
     {
         var parameterName = GetNextParameterName(IsEnumerableParameter(value));
         Parameters.Add(parameterName, value, direction: System.Data.ParameterDirection.Input);
