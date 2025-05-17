@@ -97,7 +97,9 @@ To learn more about the `Fluent Builder`, refer to the [Fluent Builder](https://
 
 ### The Docs 📚
 
-To customize builder behaviour, such as parameter names and prefixes, and more, see the [Builder Settings](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/configuration/builder-settings.html) documentation. For complete guidance on using the library, refer to the [Documentation](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/introduction.html) site.
+For advanced configuration options including parameter naming conventions, prefixes, and other settings, visit the [Builder Settings](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/configuration/builder-settings.html) section in the documentation.
+
+Explore the complete [Documentation](https://mishael-o.github.io/Dapper.SimpleSqlBuilder/docs/introduction.html) to learn more about the library's features and usage.
 
 ## Share Your Feedback
 
