@@ -38,7 +38,7 @@ public class PostgreSqlTests : IAsyncLifetime
         var result = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class PostgreSqlTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(products.Length);
+        result.ShouldBe(products.Length);
     }
 
     [Fact]
@@ -97,7 +97,7 @@ public class PostgreSqlTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBeEquivalentTo(products);
     }
 
     [Fact]
@@ -122,7 +122,7 @@ public class PostgreSqlTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(count);
+        result.ShouldBe(count);
 
         builder.Reset();
         builder.AppendIntact($"""
@@ -130,7 +130,7 @@ public class PostgreSqlTests : IAsyncLifetime
             WHERE {nameof(Product.Tag):raw} = {tag}
             """);
         var expectedCreatedDates = await connection.QueryAsync<DateTime>(builder.Sql, builder.Parameters);
-        expectedCreatedDates.Should().AllBeEquivalentTo(createdDate);
+        expectedCreatedDates.ShouldAllBe(date => date == createdDate);
     }
 
     [Fact]
@@ -153,12 +153,12 @@ public class PostgreSqlTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(count);
+        result.ShouldBe(count);
 
         builder.Reset();
         builder.AppendIntact($"SELECT EXISTS (SELECT 1 FROM {nameof(Product):raw} WHERE {nameof(Product.Tag):raw} = {tag})");
         var dataExists = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
-        dataExists.Should().BeFalse();
+        dataExists.ShouldBeFalse();
     }
 
     [Fact]
@@ -180,8 +180,8 @@ public class PostgreSqlTests : IAsyncLifetime
         await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        builder.GetValue<int>(productIdParamName).Should().NotBe(default);
-        builder.GetValue<int>(resultParamName).Should().Be(1);
+        builder.GetValue<int>(productIdParamName).ShouldNotBe(default);
+        builder.GetValue<int>(resultParamName).ShouldBe(1);
     }
 
     public Task InitializeAsync()

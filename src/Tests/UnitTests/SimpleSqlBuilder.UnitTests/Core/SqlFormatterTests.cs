@@ -16,7 +16,7 @@ public class SqlFormatterTests
         var result = sut.GetFormat(formatType);
 
         // Assert
-        result.Should().Be(sut);
+        result.ShouldBe(sut);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class SqlFormatterTests
         var result = sut.GetFormat(formatType);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Fact]
@@ -59,11 +59,11 @@ public class SqlFormatterTests
         var result = sut.Format(null, formattableString, sut);
 
         // Assert
-        result.Should().Be(expectedResult);
-        sut.Parameters.ParameterNames.Should().HaveCount(3);
-        sut.Parameters.Get<int[]>("pc0_").Should().BeEquivalentTo(model.TypeIds);
-        sut.Parameters.Get<int>("p1").Should().Be(model.Id);
-        sut.Parameters.Get<int[]>("pc2_").Should().BeEquivalentTo(model.TypeIds);
+        result.ShouldBe(expectedResult);
+        sut.Parameters.ParameterNames.Count().ShouldBe(3);
+        sut.Parameters.Get<int[]>("pc0_").ShouldBe(model.TypeIds);
+        sut.Parameters.Get<int>("p1").ShouldBe(model.Id);
+        sut.Parameters.Get<int[]>("pc2_").ShouldBe(model.TypeIds);
     }
 
     [Theory]
@@ -79,7 +79,7 @@ public class SqlFormatterTests
         var result = sut.Format(Constants.RawFormat, argument, sut);
 
         // Assert
-        result.Should().Be(expectedResult);
+        result.ShouldBe(expectedResult);
     }
 
     [Theory]
@@ -95,9 +95,9 @@ public class SqlFormatterTests
         var result = sut.Format(null, argument, sut);
 
         // Assert
-        result.Should().Be("@p0");
-        sut.Parameters.ParameterNames.Should().HaveCount(1);
-        sut.Parameters.Get<object?>("p0").Should().Be(argument);
+        result.ShouldBe("@p0");
+        sut.Parameters.ParameterNames.Count().ShouldBe(1);
+        sut.Parameters.Get<object?>("p0").ShouldBe(argument);
     }
 
     [Theory]
@@ -115,9 +115,9 @@ public class SqlFormatterTests
         var result = sut.Format(null, parameterInfo, sut);
 
         // Assert
-        result.Should().Be("@p0");
-        sut.Parameters.ParameterNames.Should().HaveCount(1);
-        sut.Parameters.Get<object?>("p0").Should().Be(parameterInfo.Value);
+        result.ShouldBe("@p0");
+        sut.Parameters.ParameterNames.Count().ShouldBe(1);
+        sut.Parameters.Get<object?>("p0").ShouldBe(parameterInfo.Value);
     }
 
     [Fact]
@@ -144,14 +144,14 @@ public class SqlFormatterTests
         var result = sut.Format(null, formattableString, sut);
 
         // Assert
-        result.Should().Be(expectedResult);
-        sut.Parameters.ParameterNames.Should().HaveCount(6);
-        sut.Parameters.Get<int>("p0").Should().Be(model.Id);
-        sut.Parameters.Get<string>("p1").Should().Be(model.ProductName);
-        sut.Parameters.Get<double>("p2").Should().Be(model.Price.Value.As<double>());
-        sut.Parameters.Get<bool>("p3").Should().Be(model.IsActive);
-        sut.Parameters.Get<string?>("p4").Should().Be(model.SecondName);
-        sut.Parameters.Get<string?>("p5").Should().Be(model.SecondName);
+        result.ShouldBe(expectedResult);
+        sut.Parameters.ParameterNames.Count().ShouldBe(6);
+        sut.Parameters.Get<int>("p0").ShouldBe(model.Id);
+        sut.Parameters.Get<string>("p1").ShouldBe(model.ProductName);
+        sut.Parameters.Get<double>("p2").ShouldBe(model.Price.Value);
+        sut.Parameters.Get<bool>("p3").ShouldBe(model.IsActive);
+        sut.Parameters.Get<string?>("p4").ShouldBe(model.SecondName);
+        sut.Parameters.Get<string?>("p5").ShouldBe(model.SecondName);
     }
 
     [Fact]
@@ -171,7 +171,7 @@ public class SqlFormatterTests
         sut.Reset();
 
         // Assert
-        sut.Parameters.ParameterNames.Should().BeEmpty();
+        sut.Parameters.ParameterNames.ShouldBeEmpty();
     }
 
     private static SqlFormatter CreateSqlFormatter(bool reuseParameters = false)

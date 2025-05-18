@@ -15,9 +15,9 @@ public class UpdateSetInterpolatedStringHandlerTests
         Action act = () => _ = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilder, out var _);
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage("The builder must implement IFluentBuilderFormatter.*")
-            .WithParameterName("builder");
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldMatch("The builder must implement IFluentBuilderFormatter.*");
+        exception.ParamName.ShouldBe("builder");
     }
 
     [Theory]
@@ -28,9 +28,9 @@ public class UpdateSetInterpolatedStringHandlerTests
         Action act = () => _ = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage("The builder must implement IFluentBuilderFormatter.*")
-            .WithParameterName("builder");
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldMatch("The builder must implement IFluentBuilderFormatter.*");
+        exception.ParamName.ShouldBe("builder");
     }
 
     [Theory]
@@ -44,7 +44,7 @@ public class UpdateSetInterpolatedStringHandlerTests
         var sut = new UpdateSetInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var isHandlerEnabled);
 
         // Assert
-        isHandlerEnabled.Should().BeTrue();
+        isHandlerEnabled.ShouldBeTrue();
         fluentFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.UpdateSet));
     }
 
@@ -60,7 +60,7 @@ public class UpdateSetInterpolatedStringHandlerTests
         _ = new UpdateSetInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
 
         // Assert
-        isHandlerEnabled.Should().BeFalse();
+        isHandlerEnabled.ShouldBeFalse();
     }
 
     [Theory]

@@ -13,9 +13,9 @@ public class AppendInterpolatedStringHandlerTests
         Action act = () => _ = new AppendInterpolatedStringHandler(0, 0, builder, out var _);
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage("The builder must implement IBuilderFormatter.*")
-            .WithParameterName("builder");
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldStartWith("The builder must implement IBuilderFormatter.");
+        exception.ParamName.ShouldBe("builder");
     }
 
     [Theory]
@@ -26,9 +26,9 @@ public class AppendInterpolatedStringHandlerTests
         Action act = () => _ = new AppendInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage("The builder must implement IBuilderFormatter.*")
-            .WithParameterName("builder");
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldStartWith("The builder must implement IBuilderFormatter.");
+        exception.ParamName.ShouldBe("builder");
     }
 
     [Theory]
@@ -57,7 +57,7 @@ public class AppendInterpolatedStringHandlerTests
         _ = new AppendInterpolatedStringHandler(0, 0, condition, builderMock.Object, out var isHandlerEnabled);
 
         // Assert
-        isHandlerEnabled.Should().BeFalse();
+        isHandlerEnabled.ShouldBeFalse();
     }
 
     [Theory]

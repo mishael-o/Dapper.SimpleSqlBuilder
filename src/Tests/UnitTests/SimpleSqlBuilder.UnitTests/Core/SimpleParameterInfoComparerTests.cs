@@ -15,7 +15,7 @@ public class SimpleParameterInfoComparerTests
         var result = sut.Equals(param1, param2);
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 
     [Theory]
@@ -29,7 +29,7 @@ public class SimpleParameterInfoComparerTests
         var result = sut.Equals(param1, param2);
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Theory]
@@ -44,7 +44,7 @@ public class SimpleParameterInfoComparerTests
         var hashCode = sut.GetHashCode(parameterInfo);
 
         // Assert
-        hashCode.Should().Be(expectedHashCode);
+        hashCode.ShouldBe(expectedHashCode);
     }
 
     private static class SimpleParameterInfoComparerTestCases

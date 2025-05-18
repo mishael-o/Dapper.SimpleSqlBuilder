@@ -16,10 +16,10 @@ public class DeleteBuilderTests
             .DeleteFrom($"Table");
 
         // Assert
-        sut.Should().BeOfType<FluentSqlBuilder>();
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
-        sut.Parameters.Should().BeOfType<DynamicParameters>();
+        sut.ShouldBeOfType<FluentSqlBuilder>();
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
+        sut.Parameters.ShouldBeOfType<DynamicParameters>();
     }
 
     [Theory]
@@ -36,10 +36,10 @@ public class DeleteBuilderTests
             .OrWhere($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -56,10 +56,10 @@ public class DeleteBuilderTests
             .OrWhereFilter($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -76,10 +76,10 @@ public class DeleteBuilderTests
                     .OrWhere($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -95,10 +95,10 @@ public class DeleteBuilderTests
                     .OrWhereFilter($"Id = {id}").WithOrFilter($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -120,12 +120,12 @@ public class DeleteBuilderTests
             .OrWhere(true, $"Id NOT IN {ages}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(4);
-        sut.GetValue<int>("p0").Should().Be(age);
-        sut.GetValue<int[]>("pc1_").Should().BeEquivalentTo(ages);
-        sut.GetValue<string>("p2").Should().Be(type);
-        sut.GetValue<int[]>("pc3_").Should().BeEquivalentTo(ages);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(4);
+        sut.GetValue<int>("p0").ShouldBe(age);
+        sut.GetValue<int[]>("pc1_").ShouldBe(ages);
+        sut.GetValue<string>("p2").ShouldBe(type);
+        sut.GetValue<int[]>("pc3_").ShouldBe(ages);
     }
 
     [Theory]
@@ -146,9 +146,9 @@ public class DeleteBuilderTests
             .Offset(5);
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(1);
-        sut.GetValue<int>("p0").Should().Be(id);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldHaveSingleItem();
+        sut.GetValue<int>("p0").ShouldBe(id);
     }
 
     [Theory]
@@ -166,10 +166,10 @@ public class DeleteBuilderTests
             .Where($"TypeId IN ({subQuery})");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -188,9 +188,9 @@ public class DeleteBuilderTests
             .Where($"TypeGroup IN ({subQuery})");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(1);
-        sut.GetValue<string>("p0").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldHaveSingleItem();
+        sut.GetValue<string>("p0").ShouldBe(type);
     }
 
     [Theory]
@@ -210,10 +210,10 @@ public class DeleteBuilderTests
             .OrWhereFilter($"Id = {idParam}").WithFilter($"Type = {typeParam}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -231,9 +231,9 @@ public class DeleteBuilderTests
         sut.AddParameter(nameof(id), id);
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(1);
-        sut.GetValue<int>(nameof(id)).Should().Be(id);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldHaveSingleItem();
+        sut.GetValue<int>(nameof(id)).ShouldBe(id);
     }
 
     [Theory]
@@ -251,11 +251,11 @@ public class DeleteBuilderTests
             .Where($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(3);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<int>("p1").Should().Be(age);
-        sut.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(3);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<int>("p1").ShouldBe(age);
+        sut.GetValue<string>("p2").ShouldBe(type);
     }
 
     [Theory]
@@ -273,10 +273,10 @@ public class DeleteBuilderTests
             .OrWhere($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -293,11 +293,11 @@ public class DeleteBuilderTests
             .OrWhereFilter($"Age = {age}").WithFilter($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(3);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<int>("p1").Should().Be(age);
-        sut.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(3);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<int>("p1").ShouldBe(age);
+        sut.GetValue<string>("p2").ShouldBe(type);
     }
 
     [Fact]
@@ -311,8 +311,8 @@ public class DeleteBuilderTests
         Action act = () => sut.InsertInto($"*");
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.Insert}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
+        act.ShouldThrow<InvalidOperationException>()
+           .Message.ShouldBe($"Clause action \"{ClauseAction.Insert}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
     }
 
     [Fact]
@@ -326,8 +326,8 @@ public class DeleteBuilderTests
         Action act = () => sut.Select($"*");
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.Select}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
+        act.ShouldThrow<InvalidOperationException>()
+           .Message.ShouldBe($"Clause action \"{ClauseAction.Select}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
     }
 
     [Fact]
@@ -341,8 +341,8 @@ public class DeleteBuilderTests
         Action act = () => sut.SelectDistinct($"*");
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.SelectDistinct}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
+        act.ShouldThrow<InvalidOperationException>()
+           .Message.ShouldBe($"Clause action \"{ClauseAction.SelectDistinct}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
     }
 
     [Fact]
@@ -356,7 +356,7 @@ public class DeleteBuilderTests
         Action act = () => sut.Update($"*");
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.Update}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
+        act.ShouldThrow<InvalidOperationException>()
+           .Message.ShouldBe($"Clause action \"{ClauseAction.Update}\" is not allowed after \"{ClauseAction.Delete}\" has been initiated on the same Fluent Builder.");
     }
 }

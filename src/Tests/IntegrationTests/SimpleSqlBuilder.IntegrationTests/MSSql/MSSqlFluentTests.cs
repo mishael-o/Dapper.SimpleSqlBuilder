@@ -46,7 +46,8 @@ public class MSSqlFluentTests : IAsyncLifetime
 
         // Assert
         var insertCount = await connection.ExecuteScalarAsync<int>(insertCountBuilder.Sql, insertCountBuilder.Parameters);
-        result.Should().Be(1).And.Be(insertCount);
+        result.ShouldBe(1);
+        result.ShouldBe(insertCount);
     }
 
     [Fact]
@@ -83,7 +84,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBeEquivalentTo(products);
     }
 
     [Fact]
@@ -116,7 +117,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+        result.ShouldBe(paginatedProducts);
     }
 
     [Fact]
@@ -152,7 +153,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+        result.ShouldBe(paginatedProducts);
     }
 
     [Fact]
@@ -178,7 +179,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBeEquivalentTo(products);
     }
 
     [Fact]
@@ -204,7 +205,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBeEquivalentTo(products);
     }
 
     [Fact]
@@ -233,7 +234,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBeEquivalentTo(products);
     }
 
     [Fact]
@@ -264,11 +265,11 @@ public class MSSqlFluentTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(count);
+        result.ShouldBe(count);
 
         var updatedProduct = await connection.QuerySingleAsync<Product>(getUpdatedProduct.Sql, getUpdatedProduct.Parameters);
-        updatedProduct.TypeId.Should().Be(mssqlTestsFixture.SeedProductTypes[0].Id);
-        updatedProduct.CreatedDate.Should().Be(createdDate);
+        updatedProduct.TypeId.ShouldBe(mssqlTestsFixture.SeedProductTypes[0].Id);
+        updatedProduct.CreatedDate.ShouldBe(createdDate);
     }
 
     [Fact]
@@ -296,10 +297,10 @@ public class MSSqlFluentTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(count);
+        result.ShouldBe(count);
 
         var countResult = await connection.ExecuteScalarAsync<int>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);
-        countResult.Should().Be(0);
+        countResult.ShouldBe(0);
     }
 
     public Task InitializeAsync()
