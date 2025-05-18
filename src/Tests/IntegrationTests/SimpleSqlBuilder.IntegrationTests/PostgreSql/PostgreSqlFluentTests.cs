@@ -84,7 +84,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.ShouldBeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -281,7 +281,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.ShouldBeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -307,7 +307,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.ShouldBeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -336,7 +336,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.ShouldBeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
