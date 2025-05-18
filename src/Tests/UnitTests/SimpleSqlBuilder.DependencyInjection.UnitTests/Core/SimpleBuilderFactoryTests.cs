@@ -20,8 +20,8 @@ public class SimpleBuilderFactoryTests
         var result = sut.Create();
 
         // Assert
-        result.Should().BeOfType<SqlBuilder>();
-        result.ParameterNames.Should().HaveCount(0);
+        result.ShouldBeOfType<SqlBuilder>();
+        result.ParameterNames.ShouldBeEmpty();
     }
 
     [Theory]
@@ -42,11 +42,11 @@ public class SimpleBuilderFactoryTests
         var result = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id:raw} AND Type IN {types}");
 
         // Assert
-        result.Should().BeOfType<SqlBuilder>();
-        result.Sql.Should().Be(expectedSql);
-        result.ParameterNames.Should().HaveCount(2);
-        result.GetValue<int>("p0").Should().Be(id);
-        result.GetValue<string[]>("pc1_").Should().BeEquivalentTo(types);
+        result.ShouldBeOfType<SqlBuilder>();
+        result.Sql.ShouldBe(expectedSql);
+        result.ParameterNames.Count().ShouldBe(2);
+        result.GetValue<int>("p0").ShouldBe(id);
+        result.GetValue<string[]>("pc1_").ShouldBe(types);
     }
 
     [Theory]
@@ -70,11 +70,11 @@ public class SimpleBuilderFactoryTests
             reuseParameters: true);
 
         // Assert
-        result.Should().BeOfType<SqlBuilder>();
-        result.Sql.Should().Be(expectedSql);
-        result.GetValue<int>("p0").Should().Be(id);
-        result.GetValue<string[]>("pc1_").Should().BeEquivalentTo(types);
-        result.ParameterNames.Should().HaveCount(2);
+        result.ShouldBeOfType<SqlBuilder>();
+        result.Sql.ShouldBe(expectedSql);
+        result.GetValue<int>("p0").ShouldBe(id);
+        result.GetValue<string[]>("pc1_").ShouldBe(types);
+        result.ParameterNames.Count().ShouldBe(2);
     }
 
     [Theory]
@@ -95,7 +95,7 @@ public class SimpleBuilderFactoryTests
         var result = sut.CreateFluent(parameterPrefix, reuseParameters, useLowerCaseClauses);
 
         // Assert
-        result.Should().BeOfType<FluentSqlBuilder>();
+        result.ShouldBeOfType<FluentSqlBuilder>();
     }
 
     [Theory]
@@ -124,11 +124,11 @@ public class SimpleBuilderFactoryTests
             .Where($"Type IN {types}");
 
         // Assert
-        result.Should().BeOfType<FluentSqlBuilder>();
-        result.Sql.Should().Be(expectedSql);
-        result.ParameterNames.Should().HaveCount(2);
-        result.GetValue<int>("p0").Should().Be(id);
-        result.GetValue<string[]>("pc1_").Should().BeEquivalentTo(types);
+        result.ShouldBeOfType<FluentSqlBuilder>();
+        result.Sql.ShouldBe(expectedSql);
+        result.ParameterNames.Count().ShouldBe(2);
+        result.GetValue<int>("p0").ShouldBe(id);
+        result.GetValue<string[]>("pc1_").ShouldBe(types);
     }
 
     [Theory]
@@ -157,10 +157,10 @@ public class SimpleBuilderFactoryTests
             .Where($"Type IN {types}");
 
         // Assert
-        result.Should().BeOfType<FluentSqlBuilder>();
-        result.Sql.Should().Be(expectedSql);
-        result.ParameterNames.Should().HaveCount(2);
-        result.GetValue<int>("p0").Should().Be(id);
-        result.GetValue<string[]>("pc1_").Should().BeEquivalentTo(types);
+        result.ShouldBeOfType<FluentSqlBuilder>();
+        result.Sql.ShouldBe(expectedSql);
+        result.ParameterNames.Count().ShouldBe(2);
+        result.GetValue<int>("p0").ShouldBe(id);
+        result.GetValue<string[]>("pc1_").ShouldBe(types);
     }
 }

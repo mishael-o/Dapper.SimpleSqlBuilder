@@ -42,7 +42,7 @@ public class MSSqlTests : IAsyncLifetime
         var result = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class MSSqlTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(products.Length);
+        result.ShouldBe(products.Length);
     }
 
     [Fact]
@@ -101,7 +101,7 @@ public class MSSqlTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -126,7 +126,7 @@ public class MSSqlTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(count);
+        result.ShouldBe(count);
 
         builder.Reset();
         builder.AppendIntact($"""
@@ -134,7 +134,7 @@ public class MSSqlTests : IAsyncLifetime
             WHERE {nameof(Product.Tag):raw} = {tag}
             """);
         var expectedCreatedDates = await connection.QueryAsync<DateTime>(builder.Sql, builder.Parameters);
-        expectedCreatedDates.Should().AllBeEquivalentTo(createdDate);
+        expectedCreatedDates.ShouldAllBe(date => date == createdDate);
     }
 
     [Fact]
@@ -157,7 +157,7 @@ public class MSSqlTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(count);
+        result.ShouldBe(count);
 
         builder.Reset();
         builder.AppendIntact($"""
@@ -168,7 +168,7 @@ public class MSSqlTests : IAsyncLifetime
             END
             """);
         var dataExists = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
-        dataExists.Should().BeFalse();
+        dataExists.ShouldBeFalse();
     }
 
     [Fact]
@@ -190,8 +190,8 @@ public class MSSqlTests : IAsyncLifetime
         await connection.ExecuteAsync(builder.Sql, builder.Parameters, commandType: CommandType.StoredProcedure);
 
         // Assert
-        builder.GetValue<int>(productIdParamName).Should().NotBe(default);
-        builder.GetValue<int>(resultParamName).Should().Be(1);
+        builder.GetValue<int>(productIdParamName).ShouldNotBe(default);
+        builder.GetValue<int>(resultParamName).ShouldBe(1);
     }
 
     public Task InitializeAsync()

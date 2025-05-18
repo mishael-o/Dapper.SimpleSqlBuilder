@@ -12,8 +12,8 @@ public class BuilderFactoryInterpolatedStringHandlerTests
         Action act = () => _ = new BuilderFactoryInterpolatedStringHandler(0, 0, builderFactory);
 
         // Assert
-        act.Should().Throw<ArgumentNullException>()
-            .WithParameterName("builderFactory");
+        act.ShouldThrow<ArgumentNullException>()
+           .ParamName.ShouldBe("builderFactory");
     }
 
     [Theory]
@@ -29,8 +29,8 @@ public class BuilderFactoryInterpolatedStringHandlerTests
         Action act = () => _ = new BuilderFactoryInterpolatedStringHandler(0, 0, builderFactoryMock.Object);
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage("ISimpleBuilder.Create does not return a builder that implements IBuilderFormatter.");
+        act.ShouldThrow<InvalidOperationException>()
+           .Message.ShouldBe("ISimpleBuilder.Create does not return a builder that implements IBuilderFormatter.");
     }
 
     [Theory]
@@ -85,7 +85,7 @@ public class BuilderFactoryInterpolatedStringHandlerTests
         };
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage("The formatter is null. Ensure BuilderFactoryInterpolatedStringHandler is properly initialized.");
+        act.ShouldThrow<InvalidOperationException>()
+           .Message.ShouldBe("The formatter is null. Ensure BuilderFactoryInterpolatedStringHandler is properly initialized.");
     }
 }

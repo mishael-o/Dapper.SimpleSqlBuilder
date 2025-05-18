@@ -12,16 +12,16 @@ public class SimpleParameterInfoTests
         var sut = new SimpleParameterInfo(null, dbType, size, precision, scale);
 
         // Assert
-        sut.Value.Should().BeNull();
-        sut.Direction.Should().Be(ParameterDirection.Input);
-        sut.DbType.Should().Be(dbType);
-        sut.Size.Should().Be(size);
-        sut.Precision.Should().Be(precision);
-        sut.Scale.Should().Be(scale);
-        sut.Type.Should().BeNull();
-        sut.Name.Should().BeNull();
-        sut.HasValue.Should().BeFalse();
-        sut.HasName.Should().BeFalse();
+        sut.Value.ShouldBeNull();
+        sut.Direction.ShouldBe(ParameterDirection.Input);
+        sut.DbType.ShouldBe(dbType);
+        sut.Size.ShouldBe(size);
+        sut.Precision.ShouldBe(precision);
+        sut.Scale.ShouldBe(scale);
+        sut.Type.ShouldBeNull();
+        sut.Name.ShouldBeNull();
+        sut.HasValue.ShouldBeFalse();
+        sut.HasName.ShouldBeFalse();
     }
 
     [Theory]
@@ -32,16 +32,16 @@ public class SimpleParameterInfoTests
         var sut = new SimpleParameterInfo(name, value, dbType, size, precision, scale);
 
         // Assert
-        sut.Value.Should().Be(value);
-        sut.Direction.Should().Be(ParameterDirection.Input);
-        sut.DbType.Should().Be(dbType);
-        sut.Size.Should().Be(size);
-        sut.Precision.Should().Be(precision);
-        sut.Scale.Should().Be(scale);
-        sut.Type.Should().Be(value.GetType());
-        sut.Name.Should().Be(name);
-        sut.HasValue.Should().BeTrue();
-        sut.HasName.Should().BeTrue();
+        sut.Value.ShouldBe(value);
+        sut.Direction.ShouldBe(ParameterDirection.Input);
+        sut.DbType.ShouldBe(dbType);
+        sut.Size.ShouldBe(size);
+        sut.Precision.ShouldBe(precision);
+        sut.Scale.ShouldBe(scale);
+        sut.Type.ShouldBe(value.GetType());
+        sut.Name.ShouldBe(name);
+        sut.HasValue.ShouldBeTrue();
+        sut.HasName.ShouldBeTrue();
     }
 
     [Theory]
@@ -52,7 +52,7 @@ public class SimpleParameterInfoTests
         sut.SetName(name);
 
         // Assert
-        sut.Name.Should().Be(name);
+        sut.Name.ShouldBe(name);
     }
 
     [Theory]
@@ -66,7 +66,7 @@ public class SimpleParameterInfoTests
         var act = () => sut.SetName(name);
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"{nameof(SimpleParameterInfo.Name)} has a value and cannot be changed.");
+        act.ShouldThrow<InvalidOperationException>()
+           .Message.ShouldBe($"{nameof(SimpleParameterInfo.Name)} has a value and cannot be changed.");
     }
 }

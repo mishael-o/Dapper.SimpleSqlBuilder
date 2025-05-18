@@ -15,9 +15,9 @@ public class WhereFilterInterpolatedStringHandlerTests
         Action act = () => _ = new WhereFilterInterpolatedStringHandler(0, 0, fluentBuilder);
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage("The builder must implement IFluentBuilderFormatter.*")
-            .WithParameterName("builder");
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldMatch("The builder must implement IFluentBuilderFormatter.*");
+        exception.ParamName.ShouldBe("builder");
     }
 
     [Theory]
@@ -28,9 +28,9 @@ public class WhereFilterInterpolatedStringHandlerTests
         Action act = () => _ = new WhereFilterInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage("The builder must implement IFluentBuilderFormatter.*")
-            .WithParameterName("builder");
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldMatch("The builder must implement IFluentBuilderFormatter.*");
+        exception.ParamName.ShouldBe("builder");
     }
 
     [Theory]

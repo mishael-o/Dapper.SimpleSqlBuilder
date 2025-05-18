@@ -16,8 +16,8 @@ public class BuilderInterpolatedStringHandlerTests
 
         // Assert
         var builder = sut.GetBuilder();
-        builder.Should().NotBeNull();
-        builder.Sql.Should().Be(value);
+        builder.ShouldNotBeNull();
+        builder.Sql.ShouldBe(value);
     }
 
     [Theory]
@@ -33,8 +33,8 @@ public class BuilderInterpolatedStringHandlerTests
 
         // Assert
         var builder = sut.GetBuilder();
-        builder.Should().NotBeNull();
-        builder.Sql.Should().Be(expectedSql);
+        builder.ShouldNotBeNull();
+        builder.Sql.ShouldBe(expectedSql);
     }
 
     [Fact]
@@ -48,8 +48,8 @@ public class BuilderInterpolatedStringHandlerTests
         };
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage("The formatter is null. Ensure BuilderInterpolatedStringHandler is properly initialized.");
+        act.ShouldThrow<InvalidOperationException>()
+           .Message.ShouldBe("The formatter is null. Ensure BuilderInterpolatedStringHandler is properly initialized.");
     }
 }
 #endif
