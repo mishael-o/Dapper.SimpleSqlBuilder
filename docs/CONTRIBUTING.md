@@ -8,7 +8,8 @@ Please note we have a [Code of Conduct](https://github.com/mishael-o/Dapper.Simp
 
 ## Project Prerequisites
 
-- Visual Studio 2022 or JetBrains Rider is preferred, however any modern .NET IDE can also be used.
+- Visual Studio 2022 (17.10+) or JetBrains Rider is preferred, however any modern .NET IDE that supports `.slnx` can also be used.
+- .NET 10 SDK is required.
 - Docker is required to run the integration tests locally.
 
 ## Change Guidelines

@@ -50,18 +50,18 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            9.x
+            10.x
             8.x
       - name: Install Mono
         run: sudo apt-get install -y mono-complete
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore Dapper.SimpleSqlBuilder.slnx
       - name: Build solution
-        run: dotnet build --no-restore -c $configuration
+        run: dotnet build Dapper.SimpleSqlBuilder.slnx --no-restore -c $configuration
       - name: Run unit tests
-        run: dotnet test --no-build -c $configuration --collect:"XPlat Code Coverage;Format=cobertura" --filter "FullyQualifiedName~UnitTests" --results-directory ${{ env.coverageReportPath }} -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[*]Dapper.SimpleSqlBuilder.UnitTestHelpers*"
+        run: dotnet test Dapper.SimpleSqlBuilder.slnx --no-build -c $configuration --collect:"XPlat Code Coverage;Format=cobertura" --filter "FullyQualifiedName~UnitTests" --results-directory ${{ env.coverageReportPath }} -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[*]Dapper.SimpleSqlBuilder.UnitTestHelpers*"
       - name: Run integration tests
-        run: dotnet test --no-build -c $configuration --filter "FullyQualifiedName~IntegrationTests"
+        run: dotnet test Dapper.SimpleSqlBuilder.slnx --no-build -c $configuration --filter "FullyQualifiedName~IntegrationTests"
       - name: Install dotnet-coverage
         run: dotnet tool install --global dotnet-coverage
       - name: Merge coverage reports
@@ -85,7 +85,7 @@ jobs:
           echo "package_version=$nugetVersion" >> $GITHUB_OUTPUT
       - name: Create nuget packages
         if: ${{ inputs.publish_packages == true }}
-        run: dotnet pack --no-build -o $packagePath -c $configuration
+        run: dotnet pack Dapper.SimpleSqlBuilder.slnx --no-build -o $packagePath -c $configuration
       - name: Upload artifacts
         if: ${{ inputs.publish_packages == true }}
         uses: actions/upload-artifact@v4
@@ -161,7 +161,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.x
+          dotnet-version: 10.x
       - name: Install DocFx
         run: dotnet tool update -g docfx --version ${{ env.docfx_version }}
       - name: Generate Xrefmap

@@ -1,0 +1,67 @@
+<Solution>
+  <Folder Name="/0. Project-Items/">
+    <File Path="../.gitattributes" />
+    <File Path="../.gitignore" />
+    <File Path="../LICENSE.md" />
+    <File Path="../README.md" />
+  </Folder>
+  <Folder Name="/0. Project-Items/.github/">
+    <File Path="../.github/codecov.yml" />
+    <File Path="../.github/FUNDING.yml" />
+    <File Path="../.github/pull_request_template.md" />
+    <File Path="../.github/release.yml" />
+  </Folder>
+  <Folder Name="/0. Project-Items/.github/ISSUE_TEMPLATE/">
+    <File Path="../.github/ISSUE_TEMPLATE/bug_report.yml" />
+    <File Path="../.github/ISSUE_TEMPLATE/config.yml" />
+    <File Path="../.github/ISSUE_TEMPLATE/feature_request.yml" />
+  </Folder>
+  <Folder Name="/0. Project-Items/.github/workflows/">
+    <File Path="../.github/workflows/ci-cd.yml" />
+    <File Path="../.github/workflows/codeql.yml" />
+  </Folder>
+  <Folder Name="/0. Project-Items/docs/">
+    <File Path="../docs/CODE_OF_CONDUCT.md" />
+    <File Path="../docs/CONTRIBUTING.md" />
+  </Folder>
+  <Folder Name="/0. Project-Items/images/">
+    <File Path="../images/icon.png" />
+    <File Path="../images/package-icon.png" />
+    <File Path="../images/readme-icon.png" />
+  </Folder>
+  <Folder Name="/0. Project-Items/src/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="version.json" />
+  </Folder>
+  <Folder Name="/0. Project-Items/src/Builder/">
+    <File Path="Builder/Directory.Build.props" />
+  </Folder>
+  <Folder Name="/0. Project-Items/src/Tests/">
+    <File Path="Tests/Directory.Build.props" />
+  </Folder>
+  <Folder Name="/0. Project-Items/src/Tests/IntegrationTests/">
+    <File Path="Tests/IntegrationTests/.editorconfig" />
+  </Folder>
+  <Folder Name="/0. Project-Items/src/Tests/UnitTests/">
+    <File Path="Tests/UnitTests/.editorconfig" />
+  </Folder>
+  <Folder Name="/1. Builder/">
+    <Project Path="Builder/SimpleSqlBuilder.DependencyInjection/SimpleSqlBuilder.DependencyInjection.csproj" />
+    <Project Path="Builder/SimpleSqlBuilder.StrongName/SimpleSqlBuilder.StrongName.csproj" />
+    <Project Path="Builder/SimpleSqlBuilder/SimpleSqlBuilder.csproj" />
+  </Folder>
+  <Folder Name="/2. Benchmark/">
+    <Project Path="Benchmark/SimpleSqlBuilder.BenchMark/SimpleSqlBuilder.BenchMark.csproj" />
+  </Folder>
+  <Folder Name="/3. Tests/" />
+  <Folder Name="/3. Tests/IntegrationTests/">
+    <Project Path="Tests/IntegrationTests/SimpleSqlBuilder.IntegrationTests/SimpleSqlBuilder.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/3. Tests/UnitTests/">
+    <Project Path="Tests/UnitTests/SimpleSqlBuilder.DependencyInjection.UnitTests/SimpleSqlBuilder.DependencyInjection.UnitTests.csproj" />
+    <Project Path="Tests/UnitTests/SimpleSqlBuilder.UnitTestHelpers/SimpleSqlBuilder.UnitTestHelpers.csproj" />
+    <Project Path="Tests/UnitTests/SimpleSqlBuilder.UnitTests/SimpleSqlBuilder.UnitTests.csproj" />
+  </Folder>
+</Solution>
