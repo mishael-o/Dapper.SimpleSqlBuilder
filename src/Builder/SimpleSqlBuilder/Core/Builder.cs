@@ -27,14 +27,14 @@ public abstract class Builder : ISqlBuilder
     {
         return builder is null
             ? throw new ArgumentNullException(nameof(builder))
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
             : builder.AppendIntact($"{formattable}");
 #else
             : builder.AppendIntact(formattable);
 #endif
     }
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
     /// <summary>
     /// Appends a space and the interpolated string to the builder.
     /// </summary>

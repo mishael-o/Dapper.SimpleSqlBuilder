@@ -27,7 +27,7 @@ internal sealed partial class SqlBuilder : Builder
     public override IEnumerable<string> ParameterNames
         => sqlFormatter.Parameters.ParameterNames;
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
     public override Builder Append([InterpolatedStringHandlerArgument("")] ref AppendInterpolatedStringHandler handler)
         => this;
 

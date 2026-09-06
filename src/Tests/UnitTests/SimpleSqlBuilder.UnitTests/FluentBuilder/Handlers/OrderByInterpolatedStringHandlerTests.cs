@@ -1,5 +1,6 @@
-﻿#if NET6_0_OR_GREATER
+﻿#if NET8_0_OR_GREATER
 using Dapper.SimpleSqlBuilder.FluentBuilder;
+using Dapper.SimpleSqlBuilder.UnitTestHelpers.AutoFixture;
 
 namespace Dapper.SimpleSqlBuilder.UnitTests.FluentBuilder.Handlers;
 
@@ -21,11 +22,11 @@ public class OrderByInterpolatedStringHandlerTests
     }
 
     [Theory]
-    [AutoData]
-    public void Constructor_BuilderDoesNotImplementIFluentBuilderFormatter_ThrowsArgumentException(Mock<IFluentBuilder> fluentBuilderMock)
+    [AutoNSubstituteData]
+    public void Constructor_BuilderDoesNotImplementIFluentBuilderFormatter_ThrowsArgumentException(IFluentBuilder fluentBuilder)
     {
         // Act
-        Action act = () => _ = new OrderByInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
+        Action act = () => _ = new OrderByInterpolatedStringHandler(0, 0, fluentBuilder, out var _);
 
         // Assert
         var exception = act.ShouldThrow<ArgumentException>();
@@ -33,142 +34,124 @@ public class OrderByInterpolatedStringHandlerTests
         exception.ParamName.ShouldBe("builder");
     }
 
-    [Theory]
-    [AutoData]
-    public void Constructor_InitialisesHandler_ReturnsHandler(Mock<IFluentBuilder> fluentBuilderMock)
+    [Fact]
+    public void Constructor_InitialisesHandler_ReturnsHandler()
     {
         // Arrange
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
 
-        fluentFormatterMock
-            .Setup(x => x.IsClauseActionEnabled(ClauseAction.OrderBy))
-            .Returns(true);
+        fluentFormatterMock.IsClauseActionEnabled(ClauseAction.OrderBy).Returns(true);
 
         // Act
-        var sut = new OrderByInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var isHandlerEnabled);
+        _ = new OrderByInterpolatedStringHandler(0, 0, fluentBuilder, out var isHandlerEnabled);
 
         // Assert
         isHandlerEnabled.ShouldBeTrue();
-        fluentFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.OrderBy));
+        fluentFormatterMock.Received().StartClauseAction(ClauseAction.OrderBy);
     }
 
-    [Theory]
-    [AutoData]
-    public void Constructor_HandlerDisabledByCondition_ReturnsHandler(Mock<IFluentBuilder> fluentBuilderMock)
+    [Fact]
+    public void Constructor_HandlerDisabledByCondition_ReturnsHandler()
     {
         // Arrange
         const bool condition = false;
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
 
-        fluentFormatterMock
-            .Setup(x => x.IsClauseActionEnabled(ClauseAction.OrderBy))
-            .Returns(true);
+        fluentFormatterMock.IsClauseActionEnabled(ClauseAction.OrderBy).Returns(true);
 
         // Act
-        var sut = new OrderByInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
+        _ = new OrderByInterpolatedStringHandler(0, 0, condition, fluentBuilder, out var isHandlerEnabled);
 
         // Assert
         isHandlerEnabled.ShouldBeFalse();
     }
 
-    [Theory]
-    [AutoData]
-    public void Constructor_HandlerDisabledByClauseAction_ReturnsHandler(Mock<IFluentBuilder> fluentBuilderMock)
+    [Fact]
+    public void Constructor_HandlerDisabledByClauseAction_ReturnsHandler()
     {
         // Arrange
         const bool condition = true;
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
 
-        fluentFormatterMock
-            .Setup(x => x.IsClauseActionEnabled(ClauseAction.GroupBy))
-            .Returns(false);
+        fluentFormatterMock.IsClauseActionEnabled(ClauseAction.OrderBy).Returns(false);
 
         // Act
-        var sut = new OrderByInterpolatedStringHandler(0, 0, condition, fluentBuilderMock.Object, out var isHandlerEnabled);
+        _ = new OrderByInterpolatedStringHandler(0, 0, condition, fluentBuilder, out var isHandlerEnabled);
 
         // Assert
         isHandlerEnabled.ShouldBeFalse();
     }
 
     [Theory]
-    [AutoData]
-    public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
+    [AutoNSubstituteData]
+    public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value)
     {
         // Arrange
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
 
-        fluentFormatterMock
-            .Setup(x => x.IsClauseActionEnabled(ClauseAction.OrderBy))
-            .Returns(true);
+        fluentFormatterMock.IsClauseActionEnabled(ClauseAction.OrderBy).Returns(true);
 
-        var sut = new OrderByInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
+        var sut = new OrderByInterpolatedStringHandler(0, 0, fluentBuilder, out var _);
 
         // Act
         sut.AppendLiteral(value);
 
         // Assert
-        fluentFormatterMock.Verify(x => x.AppendLiteral(value));
+        fluentFormatterMock.Received().AppendLiteral(value);
     }
 
     [Theory]
-    [AutoData]
-    public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
+    [AutoNSubstituteData]
+    public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value)
     {
         // Arrange
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
 
-        fluentFormatterMock
-            .Setup(x => x.IsClauseActionEnabled(ClauseAction.OrderBy))
-            .Returns(true);
+        fluentFormatterMock.IsClauseActionEnabled(ClauseAction.OrderBy).Returns(true);
 
-        var sut = new OrderByInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
+        var sut = new OrderByInterpolatedStringHandler(0, 0, fluentBuilder, out var _);
 
         // Act
         sut.AppendFormatted(value);
 
         // Assert
-        fluentFormatterMock.Verify(x => x.AppendFormatted(value, null));
+        fluentFormatterMock.Received().AppendFormatted(value, null);
     }
 
     [Theory]
     [InlineAutoData(0, null)]
     [InlineAutoData("value", "raw")]
-    public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format, Mock<IFluentBuilder> fluentBuilderMock)
+    public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format)
     {
         // Arrange
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
 
-        fluentFormatterMock
-            .Setup(x => x.IsClauseActionEnabled(ClauseAction.OrderBy))
-            .Returns(true);
+        fluentFormatterMock.IsClauseActionEnabled(ClauseAction.OrderBy).Returns(true);
 
-        var sut = new OrderByInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
+        var sut = new OrderByInterpolatedStringHandler(0, 0, fluentBuilder, out var _);
 
         // Act
         sut.AppendFormatted(value, format);
 
         // Assert
-        fluentFormatterMock.Verify(x => x.AppendFormatted(value, format));
+        fluentFormatterMock.Received().AppendFormatted(value, format);
     }
 
-    [Theory]
-    [AutoData]
-    public void Close_ClosesHandler_ReturnsVoid(Mock<IFluentBuilder> fluentBuilderMock)
+    [Fact]
+    public void Close_ClosesHandler_ReturnsVoid()
     {
         // Arrange
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
 
-        fluentFormatterMock
-            .Setup(x => x.IsClauseActionEnabled(ClauseAction.OrderBy))
-            .Returns(true);
+        fluentFormatterMock.IsClauseActionEnabled(ClauseAction.OrderBy).Returns(true);
 
-        var sut = new OrderByInterpolatedStringHandler(0, 0, fluentBuilderMock.Object, out var _);
+        var sut = new OrderByInterpolatedStringHandler(0, 0, fluentBuilder, out var _);
 
         // Act
         sut.Close();
 
         // Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction());
+        fluentFormatterMock.Received().EndClauseAction();
     }
 }
 #endif

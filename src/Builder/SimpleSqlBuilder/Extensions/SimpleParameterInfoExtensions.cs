@@ -16,12 +16,21 @@ public static class SimpleParameterInfoExtensions
     /// <param name="size">The parameter size.</param>
     /// <param name="precision">The parameter precision.</param>
     /// <param name="scale">The parameter scale.</param>
+    /// <param name="reuse">
+    /// <see langword="true"/> to reuse this parameter for every use within the builder;
+    /// <see langword="false"/> to create a separate parameter for each use. The default is
+    /// <see langword="true"/>.
+    /// <para>
+    /// This setting affects only this parameter. The builder's <c>reuseParameters</c> option
+    /// continues to govern interpolated values.
+    /// </para>
+    /// </param>
     /// <returns>An new instance of <see cref="ISimpleParameterInfo"/>.</returns>
     /// <exception cref="ArgumentException">Thrown when called on <see cref="ISimpleParameterInfo"/>.</exception>
-    public static ISimpleParameterInfo DefineParam<T>(this T value, DbType? dbType = null, int? size = null, byte? precision = null, byte? scale = null)
+    public static ISimpleParameterInfo DefineParam<T>(this T value, DbType? dbType = null, int? size = null, byte? precision = null, byte? scale = null, bool reuse = true)
     {
         return value is ISimpleParameterInfo
             ? throw new ArgumentException($"Value is already a {nameof(ISimpleParameterInfo)}.", nameof(value))
-            : new SimpleParameterInfo(value, dbType, size, precision, scale);
+            : new SimpleParameterInfo(value, dbType, size, precision, scale, reuse);
     }
 }

@@ -250,7 +250,7 @@ public class SimpleSqlBuilderBenchmark
         {
             builder
                 .Where($"Id = {product.Id}")
-                .Where($"ProductCode =  {product.ProductCode}")
+                .Where($"ProductCode = {product.ProductCode}")
                 .Where($"TypeId IN {typeIds}")
                 .Where($"RecommendedPrice = {product.RecommendedPrice}")
                 .Where($"SellingPrice = {product.SellingPrice}")

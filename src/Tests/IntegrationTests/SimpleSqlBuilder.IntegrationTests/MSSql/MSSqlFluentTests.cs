@@ -31,7 +31,7 @@ public class MSSqlFluentTests : IAsyncLifetime
             .Columns($"{nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw}")
             .Values($"{product.Id}")
             .Values($"{product.GlobalId}, {product.TypeId.DefineParam(DbType.Int32)}")
-            .Values($"{product.Tag}, {product.CreatedDate}");
+            .Values($"{product.Tag}, {product.CreatedDate.DefineParam(DbType.DateTime2)}");
 
         var insertCountBuilder = SimpleBuilder.CreateFluent()
             .Select($"COUNT(*)")
@@ -39,7 +39,7 @@ public class MSSqlFluentTests : IAsyncLifetime
             .Where($"{nameof(Product.Tag):raw} = {tag}");
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -58,7 +58,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         const string tag2 = $"{tag}2";
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = (await ProductGenerator.GenerateSeedProductsAsync(
             connection,
@@ -96,7 +96,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         const int offset = 6;
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -130,7 +130,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         const int rows = 10;
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -163,7 +163,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         const string tag = "selectInnerJoin";
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: mssqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
         await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: mssqlTestsFixture.SeedProductTypes[1].Id, tag: tag);
@@ -189,7 +189,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         const string tag = "selectLeftJoin";
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = (await ProductGenerator.GenerateSeedProductsAsync(connection, tag: tag)).ToList();
         products.AddRange(await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: mssqlTestsFixture.SeedProductTypes[0].Id, tag: tag));
@@ -217,7 +217,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         const string tag2 = $"{tag}2";
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = (await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag)).ToList();
         products.AddRange(await ProductGenerator.GenerateSeedProductsAsync(connection, count, mssqlTestsFixture.SeedProductTypes[0].Id, tag));
@@ -243,17 +243,17 @@ public class MSSqlFluentTests : IAsyncLifetime
         // Arrange
         const int count = 1;
         const string tag = "update";
-        var createdDate = DateTime.Now.AddDays(100).Date;
 
+        var createdDate = DateTime.UtcNow.AddDays(10);
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var product = (await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag)).Single();
 
         var builder = SimpleBuilder.CreateFluent()
             .Update($"{nameof(Product):raw}")
             .Set($"{nameof(Product.TypeId):raw} = {mssqlTestsFixture.SeedProductTypes[0].Id}")
-            .Set($"{nameof(Product.CreatedDate):raw} = {createdDate}")
+            .Set($"{nameof(Product.CreatedDate):raw} = {createdDate.DefineParam(DbType.DateTime2)}")
             .WhereFilter($"{nameof(Product.Tag):raw} = {tag}").WithFilter($"{nameof(Product.TypeId):raw} IS NULL");
 
         var getUpdatedProduct = SimpleBuilder.CreateFluent()
@@ -280,7 +280,7 @@ public class MSSqlFluentTests : IAsyncLifetime
         const string tag = "delete";
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -303,9 +303,12 @@ public class MSSqlFluentTests : IAsyncLifetime
         countResult.ShouldBe(0);
     }
 
-    public Task InitializeAsync()
-        => Task.CompletedTask;
+    public ValueTask InitializeAsync()
+        => default;
 
-    public Task DisposeAsync()
-        => mssqlTestsFixture.ResetDatabaseAsync();
+    public ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        return new(mssqlTestsFixture.ResetDatabaseAsync());
+    }
 }

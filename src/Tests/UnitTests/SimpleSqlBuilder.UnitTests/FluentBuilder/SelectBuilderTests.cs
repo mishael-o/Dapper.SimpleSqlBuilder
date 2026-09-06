@@ -186,6 +186,24 @@ public class SelectBuilderTests
         sut.GetValue<string>("p2").ShouldBe(type);
     }
 
+    [Theory]
+    [AutoData]
+    public void Select_OrWhereConditionIsFalse_DoesNotAppendClause(int id)
+    {
+        // Arrange
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table";
+        var sut = (FluentSqlBuilder)SimpleBuilder.CreateFluent();
+        sut.Select($"*");
+        sut.From($"Table");
+
+        // Act
+        sut.OrWhere(false, $"Id = {id}");
+
+        // Assert
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
+    }
+
     [Fact]
     public void Select_BuildsSqlWithGroupByMethods_ReturnsFluentSqlBuilder()
     {
@@ -328,6 +346,29 @@ public class SelectBuilderTests
     }
 
     [Fact]
+    public void Select_CalledWithOffsetRowsMethodTwice_IgnoresDuplicateClause()
+    {
+        // Arrange
+        const int offset = 10;
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+            $"{Environment.NewLine}ORDER BY Id" +
+            $"{Environment.NewLine}OFFSET {offset} ROWS";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .OrderBy($"Id");
+
+        sut.OffsetRows(offset);
+        sut.OffsetRows(20);
+
+        // Assert
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
+    }
+
+    [Fact]
     public void Select_BuildsSqlWithFetchNextMethod_ReturnsFluentSqlBuilder()
     {
         // Arrange
@@ -342,6 +383,29 @@ public class SelectBuilderTests
                     .From($"Table")
                     .OrderBy($"Id")
                     .FetchNext(rows);
+
+        // Assert
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Select_CalledWithFetchNextMethodTwice_IgnoresDuplicateClause()
+    {
+        // Arrange
+        const int rows = 10;
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+            $"{Environment.NewLine}ORDER BY Id" +
+            $"{Environment.NewLine}FETCH NEXT {rows} ROWS ONLY";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .OrderBy($"Id");
+
+        sut.FetchNext(rows);
+        sut.FetchNext(20);
 
         // Assert
         sut.Sql.ShouldBe(expectedSql);
@@ -458,6 +522,32 @@ public class SelectBuilderTests
         sut.ParameterNames.Count().ShouldBe(2);
         sut.GetValue<int>("p0").ShouldBe(id);
         sut.GetValue<string>("p1").ShouldBe(type);
+    }
+
+    [Theory]
+    [AutoData]
+    public void Select_BuildsSqlWithSimpleParameterInfoValuesAndReuseDisabled_ReturnsFluentSqlBuilder(int id, string type)
+    {
+        // Arrange
+        var idParam = id.DefineParam(reuse: false);
+        var typeParam = type.DefineParam(System.Data.DbType.String, 1, 1, 1, reuse: false);
+        string expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 AND Type = @p1 OR (Id = @p2 AND Type = @p3)";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .Where($"Id = {idParam}")
+                    .Where($"Type = {typeParam}")
+                    .OrWhereFilter($"Id = {idParam}").WithFilter($"Type = {typeParam}");
+
+        // Assert
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(4);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
+        sut.GetValue<int>("p2").ShouldBe(id);
+        sut.GetValue<string>("p3").ShouldBe(type);
     }
 
     [Theory]

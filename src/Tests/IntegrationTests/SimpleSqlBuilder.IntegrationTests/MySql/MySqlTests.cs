@@ -36,7 +36,7 @@ public class MySqlTests : IAsyncLifetime
             """);
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
@@ -65,7 +65,7 @@ public class MySqlTests : IAsyncLifetime
         }
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -81,7 +81,7 @@ public class MySqlTests : IAsyncLifetime
         const string tag = "select";
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
 
@@ -110,10 +110,10 @@ public class MySqlTests : IAsyncLifetime
         // Arrange
         const int count = 3;
         const string tag = "update";
-        var createdDate = DateTime.Now.AddDays(100).Date;
+        var createdDate = DateTime.UtcNow.AddDays(10);
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -134,7 +134,13 @@ public class MySqlTests : IAsyncLifetime
             WHERE {nameof(Product.Tag):raw} = {tag}
             """);
         var expectedCreatedDates = await connection.QueryAsync<DateTime>(builder.Sql, builder.Parameters);
-        expectedCreatedDates.ShouldAllBe(date => date == createdDate);
+        expectedCreatedDates.ShouldSatisfyAllConditions((e) =>
+        {
+            foreach (var date in e)
+            {
+                date.ShouldBe(createdDate, TimeSpan.FromTicks(100));
+            }
+        });
     }
 
     [Fact]
@@ -145,7 +151,7 @@ public class MySqlTests : IAsyncLifetime
         const string tag = "delete";
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -184,7 +190,7 @@ public class MySqlTests : IAsyncLifetime
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         await connection.ExecuteAsync(builder.Sql, builder.Parameters, commandType: CommandType.StoredProcedure);
@@ -194,9 +200,12 @@ public class MySqlTests : IAsyncLifetime
         builder.GetValue<int>(resultParamName).ShouldBe(1);
     }
 
-    public Task InitializeAsync()
-    => Task.CompletedTask;
+    public ValueTask InitializeAsync()
+    => default;
 
-    public Task DisposeAsync()
-        => mySqlTestsFixture.ResetDatabaseAsync();
+    public ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        return new(mySqlTestsFixture.ResetDatabaseAsync());
+    }
 }

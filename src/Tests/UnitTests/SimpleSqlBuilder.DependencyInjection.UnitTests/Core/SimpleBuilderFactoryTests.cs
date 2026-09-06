@@ -7,14 +7,14 @@ namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Core;
 public class SimpleBuilderFactoryTests
 {
     [Theory]
-    [AutoMoqData]
+    [AutoNSubstituteData]
     internal void Create_CreatesBuilder_ReturnsSqlBuilder(
         [NoAutoProperties] SimpleBuilderOptions options,
-        [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
+        [Frozen] IOptionsMonitor<SimpleBuilderOptions> optionsMonitor,
         SimpleBuilderFactory sut)
     {
         // Arrange
-        optionsMock.SetupGet(x => x.CurrentValue).Returns(options);
+        optionsMonitor.CurrentValue.Returns(options);
 
         // Act
         var result = sut.Create();
@@ -25,18 +25,18 @@ public class SimpleBuilderFactoryTests
     }
 
     [Theory]
-    [AutoMoqData]
+    [AutoNSubstituteData]
     internal void Create_CreatesBuilderWithInterpolatedString_ReturnsSqlBuilder(
         int id,
         string[] types,
         [NoAutoProperties] SimpleBuilderOptions options,
-        [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
+        [Frozen] IOptionsMonitor<SimpleBuilderOptions> optionsMonitor,
         SimpleBuilderFactory sut)
     {
         // Arrange
         string expectedSql = $"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = @p0) FROM TABLE WHERE Id = {id} AND Type IN @pc1_";
 
-        optionsMock.SetupGet(x => x.CurrentValue).Returns(options);
+        optionsMonitor.CurrentValue.Returns(options);
 
         // Act
         var result = sut.Create($"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = {id}) FROM TABLE WHERE Id = {id:raw} AND Type IN {types}");
@@ -50,18 +50,18 @@ public class SimpleBuilderFactoryTests
     }
 
     [Theory]
-    [AutoMoqData]
+    [AutoNSubstituteData]
     internal void Create_CreatesBuilderWithCustomPrefixAndReuseParameters_ReturnsSqlBuilder(
         int id,
         string[] types,
         [NoAutoProperties] SimpleBuilderOptions options,
-        [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
+        [Frozen] IOptionsMonitor<SimpleBuilderOptions> optionsMonitor,
         SimpleBuilderFactory sut)
     {
         // Arrange
         string expectedSql = $"SELECT x.*, (SELECT DESC FROM DESC_TABLE WHERE Id = :p0 AND Type IN :pc1_) FROM TABLE WHERE Id = {id} AND Type IN :pc1_";
 
-        optionsMock.SetupGet(x => x.CurrentValue).Returns(options);
+        optionsMonitor.CurrentValue.Returns(options);
 
         // Act
         var result = sut.Create(
@@ -78,18 +78,17 @@ public class SimpleBuilderFactoryTests
     }
 
     [Theory]
-    [AutoMoqData]
-    [InlineAutoMoqData(null, null, null)]
+    [AutoNSubstituteData]
     internal void CreateFluent_CreatesFluentBuilder_ReturnsFluentSqlBuilder(
         string? parameterPrefix,
         bool? reuseParameters,
         bool? useLowerCaseClauses,
         [NoAutoProperties] SimpleBuilderOptions options,
-        [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
+        [Frozen] IOptionsMonitor<SimpleBuilderOptions> optionsMonitor,
         SimpleBuilderFactory sut)
     {
         // Arrange
-        optionsMock.SetupGet(x => x.CurrentValue).Returns(options);
+        optionsMonitor.CurrentValue.Returns(options);
 
         // Act
         var result = sut.CreateFluent(parameterPrefix, reuseParameters, useLowerCaseClauses);
@@ -98,13 +97,28 @@ public class SimpleBuilderFactoryTests
         result.ShouldBeOfType<FluentSqlBuilder>();
     }
 
+    [Fact]
+    internal void CreateFluent_CreatesFluentBuilderWithNullArguments_ReturnsFluentSqlBuilder()
+    {
+        // Arrange
+        var optionsMonitor = Substitute.For<IOptionsMonitor<SimpleBuilderOptions>>();
+        optionsMonitor.CurrentValue.Returns(new SimpleBuilderOptions());
+        var sut = new SimpleBuilderFactory(optionsMonitor);
+
+        // Act
+        var result = sut.CreateFluent(null, null, null);
+
+        // Assert
+        result.ShouldBeOfType<FluentSqlBuilder>();
+    }
+
     [Theory]
-    [AutoMoqData]
+    [AutoNSubstituteData]
     internal void CreateFluent_CreatesFluentBuilderWithInterpolatedString_ReturnsFluentSqlBuilder(
         int id,
         string[] types,
         [NoAutoProperties] SimpleBuilderOptions options,
-        [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
+        [Frozen] IOptionsMonitor<SimpleBuilderOptions> optionsMonitor,
         SimpleBuilderFactory sut)
     {
         // Arrange
@@ -113,7 +127,7 @@ public class SimpleBuilderFactoryTests
             $"{Environment.NewLine}FROM TABLE" +
             $"{Environment.NewLine}WHERE Id = {id} AND Type IN @pc1_";
 
-        optionsMock.SetupGet(x => x.CurrentValue).Returns(options);
+        optionsMonitor.CurrentValue.Returns(options);
 
         // Act
         var result = sut.CreateFluent()
@@ -132,12 +146,12 @@ public class SimpleBuilderFactoryTests
     }
 
     [Theory]
-    [AutoMoqData]
+    [AutoNSubstituteData]
     internal void CreateFluent_CreatesFluentBuilderWithAllArguments_ReturnsFluentSqlBuilder(
         int id,
         string[] types,
         [NoAutoProperties] SimpleBuilderOptions options,
-        [Frozen] Mock<IOptionsMonitor<SimpleBuilderOptions>> optionsMock,
+        [Frozen] IOptionsMonitor<SimpleBuilderOptions> optionsMonitor,
         SimpleBuilderFactory sut)
     {
         // Arrange
@@ -146,7 +160,7 @@ public class SimpleBuilderFactoryTests
             $"{Environment.NewLine}from TABLE" +
             $"{Environment.NewLine}where Id = {id} and Type IN :pc1_";
 
-        optionsMock.SetupGet(x => x.CurrentValue).Returns(options);
+        optionsMonitor.CurrentValue.Returns(options);
 
         // Act
         var result = sut.CreateFluent(":", true, true)

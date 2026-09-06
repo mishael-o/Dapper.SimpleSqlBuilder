@@ -32,5 +32,19 @@ public class SimpleParameterInfoExtensionsTests
         valueParam.Size.ShouldBe(size);
         valueParam.Precision.ShouldBe(precision);
         valueParam.Scale.ShouldBe(scale);
+        valueParam.ShouldBeOfType<SimpleParameterInfo>().Reuse.ShouldBeTrue();
+    }
+
+    [Theory]
+    [AutoData]
+    public void DefineParam_CreatesSimpleParameterInfoWithReuseDisabled_ReturnsISimpleParameterInfo(object value, DbType dbType)
+    {
+        // Act
+        var valueParam = value.DefineParam(dbType, reuse: false);
+
+        // Assert
+        valueParam.Value.ShouldBe(value);
+        valueParam.DbType.ShouldBe(dbType);
+        valueParam.ShouldBeOfType<SimpleParameterInfo>().Reuse.ShouldBeFalse();
     }
 }

@@ -1,4 +1,5 @@
-﻿#if NET6_0_OR_GREATER
+﻿#if NET8_0_OR_GREATER
+using Dapper.SimpleSqlBuilder.UnitTestHelpers.AutoFixture;
 namespace Dapper.SimpleSqlBuilder.UnitTests.Core.Handlers;
 
 public class AppendNewLineInterpolatedStringHandlerTests
@@ -19,11 +20,11 @@ public class AppendNewLineInterpolatedStringHandlerTests
     }
 
     [Theory]
-    [AutoData]
-    public void Constructor_BuilderDoesNotImplementIBuilderFormatter_ThrowsArgumentException(Mock<Builder> builderMock)
+    [AutoNSubstituteData]
+    public void Constructor_BuilderDoesNotImplementIBuilderFormatter_ThrowsArgumentException(Builder builder)
     {
         // Act
-        Action act = () => _ = new AppendNewLineInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
+        Action act = () => _ = new AppendNewLineInterpolatedStringHandler(0, 0, builder, out var _);
 
         // Assert
         var exception = act.ShouldThrow<ArgumentException>();
@@ -31,79 +32,77 @@ public class AppendNewLineInterpolatedStringHandlerTests
         exception.ParamName.ShouldBe("builder");
     }
 
-    [Theory]
-    [AutoData]
-    public void Constructor_InitialisesHandler_ReturnsHandler(Mock<Builder> builderMock)
+    [Fact]
+    public void Constructor_InitialisesHandler_ReturnsHandler()
     {
         // Arrange
-        var builderFormatterMock = builderMock.As<IBuilderFormatter>();
+        var builder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateBuilder(out var builderFormatterMock);
 
         // Act
-        var sut = new AppendNewLineInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
+        _ = new AppendNewLineInterpolatedStringHandler(0, 0, builder, out var _);
 
         // Assert
-        builderFormatterMock.Verify(x => x.AppendControl(ControlType.NewLine));
+        builderFormatterMock.Received().AppendControl(ControlType.NewLine);
     }
 
-    [Theory]
-    [AutoData]
-    public void Constructor_HandlerDisabledByCondition_ReturnsHandler(Mock<Builder> builderMock)
+    [Fact]
+    public void Constructor_HandlerDisabledByCondition_ReturnsHandler()
     {
         // Arrange
         const bool condition = false;
-        builderMock.As<IBuilderFormatter>();
+        var builder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateBuilder(out var _);
 
         // Act
-        _ = new AppendNewLineInterpolatedStringHandler(0, 0, condition, builderMock.Object, out var isHandlerEnabled);
+        _ = new AppendNewLineInterpolatedStringHandler(0, 0, condition, builder, out var isHandlerEnabled);
 
         // Assert
         isHandlerEnabled.ShouldBeFalse();
     }
 
     [Theory]
-    [AutoData]
-    public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, Mock<Builder> builderMock)
+    [AutoNSubstituteData]
+    public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value)
     {
         // Arrange
-        var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendNewLineInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
+        var builder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateBuilder(out var builderFormatterMock);
+        var sut = new AppendNewLineInterpolatedStringHandler(0, 0, builder, out var _);
 
         // Act
         sut.AppendLiteral(value);
 
         // Assert
-        builderFormatterMock.Verify(x => x.AppendLiteral(value));
+        builderFormatterMock.Received().AppendLiteral(value);
     }
 
     [Theory]
-    [AutoData]
-    public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value, Mock<Builder> builderMock)
+    [AutoNSubstituteData]
+    public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value)
     {
         // Arrange
-        var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendNewLineInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
+        var builder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateBuilder(out var builderFormatterMock);
+        var sut = new AppendNewLineInterpolatedStringHandler(0, 0, builder, out var _);
 
         // Act
         sut.AppendFormatted(value);
 
         // Assert
-        builderFormatterMock.Verify(x => x.AppendFormatted(value, null));
+        builderFormatterMock.Received().AppendFormatted(value, null);
     }
 
     [Theory]
     [InlineAutoData(0, null)]
     [InlineAutoData("value", "raw")]
-    public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format, Mock<Builder> builderMock)
+    public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format)
     {
         // Arrange
-        var builderFormatterMock = builderMock.As<IBuilderFormatter>();
-        var sut = new AppendNewLineInterpolatedStringHandler(0, 0, builderMock.Object, out var _);
+        var builder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateBuilder(out var builderFormatterMock);
+        var sut = new AppendNewLineInterpolatedStringHandler(0, 0, builder, out var _);
 
         // Act
         sut.AppendFormatted(value, format);
 
         // Assert
-        builderFormatterMock.Verify(x => x.AppendFormatted(value, format));
+        builderFormatterMock.Received().AppendFormatted(value, format);
     }
 }
 #endif
