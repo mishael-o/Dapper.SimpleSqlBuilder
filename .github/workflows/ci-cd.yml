@@ -251,23 +251,16 @@ jobs:
         uses: actions/checkout@v7
       - name: Create Sync PR
         run: |
-          set +e
-          PR_EXISTS=$(gh pr list --base develop --head main --state open --json number --jq '.[0]')
+          PR_EXISTS=$(gh pr list --base develop --head main --state open --json number --jq '.[0].number // empty')
           echo "Existing PR number: $PR_EXISTS"
 
-          if [ -z "$PR_EXISTS" ];
-          then
-            PR_URL=$(gh pr create --base develop --head main --title "main to develop sync" --body "This is an automated PR to sync main into develop" --label "ignore-for-release" 2>&1)
-            CREATE_EXIT_CODE=$?        
-            echo "Response: $PR_URL - Exit Code: $CREATE_EXIT_CODE"
-          
-            if [[ $CREATE_EXIT_CODE -eq 0 ]];
-            then
-              echo "Created PR: $PR_URL"
-              gh pr merge --auto --merge "$PR_URL"
-            fi
-
-            exit 0;
+          if [ -n "$PR_EXISTS" ]; then
+            echo "Sync PR #$PR_EXISTS already exists"
+            exit 0
           fi
+
+          PR_URL=$(gh pr create --base develop --head main --title "main to develop sync" --body "This is an automated PR to sync main into develop" --label "ignore-for-release")
+          echo "Created PR: $PR_URL"
+          gh pr merge --auto --merge "$PR_URL"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
