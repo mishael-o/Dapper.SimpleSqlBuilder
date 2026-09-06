@@ -3,9 +3,6 @@ name: Continuous integration and delivery
 on:
   push:
     branches: ["main", "develop"]
-    paths:
-      - "docs/github-pages/**"
-      - "src/**"
   pull_request:
     branches: ["main", "develop"]
   workflow_dispatch:
