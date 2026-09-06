@@ -90,6 +90,7 @@ jobs:
         id: publish_decision
         if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
         shell: bash
+        working-directory: ${{ github.workspace }}
         run: |
           publish_packages=false
           publish_docs=false
