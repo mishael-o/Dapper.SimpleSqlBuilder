@@ -237,7 +237,7 @@ jobs:
         uses: actions/deploy-pages@v5
   
   create-sync-pr:
-    if: ${{ github.ref_name == 'main' && inputs.create_sync_pr == true }}
+    if: ${{ github.ref_name == 'main' && (github.event_name == 'push' || inputs.create_sync_pr == true) }}
     name: Create Sync PR
     needs: [build]
     runs-on: ubuntu-latest
