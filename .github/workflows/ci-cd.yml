@@ -256,6 +256,12 @@ jobs:
             exit 0
           fi
 
+          AHEAD_BY=$(gh api "repos/${GITHUB_REPOSITORY}/compare/develop...main" --jq '.ahead_by')
+          if [ "$AHEAD_BY" -eq 0 ]; then
+            echo "Develop already contains all commits from main"
+            exit 0
+          fi
+
           PR_URL=$(gh pr create --base develop --head main --title "main to develop sync" --body "This is an automated PR to sync main into develop" --label "ignore-for-release")
           echo "Created PR: $PR_URL"
           gh pr merge --auto --merge "$PR_URL"
