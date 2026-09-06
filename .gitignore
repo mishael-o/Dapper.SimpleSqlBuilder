@@ -394,3 +394,5 @@ FodyWeavers.xsd
 **/github-pages/_site/
 **/github-pages/_xref-gen/
 **/github-pages/api-docs/
+
+.codegraph
