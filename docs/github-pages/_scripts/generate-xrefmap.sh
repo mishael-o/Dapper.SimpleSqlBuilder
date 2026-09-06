@@ -12,6 +12,12 @@ sub_path="${1:-/}"
 readonly sub_path
 readonly gen_folder="_xref-gen"
 readonly file_path="xrefs"
+readonly docfx_cmd=$(command -v docfx 2>/dev/null || command -v docfx.exe 2>/dev/null)
+
+if [ -z "$docfx_cmd" ]; then
+    echo "Error: docfx is not installed or not available on PATH" >&2
+    exit 1
+fi
 
 # Copy and update xrefmap files with base URL in href property.
 copy_and_update_xrefmap_files() {
@@ -31,8 +37,8 @@ copy_and_update_xrefmap_files() {
     done
 }
 
-docfx metadata docfx-xref.json
-docfx build docfx-xref.json
+"$docfx_cmd" metadata docfx-xref.json --noRestore
+"$docfx_cmd" build docfx-xref.json
 copy_and_update_xrefmap_files
 rm -r api-docs
 rm -r $gen_folder

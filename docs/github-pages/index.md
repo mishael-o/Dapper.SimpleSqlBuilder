@@ -1,6 +1,36 @@
-# Quick Start
+---
+title: Quick Start
+_disableBreadcrumb: true
+---
 
-A simple and [performant](docs/miscellaneous/performance.md) SQL builder for [Dapper](https://github.com/DapperLib/Dapper), using [string interpolation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) and a fluent API to build safe, static, and dynamic SQL queries.
+<div class="homepage-hero">
+  <div class="homepage-hero__header">
+    <img class="homepage-hero__logo" src="images/logo.svg" alt="Dapper.SimpleSqlBuilder logo">
+    <p class="homepage-hero__eyebrow">Safe, parameterized SQL for Dapper</p>
+  </div>
+
+  <p class="homepage-hero__lead">A simple and <a href="docs/miscellaneous/performance.md">performant</a> SQL builder for <a href="https://github.com/DapperLib/Dapper">Dapper</a>, using <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated">string interpolation</a> and a fluent API to build safe, static, and dynamic SQL queries, keeping your parameters explicit and your query building experience ergonomic.</p>
+  <div class="hero-demo">
+    <figure class="hero-demo__panel hero-demo__panel--in">
+      <figcaption class="hero-demo__label">You write</figcaption>
+      <pre class="hero-demo__code"><span class="hero-demo__tok"><span class="tok-op">$@"</span><span class="tok-kw">SELECT</span> <span class="tok-op">*</span> <span class="tok-kw">FROM</span> User</span>
+<span class="hero-demo__tok"><span class="tok-kw">WHERE</span> Role</span> <span class="hero-demo__tok"><span class="tok-op">=</span></span> <span class="hero-demo__tok tok-slot">{role}</span><span class="tok-op">"</span></pre>
+    </figure>
+    <div class="hero-demo__joint" aria-hidden="true">
+      <svg class="hero-demo__arrow" viewBox="0 0 16 16" fill="none"><path d="M1 8h12M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <figure class="hero-demo__panel hero-demo__panel--out">
+      <figcaption class="hero-demo__label">Dapper receives</figcaption>
+      <pre class="hero-demo__code"><span class="hero-demo__tok"><span class="tok-kw">SELECT</span> <span class="tok-op">*</span> <span class="tok-kw">FROM</span> User</span>
+<span class="hero-demo__tok"><span class="tok-kw">WHERE</span> Role</span> <span class="hero-demo__tok"><span class="tok-op">=</span></span> <span class="hero-demo__tok tok-slot">@p0</span></pre>
+    </figure>
+  </div>
+  <p class="hero-demo__note">The value never touches the SQL. It goes to Dapper as a parameter.</p>
+  <div class="homepage-hero__actions">
+    <a class="btn btn-primary btn-lg" href="api-docs/netcore/Dapper.SimpleSqlBuilder.yml">Browse API</a>
+    <a class="btn btn-outline-secondary btn-lg" href="https://www.nuget.org/packages/Dapper.SimpleSqlBuilder">NuGet</a>
+  </div>
+</div>
 
 ## Installation
 
@@ -95,8 +125,21 @@ See the [Builder Settings](docs/configuration/builder-settings.md) section to le
 
 ## Next Steps
 
-- [Introduction](docs/introduction.md)
-- [Builder](docs/builders/builder.md)
-- [Fluent Builder](docs/builders/fluent-builder/fluent-builder.md)
-- [Performance](docs/miscellaneous/performance.md)
-- [Release Notes](docs/miscellaneous/release-notes.md)
+<div class="homepage-card-grid">
+  <a class="homepage-card" href="docs/introduction.md">
+    <p class="homepage-card__title">Introduction</p>
+    <p>Learn the core concepts and see which package fits your project.</p>
+  </a>
+  <a class="homepage-card" href="docs/builders/builder.md">
+    <p class="homepage-card__title">Builder</p>
+    <p>Create static, conditional, and complex SQL with plain interpolated strings.</p>
+  </a>
+  <a class="homepage-card" href="docs/builders/fluent-builder/fluent-builder.md">
+    <p class="homepage-card__title">Fluent Builder</p>
+    <p>Chain SQL clauses with a readable API that stays parameterized by default.</p>
+  </a>
+  <a class="homepage-card" href="docs/miscellaneous/performance.md">
+    <p class="homepage-card__title">Performance</p>
+    <p>See benchmark data and why builder ergonomics do not have to cost throughput.</p>
+  </a>
+</div>

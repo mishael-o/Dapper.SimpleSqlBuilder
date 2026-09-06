@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Data;
+using System.Text;
 
 namespace Dapper.SimpleSqlBuilder;
 
@@ -7,7 +9,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
     private readonly ParameterOptions parameterOptions;
 
     private int paramCount;
-    private Dictionary<SimpleParameterInfo, string>? parameterDictionary;
+    private Dictionary<ParameterKey, string>? parameterDictionary;
 
     public SqlFormatter(ParameterOptions parameterOptions)
     {
@@ -24,10 +26,7 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
             : null;
     }
 
-    public string Format(string? format, object? arg, IFormatProvider? formatProvider)
-        => Format(arg, format);
-
-    public string Format<T>(T? value, string? format = null)
+    public string Format(string? format, object? value, IFormatProvider? formatProvider)
     {
         if (value is FormattableString formattableString)
         {
@@ -41,13 +40,59 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
             return value?.ToString() ?? string.Empty;
         }
 
-        if ((value is null or not SimpleParameterInfo) && !parameterOptions.ReuseParameters)
+        if (value is SimpleParameterInfo parameterInfo)
         {
-            return AddValueToParameters(value);
+            return AddParameterInfo(parameterInfo);
         }
 
-        var parameterInfo = value as SimpleParameterInfo ?? new(value);
-        return AddParameterInfoToParameters(parameterInfo);
+        if (value is null || !parameterOptions.ReuseParameters)
+        {
+            return AppendParameterPrefix(AddValue(value));
+        }
+
+        return AddReusableValue(value);
+    }
+
+    public void FormatTo<T>(StringBuilder destination, T? value, string? format = null)
+    {
+        if (value is FormattableString formattableString)
+        {
+            if (formattableString.ArgumentCount == 0)
+            {
+                destination.Append(formattableString.Format);
+            }
+            else
+            {
+                destination.AppendFormat(this, formattableString.Format, formattableString.GetArguments());
+            }
+
+            return;
+        }
+
+        if (Constants.RawFormat.Equals(format, StringComparison.OrdinalIgnoreCase))
+        {
+            destination.Append(value?.ToString());
+            return;
+        }
+
+        if (value is SimpleParameterInfo parameterInfo)
+        {
+            destination.Append(AddParameterInfo(parameterInfo));
+            return;
+        }
+
+        if (value is null || !parameterOptions.ReuseParameters)
+        {
+            var parameterName = AddValue(value);
+
+            destination
+                .Append(parameterOptions.ParameterPrefix)
+                .Append(parameterName);
+
+            return;
+        }
+
+        destination.Append(AddReusableValue(value));
     }
 
     public void Reset()
@@ -60,37 +105,61 @@ internal sealed class SqlFormatter : IFormatProvider, ICustomFormatter
     private static bool IsEnumerableParameter<T>(T? value)
         => value is IEnumerable and not string;
 
-    private string AddValueToParameters<T>(T? value)
+    private string AddValue<T>(T? value)
     {
         var parameterName = GetNextParameterName(IsEnumerableParameter(value));
-        Parameters.Add(parameterName, value, direction: System.Data.ParameterDirection.Input);
-        return AppendParameterPrefix(parameterName);
+        Parameters.Add(parameterName, value, direction: ParameterDirection.Input);
+        return parameterName;
     }
 
-    private string AddParameterInfoToParameters(SimpleParameterInfo parameterInfo)
+    private string AddReusableValue<T>(T value)
     {
-        parameterDictionary ??= new(SimpleParameterInfoComparer.Instance);
+        // Boxed once here so the key and Dapper share the same box.
+        object boxedValue = value!;
+        var key = ParameterKey.Create(boxedValue);
 
-        if (parameterDictionary.TryGetValue(parameterInfo, out var dbPrefixedParameterName))
+        if (parameterDictionary?.TryGetValue(key, out var prefixedParameterName) is true)
         {
-            return dbPrefixedParameterName;
+            return prefixedParameterName;
         }
 
-        if (!parameterInfo.HasName)
+        var parameterName = GetNextParameterName(IsEnumerableParameter(value));
+        Parameters.Add(parameterName, boxedValue, direction: ParameterDirection.Input);
+
+        prefixedParameterName = AppendParameterPrefix(parameterName);
+        parameterDictionary ??= [];
+        parameterDictionary[key] = prefixedParameterName;
+
+        return prefixedParameterName;
+    }
+
+    private string AddParameterInfo(SimpleParameterInfo parameterInfo)
+    {
+        // Reuse never applies to a parameter with no value, since such a parameter matches nothing.
+        if (!parameterInfo.HasValue || !parameterInfo.Reuse)
         {
-            parameterInfo.SetName(GetNextParameterName(IsEnumerableParameter(parameterInfo.Value)));
+            return AddParameter(parameterInfo);
         }
 
-        Parameters.Add(parameterInfo.Name!, parameterInfo.Value, parameterInfo.DbType, parameterInfo.Direction, parameterInfo.Size, parameterInfo.Precision, parameterInfo.Scale);
+        var key = parameterInfo.ToKey();
 
-        dbPrefixedParameterName = AppendParameterPrefix(parameterInfo.Name!);
-
-        if (parameterInfo.HasValue)
+        if (parameterDictionary?.TryGetValue(key, out var prefixedParameterName) is true)
         {
-            parameterDictionary[parameterInfo] = dbPrefixedParameterName;
+            return prefixedParameterName;
         }
 
-        return dbPrefixedParameterName;
+        prefixedParameterName = AddParameter(parameterInfo);
+        parameterDictionary ??= [];
+        parameterDictionary[key] = prefixedParameterName;
+
+        return prefixedParameterName;
+
+        string AddParameter(SimpleParameterInfo parameterInfo)
+        {
+            var parameterName = GetNextParameterName(IsEnumerableParameter(parameterInfo.Value));
+            Parameters.Add(parameterName, parameterInfo.Value, parameterInfo.DbType, parameterInfo.Direction, parameterInfo.Size, parameterInfo.Precision, parameterInfo.Scale);
+            return AppendParameterPrefix(parameterName);
+        }
     }
 
     private string GetNextParameterName(bool isEnumerable)

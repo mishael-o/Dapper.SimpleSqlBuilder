@@ -48,7 +48,7 @@ public class BuilderTests
         sut.GetValue<IEnumerable<int>>("pc1_").ShouldBe(ages);
     }
 
-#if !NET6_0_OR_GREATER
+#if !NET8_0_OR_GREATER
 
     [Fact]
     public void AppendIntact_AppendsNullFormattableString_ReturnsSqlBuilder()

@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/v2.78.5/schemas/docfx.schema.json",
   "metadata": [
     {
       "src": [
@@ -11,7 +12,7 @@
       "outputFormat": "apiPage",
       "filter": "filters/filterConfig.yml",
       "properties": {
-        "TargetFramework": "net9.0"
+        "TargetFramework": "net10.0"
       }
     },
     {
@@ -39,7 +40,7 @@
       "outputFormat": "apiPage",
       "filter": "filters/filterConfig.yml",
       "properties": {
-        "TargetFramework": "net9.0"
+        "TargetFramework": "net10.0"
       }
     }
   ],
@@ -56,7 +57,7 @@
     ],
     "resource": [
       {
-        "files": ["/images/**"],
+        "files": ["images/**"],
         "exclude": ["_site/**", "obj/**"]
       }
     ],
@@ -76,7 +77,7 @@
     "globalMetadata": {
       "_appName": "Dapper.SimpleSqlBuilder",
       "_appTitle": "Dapper.SimpleSqlBuilder",
-      "_appFooter": "Copyright © 2025 Mishael Ogochukwu. 🏗️ with <a href=\"https://dotnet.github.io/docfx\">Docfx</a>.",
+      "_appFooter": "Copyright © 2026 Mishael Ogochukwu. Built with <a href=\"https://dotnet.github.io/docfx/\">DocFX</a>.",
       "_appLogoPath": "images/logo.svg",
       "_appFaviconPath": "images/favicon.ico",
       "_enableSearch": true,

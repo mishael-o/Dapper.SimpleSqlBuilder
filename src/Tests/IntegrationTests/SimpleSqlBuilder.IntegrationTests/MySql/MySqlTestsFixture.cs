@@ -21,7 +21,7 @@ public class MySqlTestsFixture : IAsyncLifetime
     public MySqlTestsFixture()
     {
         var fixture = new Fixture();
-        SeedProductTypes = fixture.CreateMany<ProductType>(2).ToArray();
+        SeedProductTypes = [.. fixture.CreateMany<ProductType>(2)];
         container = CreateMySqlContainer();
     }
 
@@ -29,7 +29,7 @@ public class MySqlTestsFixture : IAsyncLifetime
 
     public IReadOnlyList<ProductType> SeedProductTypes { get; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         await container.StartAsync();
         await InitialiseDbConnectionAsync();
@@ -37,10 +37,11 @@ public class MySqlTestsFixture : IAsyncLifetime
         await InitialiseRespawnerAsync();
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         dbConnection.Dispose();
         await container.DisposeAsync();
+        GC.SuppressFinalize(this);
     }
 
     public DbConnection CreateDbConnection()
@@ -57,10 +58,9 @@ public class MySqlTestsFixture : IAsyncLifetime
 
     private static MySqlContainer CreateMySqlContainer()
     {
-        return new MySqlBuilder()
+        return new MySqlBuilder("mysql:9")
             .WithPortBinding(MySqlBuilder.MySqlPort, true)
             .WithName("mysql")
-            .WithImage("mysql:9")
             .Build();
     }
 
@@ -85,7 +85,7 @@ public class MySqlTestsFixture : IAsyncLifetime
                 {nameof(Product.GlobalId):raw} CHAR(36) NOT NULL,
                 {nameof(Product.TypeId):raw} INT NULL,
                 {nameof(Product.Tag):raw} VARCHAR(50),
-                {nameof(Product.CreatedDate):raw} DATE,
+                {nameof(Product.CreatedDate):raw} DATETIME(6),
                 FOREIGN KEY ({nameof(Product.TypeId):raw}) REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
                 UNIQUE ({nameof(Product.GlobalId):raw})
            );
@@ -98,7 +98,7 @@ public class MySqlTestsFixture : IAsyncLifetime
            CREATE PROCEDURE {StoredProcName:raw} (TypeId INT, OUT ProductId INT, OUT Result INT)
            BEGIN
                 INSERT INTO {nameof(Product):raw} ({nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
-                VALUES (UUID(), TypeId, 'procedure', CURRENT_DATE());
+                VALUES (UUID(), TypeId, 'procedure', CURRENT_TIMESTAMP());
                 SET ProductId = LAST_INSERT_ID();
                 SET Result = ROW_COUNT();
            END

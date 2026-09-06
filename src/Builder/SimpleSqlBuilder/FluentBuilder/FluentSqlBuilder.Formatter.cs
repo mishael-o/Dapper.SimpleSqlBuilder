@@ -6,7 +6,7 @@
 internal sealed partial class FluentSqlBuilder : IFluentBuilderFormatter
 {
     public void AppendFormatted<T>(T value, string? format = null)
-        => stringBuilder.Append(sqlFormatter.Format(value, format));
+        => sqlFormatter.FormatTo(stringBuilder, value, format);
 
     public void AppendLiteral(string value)
         => stringBuilder.Append(value);

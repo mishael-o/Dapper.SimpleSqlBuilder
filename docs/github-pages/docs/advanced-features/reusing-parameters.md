@@ -39,3 +39,37 @@ FROM User x
 WHERE UserTypeId = @p0
 AND Age <= @p1
 ```
+
+## Defined Parameters
+
+The `reuseParameters` setting applies to interpolated values. A parameter you define yourself with [`DefineParam`](parameter-properties.md) carries its own setting and is reused by default, because defining a parameter and using it in more than one place describes a single parameter.
+
+```csharp
+var userTypeId = 10.DefineParam(DbType.Int32);
+
+// reuseParameters is not enabled, yet the defined parameter is still reused
+var builder = SimpleBuilder.Create($@"
+SELECT x.*, (SELECT Type FROM UserType WHERE Id = {userTypeId}) AS UserType
+FROM User x
+WHERE UserTypeId = {userTypeId}");
+```
+
+```sql
+SELECT x.*, (SELECT Type FROM UserType WHERE Id = @p0) AS UserType
+FROM User x
+WHERE UserTypeId = @p0
+```
+
+Pass `reuse: false` to get a separate parameter for each use:
+
+```csharp
+var userTypeId = 10.DefineParam(DbType.Int32, reuse: false);
+```
+
+```sql
+SELECT x.*, (SELECT Type FROM UserType WHERE Id = @p0) AS UserType
+FROM User x
+WHERE UserTypeId = @p1
+```
+
+The two settings are independent, so `reuse: false` is honoured even when `reuseParameters` is enabled, and a defined parameter is reused even when it is disabled.

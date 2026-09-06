@@ -16,7 +16,7 @@ public interface ISimpleBuilder
     /// <returns>A new instance of <see cref="Builder"/>.</returns>
     Builder Create(FormattableString? formattable = null, string? parameterPrefix = null, bool? reuseParameters = null);
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
     /// <summary>
     /// A method to create a builder instance.
     /// </summary>

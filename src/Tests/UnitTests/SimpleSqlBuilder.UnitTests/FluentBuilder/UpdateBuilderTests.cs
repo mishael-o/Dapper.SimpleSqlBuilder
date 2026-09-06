@@ -238,6 +238,32 @@ public class UpdateBuilderTests
 
     [Theory]
     [AutoData]
+    public void Update_BuildsSqlWithSimpleParameterInfoValuesAndReuseDisabled_ReturnsFluentSqlBuilder(int id, string type)
+    {
+        // Arrange
+        var idParam = id.DefineParam(System.Data.DbType.Int32, 1, 1, 1, reuse: false);
+        var typeParam = type.DefineParam(reuse: false);
+        var expectedSql = $"UPDATE Table{Environment.NewLine}SET Type = @p0, Id = @p1{Environment.NewLine}WHERE Id = @p2 AND Type = @p3";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+            .Update($"Table")
+            .Set($"Type = {typeParam}")
+            .Set($"Id = {idParam}")
+            .Where($"Id = {idParam}")
+            .Where($"Type = {typeParam}");
+
+        // Assert
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(4);
+        sut.GetValue<string>("p0").ShouldBe(type);
+        sut.GetValue<int>("p1").ShouldBe(id);
+        sut.GetValue<int>("p2").ShouldBe(id);
+        sut.GetValue<string>("p3").ShouldBe(type);
+    }
+
+    [Theory]
+    [AutoData]
     public void Update_BuildsSqlAndAddParameter_ReturnsFluentSqlBuilder(int id, string type)
     {
         // Arrange

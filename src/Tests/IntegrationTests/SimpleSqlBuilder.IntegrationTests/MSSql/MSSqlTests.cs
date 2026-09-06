@@ -36,7 +36,7 @@ public class MSSqlTests : IAsyncLifetime
             """);
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
@@ -65,7 +65,7 @@ public class MSSqlTests : IAsyncLifetime
         }
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -81,7 +81,7 @@ public class MSSqlTests : IAsyncLifetime
         const string tag = "select";
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: mssqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
 
@@ -110,16 +110,16 @@ public class MSSqlTests : IAsyncLifetime
         // Arrange
         const int count = 3;
         const string tag = "update";
-        var createdDate = DateTime.Now.AddDays(100).Date;
+        var createdDate = DateTime.UtcNow.AddDays(10);
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
         var builder = SimpleBuilder
             .Create($"UPDATE {nameof(Product):raw}")
-            .AppendNewLine($"SET {nameof(Product.CreatedDate):raw} = {createdDate}")
+            .AppendNewLine($"SET {nameof(Product.CreatedDate):raw} = {createdDate.DefineParam(DbType.DateTime2)}")
             .AppendNewLine($"WHERE {nameof(Product.Tag):raw} = {tag}");
 
         // Act
@@ -145,7 +145,7 @@ public class MSSqlTests : IAsyncLifetime
         const string tag = "delete";
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -184,7 +184,7 @@ public class MSSqlTests : IAsyncLifetime
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
         using var connection = mssqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         await connection.ExecuteAsync(builder.Sql, builder.Parameters, commandType: CommandType.StoredProcedure);
@@ -194,9 +194,12 @@ public class MSSqlTests : IAsyncLifetime
         builder.GetValue<int>(resultParamName).ShouldBe(1);
     }
 
-    public Task InitializeAsync()
-        => Task.CompletedTask;
+    public ValueTask InitializeAsync()
+        => default;
 
-    public Task DisposeAsync()
-        => mssqlTestsFixture.ResetDatabaseAsync();
+    public ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        return new(mssqlTestsFixture.ResetDatabaseAsync());
+    }
 }

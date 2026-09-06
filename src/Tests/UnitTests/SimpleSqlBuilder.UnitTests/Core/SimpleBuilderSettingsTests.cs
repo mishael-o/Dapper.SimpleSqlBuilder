@@ -1,13 +1,17 @@
-﻿using Dapper.SimpleSqlBuilder.UnitTestHelpers.XUnit;
-
-namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
+﻿namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
 
 [Collection($"~ Run Last - {nameof(SimpleBuilderSettingsTests)}")]
-[TestCaseOrderer("Dapper.SimpleSqlBuilder.UnitTestHelpers.XUnit.PriorityOrderer", "Dapper.SimpleSqlBuilder.UnitTestHelpers")]
-public class SimpleBuilderSettingsTests
+public sealed class SimpleBuilderSettingsTests : IDisposable
 {
+    public SimpleBuilderSettingsTests() => ResetSettings();
+
+    public void Dispose()
+    {
+        ResetSettings();
+        GC.SuppressFinalize(this);
+    }
+
     [Fact]
-    [TestPriority(1)]
     public void Configure_ConfiguresDefaultSettings_ReturnsVoid()
     {
         // Arrange
@@ -30,7 +34,6 @@ public class SimpleBuilderSettingsTests
     }
 
     [Fact]
-    [TestPriority(2)]
     public void Configure_ConfiguresParameterNameTemplate_ReturnsVoid()
     {
         // Arrange
@@ -48,7 +51,6 @@ public class SimpleBuilderSettingsTests
     }
 
     [Fact]
-    [TestPriority(3)]
     public void Configure_ConfiguresParameterNameTemplateFluentBuilder_ReturnsVoid()
     {
         // Arrange
@@ -69,7 +71,6 @@ public class SimpleBuilderSettingsTests
     }
 
     [Theory]
-    [TestPriority(4)]
     [InlineData("param", ":", "List{0}", true, true)]
     public void Configure_ConfiguresAllSettings_ReturnsVoid(
         string parameterNameTemplate,
@@ -98,7 +99,6 @@ public class SimpleBuilderSettingsTests
     }
 
     [Theory]
-    [TestPriority(5)]
     [InlineData(null, null, null, null, null)]
     [InlineData("", "", "", null, null)]
     [InlineData(" ", " ", " ", null, null)]
@@ -156,4 +156,12 @@ public class SimpleBuilderSettingsTests
         exception.Message.ShouldStartWith($"'{nameof(collectionParameterTemplateFormat)}' must contain a format placeholder '{{0}}' for the index.");
         exception.ParamName.ShouldBe(nameof(collectionParameterTemplateFormat));
     }
+
+    private static void ResetSettings()
+        => SimpleBuilderSettings.Configure(
+            SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate,
+            SimpleBuilderSettings.DefaultDatabaseParameterPrefix,
+            SimpleBuilderSettings.DefaultCollectionParameterTemplateFormat,
+            SimpleBuilderSettings.DefaultReuseParameters,
+            SimpleBuilderSettings.DefaultUseLowerCaseClauses);
 }

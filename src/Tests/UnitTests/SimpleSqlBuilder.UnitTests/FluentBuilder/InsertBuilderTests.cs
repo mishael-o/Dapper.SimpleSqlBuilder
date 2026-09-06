@@ -120,6 +120,32 @@ public class InsertBuilderTests
 
     [Theory]
     [AutoData]
+    public void InsertInto_BuildsSqlWithSimpleParameterInfoValuesAndReuseDisabled_ReturnsFluentSqlBuilder(int id, string type)
+    {
+        // Arrange
+        var idParam = id.DefineParam(System.Data.DbType.Int32, 1, 1, 1, reuse: false);
+        var typeParam = type.DefineParam(reuse: false);
+        var expectedSql = $"INSERT INTO Table{Environment.NewLine}VALUES (@p0, @p1, @p2, @p3)";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+            .InsertInto($"Table")
+            .Values($"{idParam}")
+            .Values($"{typeParam}")
+            .Values($"{idParam}")
+            .Values($"{typeParam}");
+
+        // Assert
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(4);
+        sut.GetValue<int>("@p0").ShouldBe(id);
+        sut.GetValue<string>("@p1").ShouldBe(type);
+        sut.GetValue<int>("@p2").ShouldBe(id);
+        sut.GetValue<string>("@p3").ShouldBe(type);
+    }
+
+    [Theory]
+    [AutoData]
     public void InsertInto_BuildsSqlAndAddParameter_ReturnsFluentSqlBuilder(int id, string type)
     {
         // Arrange

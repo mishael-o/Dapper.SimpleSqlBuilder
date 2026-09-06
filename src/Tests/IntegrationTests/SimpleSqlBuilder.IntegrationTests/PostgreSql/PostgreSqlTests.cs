@@ -32,7 +32,7 @@ public class PostgreSqlTests : IAsyncLifetime
             """);
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await connection.ExecuteScalarAsync<bool>(builder.Sql, builder.Parameters);
@@ -61,7 +61,7 @@ public class PostgreSqlTests : IAsyncLifetime
         }
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -77,7 +77,7 @@ public class PostgreSqlTests : IAsyncLifetime
         const string tag = "select";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
 
@@ -106,10 +106,10 @@ public class PostgreSqlTests : IAsyncLifetime
         // Arrange
         const int count = 3;
         const string tag = "update";
-        var createdDate = DateTime.Now.AddDays(100).Date;
+        var createdDate = DateTime.Now.AddDays(10);
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -130,7 +130,13 @@ public class PostgreSqlTests : IAsyncLifetime
             WHERE {nameof(Product.Tag):raw} = {tag}
             """);
         var expectedCreatedDates = await connection.QueryAsync<DateTime>(builder.Sql, builder.Parameters);
-        expectedCreatedDates.ShouldAllBe(date => date == createdDate);
+        expectedCreatedDates.ShouldSatisfyAllConditions((e) =>
+        {
+            foreach (var date in e)
+            {
+                date.ShouldBe(createdDate, TimeSpan.FromTicks(100));
+            }
+        });
     }
 
     [Fact]
@@ -141,7 +147,7 @@ public class PostgreSqlTests : IAsyncLifetime
         const string tag = "delete";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -174,7 +180,7 @@ public class PostgreSqlTests : IAsyncLifetime
             .AddParameter(resultParamName, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         await connection.ExecuteAsync(builder.Sql, builder.Parameters);
@@ -184,9 +190,12 @@ public class PostgreSqlTests : IAsyncLifetime
         builder.GetValue<int>(resultParamName).ShouldBe(1);
     }
 
-    public Task InitializeAsync()
-        => Task.CompletedTask;
+    public ValueTask InitializeAsync()
+        => default;
 
-    public Task DisposeAsync()
-        => postgreSqlTestsFixture.ResetDatabaseAsync();
+    public ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        return new(postgreSqlTestsFixture.ResetDatabaseAsync());
+    }
 }

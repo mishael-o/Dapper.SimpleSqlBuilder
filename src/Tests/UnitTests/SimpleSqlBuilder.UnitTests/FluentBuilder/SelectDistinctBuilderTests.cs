@@ -462,6 +462,32 @@ public class SelectDistinctBuilderTests
 
     [Theory]
     [AutoData]
+    public void SelectDistinct_BuildsSqlWithSimpleParameterInfoValuesAndReuseDisabled_ReturnsFluentSqlBuilder(int id, string type)
+    {
+        // Arrange
+        var idParam = id.DefineParam(reuse: false);
+        var typeParam = type.DefineParam(System.Data.DbType.String, 1, 1, 1, reuse: false);
+        string expectedSql = $"SELECT DISTINCT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 AND Type = @p1 OR (Id = @p2 AND Type = @p3)";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .SelectDistinct($"*")
+                    .From($"Table")
+                    .Where($"Id = {idParam}")
+                    .Where($"Type = {typeParam}")
+                    .OrWhereFilter($"Id = {idParam}").WithFilter($"Type = {typeParam}");
+
+        // Assert
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(4);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
+        sut.GetValue<int>("p2").ShouldBe(id);
+        sut.GetValue<string>("p3").ShouldBe(type);
+    }
+
+    [Theory]
+    [AutoData]
     public void SelectDistinct_BuildsSqlAndAddParameter_ReturnsFluentSqlBuilder(int id)
     {
         // Arrange

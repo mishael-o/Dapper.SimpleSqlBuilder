@@ -1,4 +1,6 @@
-﻿namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Core;
+﻿using Dapper.SimpleSqlBuilder.UnitTestHelpers.AutoFixture;
+
+namespace Dapper.SimpleSqlBuilder.DependencyInjection.UnitTests.Core;
 
 public class BuilderFactoryInterpolatedStringHandlerTests
 {
@@ -17,16 +19,15 @@ public class BuilderFactoryInterpolatedStringHandlerTests
     }
 
     [Theory]
-    [AutoData]
-    public void Constructor_BuilderDoesNotImplementIBuilderFormatter_ThrowsInvalidOperationException(Mock<ISimpleBuilder> builderFactoryMock)
+    [AutoNSubstituteData]
+    public void Constructor_BuilderDoesNotImplementIBuilderFormatter_ThrowsInvalidOperationException(ISimpleBuilder builderFactory)
     {
         // Arrange
-        builderFactoryMock
-            .Setup(x => x.Create(null, null, null))
-            .Returns(default(Builder)!);
+        builderFactory.Create(Arg.Any<FormattableString?>(), Arg.Any<string?>(), Arg.Any<bool?>())
+                      .Returns(default(Builder)!);
 
         // Act
-        Action act = () => _ = new BuilderFactoryInterpolatedStringHandler(0, 0, builderFactoryMock.Object);
+        Action act = () => _ = new BuilderFactoryInterpolatedStringHandler(0, 0, builderFactory);
 
         // Assert
         act.ShouldThrow<InvalidOperationException>()
@@ -34,44 +35,41 @@ public class BuilderFactoryInterpolatedStringHandlerTests
     }
 
     [Theory]
-    [AutoData]
-    public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, Mock<ISimpleBuilder> builderFactoryMock, Mock<Builder> builderMock)
+    [AutoNSubstituteData]
+    public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, ISimpleBuilder builderFactory)
     {
         // Arrange
-        var builderFormatterMock = builderMock.As<IBuilderFormatter>();
+        var builder = Substitute.For<Builder, IBuilderFormatter>();
+        builderFactory.Create(Arg.Any<FormattableString?>(), Arg.Any<string?>(), Arg.Any<bool?>())
+                      .Returns(builder);
 
-        builderFactoryMock
-            .Setup(x => x.Create(null, null, null))
-            .Returns(builderMock.Object);
-
-        var sut = new BuilderFactoryInterpolatedStringHandler(0, 0, builderFactoryMock.Object);
+        var sut = new BuilderFactoryInterpolatedStringHandler(0, 0, builderFactory);
 
         // Act
         sut.AppendLiteral(value);
 
         // Assert
-        builderFormatterMock.Verify(x => x.AppendLiteral(value));
+        ((IBuilderFormatter)builder).Received().AppendLiteral(value);
     }
 
     [Theory]
-    [InlineAutoData("value", null)]
-    [InlineAutoData("value", "raw")]
-    public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value, string? format, Mock<ISimpleBuilder> builderFactoryMock, Mock<Builder> builderMock)
+    [InlineData("value", null)]
+    [InlineData("value", "raw")]
+    public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value, string? format)
     {
         // Arrange
-        var builderFormatterMock = builderMock.As<IBuilderFormatter>();
+        var builderFactory = Substitute.For<ISimpleBuilder>();
+        var builder = Substitute.For<Builder, IBuilderFormatter>();
+        builderFactory.Create(Arg.Any<FormattableString?>(), Arg.Any<string?>(), Arg.Any<bool?>())
+                      .Returns(builder);
 
-        builderFactoryMock
-            .Setup(x => x.Create(null, null, null))
-            .Returns(builderMock.Object);
-
-        var sut = new BuilderFactoryInterpolatedStringHandler(0, 0, builderFactoryMock.Object);
+        var sut = new BuilderFactoryInterpolatedStringHandler(0, 0, builderFactory);
 
         // Act
         sut.AppendFormatted(value, format);
 
         // Assert
-        builderFormatterMock.Verify(x => x.AppendFormatted(value, format));
+        ((IBuilderFormatter)builder).Received().AppendFormatted(value, format);
     }
 
     [Fact]

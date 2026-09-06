@@ -5,32 +5,26 @@
     <PropertyGroup>
         <IsTestProject Condition="'$(IsTestProject)' == ''">true</IsTestProject>
         <IsUnitTestProject Condition="'$(IsUnitTestProject)' == ''">false</IsUnitTestProject>
+        <OutputType Condition="'$(IsTestProject)' == 'true'">Exe</OutputType>
+        <UseMicrosoftTestingPlatformRunner Condition="'$(IsTestProject)' == 'true'">true</UseMicrosoftTestingPlatformRunner>
     </PropertyGroup>
 
     <ItemGroup Label="GlobalTestsItemGroup" Condition="'$(IsTestProject)' == 'true'">
         <PackageReference Include="AutoFixture" />
-        <PackageReference Include="AutoFixture.Xunit2" />
-        <PackageReference Include="coverlet.collector">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="AutoFixture.Xunit3" />
+        <PackageReference Include="coverlet.MTP" />
         <PackageReference Include="Shouldly" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="xunit" />
-        <PackageReference Include="xunit.runner.visualstudio">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="xunit.v3.mtp-v2" />
         <Using Include="AutoFixture" />
-        <Using Include="AutoFixture.Xunit2" />
+        <Using Include="AutoFixture.Xunit3" />
         <Using Include="Shouldly" />
         <Using Include="Xunit" />
     </ItemGroup>
 
     <ItemGroup Label="UnitTestsItemGroup" Condition="'$(IsUnitTestProject)' == 'true'">
-        <PackageReference Include="AutoFixture.AutoMoq" />
-        <PackageReference Include="Moq" />
-        <Using Include="AutoFixture.AutoMoq" />
-        <Using Include="Moq" />
+        <PackageReference Include="AutoFixture.AutoNSubstitute" />
+        <PackageReference Include="NSubstitute" />
+        <Using Include="AutoFixture.AutoNSubstitute" />
+        <Using Include="NSubstitute" />
     </ItemGroup>
 </Project>
