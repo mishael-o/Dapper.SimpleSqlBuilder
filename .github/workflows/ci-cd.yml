@@ -3,6 +3,9 @@ name: Continuous integration and delivery
 on:
   push:
     branches: ["main", "develop"]
+    paths:
+      - "docs/github-pages/**"
+      - "src/**"
   pull_request:
     branches: ["main", "develop"]
   workflow_dispatch:
@@ -14,11 +17,6 @@ on:
         type: boolean
       publish_docs:
         description: "Force GitHub Pages publishing"
-        default: false
-        required: false
-        type: boolean
-      create_sync_pr:
-        description: "Create sync pull request?"
         default: false
         required: false
         type: boolean
@@ -232,46 +230,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
-  
-  create-sync-pr:
-    if: ${{ github.ref_name == 'main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.create_sync_pr == true)) }}
-    name: Create Sync PR
-    needs: [build]
-    runs-on: ubuntu-latest
-    concurrency:
-      group: main-to-develop-sync
-      cancel-in-progress: false
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v7
-      - name: Create Sync PR
-        run: |
-          PR_EXISTS=$(gh pr list --base develop --head main --state open --json number --jq '.[0].number // empty')
-          echo "Existing PR number: $PR_EXISTS"
-
-          if [ -n "$PR_EXISTS" ]; then
-            echo "Sync PR #$PR_EXISTS already exists"
-            exit 0
-          fi
-
-          AHEAD_BY=$(gh api "repos/${GITHUB_REPOSITORY}/compare/develop...main" --jq '.ahead_by // empty')
-          if ! [[ "$AHEAD_BY" =~ ^[0-9]+$ ]]; then
-            echo "::error::Unable to determine whether main is ahead of develop"
-            exit 1
-          fi
-
-          if [ "$AHEAD_BY" -eq 0 ]; then
-            echo "Develop already contains all commits from main"
-            exit 0
-          fi
-
-          PR_URL=$(gh pr create --base develop --head main --title "main to develop sync" --body "This is an automated PR to sync main into develop" --label "ignore-for-release")
-          echo "Created PR: $PR_URL"
-          gh pr merge --auto --merge "$PR_URL"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
