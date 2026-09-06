@@ -27,7 +27,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     public MSSqlTestsFixture()
     {
-        SeedProductTypes = new Fixture().CreateMany<ProductType>(2).ToArray();
+        SeedProductTypes = [.. new Fixture().CreateMany<ProductType>(2)];
         container = CreateSqlServerContainer();
     }
 
@@ -35,7 +35,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     public IReadOnlyList<ProductType> SeedProductTypes { get; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         await container.StartAsync();
         await InitialiseDbConnectionAsync();
@@ -43,10 +43,11 @@ public class MSSqlTestsFixture : IAsyncLifetime
         await InitialiseRespawnerAsync();
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         dbConnection.Dispose();
         await container.DisposeAsync();
+        GC.SuppressFinalize(this);
     }
 
     public DbConnection CreateDbConnection()
@@ -63,10 +64,9 @@ public class MSSqlTestsFixture : IAsyncLifetime
 
     private static MsSqlContainer CreateSqlServerContainer()
     {
-        return new MsSqlBuilder()
+        return new MsSqlBuilder("mcr.microsoft.com/mssql/server:2025-latest")
             .WithPortBinding(MsSqlBuilder.MsSqlPort, true)
             .WithName("mssql")
-            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
             .Build();
     }
 
@@ -95,7 +95,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
                 {nameof(Product.GlobalId):raw} UNIQUEIDENTIFIER UNIQUE NOT NULL,
                 {nameof(Product.TypeId):raw} INT NULL REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
                 {nameof(Product.Tag):raw} VARCHAR(50),
-                {nameof(Product.CreatedDate):raw} DATE
+                {nameof(Product.CreatedDate):raw} DATETIME2
            );
            """);
 
@@ -108,7 +108,7 @@ public class MSSqlTestsFixture : IAsyncLifetime
            BEGIN
                 SELECT @ProductId = NEXT VALUE FOR {sequenceName:raw};
                 INSERT INTO {nameof(Product):raw} ({nameof(Product.Id):raw}, {nameof(Product.GlobalId):raw}, {nameof(Product.TypeId):raw}, {nameof(Product.Tag):raw}, {nameof(Product.CreatedDate):raw})
-                VALUES (@ProductId, NEWID(), @TypeId, 'procedure', GETDATE());
+                VALUES (@ProductId, NEWID(), @TypeId, 'procedure', SYSDATETIME());
                 RETURN @@ROWCOUNT;
            END
            """);

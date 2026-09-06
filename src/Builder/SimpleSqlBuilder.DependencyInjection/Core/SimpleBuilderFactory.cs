@@ -18,7 +18,7 @@ internal sealed class SimpleBuilderFactory : ISimpleBuilder
         return new SqlBuilder(parameterOptions, formattable);
     }
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
     public Builder Create([System.Runtime.CompilerServices.InterpolatedStringHandlerArgument("")] ref BuilderFactoryInterpolatedStringHandler handler)
         => handler.GetBuilder();
 #endif

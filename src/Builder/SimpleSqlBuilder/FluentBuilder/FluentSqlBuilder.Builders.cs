@@ -22,7 +22,7 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
     public T GetValue<T>(string parameterName)
         => sqlFormatter.Parameters.Get<T>(parameterName);
 
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
     public IDeleteBuilder DeleteFrom([InterpolatedStringHandlerArgument("")] ref DeleteInterpolatedStringHandler handler)
     {
         handler.Close();
@@ -143,7 +143,7 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
         return this;
     }
 
-    public IWhereBuilder OrWhere(bool condition, [InterpolatedStringHandlerArgument("")] ref WhereOrInterpolatedStringHandler handler)
+    public IWhereBuilder OrWhere(bool condition, [InterpolatedStringHandlerArgument("condition", "")] ref WhereOrInterpolatedStringHandler handler)
     {
         handler.Close();
         return this;
@@ -355,9 +355,12 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
             return this;
         }
 
-        AppendFetchNext(rows);
-        AppendRows();
-        AppendOnly();
+        if (AppendFetchNext(rows))
+        {
+            AppendRows();
+            AppendOnly();
+        }
+
         return this;
     }
 
@@ -368,8 +371,11 @@ internal sealed partial class FluentSqlBuilder : ISimpleFluentBuilder, ISimpleFl
             return this;
         }
 
-        AppendOffset(offset);
-        AppendRows();
+        if (AppendOffset(offset))
+        {
+            AppendRows();
+        }
+
         return this;
     }
 

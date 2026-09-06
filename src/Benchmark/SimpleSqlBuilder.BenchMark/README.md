@@ -3,30 +3,32 @@
 The benchmark project is mainly to help with development and code optimisations.
 
 The benchmark below shows the performance of the `Builder` and `Fluent Builder` compared to Dapper's [SqlBuilder](https://github.com/DapperLib/Dapper/tree/main/Dapper.SqlBuilder) for building queries only (**this does not benchmark SQL execution**).
-The benchmark was done with the [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) library. The benchmark results may vary depending on the system configuration, OS, and other factors but the result below gives a general indication of performance.
+The benchmark was done with the [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) library. The results may vary depending on the system configuration, OS, and other factors, so they are indicative rather than absolute.
 
 To run the benchmark you will need to ensure you have the **corresponding SDKs for the frameworks** installed, then you can execute the command below in the benchmark project directory.
 
 ```cli
-dotnet run -c release -f net9.0 --runtimes net9.0 net48 -- --filter '*'
+dotnet run -c release -f net10.0 --runtimes net10.0 net48 -- --filter '*'
 ```
 
 You can also run the benchmark only for a specific framework.
 
 ```cli
-dotnet run -c release -f net9.0 --filter '*'
+dotnet run -c release -f net10.0 --filter '*'
 ```
 
 ## Result
 
+Each runtime was benchmarked separately, so `Ratio` and `Alloc Ratio` compare against Dapper's `SqlBuilder` on the **same runtime**.
+
 ``` ini
 
-BenchmarkDotNet v0.13.12, Windows 11 (10.0.26100.2454)
-Intel Core i7-8750H CPU 2.20GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores
-.NET SDK 9.0.100
-  [Host]     : .NET 9.0.0 (9.0.24.52809), X64 RyuJIT AVX2
-  Job-AYCPZN : .NET 9.0.0 (9.0.24.52809), X64 RyuJIT AVX2
-  Job-FCIXJG : .NET Framework 4.8.1 (4.8.9290.0), X64 RyuJIT VectorSize=256
+BenchmarkDotNet v0.15.8, Windows 11 (10.0.26200.8894/25H2/2025Update/HudsonValley2)
+Intel Core Ultra 9 275HX 2.70GHz, 1 CPU, 24 logical and 24 physical cores
+.NET SDK 10.0.302
+  [Host]             : .NET 10.0.10 (10.0.10, 10.0.1026.32716), X64 RyuJIT x86-64-v3
+  .NET 10.0          : .NET 10.0.10 (10.0.10, 10.0.1026.32716), X64 RyuJIT x86-64-v3
+  .NET Framework 4.8 : .NET Framework 4.8.1 (4.8.9337.0), X64 RyuJIT VectorSize=256
 
 Legends:
   Categories  : All categories of the corresponded method, class, and assembly
@@ -39,33 +41,33 @@ Legends:
   Gen1        : GC Generation 1 collects per 1000 operations
   Allocated   : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
   Alloc Ratio : Allocated memory ratio distribution ([Current]/[Baseline])
-  1 μs        : 1 Microsecond (0.000001 sec)
+  1 ns        : 1 Nanosecond (0.000000001 sec)
 
 ```
 
-| Method                             | Runtime            | Categories   | Mean      | Error     | StdDev    | Ratio | RatioSD | Gen0    | Gen1   | Allocated | Alloc Ratio |
-|----------------------------------- |------------------- |------------- |----------:|----------:|----------:|------:|--------:|--------:|-------:|----------:|------------:|
-| SqlBuilder (Dapper)                | .NET 9.0           | Simple query |  1.614 us | 0.0274 us | 0.0229 us |  1.00 |    0.00 |  0.6371 | 0.0038 |   2.93 KB |        1.00 |
-| Builder                            | .NET 9.0           | Simple query |  1.222 us | 0.0164 us | 0.0145 us |  0.76 |    0.02 |  0.9785 | 0.0114 |    4.5 KB |        1.54 |
-| FluentBuilder                      | .NET 9.0           | Simple query |  1.390 us | 0.0185 us | 0.0164 us |  0.86 |    0.02 |  0.9975 | 0.0134 |   4.59 KB |        1.57 |
-| Builder (Reuse parameters)         | .NET 9.0           | Simple query |  1.842 us | 0.0193 us | 0.0171 us |  1.14 |    0.01 |  1.0376 | 0.0153 |   4.77 KB |        1.63 |
-| FluentBuilder (Reuse parameters)   | .NET 9.0           | Simple query |  1.987 us | 0.0386 us | 0.0361 us |  1.23 |    0.03 |  1.0567 | 0.0153 |   4.86 KB |        1.66 |
-|                                    |                    |              |           |           |           |       |         |         |        |           |             |
-| SqlBuilder (Dapper)                | .NET Framework 4.8 | Simple query |  3.485 us | 0.0474 us | 0.0879 us |  2.19 |    0.08 |  0.7439 | 0.0038 |   3.44 KB |        1.17 |
-| Builder                            | .NET Framework 4.8 | Simple query |  4.378 us | 0.0515 us | 0.0456 us |  2.71 |    0.05 |  1.1520 | 0.0076 |   5.32 KB |        1.82 |
-| FluentBuilder                      | .NET Framework 4.8 | Simple query |  4.830 us | 0.0536 us | 0.0502 us |  2.99 |    0.05 |  1.1368 | 0.0076 |   5.25 KB |        1.79 |
-| Builder (Reuse parameters)         | .NET Framework 4.8 | Simple query |  5.134 us | 0.0772 us | 0.0685 us |  3.18 |    0.06 |  1.2741 | 0.0153 |   5.89 KB |        2.01 |
-| FluentBuilder (Reuse parameters)   | .NET Framework 4.8 | Simple query |  5.799 us | 0.0291 us | 0.0243 us |  3.59 |    0.05 |  1.2589 | 0.0153 |   5.82 KB |        1.99 |
-|                                    |                    |              |           |           |           |       |         |         |        |           |             |
-|                                    |                    |              |           |           |           |       |         |         |        |           |             |
-| SqlBuilder (Dapper)                | .NET 9.0           | Large query  | 27.432 μs | 0.1997 μs | 0.1868 μs |  1.00 |    0.00 |  9.2163 | 0.7629 |  42.42 KB |        1.00 |
-| Builder                            | .NET 9.0           | Large query  | 16.493 μs | 0.2553 μs | 0.2264 μs |  0.60 |    0.01 | 10.6506 | 1.1597 |  49.05 KB |        1.16 |
-| FluentBuilder                      | .NET 9.0           | Large query  | 18.964 μs | 0.2916 μs | 0.2728 μs |  0.69 |    0.01 | 10.6201 | 1.3123 |  48.89 KB |        1.15 |
-| Builder (Reuse parameters)         | .NET 9.0           | Large query  | 12.842 μs | 0.1155 μs | 0.0902 μs |  0.47 |    0.01 |  6.3934 | 0.2594 |  29.41 KB |        0.69 |
-| FluentBuilder (Reuse parameters)   | .NET 9.0           | Large query  | 14.713 μs | 0.1177 μs | 0.1044 μs |  0.54 |    0.01 |  6.3629 | 0.2441 |   29.3 KB |        0.69 |
-|                                    |                    |              |           |           |           |       |         |         |        |           |             |
-| SqlBuilder (Dapper)                | .NET Framework 4.8 | Large query  | 46.692 μs | 0.3956 μs | 0.3507 μs |  1.70 |    0.02 | 11.5356 | 1.0986 |  53.32 KB |        1.26 |
-| Builder                            | .NET Framework 4.8 | Large query  | 58.544 μs | 0.3523 μs | 0.3123 μs |  2.14 |    0.02 | 13.4277 | 0.1221 |  61.96 KB |        1.46 |
-| FluentBuilder                      | .NET Framework 4.8 | Large query  | 68.833 μs | 0.7452 μs | 0.6222 μs |  2.51 |    0.03 | 14.7705 | 1.7090 |  68.43 KB |        1.61 |
-| Builder (Reuse parameters)         | .NET Framework 4.8 | Large query  | 44.878 μs | 0.4036 μs | 0.3578 μs |  1.64 |    0.02 |  7.9956 | 0.3052 |  37.13 KB |        0.88 |
-| FluentBuilder (Reuse parameters)   | .NET Framework 4.8 | Large query  | 55.460 μs | 0.4013 μs | 0.3753 μs |  2.02 |    0.02 |  9.4604 | 0.3662 |  43.63 KB |        1.03 |
+| Method                           | Runtime            | Categories   | Mean        | Error     | StdDev    | Ratio | RatioSD | Gen0    | Gen1   | Allocated | Alloc Ratio |
+|--------------------------------- |------------------- |------------- |------------:|----------:|----------:|------:|--------:|--------:|-------:|----------:|------------:|
+| SqlBuilder (Dapper)              | .NET 10.0          | Simple query |    332.7 ns |   5.17 ns |   4.83 ns |  1.00 |    0.02 |  0.1569 | 0.0010 |   2.89 KB |        1.00 |
+| Builder                          | .NET 10.0          | Simple query |    417.6 ns |   6.18 ns |   5.48 ns |  1.26 |    0.02 |  0.1903 | 0.0014 |   3.55 KB |        1.23 |
+| FluentBuilder                    | .NET 10.0          | Simple query |    507.2 ns |   6.97 ns |   6.52 ns |  1.52 |    0.03 |  0.2308 | 0.0029 |    4.3 KB |        1.49 |
+| Builder (Reuse parameters)       | .NET 10.0          | Simple query |    713.1 ns |   9.51 ns |   8.89 ns |  2.14 |    0.04 |  0.2394 | 0.0029 |   4.45 KB |        1.54 |
+| FluentBuilder (Reuse parameters) | .NET 10.0          | Simple query |    769.7 ns |   6.05 ns |   5.05 ns |  2.31 |    0.04 |  0.2441 | 0.0029 |   4.54 KB |        1.57 |
+|                                  |                    |              |             |           |           |       |         |         |        |           |             |
+| SqlBuilder (Dapper)              | .NET Framework 4.8 | Simple query |    878.4 ns |   3.41 ns |   3.03 ns |  1.00 |    0.00 |  0.5054 | 0.0048 |   3.11 KB |        1.00 |
+| Builder                          | .NET Framework 4.8 | Simple query |  1,647.1 ns |   4.14 ns |   3.46 ns |  1.88 |    0.01 |  0.7420 | 0.0076 |   4.56 KB |        1.47 |
+| FluentBuilder                    | .NET Framework 4.8 | Simple query |  2,038.0 ns |  10.70 ns |   9.49 ns |  2.32 |    0.01 |  0.8430 | 0.0076 |    5.2 KB |        1.67 |
+| Builder (Reuse parameters)       | .NET Framework 4.8 | Simple query |  2,266.5 ns |   5.35 ns |   4.47 ns |  2.58 |    0.01 |  0.8392 | 0.0114 |   5.18 KB |        1.66 |
+| FluentBuilder (Reuse parameters) | .NET Framework 4.8 | Simple query |  2,538.5 ns |  13.82 ns |  12.25 ns |  2.89 |    0.02 |  0.8278 | 0.0076 |   5.11 KB |        1.64 |
+|                                  |                    |              |             |           |           |       |         |         |        |           |             |
+|                                  |                    |              |             |           |           |       |         |         |        |           |             |
+| SqlBuilder (Dapper)              | .NET 10.0          | Large query  |  4,057.1 ns |  80.33 ns |  85.95 ns |  1.00 |    0.03 |  2.3270 | 0.1907 |  42.38 KB |        1.00 |
+| Builder                          | .NET 10.0          | Large query  |  6,220.9 ns | 111.21 ns | 104.03 ns |  1.53 |    0.04 |  2.4414 | 0.2747 |  44.45 KB |        1.05 |
+| FluentBuilder                    | .NET 10.0          | Large query  |  7,117.7 ns |  82.71 ns |  69.06 ns |  1.76 |    0.04 |  2.4414 | 0.2899 |   44.3 KB |        1.05 |
+| Builder (Reuse parameters)       | .NET 10.0          | Large query  |  5,314.7 ns |  73.72 ns |  68.96 ns |  1.31 |    0.03 |  1.0681 | 0.0381 |  19.74 KB |        0.47 |
+| FluentBuilder (Reuse parameters) | .NET 10.0          | Large query  |  5,793.7 ns |  91.96 ns |  86.02 ns |  1.43 |    0.04 |  1.0605 | 0.0381 |  19.59 KB |        0.46 |
+|                                  |                    |              |             |           |           |       |         |         |        |           |             |
+| SqlBuilder (Dapper)              | .NET Framework 4.8 | Large query  |  9,870.6 ns |  69.25 ns |  61.38 ns |  1.00 |    0.01 |  7.5989 | 0.7477 |  46.75 KB |        1.00 |
+| Builder                          | .NET Framework 4.8 | Large query  | 24,934.5 ns | 293.54 ns | 245.12 ns |  2.53 |    0.03 | 10.0708 | 1.1902 |  61.96 KB |        1.33 |
+| FluentBuilder                    | .NET Framework 4.8 | Large query  | 29,487.7 ns | 147.57 ns | 130.82 ns |  2.99 |    0.02 | 11.1084 | 1.2207 |  68.39 KB |        1.46 |
+| Builder (Reuse parameters)       | .NET Framework 4.8 | Large query  | 16,275.9 ns |  60.36 ns |  53.51 ns |  1.65 |    0.01 |  3.6926 | 0.1221 |  22.87 KB |        0.49 |
+| FluentBuilder (Reuse parameters) | .NET Framework 4.8 | Large query  | 21,220.8 ns |  82.47 ns |  68.87 ns |  2.15 |    0.01 |  4.7607 | 0.1831 |  29.33 KB |        0.63 |

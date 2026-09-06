@@ -5,7 +5,7 @@
 /// </summary>
 public interface IWhereBuilder : IGroupByBuilder
 {
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
     /// <summary>
     /// Appends the <c>WHERE</c> clause and the interpolated string to the builder.
     /// If the <c>WHERE</c> clause is already present, the <c>AND</c> clause is appended.

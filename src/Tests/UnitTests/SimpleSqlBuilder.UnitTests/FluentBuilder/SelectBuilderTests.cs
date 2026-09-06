@@ -17,10 +17,10 @@ public class SelectBuilderTests
                     .From($"Table");
 
         // Assert
-        sut.Should().BeOfType<FluentSqlBuilder>();
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
-        sut.Parameters.Should().BeOfType<DynamicParameters>();
+        sut.ShouldBeOfType<FluentSqlBuilder>();
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
+        sut.Parameters.ShouldBeOfType<DynamicParameters>();
     }
 
     [Fact]
@@ -42,8 +42,8 @@ public class SelectBuilderTests
                     .RightJoin($"Table4 ON Table1.Id = Table4.Id");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -68,8 +68,8 @@ public class SelectBuilderTests
                     .RightJoin(true, $"Table7 ON Table1.Id = Table7.Id");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Theory]
@@ -88,10 +88,10 @@ public class SelectBuilderTests
                     .OrWhere($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -109,10 +109,10 @@ public class SelectBuilderTests
                     .OrWhere($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -131,11 +131,11 @@ public class SelectBuilderTests
                         .WithOrFilter($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(3);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<int>("p1").Should().Be(age);
-        sut.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(3);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<int>("p1").ShouldBe(age);
+        sut.GetValue<string>("p2").ShouldBe(type);
     }
 
     [Theory]
@@ -153,10 +153,10 @@ public class SelectBuilderTests
                     .OrWhereFilter($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -179,11 +179,29 @@ public class SelectBuilderTests
                     .OrWhere(true, $"Id NOT IN (1, 2, 3)");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(3);
-        sut.GetValue<int>("p0").Should().Be(age);
-        sut.GetValue<int[]>("pc1_").Should().BeEquivalentTo(ages);
-        sut.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(3);
+        sut.GetValue<int>("p0").ShouldBe(age);
+        sut.GetValue<int[]>("pc1_").ShouldBe(ages);
+        sut.GetValue<string>("p2").ShouldBe(type);
+    }
+
+    [Theory]
+    [AutoData]
+    public void Select_OrWhereConditionIsFalse_DoesNotAppendClause(int id)
+    {
+        // Arrange
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table";
+        var sut = (FluentSqlBuilder)SimpleBuilder.CreateFluent();
+        sut.Select($"*");
+        sut.From($"Table");
+
+        // Act
+        sut.OrWhere(false, $"Id = {id}");
+
+        // Assert
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -201,8 +219,8 @@ public class SelectBuilderTests
                     .GroupBy($"{typeColumn:raw}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -220,8 +238,8 @@ public class SelectBuilderTests
                     .GroupBy(true, $"Type");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -242,8 +260,8 @@ public class SelectBuilderTests
                     .Having($"COUNT({typeColumn:raw}) < 100");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -264,8 +282,8 @@ public class SelectBuilderTests
                     .Having(true, $"COUNT(Type) < 100");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -283,8 +301,8 @@ public class SelectBuilderTests
                     .OrderBy($"{typeColumn:raw}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -302,8 +320,8 @@ public class SelectBuilderTests
                     .OrderBy(true, $"Type");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -323,8 +341,31 @@ public class SelectBuilderTests
                     .OffsetRows(offset);
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Select_CalledWithOffsetRowsMethodTwice_IgnoresDuplicateClause()
+    {
+        // Arrange
+        const int offset = 10;
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+            $"{Environment.NewLine}ORDER BY Id" +
+            $"{Environment.NewLine}OFFSET {offset} ROWS";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .OrderBy($"Id");
+
+        sut.OffsetRows(offset);
+        sut.OffsetRows(20);
+
+        // Assert
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -344,8 +385,31 @@ public class SelectBuilderTests
                     .FetchNext(rows);
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Select_CalledWithFetchNextMethodTwice_IgnoresDuplicateClause()
+    {
+        // Arrange
+        const int rows = 10;
+        var expectedSql = $"SELECT *{Environment.NewLine}FROM Table" +
+            $"{Environment.NewLine}ORDER BY Id" +
+            $"{Environment.NewLine}FETCH NEXT {rows} ROWS ONLY";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .OrderBy($"Id");
+
+        sut.FetchNext(rows);
+        sut.FetchNext(20);
+
+        // Assert
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -365,8 +429,8 @@ public class SelectBuilderTests
                     .Limit(rows);
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -388,8 +452,8 @@ public class SelectBuilderTests
                     .Offset(offset);
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Theory]
@@ -408,10 +472,10 @@ public class SelectBuilderTests
                     .Where($"TypeId IN ({subQuery})");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -431,9 +495,9 @@ public class SelectBuilderTests
                     .Where($"TypeGroup IN ({subQuery})");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(1);
-        sut.GetValue<string>("p0").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldHaveSingleItem();
+        sut.GetValue<string>("p0").ShouldBe(type);
     }
 
     [Theory]
@@ -454,10 +518,36 @@ public class SelectBuilderTests
                     .OrWhereFilter($"Id = {idParam}").WithFilter($"Type = {typeParam}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
+    }
+
+    [Theory]
+    [AutoData]
+    public void Select_BuildsSqlWithSimpleParameterInfoValuesAndReuseDisabled_ReturnsFluentSqlBuilder(int id, string type)
+    {
+        // Arrange
+        var idParam = id.DefineParam(reuse: false);
+        var typeParam = type.DefineParam(System.Data.DbType.String, 1, 1, 1, reuse: false);
+        string expectedSql = $"SELECT *{Environment.NewLine}FROM Table{Environment.NewLine}WHERE Id = @p0 AND Type = @p1 OR (Id = @p2 AND Type = @p3)";
+
+        // Act
+        var sut = SimpleBuilder.CreateFluent()
+                    .Select($"*")
+                    .From($"Table")
+                    .Where($"Id = {idParam}")
+                    .Where($"Type = {typeParam}")
+                    .OrWhereFilter($"Id = {idParam}").WithFilter($"Type = {typeParam}");
+
+        // Assert
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(4);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
+        sut.GetValue<int>("p2").ShouldBe(id);
+        sut.GetValue<string>("p3").ShouldBe(type);
     }
 
     [Theory]
@@ -476,9 +566,9 @@ public class SelectBuilderTests
         sut.AddParameter(nameof(id), id);
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(1);
-        sut.GetValue<int>(nameof(id)).Should().Be(id);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldHaveSingleItem();
+        sut.GetValue<int>(nameof(id)).ShouldBe(id);
     }
 
     [Theory]
@@ -497,11 +587,11 @@ public class SelectBuilderTests
                     .Where($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(3);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<int>("p1").Should().Be(age);
-        sut.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(3);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<int>("p1").ShouldBe(age);
+        sut.GetValue<string>("p2").ShouldBe(type);
     }
 
     [Theory]
@@ -520,10 +610,10 @@ public class SelectBuilderTests
                     .OrWhere($"Type = {type}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(type);
     }
 
     [Theory]
@@ -560,11 +650,11 @@ public class SelectBuilderTests
                     .FetchNext(rows);
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(3);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<int>("p1").Should().Be(age);
-        sut.GetValue<string>("p2").Should().Be(type);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(3);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<int>("p1").ShouldBe(age);
+        sut.GetValue<string>("p2").ShouldBe(type);
     }
 
     [Fact]
@@ -586,8 +676,8 @@ public class SelectBuilderTests
                     .Offset(offset);
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(0);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -601,8 +691,8 @@ public class SelectBuilderTests
         Action act = () => sut.DeleteFrom($"*");
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.Delete}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
+        act.ShouldThrow<InvalidOperationException>()
+            .Message.ShouldBe($"Clause action \"{ClauseAction.Delete}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
     }
 
     [Fact]
@@ -616,8 +706,8 @@ public class SelectBuilderTests
         Action act = () => sut.InsertInto($"*");
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.Insert}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
+        act.ShouldThrow<InvalidOperationException>()
+            .Message.ShouldBe($"Clause action \"{ClauseAction.Insert}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
     }
 
     [Fact]
@@ -631,8 +721,8 @@ public class SelectBuilderTests
         Action act = () => sut.SelectDistinct($"*");
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.SelectDistinct}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
+        act.ShouldThrow<InvalidOperationException>()
+            .Message.ShouldBe($"Clause action \"{ClauseAction.SelectDistinct}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
     }
 
     [Fact]
@@ -646,7 +736,7 @@ public class SelectBuilderTests
         Action act = () => sut.Update($"*");
 
         // Assert
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage($"Clause action \"{ClauseAction.Update}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
+        act.ShouldThrow<InvalidOperationException>()
+            .Message.ShouldBe($"Clause action \"{ClauseAction.Update}\" is not allowed after \"{ClauseAction.Select}\" has been initiated on the same Fluent Builder.");
     }
 }

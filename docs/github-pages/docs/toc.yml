@@ -1,6 +1,6 @@
 - name: Getting Started
-- href: introduction.md
 - href: ../index.md
+- href: introduction.md
 
 - name: Builders
 - href: builders/builder.md

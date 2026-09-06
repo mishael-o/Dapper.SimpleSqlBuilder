@@ -94,8 +94,6 @@ public class SimpleSqlBuilderBenchmark
     [BenchmarkCategory("Simple query")]
     public string SimpleSqlBuilderReuseParameters()
     {
-        ////AND Name = { product.Name }
-
         var builder = SimpleBuilder.Create(reuseParameters: true)
             .AppendIntact($"""
                SELECT x.*, (SELECT Description FROM ProductDetail WHERE Id = {product.Id} OR ProductCode = {product.ProductCode})
@@ -252,7 +250,7 @@ public class SimpleSqlBuilderBenchmark
         {
             builder
                 .Where($"Id = {product.Id}")
-                .Where($"ProductCode =  {product.ProductCode}")
+                .Where($"ProductCode = {product.ProductCode}")
                 .Where($"TypeId IN {typeIds}")
                 .Where($"RecommendedPrice = {product.RecommendedPrice}")
                 .Where($"SellingPrice = {product.SellingPrice}")

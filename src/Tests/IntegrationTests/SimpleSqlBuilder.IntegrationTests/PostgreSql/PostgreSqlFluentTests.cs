@@ -39,14 +39,15 @@ public class PostgreSqlFluentTests : IAsyncLifetime
             .Where($"{nameof(Product.Tag):raw} = {tag}");
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
         var insertCount = await connection.ExecuteScalarAsync<int>(insertCountBuilder.Sql, insertCountBuilder.Parameters);
-        result.Should().Be(1).And.Be(insertCount);
+        result.ShouldBe(1);
+        insertCount.ShouldBe(1);
     }
 
     [Fact]
@@ -57,7 +58,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         const string tag2 = $"{tag}2";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = (await ProductGenerator.GenerateSeedProductsAsync(
             connection,
@@ -83,7 +84,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -95,7 +96,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         const int offset = 6;
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -116,7 +117,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+        result.ShouldBe(paginatedProducts);
     }
 
     [Fact]
@@ -128,7 +129,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         const int rows = 4;
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -149,7 +150,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+        result.ShouldBe(paginatedProducts);
     }
 
     [Fact]
@@ -161,7 +162,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         const int rows = 4;
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -182,7 +183,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+        result.ShouldBe(paginatedProducts);
     }
 
     [Fact]
@@ -195,7 +196,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         const int rows = 10;
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -218,7 +219,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+        result.ShouldBe(paginatedProducts);
     }
 
     [Fact]
@@ -231,7 +232,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         const int rows = 10;
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -254,7 +255,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+        result.ShouldBe(paginatedProducts);
     }
 
     [Fact]
@@ -264,7 +265,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         const string tag = "selectInnerJoin";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
         await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[1].Id, tag: tag);
@@ -280,7 +281,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -290,7 +291,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         const string tag = "selectLeftJoin";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = (await ProductGenerator.GenerateSeedProductsAsync(connection, tag: tag)).ToList();
         products.AddRange(await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: postgreSqlTestsFixture.SeedProductTypes[0].Id, tag: tag));
@@ -306,7 +307,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -318,7 +319,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         const string tag2 = $"{tag}2";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = (await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag)).ToList();
         products.AddRange(await ProductGenerator.GenerateSeedProductsAsync(connection, count, postgreSqlTestsFixture.SeedProductTypes[0].Id, tag));
@@ -335,7 +336,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -344,10 +345,10 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         // Arrange
         const int count = 1;
         const string tag = "update";
-        var createdDate = DateTime.Now.AddDays(100).Date;
+        var createdDate = DateTime.Now.AddDays(10);
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var product = (await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag)).Single();
 
@@ -366,11 +367,11 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(count);
+        result.ShouldBe(count);
 
         var updatedProduct = await connection.QuerySingleAsync<Product>(getUpdatedProduct.Sql, getUpdatedProduct.Parameters);
-        updatedProduct.TypeId.Should().Be(postgreSqlTestsFixture.SeedProductTypes[0].Id);
-        updatedProduct.CreatedDate.Should().Be(createdDate);
+        updatedProduct.TypeId.ShouldBe(postgreSqlTestsFixture.SeedProductTypes[0].Id);
+        updatedProduct.CreatedDate.ShouldBe(createdDate, TimeSpan.FromTicks(100));
     }
 
     [Fact]
@@ -381,7 +382,7 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         const string tag = "delete";
 
         using var connection = postgreSqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -398,15 +399,18 @@ public class PostgreSqlFluentTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(count);
+        result.ShouldBe(count);
 
         var countResult = await connection.ExecuteScalarAsync<int>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);
-        countResult.Should().Be(0);
+        countResult.ShouldBe(0);
     }
 
-    public Task InitializeAsync()
-        => Task.CompletedTask;
+    public ValueTask InitializeAsync()
+        => default;
 
-    public Task DisposeAsync()
-        => postgreSqlTestsFixture.ResetDatabaseAsync();
+    public ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        return new(postgreSqlTestsFixture.ResetDatabaseAsync());
+    }
 }

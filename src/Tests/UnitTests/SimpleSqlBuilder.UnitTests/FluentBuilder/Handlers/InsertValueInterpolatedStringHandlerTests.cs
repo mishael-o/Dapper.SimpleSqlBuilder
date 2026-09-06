@@ -1,5 +1,6 @@
-﻿#if NET6_0_OR_GREATER
+﻿#if NET8_0_OR_GREATER
 using Dapper.SimpleSqlBuilder.FluentBuilder;
+using Dapper.SimpleSqlBuilder.UnitTestHelpers.AutoFixture;
 
 namespace Dapper.SimpleSqlBuilder.UnitTests.FluentBuilder.Handlers;
 
@@ -15,97 +16,95 @@ public class InsertValueInterpolatedStringHandlerTests
         Action act = () => _ = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilder);
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage("The builder must implement IFluentBuilderFormatter.*")
-            .WithParameterName("builder");
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldMatch("The builder must implement IFluentBuilderFormatter.*");
+        exception.ParamName.ShouldBe("builder");
     }
 
     [Theory]
-    [AutoData]
-    public void Constructor_BuilderDoesNotImplementIFluentBuilderFormatter_ThrowsArgumentException(Mock<IFluentBuilder> fluentBuilderMock)
+    [AutoNSubstituteData]
+    public void Constructor_BuilderDoesNotImplementIFluentBuilderFormatter_ThrowsArgumentException(IFluentBuilder fluentBuilder)
     {
         // Act
-        Action act = () => _ = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        Action act = () => _ = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilder);
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage("The builder must implement IFluentBuilderFormatter.*")
-            .WithParameterName("builder");
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldMatch("The builder must implement IFluentBuilderFormatter.*");
+        exception.ParamName.ShouldBe("builder");
     }
 
-    [Theory]
-    [AutoData]
-    public void Constructor_InitialisesHandler_ReturnsHandler(Mock<IFluentBuilder> fluentBuilderMock)
+    [Fact]
+    public void Constructor_InitialisesHandler_ReturnsHandler()
     {
         // Arrange
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
 
         // Act
-        var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        _ = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilder);
 
         // Assert
-        fluentFormatterMock.Verify(x => x.StartClauseAction(ClauseAction.InsertValue));
+        fluentFormatterMock.Received().StartClauseAction(ClauseAction.InsertValue);
     }
 
     [Theory]
-    [AutoData]
-    public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
+    [AutoNSubstituteData]
+    public void AppendLiteral_AppendsLiteral_ReturnsVoid(string value)
     {
         // Arrange
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
-        var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
+        var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilder);
 
         // Act
         sut.AppendLiteral(value);
 
         // Assert
-        fluentFormatterMock.Verify(x => x.AppendLiteral(value));
+        fluentFormatterMock.Received().AppendLiteral(value);
     }
 
     [Theory]
-    [AutoData]
-    public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value, Mock<IFluentBuilder> fluentBuilderMock)
+    [AutoNSubstituteData]
+    public void AppendFormatted_AppendsFormatted_ReturnsVoid(string value)
     {
         // Arrange
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
-        var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
+        var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilder);
 
         // Act
         sut.AppendFormatted(value);
 
         // Assert
-        fluentFormatterMock.Verify(x => x.AppendFormatted(value, null));
+        fluentFormatterMock.Received().AppendFormatted(value, null);
     }
 
     [Theory]
     [InlineAutoData(0, null)]
     [InlineAutoData("value", "raw")]
-    public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format, Mock<IFluentBuilder> fluentBuilderMock)
+    public void AppendFormatted_AppendsFormattedWithFormat_ReturnsVoid(object value, string? format)
     {
         // Arrange
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
-        var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
+        var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilder);
 
         // Act
         sut.AppendFormatted(value, format);
 
         // Assert
-        fluentFormatterMock.Verify(x => x.AppendFormatted(value, format));
+        fluentFormatterMock.Received().AppendFormatted(value, format);
     }
 
-    [Theory]
-    [AutoData]
-    public void Close_ClosesHandler_ReturnsVoid(Mock<IFluentBuilder> fluentBuilderMock)
+    [Fact]
+    public void Close_ClosesHandler_ReturnsVoid()
     {
         // Arrange
-        var fluentFormatterMock = fluentBuilderMock.As<IFluentBuilderFormatter>();
-        var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilderMock.Object);
+        var fluentBuilder = Dapper.SimpleSqlBuilder.UnitTests.UnitTestSubstitutes.CreateFluentBuilder(out var fluentFormatterMock);
+        var sut = new InsertValueInterpolatedStringHandler(0, 0, fluentBuilder);
 
         // Act
         sut.Close();
 
         // Assert
-        fluentFormatterMock.Verify(x => x.EndClauseAction());
+        fluentFormatterMock.Received().EndClauseAction();
     }
 }
 #endif

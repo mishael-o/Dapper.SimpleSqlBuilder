@@ -21,7 +21,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
     public PostgreSqlTestsFixture()
     {
         var fixture = new Fixture();
-        SeedProductTypes = fixture.CreateMany<ProductType>(2).ToArray();
+        SeedProductTypes = [.. fixture.CreateMany<ProductType>(2)];
         container = CreatePostgreSqlContainer();
     }
 
@@ -29,7 +29,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     public IReadOnlyList<ProductType> SeedProductTypes { get; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         await container.StartAsync();
         await InitialiseDbConnectionAsync();
@@ -37,10 +37,11 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
         await InitialiseRespawnerAsync();
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         dbConnection.Dispose();
         await container.DisposeAsync();
+        GC.SuppressFinalize(this);
     }
 
     public DbConnection CreateDbConnection()
@@ -57,10 +58,9 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
 
     private static PostgreSqlContainer CreatePostgreSqlContainer()
     {
-        return new PostgreSqlBuilder()
+        return new PostgreSqlBuilder("postgres:17")
             .WithPortBinding(PostgreSqlBuilder.PostgreSqlPort, true)
             .WithName("postgresql")
-            .WithImage("postgres:17")
             .Build();
     }
 
@@ -89,7 +89,7 @@ public class PostgreSqlTestsFixture : IAsyncLifetime
                 {nameof(Product.GlobalId):raw} UUID UNIQUE NOT NULL,
                 {nameof(Product.TypeId):raw} INT NULL REFERENCES {nameof(ProductType):raw}({nameof(ProductType.Id):raw}),
                 {nameof(Product.Tag):raw} VARCHAR(50),
-                {nameof(Product.CreatedDate):raw} DATE
+               {nameof(Product.CreatedDate):raw} TIMESTAMP
            );
            """);
 

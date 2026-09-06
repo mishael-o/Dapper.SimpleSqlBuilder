@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Text;
 using Dapper.SimpleSqlBuilder.Extensions;
 
 namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
@@ -16,7 +17,7 @@ public class SqlFormatterTests
         var result = sut.GetFormat(formatType);
 
         // Assert
-        result.Should().Be(sut);
+        result.ShouldBe(sut);
     }
 
     [Fact]
@@ -30,7 +31,7 @@ public class SqlFormatterTests
         var result = sut.GetFormat(formatType);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Fact]
@@ -59,11 +60,11 @@ public class SqlFormatterTests
         var result = sut.Format(null, formattableString, sut);
 
         // Assert
-        result.Should().Be(expectedResult);
-        sut.Parameters.ParameterNames.Should().HaveCount(3);
-        sut.Parameters.Get<int[]>("pc0_").Should().BeEquivalentTo(model.TypeIds);
-        sut.Parameters.Get<int>("p1").Should().Be(model.Id);
-        sut.Parameters.Get<int[]>("pc2_").Should().BeEquivalentTo(model.TypeIds);
+        result.ShouldBe(expectedResult);
+        sut.Parameters.ParameterNames.Count().ShouldBe(3);
+        sut.Parameters.Get<int[]>("pc0_").ShouldBe(model.TypeIds);
+        sut.Parameters.Get<int>("p1").ShouldBe(model.Id);
+        sut.Parameters.Get<int[]>("pc2_").ShouldBe(model.TypeIds);
     }
 
     [Theory]
@@ -79,7 +80,7 @@ public class SqlFormatterTests
         var result = sut.Format(Constants.RawFormat, argument, sut);
 
         // Assert
-        result.Should().Be(expectedResult);
+        result.ShouldBe(expectedResult);
     }
 
     [Theory]
@@ -95,9 +96,9 @@ public class SqlFormatterTests
         var result = sut.Format(null, argument, sut);
 
         // Assert
-        result.Should().Be("@p0");
-        sut.Parameters.ParameterNames.Should().HaveCount(1);
-        sut.Parameters.Get<object?>("p0").Should().Be(argument);
+        result.ShouldBe("@p0");
+        sut.Parameters.ParameterNames.Count().ShouldBe(1);
+        sut.Parameters.Get<object?>("p0").ShouldBe(argument);
     }
 
     [Theory]
@@ -115,9 +116,9 @@ public class SqlFormatterTests
         var result = sut.Format(null, parameterInfo, sut);
 
         // Assert
-        result.Should().Be("@p0");
-        sut.Parameters.ParameterNames.Should().HaveCount(1);
-        sut.Parameters.Get<object?>("p0").Should().Be(parameterInfo.Value);
+        result.ShouldBe("@p0");
+        sut.Parameters.ParameterNames.Count().ShouldBe(1);
+        sut.Parameters.Get<object?>("p0").ShouldBe(parameterInfo.Value);
     }
 
     [Fact]
@@ -144,14 +145,190 @@ public class SqlFormatterTests
         var result = sut.Format(null, formattableString, sut);
 
         // Assert
-        result.Should().Be(expectedResult);
-        sut.Parameters.ParameterNames.Should().HaveCount(6);
-        sut.Parameters.Get<int>("p0").Should().Be(model.Id);
-        sut.Parameters.Get<string>("p1").Should().Be(model.ProductName);
-        sut.Parameters.Get<double>("p2").Should().Be(model.Price.Value.As<double>());
-        sut.Parameters.Get<bool>("p3").Should().Be(model.IsActive);
-        sut.Parameters.Get<string?>("p4").Should().Be(model.SecondName);
-        sut.Parameters.Get<string?>("p5").Should().Be(model.SecondName);
+        result.ShouldBe(expectedResult);
+        sut.Parameters.ParameterNames.Count().ShouldBe(6);
+        sut.Parameters.Get<int>("p0").ShouldBe(model.Id);
+        sut.Parameters.Get<string>("p1").ShouldBe(model.ProductName);
+        sut.Parameters.Get<double>("p2").ShouldBe(model.Price.Value);
+        sut.Parameters.Get<bool>("p3").ShouldBe(model.IsActive);
+        sut.Parameters.Get<string?>("p4").ShouldBe(model.SecondName);
+        sut.Parameters.Get<string?>("p5").ShouldBe(model.SecondName);
+    }
+
+    [Theory]
+    [InlineData(null, "John")]
+    [InlineData(null, 10)]
+    [InlineData(null, null)]
+    [InlineData(Constants.RawFormat, "TABLE")]
+    [InlineData(Constants.RawFormat, 10)]
+    [InlineData(Constants.RawFormat, null)]
+    public void FormatTo_MatchesFormat_ReturnsSameSql(string? format, object? argument)
+    {
+        // Arrange
+        // The two methods are separate dispatch chains over the same rules, so they are pinned together.
+        var formatSut = CreateSqlFormatter();
+        var formatToSut = CreateSqlFormatter();
+        var destination = new StringBuilder();
+
+        // Act
+        var expected = formatSut.Format(format, argument, formatSut);
+        formatToSut.FormatTo(destination, argument, format);
+
+        // Assert
+        destination.ToString().ShouldBe(expected);
+        formatToSut.Parameters.ParameterNames.ShouldBe(formatSut.Parameters.ParameterNames);
+    }
+
+    [Fact]
+    public void FormatTo_FormatsSimpleParameterInfo_MatchesFormat()
+    {
+        // Arrange
+        var formatSut = CreateSqlFormatter();
+        var formatToSut = CreateSqlFormatter();
+        var destination = new StringBuilder();
+
+        // Act
+        var expected = formatSut.Format(null, new SimpleParameterInfo(10, DbType.Int32), formatSut);
+        formatToSut.FormatTo(destination, new SimpleParameterInfo(10, DbType.Int32));
+
+        // Assert
+        destination.ToString().ShouldBe(expected);
+        formatToSut.Parameters.Get<int>("p0").ShouldBe(10);
+    }
+
+    [Fact]
+    public void FormatTo_FormatsFormattableString_MatchesFormat()
+    {
+        // Arrange
+        var formatSut = CreateSqlFormatter();
+        var formatToSut = CreateSqlFormatter();
+        var destination = new StringBuilder();
+
+        FormattableString formattableString = $"SELECT * FROM TABLE WHERE Id = {10} AND Type = {"Type"}";
+        FormattableString noArguments = $"SELECT * FROM TABLE";
+
+        // Act
+        var expected = formatSut.Format(null, formattableString, formatSut)
+            + formatSut.Format(null, noArguments, formatSut);
+        formatToSut.FormatTo(destination, formattableString);
+        formatToSut.FormatTo(destination, noArguments);
+
+        // Assert
+        destination.ToString().ShouldBe(expected);
+        formatToSut.Parameters.ParameterNames.ShouldBe(formatSut.Parameters.ParameterNames);
+    }
+
+    [Fact]
+    public void FormatTo_ReusesParameters_MatchesFormat()
+    {
+        // Arrange
+        var formatSut = CreateSqlFormatter(true);
+        var formatToSut = CreateSqlFormatter(true);
+        var destination = new StringBuilder();
+
+        // Act
+        var expected = formatSut.Format(null, 10, formatSut)
+            + formatSut.Format(null, 10, formatSut)
+            + formatSut.Format(null, 20, formatSut);
+        formatToSut.FormatTo(destination, 10);
+        formatToSut.FormatTo(destination, 10);
+        formatToSut.FormatTo(destination, 20);
+
+        // Assert
+        destination.ToString().ShouldBe(expected);
+        destination.ToString().ShouldBe("@p0@p0@p1");
+    }
+
+    [Fact]
+    public void Format_SimpleParameterInfoUsedInTwoFormatters_NamesAreIndependent()
+    {
+        // Arrange
+        // The parameter name belongs to the formatter, not the parameter, so one formatter must never
+        // adopt a name another formatter generated. Doing so silently overwrote the value.
+        var parameterInfo = new SimpleParameterInfo(99);
+
+        var firstSut = CreateSqlFormatter();
+        var secondSut = CreateSqlFormatter();
+
+        // Act
+        var firstResult = firstSut.Format(null, parameterInfo, firstSut);
+        var secondResult = secondSut.Format(null, parameterInfo, secondSut);
+        var otherResult = secondSut.Format(null, 5, secondSut);
+
+        // Assert
+        firstResult.ShouldBe("@p0");
+        secondResult.ShouldBe("@p0");
+        otherResult.ShouldBe("@p1");
+        secondSut.Parameters.Get<int>("p0").ShouldBe(99);
+        secondSut.Parameters.Get<int>("p1").ShouldBe(5);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Format_SameParameterInfoFormattedTwice_ReturnsSameParameterName(bool reuseParameters)
+    {
+        // Arrange
+        // A defined parameter reuses itself by default, independently of the builder's reuseParameters setting.
+        var parameterInfo = new SimpleParameterInfo(10, DbType.Int32);
+
+        var sut = CreateSqlFormatter(reuseParameters);
+
+        // Act
+        var firstResult = sut.Format(null, parameterInfo, sut);
+        var secondResult = sut.Format(null, parameterInfo, sut);
+        var equivalentResult = sut.Format(null, new SimpleParameterInfo(10, DbType.Int32), sut);
+        var otherResult = sut.Format(null, new SimpleParameterInfo(10, DbType.Int64), sut);
+
+        // Assert
+        firstResult.ShouldBe("@p0");
+        secondResult.ShouldBe("@p0");
+        equivalentResult.ShouldBe("@p0");
+        otherResult.ShouldBe("@p1");
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Format_SameParameterInfoFormattedTwiceAndReuseDisabled_ReturnsNewParameterName(bool reuseParameters)
+    {
+        // Arrange
+        // Opting a parameter out of reuse holds even when the builder has reuseParameters enabled,
+        // as the two settings govern different things.
+        var parameterInfo = new SimpleParameterInfo(10, DbType.Int32, reuse: false);
+
+        var sut = CreateSqlFormatter(reuseParameters);
+
+        // Act
+        var firstResult = sut.Format(null, parameterInfo, sut);
+        var secondResult = sut.Format(null, parameterInfo, sut);
+
+        // Assert
+        firstResult.ShouldBe("@p0");
+        secondResult.ShouldBe("@p1");
+        sut.Parameters.Get<int>("p0").ShouldBe(10);
+        sut.Parameters.Get<int>("p1").ShouldBe(10);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Format_ValuelessParameterInfoFormattedTwice_ReturnsNewParameterName(bool reuseParameters)
+    {
+        // Arrange
+        // Reuse never applies to a parameter with no value, whether it is enabled or not.
+        var parameterInfo = new SimpleParameterInfo(null, DbType.Int32);
+
+        var sut = CreateSqlFormatter(reuseParameters);
+
+        // Act
+        var firstResult = sut.Format(null, parameterInfo, sut);
+        var secondResult = sut.Format(null, parameterInfo, sut);
+
+        // Assert
+        firstResult.ShouldBe("@p0");
+        secondResult.ShouldBe("@p1");
+        sut.Parameters.ParameterNames.Count().ShouldBe(2);
     }
 
     [Fact]
@@ -171,7 +348,7 @@ public class SqlFormatterTests
         sut.Reset();
 
         // Assert
-        sut.Parameters.ParameterNames.Should().BeEmpty();
+        sut.Parameters.ParameterNames.ShouldBeEmpty();
     }
 
     private static SqlFormatter CreateSqlFormatter(bool reuseParameters = false)

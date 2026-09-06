@@ -39,14 +39,15 @@ public class MySqlFluentTests : IAsyncLifetime
             .Where($"{nameof(Product.Tag):raw} = {tag}");
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
         var insertCount = await connection.ExecuteScalarAsync<int>(insertCountBuilder.Sql, insertCountBuilder.Parameters);
-        result.Should().Be(1).And.Be(insertCount);
+        result.ShouldBe(1);
+        result.ShouldBe(insertCount);
     }
 
     [Fact]
@@ -57,7 +58,7 @@ public class MySqlFluentTests : IAsyncLifetime
         const string tag2 = $"{tag}2";
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = (await ProductGenerator.GenerateSeedProductsAsync(
             connection,
@@ -83,7 +84,7 @@ public class MySqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -95,7 +96,7 @@ public class MySqlFluentTests : IAsyncLifetime
         const int rows = 4;
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -116,7 +117,7 @@ public class MySqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+        result.ShouldBe(paginatedProducts);
     }
 
     [Fact]
@@ -129,7 +130,7 @@ public class MySqlFluentTests : IAsyncLifetime
         const int rows = 10;
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -153,7 +154,7 @@ public class MySqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(paginatedProducts, option => option.WithStrictOrdering());
+        result.ShouldBe(paginatedProducts);
     }
 
     [Fact]
@@ -163,7 +164,7 @@ public class MySqlFluentTests : IAsyncLifetime
         const string tag = "selectInnerJoin";
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag);
         await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[1].Id, tag: tag);
@@ -179,7 +180,7 @@ public class MySqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -189,7 +190,7 @@ public class MySqlFluentTests : IAsyncLifetime
         const string tag = "selectLeftJoin";
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = (await ProductGenerator.GenerateSeedProductsAsync(connection, tag: tag)).ToList();
         products.AddRange(await ProductGenerator.GenerateSeedProductsAsync(connection, productTypeId: mySqlTestsFixture.SeedProductTypes[0].Id, tag: tag));
@@ -205,7 +206,7 @@ public class MySqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -217,7 +218,7 @@ public class MySqlFluentTests : IAsyncLifetime
         const string tag2 = $"{tag}2";
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var products = (await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag)).ToList();
         products.AddRange(await ProductGenerator.GenerateSeedProductsAsync(connection, count, mySqlTestsFixture.SeedProductTypes[0].Id, tag));
@@ -234,7 +235,7 @@ public class MySqlFluentTests : IAsyncLifetime
         var result = await connection.QueryAsync<Product>(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().BeEquivalentTo(products);
+        result.ShouldBe(products, ignoreOrder: true);
     }
 
     [Fact]
@@ -243,10 +244,10 @@ public class MySqlFluentTests : IAsyncLifetime
         // Arrange
         const int count = 1;
         const string tag = "update";
-        var createdDate = DateTime.Now.AddDays(100).Date;
 
+        var createdDate = DateTime.UtcNow.AddDays(10);
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         var product = (await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag)).Single();
 
@@ -265,11 +266,11 @@ public class MySqlFluentTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(count);
+        result.ShouldBe(count);
 
         var updatedProduct = await connection.QuerySingleAsync<Product>(getUpdatedProduct.Sql, getUpdatedProduct.Parameters);
-        updatedProduct.TypeId.Should().Be(mySqlTestsFixture.SeedProductTypes[0].Id);
-        updatedProduct.CreatedDate.Should().Be(createdDate);
+        updatedProduct.TypeId.ShouldBe(mySqlTestsFixture.SeedProductTypes[0].Id);
+        updatedProduct.CreatedDate.ShouldBe(createdDate, TimeSpan.FromTicks(100));
     }
 
     [Fact]
@@ -280,7 +281,7 @@ public class MySqlFluentTests : IAsyncLifetime
         const string tag = "delete";
 
         using var connection = mySqlTestsFixture.CreateDbConnection();
-        await connection.OpenAsync();
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
 
         await ProductGenerator.GenerateSeedProductsAsync(connection, count, tag: tag);
 
@@ -297,15 +298,18 @@ public class MySqlFluentTests : IAsyncLifetime
         var result = await connection.ExecuteAsync(builder.Sql, builder.Parameters);
 
         // Assert
-        result.Should().Be(count);
+        result.ShouldBe(count);
 
         var countResult = await connection.ExecuteScalarAsync<int>(checkDataExistsBuilder.Sql, checkDataExistsBuilder.Parameters);
-        countResult.Should().Be(0);
+        countResult.ShouldBe(0);
     }
 
-    public Task InitializeAsync()
-        => Task.CompletedTask;
+    public ValueTask InitializeAsync()
+        => default;
 
-    public Task DisposeAsync()
-        => mySqlTestsFixture.ResetDatabaseAsync();
+    public ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        return new(mySqlTestsFixture.ResetDatabaseAsync());
+    }
 }

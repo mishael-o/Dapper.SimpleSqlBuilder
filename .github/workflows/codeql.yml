@@ -34,7 +34,7 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
-          9.x
+          10.x
           8.x
 
     # Initializes the CodeQL tools for scanning.
@@ -50,7 +50,7 @@ jobs:
         # queries: security-extended,security-and-quality
 
     - name: Build solution
-      run: dotnet build src/Dapper.SimpleSqlBuilder.sln -c release
+      run: dotnet build src/Dapper.SimpleSqlBuilder.slnx -c release
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3

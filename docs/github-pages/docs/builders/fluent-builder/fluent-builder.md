@@ -4,7 +4,7 @@ The [`Fluent Builder`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentB
 
 The `CreateFluent` method on the [`SimpleSqlBuilder`](xref:Dapper.SimpleSqlBuilder.SimpleBuilder.CreateFluent(System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})) or [`ISimpleBuilder`](xref:Dapper.SimpleSqlBuilder.DependencyInjection.ISimpleBuilder.CreateFluent(System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})) (when using [dependency injection](../../configuration/dependency-injection.md)) creates a new [`fluent builder`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder) instance.
 
-Using fluent APIs, you can build `SELECT`, `INSERT`, `UPDATE`, and `DELETE` queries. The [`Fluent builder`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder) parses the SQL query and extracts parameters from it. These parameters can be accessed via the [`Parameters`](xref:Dapper.SimpleSqlBuilder.Builder.Parameters) property, and the generated SQL query is available through the [`Sql`](xref:Dapper.SimpleSqlBuilder.Builder.Sql) property.
+Using fluent APIs, you can build `SELECT`, `INSERT`, `UPDATE`, and `DELETE` queries. The [`Fluent Builder`](xref:Dapper.SimpleSqlBuilder.FluentBuilder.ISimpleFluentBuilder) parses the SQL query and extracts parameters from it. These parameters can be accessed via the [`Parameters`](xref:Dapper.SimpleSqlBuilder.Builder.Parameters) property, and the generated SQL query is available through the [`Sql`](xref:Dapper.SimpleSqlBuilder.Builder.Sql) property.
 
 ## Fluent Builders
 

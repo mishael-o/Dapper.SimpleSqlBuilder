@@ -11,10 +11,10 @@ public class BuilderTests
         var sut = SimpleBuilder.Create();
 
         // Assert
-        sut.Should().BeOfType<SqlBuilder>();
-        sut.Sql.Should().BeEmpty();
-        sut.ParameterNames.Should().BeEmpty();
-        sut.Parameters.Should().BeOfType<DynamicParameters>();
+        sut.ShouldBeOfType<SqlBuilder>();
+        sut.Sql.ShouldBeEmpty();
+        sut.ParameterNames.ShouldBeEmpty();
+        sut.Parameters.ShouldBeOfType<DynamicParameters>();
     }
 
     [Fact]
@@ -27,8 +27,8 @@ public class BuilderTests
         var sut = SimpleBuilder.Create($"SELECT * FROM TABLE");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().BeEmpty();
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Theory]
@@ -42,13 +42,13 @@ public class BuilderTests
         var sut = SimpleBuilder.Create($"SELECT * FROM TABLE WHERE ID = {id:raw} AND WHERE NAME = {name} AND Age IN {ages}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(2);
-        sut.GetValue<string>("p0").Should().Be(name);
-        sut.GetValue<IEnumerable<int>>("pc1_").Should().BeEquivalentTo(ages);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<string>("p0").ShouldBe(name);
+        sut.GetValue<IEnumerable<int>>("pc1_").ShouldBe(ages);
     }
 
-#if !NET6_0_OR_GREATER
+#if !NET8_0_OR_GREATER
 
     [Fact]
     public void AppendIntact_AppendsNullFormattableString_ReturnsSqlBuilder()
@@ -62,9 +62,9 @@ public class BuilderTests
         var result = sut.AppendIntact(formattable);
 
         // Assert
-        result.Should().Be(sut);
-        sut.Sql.Should().BeEmpty();
-        sut.ParameterNames.Should().BeEmpty();
+        result.ShouldBe(sut);
+        sut.Sql.ShouldBeEmpty();
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
 #endif
@@ -79,9 +79,9 @@ public class BuilderTests
         var result = sut.AppendIntact($"SELECT * FROM TABLE");
 
         // Assert
-        result.Should().Be(sut);
-        sut.Sql.Should().Be("SELECT * FROM TABLE");
-        sut.ParameterNames.Should().BeEmpty();
+        result.ShouldBe(sut);
+        sut.Sql.ShouldBe("SELECT * FROM TABLE");
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Theory]
@@ -97,10 +97,10 @@ public class BuilderTests
         sut.AppendIntact($"SELECT * FROM TABLE WHERE ID = {id:raw} AND WHERE NAME = {name} AND Age IN {ages}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(2);
-        sut.GetValue<string>("p0").Should().Be(name);
-        sut.GetValue<int[]>("pc1_").Should().BeEquivalentTo(ages);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<string>("p0").ShouldBe(name);
+        sut.GetValue<int[]>("pc1_").ShouldBe(ages);
     }
 
     [Theory]
@@ -116,11 +116,11 @@ public class BuilderTests
         sut.AppendIntact($"SELECT * FROM TABLE WHERE ID = {id} AND NAME = {name} AND Age IN {ages}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(3);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(name);
-        sut.GetValue<int[]>("pc2_").Should().BeEquivalentTo(ages);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(3);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(name);
+        sut.GetValue<int[]>("pc2_").ShouldBe(ages);
     }
 
     [Theory]
@@ -136,10 +136,10 @@ public class BuilderTests
         sut.AppendIntact($"SELECT * FROM TABLE WHERE ID = {id.DefineParam(System.Data.DbType.Int32)} AND NAME = {name} AND TYPE = '{type:raw}' AND SECOND_ID = {secondId:raw}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(name);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(name);
     }
 
     [Theory]
@@ -158,12 +158,12 @@ public class BuilderTests
         sut.AppendIntact($"SELECT * FROM ({innerQuery}) WHERE ROWNUM > {rowNum}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(4);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(name);
-        sut.GetValue<ICollection<int>>("pc2_").Should().BeEquivalentTo(ages);
-        sut.GetValue<int>("p3").Should().Be(rowNum);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(4);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(name);
+        sut.GetValue<ICollection<int>>("pc2_").ShouldBe(ages);
+        sut.GetValue<int>("p3").ShouldBe(rowNum);
     }
 
     [Theory]
@@ -176,7 +176,7 @@ public class BuilderTests
             .AppendIntact(condition, $"SELECT * FROM TABLE WHERE ID = {1}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
+        sut.Sql.ShouldBe(expectedSql);
     }
 
     [Theory]
@@ -192,11 +192,11 @@ public class BuilderTests
         sut.Append($"WHERE ID = {id} AND TypeId IN ({subQuery}) ROWNUM <= {rowNum:raw}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(3);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(typeCode);
-        sut.GetValue<HashSet<string>>("pc2_").Should().BeEquivalentTo(codes);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(3);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(typeCode);
+        sut.GetValue<HashSet<string>>("pc2_").ShouldBe(codes);
     }
 
     [Theory]
@@ -209,7 +209,7 @@ public class BuilderTests
             .Append(condition, $"WHERE ID = {1}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
+        sut.Sql.ShouldBe(expectedSql);
     }
 
     [Fact]
@@ -222,9 +222,9 @@ public class BuilderTests
         var result = sut.AppendNewLine();
 
         // Assert
-        result.Should().Be(sut);
-        sut.Sql.Should().Be(Environment.NewLine);
-        sut.ParameterNames.Should().BeEmpty();
+        result.ShouldBe(sut);
+        sut.Sql.ShouldBe(Environment.NewLine);
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Theory]
@@ -236,7 +236,7 @@ public class BuilderTests
             .AppendNewLine(condition, $"WHERE ID = {1}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
+        sut.Sql.ShouldBe(expectedSql);
     }
 
     [Theory]
@@ -253,10 +253,10 @@ public class BuilderTests
         sut.AppendNewLine($"WHERE ID = {id} AND TypeId IN ({subQuery}) ROWNUM <= {rowNum:raw}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Count().Should().Be(2);
-        sut.GetValue<int>("p0").Should().Be(id);
-        sut.GetValue<string>("p1").Should().Be(typeCode);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(2);
+        sut.GetValue<int>("p0").ShouldBe(id);
+        sut.GetValue<string>("p1").ShouldBe(typeCode);
     }
 
     [Theory]
@@ -270,8 +270,8 @@ public class BuilderTests
         var result = sut.AddParameter(nameof(id), id);
 
         // Assert
-        result.Should().Be(sut);
-        sut.GetValue<int>(nameof(id)).Should().Be(id);
+        result.ShouldBe(sut);
+        sut.GetValue<int>(nameof(id)).ShouldBe(id);
     }
 
     [Theory]
@@ -289,9 +289,9 @@ public class BuilderTests
         var result = sut.AddDynamicParameters(dynamicParameters);
 
         // Assert
-        result.Should().Be(sut);
-        sut.GetValue<int>(param1Name).Should().Be(param1Value);
-        sut.GetValue<string>(param2Name).Should().Be(param2Value);
+        result.ShouldBe(sut);
+        sut.GetValue<int>(param1Name).ShouldBe(param1Value);
+        sut.GetValue<string>(param2Name).ShouldBe(param2Value);
     }
 
     [Theory]
@@ -305,9 +305,9 @@ public class BuilderTests
         var result = sut += $"SELECT * FROM TABLE WHERE ID = {id}";
 
         // Assert
-        result.Should().Be(sut);
-        sut.Sql.Should().Be("SELECT * FROM TABLE WHERE ID = @p0");
-        sut.GetValue<int>("p0").Should().Be(id);
+        result.ShouldBe(sut);
+        sut.Sql.ShouldBe("SELECT * FROM TABLE WHERE ID = @p0");
+        sut.GetValue<int>("p0").ShouldBe(id);
     }
 
     [Fact]
@@ -320,7 +320,8 @@ public class BuilderTests
         var act = () => sut += $"SELECT * FROM TABLE WHERE";
 
         // Assert
-        act.Should().Throw<ArgumentNullException>().WithParameterName("builder");
+        act.ShouldThrow<ArgumentNullException>()
+           .ParamName.ShouldBe("builder");
     }
 
     [Fact]
@@ -344,15 +345,15 @@ public class BuilderTests
             .AppendNewLine($"INSERT INTO TABLE VALUES ({model.Id}, {model.TypeId}, {model.Age}, {model.Name}, {model.MiddleName})");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.ParameterNames.Should().HaveCount(7);
-        sut.GetValue<int>("p0").Should().Be(model.Id);
-        sut.GetValue<int>("p1").Should().Be(model.TypeId);
-        sut.GetValue<int?>("p2").Should().Be(model.Age);
-        sut.GetValue<string>("p3").Should().Be(model.Name);
-        sut.GetValue<string?>("p4").Should().Be(model.MiddleName);
-        sut.GetValue<int?>("p5").Should().Be(model.Age);
-        sut.GetValue<string?>("p6").Should().Be(model.MiddleName);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.ParameterNames.Count().ShouldBe(7);
+        sut.GetValue<int>("p0").ShouldBe(model.Id);
+        sut.GetValue<int>("p1").ShouldBe(model.TypeId);
+        sut.GetValue<int?>("p2").ShouldBe(model.Age);
+        sut.GetValue<string>("p3").ShouldBe(model.Name);
+        sut.GetValue<string?>("p4").ShouldBe(model.MiddleName);
+        sut.GetValue<int?>("p5").ShouldBe(model.Age);
+        sut.GetValue<string?>("p6").ShouldBe(model.MiddleName);
     }
 
     [Fact]
@@ -365,8 +366,8 @@ public class BuilderTests
         sut.Reset();
 
         // Assert
-        sut.Sql.Should().BeEmpty();
-        sut.ParameterNames.Should().BeEmpty();
+        sut.Sql.ShouldBeEmpty();
+        sut.ParameterNames.ShouldBeEmpty();
     }
 
     [Fact]
@@ -381,9 +382,9 @@ public class BuilderTests
         sut.AppendIntact($"DELETE FROM TABLE WHERE ID = {id}");
 
         // Assert
-        sut.Sql.Should().Be("DELETE FROM TABLE WHERE ID = @p0");
-        sut.ParameterNames.Count().Should().Be(1);
-        sut.GetValue<int>("p0").Should().Be(id);
+        sut.Sql.ShouldBe("DELETE FROM TABLE WHERE ID = @p0");
+        sut.ParameterNames.Count().ShouldBe(1);
+        sut.GetValue<int>("p0").ShouldBe(id);
     }
 
     internal static class BuilderTestsData

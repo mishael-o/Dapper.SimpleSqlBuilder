@@ -756,15 +756,15 @@ references:
   isSpec: "True"
   fullName: Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam
   nameWithType: SimpleParameterInfoExtensions.DefineParam
-- uid: Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam``1(``0,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
-  name: DefineParam<T>(T, DbType?, int?, byte?, byte?)
-  href: /api-docs/netcore/Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.html#Dapper_SimpleSqlBuilder_Extensions_SimpleParameterInfoExtensions_DefineParam__1___0_System_Nullable_System_Data_DbType__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__
-  commentId: M:Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam``1(``0,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
-  name.vb: DefineParam(Of T)(T, DbType?, Integer?, Byte?, Byte?)
-  fullName: Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam<T>(T, System.Data.DbType?, int?, byte?, byte?)
-  fullName.vb: Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam(Of T)(T, System.Data.DbType?, Integer?, Byte?, Byte?)
-  nameWithType: SimpleParameterInfoExtensions.DefineParam<T>(T, DbType?, int?, byte?, byte?)
-  nameWithType.vb: SimpleParameterInfoExtensions.DefineParam(Of T)(T, DbType?, Integer?, Byte?, Byte?)
+- uid: Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam``1(``0,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte},System.Boolean)
+  name: DefineParam<T>(T, DbType?, int?, byte?, byte?, bool)
+  href: /api-docs/netcore/Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.html#Dapper_SimpleSqlBuilder_Extensions_SimpleParameterInfoExtensions_DefineParam__1___0_System_Nullable_System_Data_DbType__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__System_Boolean_
+  commentId: M:Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam``1(``0,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte},System.Boolean)
+  name.vb: DefineParam(Of T)(T, DbType?, Integer?, Byte?, Byte?, Boolean)
+  fullName: Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam<T>(T, System.Data.DbType?, int?, byte?, byte?, bool)
+  fullName.vb: Dapper.SimpleSqlBuilder.Extensions.SimpleParameterInfoExtensions.DefineParam(Of T)(T, System.Data.DbType?, Integer?, Byte?, Byte?, Boolean)
+  nameWithType: SimpleParameterInfoExtensions.DefineParam<T>(T, DbType?, int?, byte?, byte?, bool)
+  nameWithType.vb: SimpleParameterInfoExtensions.DefineParam(Of T)(T, DbType?, Integer?, Byte?, Byte?, Boolean)
 - uid: Dapper.SimpleSqlBuilder.FluentBuilder
   name: Dapper.SimpleSqlBuilder.FluentBuilder
   href: /api-docs/netcore/Dapper.SimpleSqlBuilder.FluentBuilder.html
@@ -3262,15 +3262,15 @@ references:
   commentId: T:Dapper.SimpleSqlBuilder.SimpleParameterInfo
   fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo
   nameWithType: SimpleParameterInfo
-- uid: Dapper.SimpleSqlBuilder.SimpleParameterInfo.#ctor(System.Object,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
-  name: SimpleParameterInfo(object?, DbType?, int?, byte?, byte?)
-  href: /api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo__ctor_System_Object_System_Nullable_System_Data_DbType__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__
-  commentId: M:Dapper.SimpleSqlBuilder.SimpleParameterInfo.#ctor(System.Object,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte})
-  name.vb: New(Object, DbType?, Integer?, Byte?, Byte?)
-  fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.SimpleParameterInfo(object?, System.Data.DbType?, int?, byte?, byte?)
-  fullName.vb: Dapper.SimpleSqlBuilder.SimpleParameterInfo.New(Object, System.Data.DbType?, Integer?, Byte?, Byte?)
-  nameWithType: SimpleParameterInfo.SimpleParameterInfo(object?, DbType?, int?, byte?, byte?)
-  nameWithType.vb: SimpleParameterInfo.New(Object, DbType?, Integer?, Byte?, Byte?)
+- uid: Dapper.SimpleSqlBuilder.SimpleParameterInfo.#ctor(System.Object,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte},System.Boolean)
+  name: SimpleParameterInfo(object?, DbType?, int?, byte?, byte?, bool)
+  href: /api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo__ctor_System_Object_System_Nullable_System_Data_DbType__System_Nullable_System_Int32__System_Nullable_System_Byte__System_Nullable_System_Byte__System_Boolean_
+  commentId: M:Dapper.SimpleSqlBuilder.SimpleParameterInfo.#ctor(System.Object,System.Nullable{System.Data.DbType},System.Nullable{System.Int32},System.Nullable{System.Byte},System.Nullable{System.Byte},System.Boolean)
+  name.vb: New(Object, DbType?, Integer?, Byte?, Byte?, Boolean)
+  fullName: Dapper.SimpleSqlBuilder.SimpleParameterInfo.SimpleParameterInfo(object?, System.Data.DbType?, int?, byte?, byte?, bool)
+  fullName.vb: Dapper.SimpleSqlBuilder.SimpleParameterInfo.New(Object, System.Data.DbType?, Integer?, Byte?, Byte?, Boolean)
+  nameWithType: SimpleParameterInfo.SimpleParameterInfo(object?, DbType?, int?, byte?, byte?, bool)
+  nameWithType.vb: SimpleParameterInfo.New(Object, DbType?, Integer?, Byte?, Byte?, Boolean)
 - uid: Dapper.SimpleSqlBuilder.SimpleParameterInfo.#ctor*
   name: SimpleParameterInfo
   href: /api-docs/netcore/Dapper.SimpleSqlBuilder.SimpleParameterInfo.html#Dapper_SimpleSqlBuilder_SimpleParameterInfo__ctor_

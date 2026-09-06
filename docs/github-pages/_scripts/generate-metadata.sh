@@ -1,6 +1,12 @@
 #!/bin/bash
 
 readonly metadata_file_dir="api-docs"
+readonly docfx_cmd=$(command -v docfx 2>/dev/null || command -v docfx.exe 2>/dev/null)
+
+if [ -z "$docfx_cmd" ]; then
+    echo "Error: docfx is not installed or not available on PATH" >&2
+    exit 1
+fi
 
 change_netstd2_uids() {
     local -r file_dir="$metadata_file_dir/netstd2"
@@ -31,6 +37,6 @@ remove_extension_methods() {
     done
 }
 
-docfx metadata docfx.json
+"$docfx_cmd" metadata docfx.json --noRestore
 change_netstd2_uids
 remove_extension_methods

@@ -5,7 +5,7 @@
 /// </summary>
 public interface IOrderByBuilderEntry : IFluentSqlBuilder
 {
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
     /// <summary>
     /// Appends the <c>ORDER BY</c> clause and the interpolated string to the builder.
     /// </summary>

@@ -1,13 +1,17 @@
-﻿using Dapper.SimpleSqlBuilder.UnitTestHelpers.XUnit;
-
-namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
+﻿namespace Dapper.SimpleSqlBuilder.UnitTests.Core;
 
 [Collection($"~ Run Last - {nameof(SimpleBuilderSettingsTests)}")]
-[TestCaseOrderer("Dapper.SimpleSqlBuilder.UnitTestHelpers.XUnit.PriorityOrderer", "Dapper.SimpleSqlBuilder.UnitTestHelpers")]
-public class SimpleBuilderSettingsTests
+public sealed class SimpleBuilderSettingsTests : IDisposable
 {
+    public SimpleBuilderSettingsTests() => ResetSettings();
+
+    public void Dispose()
+    {
+        ResetSettings();
+        GC.SuppressFinalize(this);
+    }
+
     [Fact]
-    [TestPriority(1)]
     public void Configure_ConfiguresDefaultSettings_ReturnsVoid()
     {
         // Arrange
@@ -17,20 +21,19 @@ public class SimpleBuilderSettingsTests
         SimpleBuilderSettings.Configure();
 
         // Assert
-        SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
-        SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
-        SimpleBuilderSettings.Instance.CollectionParameterTemplateFormat.Should().Be(SimpleBuilderSettings.DefaultCollectionParameterTemplateFormat);
+        SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.ShouldBe(SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate);
+        SimpleBuilderSettings.Instance.DatabaseParameterPrefix.ShouldBe(SimpleBuilderSettings.DefaultDatabaseParameterPrefix);
+        SimpleBuilderSettings.Instance.CollectionParameterTemplateFormat.ShouldBe(SimpleBuilderSettings.DefaultCollectionParameterTemplateFormat);
 #if NET8_0_OR_GREATER
-        SimpleBuilderSettings.Instance.CollectionParameterFormat.Format.Should().Be(expectedCollectionParameterFormat);
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.Format.ShouldBe(expectedCollectionParameterFormat);
 #else
-        SimpleBuilderSettings.Instance.CollectionParameterFormat.Should().Be(expectedCollectionParameterFormat);
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.ShouldBe(expectedCollectionParameterFormat);
 #endif
-        SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(SimpleBuilderSettings.DefaultReuseParameters);
-        SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(SimpleBuilderSettings.DefaultUseLowerCaseClauses);
+        SimpleBuilderSettings.Instance.ReuseParameters.ShouldBe(SimpleBuilderSettings.DefaultReuseParameters);
+        SimpleBuilderSettings.Instance.UseLowerCaseClauses.ShouldBe(SimpleBuilderSettings.DefaultUseLowerCaseClauses);
     }
 
     [Fact]
-    [TestPriority(2)]
     public void Configure_ConfiguresParameterNameTemplate_ReturnsVoid()
     {
         // Arrange
@@ -43,12 +46,11 @@ public class SimpleBuilderSettingsTests
         var sut = SimpleBuilder.Create($"SELECT * FROM TABLE WHERE ID = {id}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.GetValue<int>($"{parameterNameTemplate}0").Should().Be(id);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.GetValue<int>($"{parameterNameTemplate}0").ShouldBe(id);
     }
 
     [Fact]
-    [TestPriority(3)]
     public void Configure_ConfiguresParameterNameTemplateFluentBuilder_ReturnsVoid()
     {
         // Arrange
@@ -64,12 +66,11 @@ public class SimpleBuilderSettingsTests
             .Where($"ID = {id}");
 
         // Assert
-        sut.Sql.Should().Be(expectedSql);
-        sut.GetValue<int>($"{parameterNameTemplate}0").Should().Be(id);
+        sut.Sql.ShouldBe(expectedSql);
+        sut.GetValue<int>($"{parameterNameTemplate}0").ShouldBe(id);
     }
 
     [Theory]
-    [TestPriority(4)]
     [InlineData("param", ":", "List{0}", true, true)]
     public void Configure_ConfiguresAllSettings_ReturnsVoid(
         string parameterNameTemplate,
@@ -85,20 +86,19 @@ public class SimpleBuilderSettingsTests
         SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, collectionParameterTemplateFormat, reuseParameters, useLowerCaseClauses);
 
         // Assert
-        SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(parameterNameTemplate);
-        SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(parameterPrefix);
-        SimpleBuilderSettings.Instance.CollectionParameterTemplateFormat.Should().Be(collectionParameterTemplateFormat);
+        SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.ShouldBe(parameterNameTemplate);
+        SimpleBuilderSettings.Instance.DatabaseParameterPrefix.ShouldBe(parameterPrefix);
+        SimpleBuilderSettings.Instance.CollectionParameterTemplateFormat.ShouldBe(collectionParameterTemplateFormat);
 #if NET8_0_OR_GREATER
-        SimpleBuilderSettings.Instance.CollectionParameterFormat.Format.Should().Be(expectedCollectionParameterFormat);
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.Format.ShouldBe(expectedCollectionParameterFormat);
 #else
-        SimpleBuilderSettings.Instance.CollectionParameterFormat.Should().Be(expectedCollectionParameterFormat);
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.ShouldBe(expectedCollectionParameterFormat);
 #endif
-        SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(reuseParameters);
-        SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(useLowerCaseClauses);
+        SimpleBuilderSettings.Instance.ReuseParameters.ShouldBe(reuseParameters);
+        SimpleBuilderSettings.Instance.UseLowerCaseClauses.ShouldBe(useLowerCaseClauses);
     }
 
     [Theory]
-    [TestPriority(5)]
     [InlineData(null, null, null, null, null)]
     [InlineData("", "", "", null, null)]
     [InlineData(" ", " ", " ", null, null)]
@@ -129,16 +129,16 @@ public class SimpleBuilderSettingsTests
         SimpleBuilderSettings.Configure(parameterNameTemplate, parameterPrefix, collectionParameterTemplateFormat, reuseParameters, useLowerCaseClauses);
 
         // Assert
-        SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.Should().Be(expectedParameterNameTemplate);
-        SimpleBuilderSettings.Instance.DatabaseParameterPrefix.Should().Be(expectedParameterPrefix);
-        SimpleBuilderSettings.Instance.CollectionParameterTemplateFormat.Should().Be(expectedCollectionParameterTemplateFormat);
+        SimpleBuilderSettings.Instance.DatabaseParameterNameTemplate.ShouldBe(expectedParameterNameTemplate);
+        SimpleBuilderSettings.Instance.DatabaseParameterPrefix.ShouldBe(expectedParameterPrefix);
+        SimpleBuilderSettings.Instance.CollectionParameterTemplateFormat.ShouldBe(expectedCollectionParameterTemplateFormat);
 #if NET8_0_OR_GREATER
-        SimpleBuilderSettings.Instance.CollectionParameterFormat.Format.Should().Be(expectedCollectionParameterFormat);
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.Format.ShouldBe(expectedCollectionParameterFormat);
 #else
-        SimpleBuilderSettings.Instance.CollectionParameterFormat.Should().Be(expectedCollectionParameterFormat);
+        SimpleBuilderSettings.Instance.CollectionParameterFormat.ShouldBe(expectedCollectionParameterFormat);
 #endif
-        SimpleBuilderSettings.Instance.ReuseParameters.Should().Be(expectedReuseParameters);
-        SimpleBuilderSettings.Instance.UseLowerCaseClauses.Should().Be(expectedUseLowerCaseClauses);
+        SimpleBuilderSettings.Instance.ReuseParameters.ShouldBe(expectedReuseParameters);
+        SimpleBuilderSettings.Instance.UseLowerCaseClauses.ShouldBe(expectedUseLowerCaseClauses);
     }
 
     [Theory]
@@ -152,8 +152,16 @@ public class SimpleBuilderSettingsTests
         var act = () => SimpleBuilderSettings.Configure(collectionParameterTemplateFormat: collectionParameterTemplateFormat);
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(collectionParameterTemplateFormat)}' must contain a format placeholder '{{0}}' for the index.*")
-            .WithParameterName(nameof(collectionParameterTemplateFormat));
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldStartWith($"'{nameof(collectionParameterTemplateFormat)}' must contain a format placeholder '{{0}}' for the index.");
+        exception.ParamName.ShouldBe(nameof(collectionParameterTemplateFormat));
     }
+
+    private static void ResetSettings()
+        => SimpleBuilderSettings.Configure(
+            SimpleBuilderSettings.DefaultDatabaseParameterNameTemplate,
+            SimpleBuilderSettings.DefaultDatabaseParameterPrefix,
+            SimpleBuilderSettings.DefaultCollectionParameterTemplateFormat,
+            SimpleBuilderSettings.DefaultReuseParameters,
+            SimpleBuilderSettings.DefaultUseLowerCaseClauses);
 }

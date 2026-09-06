@@ -1,6 +1,6 @@
 ﻿namespace Dapper.SimpleSqlBuilder.IntegrationTests.Models;
 
-public record Product
+public sealed record Product
 {
     public int Id { get; set; }
     public Guid GlobalId { get; set; }

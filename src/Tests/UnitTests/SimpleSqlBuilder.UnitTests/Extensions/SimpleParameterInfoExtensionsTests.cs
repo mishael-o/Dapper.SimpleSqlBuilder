@@ -13,9 +13,9 @@ public class SimpleParameterInfoExtensionsTests
         Action act = () => value.DefineParam(DbType.Int64);
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage($"Value is already a {nameof(ISimpleParameterInfo)}*")
-            .WithParameterName(nameof(value));
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldStartWith($"Value is already a {nameof(ISimpleParameterInfo)}");
+        exception.ParamName.ShouldBe(nameof(value));
     }
 
     [Theory]
@@ -26,11 +26,25 @@ public class SimpleParameterInfoExtensionsTests
         var valueParam = value.DefineParam(dbType, size, precision, scale);
 
         // Assert
-        valueParam.Should().BeOfType<SimpleParameterInfo>();
-        valueParam.Value.Should().Be(value);
-        valueParam.DbType.Should().Be(dbType);
-        valueParam.Size.Should().Be(size);
-        valueParam.Precision.Should().Be(precision);
-        valueParam.Scale.Should().Be(scale);
+        valueParam.ShouldBeOfType<SimpleParameterInfo>();
+        valueParam.Value.ShouldBe(value);
+        valueParam.DbType.ShouldBe(dbType);
+        valueParam.Size.ShouldBe(size);
+        valueParam.Precision.ShouldBe(precision);
+        valueParam.Scale.ShouldBe(scale);
+        valueParam.ShouldBeOfType<SimpleParameterInfo>().Reuse.ShouldBeTrue();
+    }
+
+    [Theory]
+    [AutoData]
+    public void DefineParam_CreatesSimpleParameterInfoWithReuseDisabled_ReturnsISimpleParameterInfo(object value, DbType dbType)
+    {
+        // Act
+        var valueParam = value.DefineParam(dbType, reuse: false);
+
+        // Assert
+        valueParam.Value.ShouldBe(value);
+        valueParam.DbType.ShouldBe(dbType);
+        valueParam.ShouldBeOfType<SimpleParameterInfo>().Reuse.ShouldBeFalse();
     }
 }

@@ -5,7 +5,7 @@
 /// </summary>
 public interface ISelectDistinctBuilder : ISelectFromBuilderEntry
 {
-#if NET6_0_OR_GREATER
+#if NET8_0_OR_GREATER
     /// <summary>
     /// Appends the <c>SELECT DISTINCT</c> clause and the interpolated string to the builder.
     /// </summary>

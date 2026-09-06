@@ -12,9 +12,9 @@ public class SimpleBuilderOptionsTests
         var act = () => sut.DatabaseParameterNameTemplate = value;
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(SimpleBuilderOptions.DatabaseParameterNameTemplate)}' cannot be null, empty, or white-space.*")
-            .WithParameterName(nameof(SimpleBuilderOptions.DatabaseParameterNameTemplate));
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldStartWith($"'{nameof(SimpleBuilderOptions.DatabaseParameterNameTemplate)}' cannot be null, empty, or white-space.");
+        exception.ParamName.ShouldBe(nameof(SimpleBuilderOptions.DatabaseParameterNameTemplate));
     }
 
     [Theory]
@@ -27,9 +27,9 @@ public class SimpleBuilderOptionsTests
         var act = () => sut.DatabaseParameterPrefix = value;
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(SimpleBuilderOptions.DatabaseParameterPrefix)}' cannot be null, empty, or white-space.*")
-            .WithParameterName(nameof(SimpleBuilderOptions.DatabaseParameterPrefix));
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldStartWith($"'{nameof(SimpleBuilderOptions.DatabaseParameterPrefix)}' cannot be null, empty, or white-space.");
+        exception.ParamName.ShouldBe(nameof(SimpleBuilderOptions.DatabaseParameterPrefix));
     }
 
     [Theory]
@@ -42,9 +42,9 @@ public class SimpleBuilderOptionsTests
         var act = () => sut.CollectionParameterTemplateFormat = value;
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(SimpleBuilderOptions.CollectionParameterTemplateFormat)}' cannot be null, empty, or white-space.*")
-            .WithParameterName(nameof(SimpleBuilderOptions.CollectionParameterTemplateFormat));
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldStartWith($"'{nameof(SimpleBuilderOptions.CollectionParameterTemplateFormat)}' cannot be null, empty, or white-space.");
+        exception.ParamName.ShouldBe(nameof(SimpleBuilderOptions.CollectionParameterTemplateFormat));
     }
 
     [Theory]
@@ -58,9 +58,9 @@ public class SimpleBuilderOptionsTests
         var act = () => sut.CollectionParameterTemplateFormat = value;
 
         // Assert
-        act.Should().Throw<ArgumentException>()
-            .WithMessage($"'{nameof(SimpleBuilderOptions.CollectionParameterTemplateFormat)}' must contain a format placeholder '{{0}}' for the index.*")
-            .WithParameterName(nameof(SimpleBuilderOptions.CollectionParameterTemplateFormat));
+        var exception = act.ShouldThrow<ArgumentException>();
+        exception.Message.ShouldStartWith($"'{nameof(SimpleBuilderOptions.CollectionParameterTemplateFormat)}' must contain a format placeholder '{{0}}' for the index.");
+        exception.ParamName.ShouldBe(nameof(SimpleBuilderOptions.CollectionParameterTemplateFormat));
     }
 
     [Theory]
@@ -83,14 +83,14 @@ public class SimpleBuilderOptionsTests
         sut.UseLowerCaseClauses = useLowerCaseClauses;
 
         // Assert
-        sut.DatabaseParameterNameTemplate.Should().Be(parameterNameTemplate);
-        sut.DatabaseParameterPrefix.Should().Be(parameterPrefix);
+        sut.DatabaseParameterNameTemplate.ShouldBe(parameterNameTemplate);
+        sut.DatabaseParameterPrefix.ShouldBe(parameterPrefix);
 #if NET8_0_OR_GREATER
-        sut.CollectionParameterFormat.Format.Should().Be(parameterNameTemplate + collectionParameterTemplateFormat);
+        sut.CollectionParameterFormat.Format.ShouldBe(parameterNameTemplate + collectionParameterTemplateFormat);
 #else
-        sut.CollectionParameterFormat.Should().Be(parameterNameTemplate + collectionParameterTemplateFormat);
+        sut.CollectionParameterFormat.ShouldBe(parameterNameTemplate + collectionParameterTemplateFormat);
 #endif
-        sut.ReuseParameters.Should().Be(reuseParameters);
-        sut.UseLowerCaseClauses.Should().Be(useLowerCaseClauses);
+        sut.ReuseParameters.ShouldBe(reuseParameters);
+        sut.UseLowerCaseClauses.ShouldBe(useLowerCaseClauses);
     }
 }
